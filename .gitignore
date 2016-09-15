@@ -1,1 +1,5 @@
-utils.pyc
+*.pyc
+*.*~
+build
+dist/intrepid-0.1
+make_win64_dist.bat

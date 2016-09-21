@@ -359,7 +359,7 @@ DLLEXPORT
  * @param simulator the simulator to use
  * @return the number of reached targets computed by simulation
  */
-unsigned simulator_last_reached_targets(Int_simulator simulator);
+unsigned simulator_last_reached_targets_number(Int_simulator simulator);
 
 DLLEXPORT
 /**

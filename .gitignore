@@ -2,5 +2,8 @@
 *.*~
 build
 dist/intrepid-0.1
+intrepid/_api.so
+intrepid/libintrepid_dll.dylib
+intrepid/libz3.dylib
+make_osx_dist.sh
 make_win64_dist.bat
-MANIFEST

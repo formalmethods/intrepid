@@ -5,12 +5,12 @@ Setup script for Intrepid Model Checker Python package
 
 from distutils.core import setup
 import os
-import shutils
+import shutil
 
 print 'Copying osx libraries'
-shutils.copy('libs/osx/libz3.dylib', 'intrepid')
-shutils.copy('libs/osx/libintrepid_dll.dylib', 'intrepid')
-shutils.copy('libs/osx/_api.so', 'intrepid')
+shutil.copy('libs/osx/libz3.dylib', 'intrepid')
+shutil.copy('libs/osx/libintrepid_dll.dylib', 'intrepid')
+shutil.copy('libs/osx/_api.so', 'intrepid')
 
 setup(name='intrepid',
       version='0.1',

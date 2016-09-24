@@ -11,7 +11,7 @@ python:
 
 before_script:
 - cp libs/linux64/* intrepid
+- sudo apt-get install swig
 
 script: 
-- ls intrepid
 - python -m unittest discover -s test

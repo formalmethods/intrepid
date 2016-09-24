@@ -1,6 +1,7 @@
 language: python
 
-os: linux
+os: 
+- linux
 
 python:
 - "2.7"
@@ -10,6 +11,7 @@ python:
 
 before_script:
 - cp libs/linux64/* intrepid
-- ls intrepid
 
-script: python -m unittest discover -s test
+script: 
+- ls intrepid
+- python -m unittest discover -s test

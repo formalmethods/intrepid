@@ -1,11 +1,11 @@
 language: python
 
-os: osx
+os: linux
 
 python:
 - "2.7"
-# - "3.5"
-# - "3.5-dev" # 3.5 development branch
-# - "nightly" # currently points to 3.6-dev
+- "3.5"
+- "3.5-dev" # 3.5 development branch
+- "nightly" # currently points to 3.6-dev
 
 script: python -m unittest discover -s test

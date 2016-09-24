@@ -8,6 +8,8 @@ python:
 - "3.5-dev" # 3.5 development branch
 - "nightly" # currently points to 3.6-dev
 
-before_script: cp libs/linux64/* intrepid
+before_script:
+- cp libs/linux64/* intrepid
+- ls intrepid
 
 script: python -m unittest discover -s test

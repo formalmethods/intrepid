@@ -2,6 +2,7 @@
 *.*~
 build
 dist/intrepid-0.1
-make_win64_dist.bat
-MANIFEST
+intrepid/_api.so
+intrepid/libintrepid_dll.dylib
+intrepid/libz3.dylib
 /.vs/intrepid/v14/.suo

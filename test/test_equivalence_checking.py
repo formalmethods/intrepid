@@ -1,5 +1,4 @@
 import sys
-# sys.path.append('intrepid')
 import intrepid as Int
 import unittest
 
@@ -85,5 +84,3 @@ class TestEquivalenceChecking(unittest.TestCase):
         res = self.eqCheck(circ1, circ2)
         self.assertEqual(Int.INT_ENGINE_RESULT_UNREACHABLE, res)
 
-if __name__ == "__main__":
-    unittest.main()

@@ -26,6 +26,9 @@
     <Compile Include="intrepid\utils.py" />
     <Compile Include="intrepid\__init__.py" />
     <Compile Include="setup_win64.py" />
+    <Compile Include="test\test_api.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="test\test_equivalence_checking.py" />
   </ItemGroup>
   <ItemGroup>

@@ -57,7 +57,7 @@ class Test_test_api(unittest.TestCase):
         x = Int.mk_input(self.ctx, circuit, "x", i8t)
         y = Int.mk_input(self.ctx, circuit, "y", i8t)
         gate = Int.mk_eq(self.ctx, x, y)
-        self.assertTrue(Int.is_eq(x,y))
+        self.assertTrue(Int.is_eq(self.ctx, gate))
 
     def test_leq(self):
         circuit = Int.mk_circuit(self.ctx, "tmp")
@@ -65,4 +65,28 @@ class Test_test_api(unittest.TestCase):
         x = Int.mk_input(self.ctx, circuit, "x", i8t)
         y = Int.mk_input(self.ctx, circuit, "y", i8t)
         gate = Int.mk_leq(self.ctx, x, y)
-        self.assertTrue(Int.is_leq(x,y))
+        self.assertTrue(Int.is_leq(self.ctx, gate))
+
+    def test_lt(self):
+        circuit = Int.mk_circuit(self.ctx, "tmp")
+        i8t = Int.mk_int8_type(self.ctx)
+        x = Int.mk_input(self.ctx, circuit, "x", i8t)
+        y = Int.mk_input(self.ctx, circuit, "y", i8t)
+        gate = Int.mk_lt(self.ctx, x, y)
+        self.assertTrue(Int.is_not(self.ctx, gate))
+
+    def test_geq(self):
+        circuit = Int.mk_circuit(self.ctx, "tmp")
+        i8t = Int.mk_int8_type(self.ctx)
+        x = Int.mk_input(self.ctx, circuit, "x", i8t)
+        y = Int.mk_input(self.ctx, circuit, "y", i8t)
+        gate = Int.mk_geq(self.ctx, x, y)
+        self.assertTrue(Int.is_leq(self.ctx, gate))
+
+    def test_gt(self):
+        circuit = Int.mk_circuit(self.ctx, "tmp")
+        i8t = Int.mk_int8_type(self.ctx)
+        x = Int.mk_input(self.ctx, circuit, "x", i8t)
+        y = Int.mk_input(self.ctx, circuit, "y", i8t)
+        gate = Int.mk_gt(self.ctx, x, y)
+        self.assertTrue(Int.is_not(self.ctx, gate))

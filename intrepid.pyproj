@@ -22,8 +22,16 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="inputs\script_02.py" />
+    <Compile Include="inputs\script_01.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="intrepid\api.py" />
-    <Compile Include="tools\equivalence_check.py">
+    <Compile Include="intrepid\exceptions.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tools\st_equivalence_checking - Copy.py" />
+    <Compile Include="tools\equivalence_checking.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="intrepid\utils.py" />
@@ -33,9 +41,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="test\test_equivalence_checking.py" />
+    <Compile Include="tools\utils.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="intrepid" />
+    <Folder Include="inputs\" />
     <Folder Include="tools\" />
     <Folder Include="test" />
   </ItemGroup>

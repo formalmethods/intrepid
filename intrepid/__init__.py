@@ -39,3 +39,5 @@ from api import mk_ctx, del_ctx, mk_circuit, mk_circuit_from_st_string,\
                 INT_ENGINE_RESULT_UNREACHABLE
 
 from utils import get_inputs, get_outputs
+
+from exceptions import IntrepidException

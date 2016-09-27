@@ -3,19 +3,11 @@
 Equivalence checking tool
 """
 
+import utils
 import argparse
 import sys
 import time
 import intrepid as Int
-
-def check_file_exists(filename):
-    """Checks is a file exists"""
-    try:
-        open(filename, 'r')
-    except IOError:
-        print 'Error: ', filename, 'does not exists'
-        sys.exit(1)
-    print 'File', filename, 'exists!'
 
 
 def equivalence_check(ctx, filename1, filename2):
@@ -51,8 +43,8 @@ def main():
     file1 = arguments.file1
     file2 = arguments.file2
 
-    check_file_exists(file1)
-    check_file_exists(file2)
+    utils.check_file_exists(file1)
+    utils.check_file_exists(file2)
 
     ctx = Int.mk_ctx()
     res = equivalence_check(ctx, file1, file2)

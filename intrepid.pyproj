@@ -23,6 +23,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="intrepid\api.py" />
+    <Compile Include="tools\equivalence_check.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="intrepid\utils.py" />
     <Compile Include="intrepid\__init__.py" />
     <Compile Include="setup_win64.py" />
@@ -33,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="intrepid" />
+    <Folder Include="tools\" />
     <Folder Include="test" />
   </ItemGroup>
   <ItemGroup>

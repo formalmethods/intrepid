@@ -7,8 +7,7 @@ python:
 - "3.5"
 
 before_script: 
-- echo $LD_LIBRARY_PATH
-- LD_LIBRARY_PATH=$LD_LIBRARY_PATH:libs/linux64
+- LD_LIBRARY_PATH=`pwd`/libs/linux64
 - export LD_LIBRARY_PATH
 - echo $LD_LIBRARY_PATH
 

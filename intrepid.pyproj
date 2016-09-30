@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{03da3c65-e3bd-4ed5-8e78-c6db73a02918}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>setup_win64.py</StartupFile>
+    <SearchPath>libs\win64\</SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId>{9a7a9026-48c1-4688-9d5d-e5699d47d074}</InterpreterId>
+    <InterpreterVersion>2.7</InterpreterVersion>
+    <IsWindowsApplication>False</IsWindowsApplication>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+    <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="inputs\script_02.py" />
+    <Compile Include="inputs\script_01.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="intrepid\api.py" />
+    <Compile Include="intrepid\exceptions.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tools\st_equivalence_checking - Copy.py" />
+    <Compile Include="tools\equivalence_checking.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="intrepid\utils.py" />
+    <Compile Include="intrepid\__init__.py" />
+    <Compile Include="setup_win64.py" />
+    <Compile Include="test\test_api.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test\test_equivalence_checking.py" />
+    <Compile Include="tools\utils.py">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="intrepid" />
+    <Folder Include="inputs\" />
+    <Folder Include="tools\" />
+    <Folder Include="test" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\2.7" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="libs\win64\_api.pyd">
+      <Name>_api.pyd</Name>
+      <PythonExtension>libs\win64\_api.pyd</PythonExtension>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
+</Project>

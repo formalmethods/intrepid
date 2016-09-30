@@ -1,5 +1,3 @@
-import sys
-# sys.path.append('intrepid')
 import intrepid as Int
 import unittest
 
@@ -37,53 +35,51 @@ class TestEquivalenceChecking(unittest.TestCase):
         res = Int.br_reach_targets(br)
         return res
 
-    def test_and(self):
+    def test_eq_and(self):
         circ1 = self.createAndCircuit(self.ctx, "Circ1")
         circ2 = self.createAndCircuit(self.ctx, "Circ2")
         res = self.eqCheck(circ1, circ2)
         self.assertEqual(Int.INT_ENGINE_RESULT_UNREACHABLE, res)
 
-    def test_or(self):
+    def test_eq_or(self):
         circ1 = self.createOrCircuit(self.ctx, "Circ1")
         circ2 = self.createOrCircuit(self.ctx, "Circ2")
         res = self.eqCheck(circ1, circ2)
         self.assertEqual(Int.INT_ENGINE_RESULT_UNREACHABLE, res)
 
-    def test_andor(self):
+    def test_eq_andor(self):
         circ1 = self.createAndCircuit(self.ctx, "Circ1")
         circ2 = self.createOrCircuit(self.ctx, "Circ2")
         res = self.eqCheck(circ1, circ2)
         self.assertEqual(Int.INT_ENGINE_RESULT_REACHABLE, res)
 
-    def test_eq_1(self):
+    def test_eq_st_1(self):
         circ1 = Int.mk_circuit_from_st_file(self.ctx, "test/files/fnc_1.st")
         circ2 = Int.mk_circuit_from_st_file(self.ctx, "test/files/fnc_2.st")
         res = self.eqCheck(circ1, circ2)
         self.assertEqual(Int.INT_ENGINE_RESULT_UNREACHABLE, res)
 
-    def test_eq_2(self):
+    def test_eq_st_2(self):
         circ1 = Int.mk_circuit_from_st_file(self.ctx, "test/files/fnc_3.st")
         circ2 = Int.mk_circuit_from_st_file(self.ctx, "test/files/fnc_4.st")
         res = self.eqCheck(circ1, circ2)
         self.assertEqual(Int.INT_ENGINE_RESULT_REACHABLE, res)
 
-    def test_eq_3(self):
+    def test_eq_st_3(self):
         circ1 = Int.mk_circuit_from_st_file(self.ctx, "test/files/fnc_5.st")
         circ2 = Int.mk_circuit_from_st_file(self.ctx, "test/files/fnc_6.st")
         res = self.eqCheck(circ1, circ2)
         self.assertEqual(Int.INT_ENGINE_RESULT_UNREACHABLE, res)
 
-    def test_eq_4(self):
+    def test_eq_st_4(self):
         circ1 = Int.mk_circuit_from_st_file(self.ctx, "test/files/fnc_7.st")
         circ2 = Int.mk_circuit_from_st_file(self.ctx, "test/files/fnc_8.st")
         res = self.eqCheck(circ1, circ2)
         self.assertEqual(Int.INT_ENGINE_RESULT_REACHABLE, res)
 
-    def test_eq_5(self):
+    def test_eq_st_5(self):
         circ1 = Int.mk_circuit_from_st_file(self.ctx, "test/files/fnc_9.st")
         circ2 = Int.mk_circuit_from_st_file(self.ctx, "test/files/fnc_10.st")
         res = self.eqCheck(circ1, circ2)
         self.assertEqual(Int.INT_ENGINE_RESULT_UNREACHABLE, res)
 
-if __name__ == "__main__":
-    unittest.main()

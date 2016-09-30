@@ -24,6 +24,7 @@ from api import mk_ctx, del_ctx, mk_circuit, mk_circuit_from_st_string,\
                 get_assumptions_size, get_assumption, get_proof_objectives_size,\
                 get_proof_objective, get_test_objectives_size,\
                 get_test_objective, is_undef, is_true, is_false, is_number,\
+                is_eq, is_leq, is_lt, is_geq, is_gt,\
                 is_not, is_and, is_or, is_xor, is_iff, is_input, is_output,\
                 is_latch, get_latch_init, get_latch_next,\
                 mk_simulator, simulator_add_target, simulator_simulate,\
@@ -32,9 +33,11 @@ from api import mk_ctx, del_ctx, mk_circuit, mk_circuit_from_st_string,\
                 bmc_last_reached_target, br_last_reached_target,\
                 bmc_get_counterexample, br_get_counterexample,\
                 counterexample_get_value_for_net, counterexample_get_max_depth,\
-                value_get_as_string,\
+                value_get_as_string, get_children_number, get_child,\
                 INT_ENGINE_RESULT_UNKNOWN,\
                 INT_ENGINE_RESULT_REACHABLE,\
                 INT_ENGINE_RESULT_UNREACHABLE
 
 from utils import get_inputs, get_outputs
+
+from exceptions import IntrepidException

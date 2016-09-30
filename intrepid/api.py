@@ -797,6 +797,19 @@ def mk_output(arg1, circ, name, net):
     """
     return _api.mk_output(arg1, circ, name, net)
 
+def mk_assumption(arg1, circ, net):
+    """
+    mk_assumption(Int_ctx arg1, Int_circuit circ, Int_net net)
+
+    Parameters
+    ----------
+    arg1: Int_ctx
+    circ: Int_circuit
+    net: Int_net
+
+    """
+    return _api.mk_assumption(arg1, circ, net)
+
 def mk_latch(ctx, circ, name, type):
     """
     mk_latch(Int_ctx ctx, Int_circuit circ, char const * name, Int_type type) -> Int_net
@@ -1308,6 +1321,31 @@ def get_net_kind(ctx, x):
 
     """
     return _api.get_net_kind(ctx, x)
+
+def get_children_number(ctx, x):
+    """
+    get_children_number(Int_ctx ctx, Int_net x) -> unsigned int
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    x: Int_net
+
+    """
+    return _api.get_children_number(ctx, x)
+
+def get_child(ctx, net, n):
+    """
+    get_child(Int_ctx ctx, Int_net net, unsigned int n) -> Int_net
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    net: Int_net
+    n: unsigned int
+
+    """
+    return _api.get_child(ctx, net, n)
 # This file is compatible with both classic and new-style classes.
 
 

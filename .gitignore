@@ -7,5 +7,7 @@ intrepid/libintrepid_dll.dylib
 intrepid/libz3.dylib
 intrepid/libintrepid_dll.so
 intrepid/libz3.so
-make_osx_dist.sh
-make_win64_dist.bat
+intrepid/_api.pyd
+intrepid/intrepid_dll.dll
+intrepid/libz3.dll
+/.vs/intrepid/v14/.suo

@@ -1,9 +1,12 @@
-sudo: required
-dist: trusty
-
 language: python
 
 os: linux
+
+addons:
+  apt:
+    packages:
+    - gcc-5
+    + g++-5
 
 python:
 - "2.7"
@@ -12,6 +15,6 @@ before_script:
 - sudo python setup_linux64.py install
 - LD_LIBRARY_PATH=`pwd`/libs/linux64
 - export LD_LIBRARY_PATH
-- sudo apt-get install libstdc++6
+- g++ -v
 
 script: python -m unittest discover -s test

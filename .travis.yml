@@ -7,8 +7,8 @@ addons:
     sources:
     - ubuntu-toolchain-r-test
     packages:
-    - gcc-5
-    - g++-5
+    - gcc-4.9
+    - g++-4.9
 
 python:
 - "2.7"
@@ -17,6 +17,5 @@ before_script:
 - sudo python setup_linux64.py install
 - LD_LIBRARY_PATH=`pwd`/libs/linux64
 - export LD_LIBRARY_PATH
-- g++ -v
 
 script: python -m unittest discover -s test

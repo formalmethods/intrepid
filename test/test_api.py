@@ -90,3 +90,49 @@ class Test_test_api(unittest.TestCase):
         y = Int.mk_input(self.ctx, circuit, "y", i8t)
         gate = Int.mk_gt(self.ctx, x, y)
         self.assertTrue(Int.is_not(self.ctx, gate))
+
+    def test_input(self):
+        circuit = Int.mk_circuit(self.ctx, "tmp")
+        bt = Int.mk_boolean_type(self.ctx)
+        x = Int.mk_input(self.ctx, circuit, "x", bt)
+        self.assertTrue(Int.is_input(self.ctx, circuit, x))
+
+    def test_inputs_number(self):
+        circuit = Int.mk_circuit(self.ctx, "tmp")
+        bt = Int.mk_boolean_type(self.ctx)
+        x = Int.mk_input(self.ctx, circuit, "x", bt)
+        y = Int.mk_input(self.ctx, circuit, "y", bt)
+        self.assertEquals(2, Int.get_inputs_size(circuit))
+
+    def test_output(self):
+        circuit = Int.mk_circuit(self.ctx, "tmp")
+        bt = Int.mk_boolean_type(self.ctx)
+        x = Int.mk_input(self.ctx, circuit, "x", bt)
+        y = Int.mk_input(self.ctx, circuit, "y", bt)
+        z = Int.mk_and(self.ctx, x, y)
+        Int.mk_output(self.ctx, circuit, "z", z)
+        self.assertTrue(Int.is_output(self.ctx, circuit, z))
+        self.assertEquals(1, Int.get_outputs_size(circuit))
+
+    def test_latch(self):
+        circuit = Int.mk_circuit(self.ctx, "tmp")
+        bt = Int.mk_boolean_type(self.ctx)
+        x = Int.mk_input(self.ctx, circuit, "x", bt)
+        l = Int.mk_latch(self.ctx, circuit, "l", bt)
+        t = Int.mk_true(self.ctx)
+        Int.set_latch_init_next(self.ctx, circuit, l, t, x)
+        self.assertTrue(Int.is_latch(self.ctx, circuit, l))
+
+    def test_bmc(self):
+        circuit = Int.mk_circuit(self.ctx, "tmp")
+        bt = Int.mk_boolean_type(self.ctx)
+        x = Int.mk_input(self.ctx, circuit, "x", bt)
+        y = Int.mk_input(self.ctx, circuit, "y", bt)
+        gate = Int.mk_and(self.ctx, x, y)
+        Int.mk_output(self.ctx, circuit, "out1", gate)
+        bmc = Int.mk_engine_bmc(self.ctx, circuit, 10)
+        Int.bmc_add_target(self.ctx, bmc, gate)
+        Int.set_bmc_current_depth(bmc, 0)
+        result = Int.bmc_reach_targets(bmc)
+        self.assertEquals(Int.INT_ENGINE_RESULT_REACHABLE, result)
+

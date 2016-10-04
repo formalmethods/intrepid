@@ -17,9 +17,8 @@ setup(name='intrepid',
       author_email='roberto.bruttomesso@gmail.com',
       url='http://github.com/bobosoft/intrepid',
       packages=['intrepid'],
-      package_data={'intrepid' : ['_api.so']}#, 'libintrepid_dll.so', 'libz3.so']}
+      package_data={'intrepid' : ['_api.so']}
      )
 
 print "Don't forget to do:"
-print 'LD_LIBRARY_PATH=`pwd`/libs/linux64'
-print 'export LD_LIBRARY_PATH'
+print 'export LD_LIBRARY_PATH=`pwd`/libs/linux64'

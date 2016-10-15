@@ -172,9 +172,9 @@ def del_ctx(ctx):
     """
     return _api.del_ctx(ctx)
 
-def mk_circuit(ctx, name):
+def push_namespace(ctx, name):
     """
-    mk_circuit(Int_ctx ctx, char const * name) -> Int_circuit
+    push_namespace(Int_ctx ctx, char const * name)
 
     Parameters
     ----------
@@ -182,76 +182,30 @@ def mk_circuit(ctx, name):
     name: char const *
 
     """
-    return _api.mk_circuit(ctx, name)
+    return _api.push_namespace(ctx, name)
 
-def mk_circuit_from_st_string(ctx, ststr):
+def pop_namespace(ctx):
     """
-    mk_circuit_from_st_string(Int_ctx ctx, char const * ststr) -> Int_circuit
+    pop_namespace(Int_ctx ctx)
 
     Parameters
     ----------
     ctx: Int_ctx
-    ststr: char const *
 
     """
-    return _api.mk_circuit_from_st_string(ctx, ststr)
+    return _api.pop_namespace(ctx)
 
-def mk_circuit_from_st_file(ctx, filename):
+def mk_engine_bmc(ctx, last_depth):
     """
-    mk_circuit_from_st_file(Int_ctx ctx, char const * filename) -> Int_circuit
+    mk_engine_bmc(Int_ctx ctx, unsigned int last_depth) -> Int_engine_bmc
 
     Parameters
     ----------
     ctx: Int_ctx
-    filename: char const *
-
-    """
-    return _api.mk_circuit_from_st_file(ctx, filename)
-
-def mk_circuit_miter(ctx, circ1, circ2):
-    """
-    mk_circuit_miter(Int_ctx ctx, Int_circuit circ1, Int_circuit circ2) -> Int_circuit
-
-    Parameters
-    ----------
-    ctx: Int_ctx
-    circ1: Int_circuit
-    circ2: Int_circuit
-
-    """
-    return _api.mk_circuit_miter(ctx, circ1, circ2)
-
-def mk_circuit_miter_map(ctx, circ1, circ2, inputs1, inputs2, inputs_size, outputs1, outputs2, outputs_size):
-    """
-    mk_circuit_miter_map(Int_ctx ctx, Int_circuit circ1, Int_circuit circ2, Int_net const * inputs1, Int_net const * inputs2, unsigned int inputs_size, Int_net const * outputs1, Int_net const * outputs2, unsigned int outputs_size) -> Int_circuit
-
-    Parameters
-    ----------
-    ctx: Int_ctx
-    circ1: Int_circuit
-    circ2: Int_circuit
-    inputs1: Int_net const *
-    inputs2: Int_net const *
-    inputs_size: unsigned int
-    outputs1: Int_net const *
-    outputs2: Int_net const *
-    outputs_size: unsigned int
-
-    """
-    return _api.mk_circuit_miter_map(ctx, circ1, circ2, inputs1, inputs2, inputs_size, outputs1, outputs2, outputs_size)
-
-def mk_engine_bmc(ctx, circ, last_depth):
-    """
-    mk_engine_bmc(Int_ctx ctx, Int_circuit circ, unsigned int last_depth) -> Int_engine_bmc
-
-    Parameters
-    ----------
-    ctx: Int_ctx
-    circ: Int_circuit
     last_depth: unsigned int
 
     """
-    return _api.mk_engine_bmc(ctx, circ, last_depth)
+    return _api.mk_engine_bmc(ctx, last_depth)
 
 def set_bmc_current_depth(engine, depth):
     """
@@ -289,17 +243,16 @@ def bmc_reach_targets(engine):
     """
     return _api.bmc_reach_targets(engine)
 
-def mk_engine_br(ctx, circ):
+def mk_engine_br(ctx):
     """
-    mk_engine_br(Int_ctx ctx, Int_circuit circ) -> Int_engine_br
+    mk_engine_br(Int_ctx ctx) -> Int_engine_br
 
     Parameters
     ----------
     ctx: Int_ctx
-    circ: Int_circuit
 
     """
-    return _api.mk_engine_br(ctx, circ)
+    return _api.mk_engine_br(ctx)
 
 def br_add_target(ctx, engine, target):
     """
@@ -434,17 +387,16 @@ def value_get_as_string(ctx, value):
     """
     return _api.value_get_as_string(ctx, value)
 
-def mk_simulator(ctx, circ):
+def mk_simulator(ctx):
     """
-    mk_simulator(Int_ctx ctx, Int_circuit circ) -> Int_simulator
+    mk_simulator(Int_ctx ctx) -> Int_simulator
 
     Parameters
     ----------
     ctx: Int_ctx
-    circ: Int_circuit
 
     """
-    return _api.mk_simulator(ctx, circ)
+    return _api.mk_simulator(ctx)
 
 def simulator_add_target(ctx, simulator, target):
     """
@@ -769,190 +721,185 @@ def mk_gt(ctx, x, y):
     """
     return _api.mk_gt(ctx, x, y)
 
-def mk_input(ctx, circ, name, type):
+def mk_input(ctx, name, type):
     """
-    mk_input(Int_ctx ctx, Int_circuit circ, char const * name, Int_type type) -> Int_net
+    mk_input(Int_ctx ctx, char const * name, Int_type type) -> Int_net
 
     Parameters
     ----------
     ctx: Int_ctx
-    circ: Int_circuit
     name: char const *
     type: Int_type
 
     """
-    return _api.mk_input(ctx, circ, name, type)
+    return _api.mk_input(ctx, name, type)
 
-def mk_output(arg1, circ, name, net):
+def mk_output(arg1, name, net):
     """
-    mk_output(Int_ctx arg1, Int_circuit circ, char const * name, Int_net net)
+    mk_output(Int_ctx arg1, char const * name, Int_net net)
 
     Parameters
     ----------
     arg1: Int_ctx
-    circ: Int_circuit
     name: char const *
     net: Int_net
 
     """
-    return _api.mk_output(arg1, circ, name, net)
+    return _api.mk_output(arg1, name, net)
 
-def mk_assumption(arg1, circ, net):
+def mk_assumption(arg1, net):
     """
-    mk_assumption(Int_ctx arg1, Int_circuit circ, Int_net net)
+    mk_assumption(Int_ctx arg1, Int_net net)
 
     Parameters
     ----------
     arg1: Int_ctx
-    circ: Int_circuit
     net: Int_net
 
     """
-    return _api.mk_assumption(arg1, circ, net)
+    return _api.mk_assumption(arg1, net)
 
-def mk_latch(ctx, circ, name, type):
+def mk_latch(ctx, name, type):
     """
-    mk_latch(Int_ctx ctx, Int_circuit circ, char const * name, Int_type type) -> Int_net
+    mk_latch(Int_ctx ctx, char const * name, Int_type type) -> Int_net
 
     Parameters
     ----------
     ctx: Int_ctx
-    circ: Int_circuit
     name: char const *
     type: Int_type
 
     """
-    return _api.mk_latch(ctx, circ, name, type)
+    return _api.mk_latch(ctx, name, type)
 
-def set_latch_init_next(ctx, circ, latch, init, next):
+def set_latch_init_next(ctx, latch, init, next):
     """
-    set_latch_init_next(Int_ctx ctx, Int_circuit circ, Int_net latch, Int_net init, Int_net next)
+    set_latch_init_next(Int_ctx ctx, Int_net latch, Int_net init, Int_net next)
 
     Parameters
     ----------
     ctx: Int_ctx
-    circ: Int_circuit
     latch: Int_net
     init: Int_net
     next: Int_net
 
     """
-    return _api.set_latch_init_next(ctx, circ, latch, init, next)
+    return _api.set_latch_init_next(ctx, latch, init, next)
 
-def get_input(circ, n):
+def get_input(ctx, n):
     """
-    get_input(Int_circuit circ, unsigned int n) -> unsigned int
+    get_input(Int_ctx ctx, unsigned int n) -> unsigned int
 
     Parameters
     ----------
-    circ: Int_circuit
+    ctx: Int_ctx
     n: unsigned int
 
     """
-    return _api.get_input(circ, n)
+    return _api.get_input(ctx, n)
 
-def get_inputs_size(circ):
+def get_inputs_number(ctx):
     """
-    get_inputs_size(Int_circuit circ) -> unsigned int
+    get_inputs_number(Int_ctx ctx) -> unsigned int
 
     Parameters
     ----------
-    circ: Int_circuit
+    ctx: Int_ctx
 
     """
-    return _api.get_inputs_size(circ)
+    return _api.get_inputs_number(ctx)
 
-def get_output(circ, n):
+def get_output(ctx, n):
     """
-    get_output(Int_circuit circ, unsigned int n) -> unsigned int
+    get_output(Int_ctx ctx, unsigned int n) -> unsigned int
 
     Parameters
     ----------
-    circ: Int_circuit
+    ctx: Int_ctx
     n: unsigned int
 
     """
-    return _api.get_output(circ, n)
+    return _api.get_output(ctx, n)
 
-def get_outputs_size(circ):
+def get_outputs_number(ctx):
     """
-    get_outputs_size(Int_circuit circ) -> unsigned int
+    get_outputs_number(Int_ctx ctx) -> unsigned int
 
     Parameters
     ----------
-    circ: Int_circuit
+    ctx: Int_ctx
 
     """
-    return _api.get_outputs_size(circ)
+    return _api.get_outputs_number(ctx)
 
-def get_assumptions_size(circ):
+def get_assumptions_number(ctx):
     """
-    get_assumptions_size(Int_circuit circ) -> unsigned int
+    get_assumptions_number(Int_ctx ctx) -> unsigned int
 
     Parameters
     ----------
-    circ: Int_circuit
+    ctx: Int_ctx
 
     """
-    return _api.get_assumptions_size(circ)
+    return _api.get_assumptions_number(ctx)
 
-def get_assumption(circ, n):
+def get_assumption(ctx, n):
     """
-    get_assumption(Int_circuit circ, unsigned int n) -> unsigned int
+    get_assumption(Int_ctx ctx, unsigned int n) -> unsigned int
 
     Parameters
     ----------
-    circ: Int_circuit
+    ctx: Int_ctx
     n: unsigned int
 
     """
-    return _api.get_assumption(circ, n)
+    return _api.get_assumption(ctx, n)
 
-def get_proof_objectives_size(circ):
+def get_proof_objectives_number(ctx):
     """
-    get_proof_objectives_size(Int_circuit circ) -> unsigned int
+    get_proof_objectives_number(Int_ctx ctx) -> unsigned int
 
     Parameters
     ----------
-    circ: Int_circuit
+    ctx: Int_ctx
 
     """
-    return _api.get_proof_objectives_size(circ)
+    return _api.get_proof_objectives_number(ctx)
 
-def get_proof_objective(circ, n):
+def get_proof_objective(ctx, n):
     """
-    get_proof_objective(Int_circuit circ, unsigned int n) -> unsigned int
+    get_proof_objective(Int_ctx ctx, unsigned int n) -> unsigned int
 
     Parameters
     ----------
-    circ: Int_circuit
+    ctx: Int_ctx
     n: unsigned int
 
     """
-    return _api.get_proof_objective(circ, n)
+    return _api.get_proof_objective(ctx, n)
 
-def get_test_objectives_size(circ):
+def get_test_objectives_number(ctx):
     """
-    get_test_objectives_size(Int_circuit circ) -> unsigned int
+    get_test_objectives_number(Int_ctx ctx) -> unsigned int
 
     Parameters
     ----------
-    circ: Int_circuit
+    ctx: Int_ctx
 
     """
-    return _api.get_test_objectives_size(circ)
+    return _api.get_test_objectives_number(ctx)
 
-def get_test_objective(circ, n):
+def get_test_objective(ctx, n):
     """
-    get_test_objective(Int_circuit circ, unsigned int n) -> unsigned int
+    get_test_objective(Int_ctx ctx, unsigned int n) -> unsigned int
 
     Parameters
     ----------
-    circ: Int_circuit
+    ctx: Int_ctx
     n: unsigned int
 
     """
-    return _api.get_test_objective(circ, n)
+    return _api.get_test_objective(ctx, n)
 
 def is_boolean_type(t):
     """
@@ -1245,70 +1192,65 @@ def is_gt(ctx, x):
     """
     return _api.is_gt(ctx, x)
 
-def is_input(ctx, circ, net):
+def is_input(ctx, net):
     """
-    is_input(Int_ctx ctx, Int_circuit circ, Int_net net) -> int
+    is_input(Int_ctx ctx, Int_net net) -> int
 
     Parameters
     ----------
     ctx: Int_ctx
-    circ: Int_circuit
     net: Int_net
 
     """
-    return _api.is_input(ctx, circ, net)
+    return _api.is_input(ctx, net)
 
-def is_output(ctx, circ, net):
+def is_output(ctx, net):
     """
-    is_output(Int_ctx ctx, Int_circuit circ, Int_net net) -> int
+    is_output(Int_ctx ctx, Int_net net) -> int
 
     Parameters
     ----------
     ctx: Int_ctx
-    circ: Int_circuit
     net: Int_net
 
     """
-    return _api.is_output(ctx, circ, net)
+    return _api.is_output(ctx, net)
 
-def is_latch(ctx, circ, net):
+def is_latch(ctx, net):
     """
-    is_latch(Int_ctx ctx, Int_circuit circ, Int_net net) -> int
+    is_latch(Int_ctx ctx, Int_net net) -> int
 
     Parameters
     ----------
     ctx: Int_ctx
-    circ: Int_circuit
     net: Int_net
 
     """
-    return _api.is_latch(ctx, circ, net)
+    return _api.is_latch(ctx, net)
 
-def get_latch_init(arg1, circ, latch):
+def get_latch_init(arg1, latch):
     """
-    get_latch_init(Int_ctx arg1, Int_circuit circ, Int_net latch) -> Int_net
+    get_latch_init(Int_ctx arg1, Int_net latch) -> Int_net
 
     Parameters
     ----------
     arg1: Int_ctx
-    circ: Int_circuit
     latch: Int_net
 
     """
-    return _api.get_latch_init(arg1, circ, latch)
+    return _api.get_latch_init(arg1, latch)
 
-def get_latch_next(ctx, circ, latch):
+def get_latch_next(ctx, latch):
     """
-    get_latch_next(Int_ctx ctx, Int_circuit circ, Int_net latch) -> Int_net
+    get_latch_next(Int_ctx ctx, Int_net latch) -> Int_net
 
     Parameters
     ----------
     ctx: Int_ctx
-    circ: Int_circuit
     latch: Int_net
 
     """
-    return _api.get_latch_next(ctx, circ, latch)
+    return _api.get_latch_next(ctx, latch)
 
 def get_net_kind(ctx, x):
     """

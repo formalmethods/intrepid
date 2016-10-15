@@ -131,7 +131,7 @@ DLLEXPORT
  *        to create a miter. All the inputs are equated,
  *        assuming that their order corresponds by creation.
  *        Corresponding outputs are set as different, and
- *        added as assertions in the miter
+ *        added as new outputs in the miter
  *
  * @param ctx the context to use
  * @param circ1 the first circuit
@@ -598,6 +598,15 @@ void mk_output(Int_ctx, Int_circuit circ,
 
 DLLEXPORT
 /**
+ * @brief mk_assumption Marks an existing net as begin an assumption
+ * @param circ the circuit in which the assumption has to be made
+ * @param name the unique name of the assumption
+ * @param net the net to be marked
+ */
+void mk_assumption(Int_ctx, Int_circuit circ, Int_net net);
+
+DLLEXPORT
+/**
  * @brief mk_latch Creates an uninitialized latch with no next state
  * @param ctx the context to use
  * @param circ the circuit on which to create the latch
@@ -983,6 +992,26 @@ DLLEXPORT
  * @return the kind of the net
  */
 Int_net_kind get_net_kind(Int_ctx ctx , Int_net x);
+
+DLLEXPORT
+/**
+ * @brief get_children_number retrieves the number of children
+ *                            of a net
+ * @param ctx the context to use
+ * @param x the net to use
+ * @return the number of children
+ */
+unsigned get_children_number(Int_ctx ctx, Int_net x);
+
+DLLEXPORT
+/**
+ * @brief get_child retrieves the n-th of child
+ * @param ctx the context to use
+ * @param net the net to use
+ * @param n the number of child to retrieve
+ * @return the n-th child
+ */
+Int_net get_child(Int_ctx ctx, Int_net net, unsigned n);
 
 // DLLEXPORT
 // /**

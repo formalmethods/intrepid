@@ -30,7 +30,8 @@
     <Compile Include="intrepid\exceptions.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="tools\st_equivalence_checking - Copy.py" />
+    <Compile Include="setup_linux64.py" />
+    <Compile Include="setup_osx.py" />
     <Compile Include="tools\equivalence_checking.py">
       <SubType>Code</SubType>
     </Compile>
@@ -40,7 +41,6 @@
     <Compile Include="test\test_api.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="test\test_equivalence_checking.py" />
     <Compile Include="tools\utils.py">
       <SubType>Code</SubType>
     </Compile>

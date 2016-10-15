@@ -90,7 +90,7 @@ class Test_test_api(unittest.TestCase):
         bt = Int.mk_boolean_type(self.ctx)
         x = Int.mk_input(self.ctx, "x", bt)
         y = Int.mk_input(self.ctx, "y", bt)
-        self.assertEquals(2, Int.get_inputs_number(ctx))
+        self.assertEquals(2, Int.get_inputs_number(self.ctx))
 
     def test_output(self):
         bt = Int.mk_boolean_type(self.ctx)
@@ -99,7 +99,7 @@ class Test_test_api(unittest.TestCase):
         z = Int.mk_and(self.ctx, x, y)
         Int.mk_output(self.ctx, "z", z)
         self.assertTrue(Int.is_output(self.ctx, z))
-        self.assertEquals(1, Int.get_outputs_number(ctx))
+        self.assertEquals(1, Int.get_outputs_number(self.ctx))
 
     def test_latch(self):
         bt = Int.mk_boolean_type(self.ctx)

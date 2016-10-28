@@ -48,7 +48,6 @@ extern "C" {
 
 DEFINE_TYPE(Int_ctx);
 DEFINE_TYPE(Int_type);
-DEFINE_TYPE(Int_circuit);
 DEFINE_TYPE(Int_engine_bmc);
 DEFINE_TYPE(Int_engine_br);
 DEFINE_TYPE(Int_simulator);
@@ -99,88 +98,22 @@ DLLEXPORT
 void del_ctx(Int_ctx ctx);
 
 DLLEXPORT
-/**
- * @brief mk_circuit Creates an empty circuit
- * @param ctx the context to use
- * @param name the unique name id of a circuit
- * @return an empty circuit
- */
-Int_circuit mk_circuit(Int_ctx ctx, const char* name);
+void throw_exception(char* msg);
 
 DLLEXPORT
-/**
- * @brief mk_circuit_from_st_string creates a circuit out of a IEC 61131 ST program as string
- * @param ctx the context to use
- * @param ststr the string encoding the program
- * @return the created circuit
- */
-Int_circuit mk_circuit_from_st_string(Int_ctx ctx, const char* ststr);
+void clear_exception();
 
 DLLEXPORT
-/**
- * @brief mk_circuit_from_st_file create a circuit from a IEC 61131 ST program on a file
- * @param ctx the context to use
- * @param filename the path to the ST program
- * @return the create circuit
- */
-Int_circuit mk_circuit_from_st_file(Int_ctx ctx, const char* filename);
+char* check_exception();
 
 DLLEXPORT
-/**
- * @brief mk_circuit_miter Merges the two circuits in order
- *        to create a miter. All the inputs are equated,
- *        assuming that their order corresponds by creation.
- *        Corresponding outputs are set as different, and
- *        added as new outputs in the miter
- *
- * @param ctx the context to use
- * @param circ1 the first circuit
- * @param circ2 the second circuit
- * @return the miter circuit, which could be used for equivalence checking
- */
-Int_circuit mk_circuit_miter(Int_ctx ctx,
-                             Int_circuit circ1,
-                             Int_circuit circ2);
+void push_namespace(Int_ctx ctx, const char* name);
 
 DLLEXPORT
-/**
- * @brief mk_circuit_miter_map Merges the two circuits in order
- *        to create a miter. Basically all the inputs are
- *        equated, according to the provided mapping, while
- *        the corresponding outputs are set as different, and
- *        added as assertions in the miter
- *
- * @param ctx the context to use
- * @param circ1 the first circuit
- * @param circ2 the second circuit
- * @param inputs1 the list of inputs to equate from circuit1
- * @param inputs2 the list of inputs to equate from circuit2
- * @param inputs_size the size of the two input lists
- * @param outputs1 the list of outputs to equate from circuit1
- * @param outputs2 the list of outputs to equate from circuit2
- * @param outputs_size the size of the two outputs lists
- * @return the miter circuit, which could be used for equivalence checking
- */
-Int_circuit mk_circuit_miter_map(Int_ctx ctx,
-                                 Int_circuit circ1,
-                                 Int_circuit circ2,
-                                 const Int_net* inputs1,
-                                 const Int_net* inputs2,
-                                 unsigned inputs_size,
-                                 const Int_net* outputs1,
-                                 const Int_net* outputs2,
-                                 unsigned outputs_size);
+void pop_namespace(Int_ctx ctx);
 
 DLLEXPORT
-/**
- * @brief mk_engine_bmc Creates a BMC engine
- * @param ctx the context to use
- * @param circ the circuit to use
- * @param last_depth the last depth that will be used while calling the engine
- * @return the engine
- */
 Int_engine_bmc mk_engine_bmc(Int_ctx ctx,
-                             Int_circuit circ,
                              unsigned last_depth);
 
 DLLEXPORT
@@ -212,10 +145,9 @@ DLLEXPORT
 /**
  * @brief mk_engine_br Creates a Backward Reachability engine
  * @param ctx the context to use
- * @param circ the circuit to use
  * @return the engine
  */
-Int_engine_br mk_engine_br(Int_ctx ctx, Int_circuit circ);
+Int_engine_br mk_engine_br(Int_ctx ctx);
 
 DLLEXPORT
 /**
@@ -326,10 +258,9 @@ DLLEXPORT
 /**
  * @brief mk_simulator Creates a simulator
  * @param ctx the context to use
- * @param circ the circuit to use
  * @return a simulator
  */
-Int_simulator mk_simulator(Int_ctx ctx, Int_circuit circ);
+Int_simulator mk_simulator(Int_ctx ctx);
 
 DLLEXPORT
 /**
@@ -578,450 +509,47 @@ DLLEXPORT
 /**
  * @brief mk_input Creates an input
  * @param ctx the context to use
- * @param circ the circuit on which to create the input
  * @param name the unique name of this input
  * @param type the data type of this input
  * @return A net that encodes an input
  */
-Int_net mk_input(Int_ctx ctx, Int_circuit circ,
-                 const char *name, Int_type type);
+Int_net mk_input(Int_ctx ctx, const char *name, Int_type type);
 
 DLLEXPORT
 /**
  * @brief mk_output Marks an existing net as begin an output
- * @param circ the circuit in which the output has to be made
- * @param name the unique name of the output
  * @param net the net to be marked
  */
-void mk_output(Int_ctx, Int_circuit circ,
-               const char* name, Int_net net);
+void mk_output(Int_ctx, Int_net net);
 
 DLLEXPORT
 /**
  * @brief mk_assumption Marks an existing net as begin an assumption
- * @param circ the circuit in which the assumption has to be made
- * @param name the unique name of the assumption
  * @param net the net to be marked
  */
-void mk_assumption(Int_ctx, Int_circuit circ, Int_net net);
+void mk_assumption(Int_ctx, Int_net net);
 
 DLLEXPORT
 /**
  * @brief mk_latch Creates an uninitialized latch with no next state
  * @param ctx the context to use
- * @param circ the circuit on which to create the latch
  * @param name the unique name of this latch
  * @param type the data type of this latch
  * @return A net that encodes the latch
  */
-Int_net mk_latch(Int_ctx ctx, Int_circuit circ,
-                 const char *name, Int_type type);
+Int_net mk_latch(Int_ctx ctx, const char *name, Int_type type);
 
 DLLEXPORT
 /**
  * @brief set_latch_init_next Sets the initial state and the circuit
  *        attached to the next pin of the latch
  * @param ctx the context to use
- * @param circ the circuit on which to create the latch
  * @param latch the latch to initialize
  * @param init the initial state
  * @param next the circuit attached to the next pin of the latch
  */
-void set_latch_init_next(Int_ctx ctx, Int_circuit circ, Int_net latch,
+void set_latch_init_next(Int_ctx ctx, Int_net latch,
                          Int_net init, Int_net next);
-
-DLLEXPORT
-/**
- * @brief get_input
- * @param circ the circuit
- * @param n the number of input to retrieve
- */
-unsigned get_input(Int_circuit circ, unsigned n);
-
-DLLEXPORT
-/**
- * @brief get_inputs_size
- * @param circ
- * @return the number of inputs stored in the circuit
- */
-unsigned get_inputs_size(Int_circuit circ);
-
-DLLEXPORT
-/**
- * @brief get_output
- * @param circ the circuit
- * @param n the number of output to retrieve
- */
-unsigned get_output(Int_circuit circ, unsigned n);
-
-DLLEXPORT
-/**
- * @brief get_outputs_size
- * @param circ
- * @return the number of outputs stored in the circuit
- */
-unsigned get_outputs_size(Int_circuit circ);
-
-DLLEXPORT
-/**
- * @brief get_output
- * @param circ the circuit
- * @param n the number of output to retrieve
- */
-unsigned get_output(Int_circuit circ, unsigned n);
-
-DLLEXPORT
-/**
- * @brief get_assumptions_size
- * @param circ
- * @return the number of assumptions stored in the circuit
- */
-unsigned get_assumptions_size(Int_circuit circ);
-
-DLLEXPORT
-/**
- * @brief get_assumption
- * @param circ the circuit
- * @param n the number of assumption to retrieve
- */
-unsigned get_assumption(Int_circuit circ, unsigned n);
-
-DLLEXPORT
-/**
- * @brief get_proof_objectives_size
- * @param circ
- * @return the number of proof objectives stored in the circuit
- */
-unsigned get_proof_objectives_size(Int_circuit circ);
-
-DLLEXPORT
-/**
- * @brief get_proof_objective
- * @param circ the circuit
- * @param n the number of proof objective to retrieve
- */
-unsigned get_proof_objective(Int_circuit circ, unsigned n);
-
-DLLEXPORT
-/**
- * @brief get_test_objectives_size
- * @param circ
- * @return the number of test objectives stored in the circuit
- */
-unsigned get_test_objectives_size(Int_circuit circ);
-
-DLLEXPORT
-/**
- * @brief get_test_objective
- * @param circ the circuit
- * @param n the number of test objective to retrieve
- */
-unsigned get_test_objective(Int_circuit circ, unsigned n);
-
-DLLEXPORT
-/**
- * @brief is_boolean_type
- * @param t the type to check
- * @return true iff t is of boolean type
- */
-int is_boolean_type(Int_type t);
-
-DLLEXPORT
-/**
- * @brief is_int8_type
- * @param t the type to check
- * @return true iff t is of int8 type
- */
-int is_int8_type(Int_type t);
-
-DLLEXPORT
-/**
- * @brief is_int16_type
- * @param t the type to check
- * @return true iff t is of int16 type
- */
-int is_int16_type(Int_type t);
-
-DLLEXPORT
-/**
- * @brief is_int32_type
- * @param t the type to check
- * @return true iff t is of int32 type
- */
-int is_int32_type(Int_type t);
-
-DLLEXPORT
-/**
- * @brief is_uint8_type
- * @param t the type to check
- * @return true iff t is of uint8 type
- */
-int is_uint8_type(Int_type t);
-
-DLLEXPORT
-/**
- * @brief is_uint16_type
- * @param t the type to check
- * @return true iff t is of uint16 type
- */
-int is_uint16_type(Int_type t);
-
-DLLEXPORT
-/**
- * @brief is_uint32_type
- * @param t the type to check
- * @return true iff t is of uint32 type
- */
-int is_uint32_type(Int_type t);
-
-DLLEXPORT
-/**
- * @brief is_real_type
- * @param t the type to check
- * @return true iff t is of real type
- */
-int is_real_type(Int_type t);
-
-DLLEXPORT
-/**
- * @brief is_double_type
- * @param t the type to check
- * @return true iff t is of double type
- */
-int is_double_type(Int_type t);
-
-DLLEXPORT
-/**
- * @brief is_undef checks if a net is undef
- * @param ctx the context to use
- * @param net the net to check
- * @return true iff the net is undef
- */
-int is_undef(Int_ctx ctx, Int_net net);
-
-DLLEXPORT
-/**
- * @brief is_true checks if a net is true
- * @param ctx the context to use
- * @param net the net to check
- * @return true iff the net is true
- */
-int is_true(Int_ctx ctx, Int_net net);
-
-DLLEXPORT
-/**
- * @brief is_false checks if a net is false
- * @param ctx the context to use
- * @param net the net to check
- * @return true iff the net is false
- */
-int is_false(Int_ctx ctx, Int_net net);
-
-DLLEXPORT
-/**
- * @brief is_number checks if a net is a number
- * @param ctx the context to use
- * @param net the net to check
- * @return true iff the net is a number
- */
-int is_number(Int_ctx ctx, Int_net net);
-
-DLLEXPORT
-/**
- * @brief is_not checks if a net is a not
- * @param ctx the context to use
- * @param x the net to check
- * @return true iff the net is a not
- */
-int is_not(Int_ctx ctx, Int_net x);
-
-DLLEXPORT
-/**
- * @brief is_and checks if a net is an and
- * @param ctx the context to use
- * @param x the net to check
- * @return true iff the net is an and
- */
-int is_and(Int_ctx ctx, Int_net x);
-
-DLLEXPORT
-/**
- * @brief is_or checks if a net is an or
- * @param ctx the context to use
- * @param x the net to check
- * @return true iff the net is an or
- */
-int is_or(Int_ctx ctx, Int_net x);
-
-DLLEXPORT
-/**
- * @brief is_xor checks if a net is an xor
- * @param ctx the context to use
- * @param x the net to check
- * @return true iff the net is an xor
- */
-int is_xor(Int_ctx ctx, Int_net x);
-
-DLLEXPORT
-/**
- * @brief is_iff checks if a net is an iff
- * @param ctx the context to use
- * @param x the net to check
- * @return true iff the net is an iff
- */
-int is_iff(Int_ctx ctx, Int_net x);
-
-DLLEXPORT
-/**
- * @brief is_add checks if a net is an addition
- * @param ctx the context to use
- * @param x the net to check
- * @return true iff the net is an addition
- */
-int is_add(Int_ctx ctx, Int_net x);
-
-DLLEXPORT
-/**
- * @brief is_mul checks if a net is a multiplication
- * @param ctx the context to use
- * @param x the net to check
- * @return true iff the net is a multiplication
- */
-int is_mul(Int_ctx ctx, Int_net x);
-
-DLLEXPORT
-/**
- * @brief is_eq checks if a net is an equality
- * @param ctx the context to use
- * @param x the net to check
- * @return true iff the net is an equality
- */
-int is_eq(Int_ctx ctx, Int_net x);
-
-DLLEXPORT
-/**
- * @brief is_leq checks if a net is a <=
- * @param ctx the context to use
- * @param x the net to check
- * @return true iff the net is a <=
- */
-int is_leq(Int_ctx ctx, Int_net x);
-
-DLLEXPORT
-/**
- * @brief is_lt checks if a net is a <
- * @param ctx the context to use
- * @param x the net to check
- * @return true iff the net is a <
- */
-int is_lt(Int_ctx ctx, Int_net x);
-
-DLLEXPORT
-/**
- * @brief is_geq checks if a net is a >=
- * @param ctx the context to use
- * @param x the net to check
- * @return true iff the net is a >=
- */
-int is_geq(Int_ctx ctx, Int_net x);
-
-DLLEXPORT
-/**
- * @brief is_gt checks if a net is a >
- * @param ctx the context to use
- * @param x the net to check
- * @return true iff the net is a >
- */
-int is_gt(Int_ctx ctx, Int_net x);
-
-DLLEXPORT
-/**
- * @brief is_input checks if a net is an input of a circuit
- * @param ctx the context to use
- * @param circ the circuit in which the input lies
- * @param net the net to check
- * @return true iff the net is an input
- */
-int is_input(Int_ctx ctx, Int_circuit circ, Int_net net);
-
-DLLEXPORT
-/**
- * @brief is_output checks if a net is an output of a circuit
- * @param ctx the context to use
- * @param circ the circuit in which the output lies
- * @param net the net to check
- * @return true iff the net is an output
- */
-int is_output(Int_ctx ctx, Int_circuit circ, Int_net net);
-
-DLLEXPORT
-/**
- * @brief is_latch checks if a net is an latch of a circuit
- * @param ctx the context to use
- * @param circ the circuit in which the latch lies
- * @param net the net to check
- * @return true iff the net is an latch
- */
-int is_latch(Int_ctx ctx, Int_circuit circ, Int_net net);
-
-DLLEXPORT
-/**
- * @brief get_latch_init retrieves the initial state of a latch
- * @param ctx the context to use
- * @param circ the circuit in which the latch lies
- * @param latch the latch to inspect
- * @return the net corresponding to the initial state
- */
-Int_net get_latch_init(Int_ctx, Int_circuit circ, Int_net latch);
-
-DLLEXPORT
-/**
- * @brief get_latch_next retrieves the net at the next pin of a latch
- * @param ctx the context to use
- * @param circ the circuit in which the latch lies
- * @param latch the latch to inspect
- * @return the net corresponding to the next pin
- */
-Int_net get_latch_next(Int_ctx ctx, Int_circuit circ, Int_net latch);
-
-DLLEXPORT
-/**
- * @brief get_net_kind retrieves the net kind
- * @param ctx the context to use
- * @param x the net to use
- * @return the kind of the net
- */
-Int_net_kind get_net_kind(Int_ctx ctx , Int_net x);
-
-DLLEXPORT
-/**
- * @brief get_children_number retrieves the number of children
- *                            of a net
- * @param ctx the context to use
- * @param x the net to use
- * @return the number of children
- */
-unsigned get_children_number(Int_ctx ctx, Int_net x);
-
-DLLEXPORT
-/**
- * @brief get_child retrieves the n-th of child
- * @param ctx the context to use
- * @param net the net to use
- * @param n the number of child to retrieve
- * @return the n-th child
- */
-Int_net get_child(Int_ctx ctx, Int_net net, unsigned n);
-
-// DLLEXPORT
-// /**
-//  * @brief get_input_type retrieves the type an input net
-//  * @param ctx the context to use
-//  * @param circ the circuit to use
-//  * @param x the net to use
-//  * @param type output parameter, the type of x
-//  */
-// Int_type get_input_type(Int_ctx ctx, Int_circuit circ, Int_net x);
 
 #ifdef __cplusplus
 }  // extern "C"

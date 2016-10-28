@@ -30,6 +30,4 @@ from api import mk_ctx, del_ctx, mk_engine_bmc, set_bmc_current_depth,\
                 INT_ENGINE_RESULT_REACHABLE,\
                 INT_ENGINE_RESULT_UNREACHABLE
 
-from utils import get_inputs, get_outputs
-
 from exceptions import IntrepidException

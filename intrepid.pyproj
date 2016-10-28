@@ -35,7 +35,6 @@
     <Compile Include="tools\equivalence_checking.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="intrepid\utils.py" />
     <Compile Include="intrepid\__init__.py" />
     <Compile Include="setup_win64.py" />
     <Compile Include="test\test_api.py">

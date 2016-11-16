@@ -113,8 +113,7 @@ DLLEXPORT
 void pop_namespace(Int_ctx ctx);
 
 DLLEXPORT
-Int_engine_bmc mk_engine_bmc(Int_ctx ctx,
-                             unsigned last_depth);
+Int_engine_bmc mk_engine_bmc(Int_ctx ctx);
 
 DLLEXPORT
 /**
@@ -504,6 +503,16 @@ DLLEXPORT
  * @return x > y
  */
 Int_net mk_gt(Int_ctx ctx, Int_net x, Int_net y);
+
+DLLEXPORT
+/**
+ * @brief mk_neq negated equality
+ * @param ctx the context to use
+ * @param x
+ * @param y
+ * @return x != y
+ */
+Int_net mk_neq(Int_ctx ctx, Int_net x, Int_net y);
 
 DLLEXPORT
 /**

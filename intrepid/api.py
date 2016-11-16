@@ -214,17 +214,16 @@ def pop_namespace(ctx):
     """
     return _api.pop_namespace(ctx)
 
-def mk_engine_bmc(ctx, last_depth):
+def mk_engine_bmc(ctx):
     """
-    mk_engine_bmc(Int_ctx ctx, unsigned int last_depth) -> Int_engine_bmc
+    mk_engine_bmc(Int_ctx ctx) -> Int_engine_bmc
 
     Parameters
     ----------
     ctx: Int_ctx
-    last_depth: unsigned int
 
     """
-    return _api.mk_engine_bmc(ctx, last_depth)
+    return _api.mk_engine_bmc(ctx)
 
 def set_bmc_current_depth(engine, depth):
     """
@@ -369,9 +368,9 @@ def br_get_counterexample(ctx, arg2, target):
     """
     return _api.br_get_counterexample(ctx, arg2, target)
 
-def counterexample_get_value_for_net(ctx, cex, net, depth):
+def counterexample_prepare_value_for_net(ctx, cex, net, depth):
     """
-    counterexample_get_value_for_net(Int_ctx ctx, Int_counterexample cex, Int_net net, unsigned int depth) -> Int_value
+    counterexample_prepare_value_for_net(Int_ctx ctx, Int_counterexample cex, Int_net net, unsigned int depth) -> unsigned int
 
     Parameters
     ----------
@@ -381,7 +380,18 @@ def counterexample_get_value_for_net(ctx, cex, net, depth):
     depth: unsigned int
 
     """
-    return _api.counterexample_get_value_for_net(ctx, cex, net, depth)
+    return _api.counterexample_prepare_value_for_net(ctx, cex, net, depth)
+
+def value_at(i):
+    """
+    value_at(unsigned int i) -> char
+
+    Parameters
+    ----------
+    i: unsigned int
+
+    """
+    return _api.value_at(i)
 
 def counterexample_get_max_depth(cex):
     """
@@ -393,18 +403,6 @@ def counterexample_get_max_depth(cex):
 
     """
     return _api.counterexample_get_max_depth(cex)
-
-def value_get_as_string(ctx, value):
-    """
-    value_get_as_string(Int_ctx ctx, Int_value value)
-
-    Parameters
-    ----------
-    ctx: Int_ctx
-    value: Int_value
-
-    """
-    return _api.value_get_as_string(ctx, value)
 
 def mk_simulator(ctx):
     """
@@ -739,6 +737,19 @@ def mk_gt(ctx, x, y):
 
     """
     return _api.mk_gt(ctx, x, y)
+
+def mk_neq(ctx, x, y):
+    """
+    mk_neq(Int_ctx ctx, Int_net x, Int_net y) -> Int_net
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    x: Int_net
+    y: Int_net
+
+    """
+    return _api.mk_neq(ctx, x, y)
 
 def mk_input(ctx, name, type):
     """

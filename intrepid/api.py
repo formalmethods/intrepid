@@ -660,6 +660,20 @@ def mk_xor(ctx, x, y):
     """
     return _api.mk_xor(ctx, x, y)
 
+def mk_ite(ctx, i, t, e):
+    """
+    mk_ite(Int_ctx ctx, Int_net i, Int_net t, Int_net e) -> Int_net
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    i: Int_net
+    t: Int_net
+    e: Int_net
+
+    """
+    return _api.mk_ite(ctx, i, t, e)
+
 def mk_iff(ctx, x, y):
     """
     mk_iff(Int_ctx ctx, Int_net x, Int_net y) -> Int_net

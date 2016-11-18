@@ -223,18 +223,25 @@ Int_counterexample br_get_counterexample(Int_ctx ctx,
 
 DLLEXPORT
 /**
- * @brief counterexample_get_value_for_net Gets the value of a net at a
- *                                         certain depth in the counterexample
+ * @brief counterexample_get_value_for_net 
+ * 
+ * Internally stores the value of a net at a certain depth in 
+ * the counterexample for later retrieval with function value_at
+ *
  * @param ctx the context to use
  * @param cex the counterexample to inspect
  * @param net the net to use
  * @param depth the depth at which to retrieve the value
- * @return the value of net at depth
+ * @param the string representing the value of net at depth
+ * @return the length of the value to fetch
  */
-Int_value counterexample_get_value_for_net(Int_ctx ctx,
-                                           Int_counterexample cex,
-                                           Int_net net,
-                                           unsigned depth);
+unsigned counterexample_prepare_value_for_net(Int_ctx ctx,
+                                              Int_counterexample cex,
+                                              Int_net net,
+                                              unsigned depth);
+
+DLLEXPORT
+char value_at(unsigned i);
 
 DLLEXPORT
 /**
@@ -243,15 +250,6 @@ DLLEXPORT
  * @return the max depth
  */
 unsigned counterexample_get_max_depth(Int_counterexample cex);
-
-DLLEXPORT
-/**
- * @brief value_get_as_string Returns the numeric value into a string
- * @param ctx the context to use
- * @param value the value to retrieve
- * @param OUTPUT the string representation of value
- */
-void value_get_as_string(Int_ctx ctx, Int_value value, char* OUTPUT);
 
 DLLEXPORT
 /**
@@ -443,6 +441,17 @@ DLLEXPORT
  * @return x or y
  */
 Int_net mk_xor(Int_ctx ctx, Int_net x, Int_net y);
+
+DLLEXPORT
+/**
+ * @brief mk_ite if then else
+ * @param ctx the context to use
+ * @param i boolean condition
+ * @param t then branch
+ * @param e else branch
+ * @return t if i is true, e otherwise
+ */
+Int_net mk_ite(Int_ctx ctx, Int_net i, Int_net t, Int_net e);
 
 DLLEXPORT
 /**

@@ -61,28 +61,6 @@ typedef enum {
     INT_ENGINE_RESULT_UNREACHABLE
 } Int_engine_result;
 
-typedef enum {
-    INT_KIND_UNKNOWN,
-    INT_KIND_INPUT,
-    INT_KIND_NUMBER,
-    INT_KIND_AND,
-    INT_KIND_OR,
-    INT_KIND_NOT,
-    INT_KIND_IFF,
-    INT_KIND_XOR,
-    INT_KIND_ADD,
-    INT_KIND_SUB,
-    INT_KIND_MUL,
-    INT_KIND_DIV,
-    INT_KIND_MOD,
-    INT_KIND_EQ,
-    INT_KIND_LEQ,
-    INT_KIND_LT,
-    INT_KIND_GEQ,
-    INT_KIND_GT,
-    INT_KIND_ITE,
-} Int_net_kind;
-
 DLLEXPORT
 /**
  * @brief mk_ctx Creates a context
@@ -232,13 +210,25 @@ DLLEXPORT
  * @param cex the counterexample to inspect
  * @param net the net to use
  * @param depth the depth at which to retrieve the value
- * @param the string representing the value of net at depth
  * @return the length of the value to fetch
  */
 unsigned counterexample_prepare_value_for_net(Int_ctx ctx,
                                               Int_counterexample cex,
                                               Int_net net,
                                               unsigned depth);
+
+DLLEXPORT
+/**
+ * @brief prepare_value_for_net
+ *
+ * Internally stores the value of a net for later retrieval
+ * with function value_at
+ *
+ * @param ctx the context to use
+ * @param net the net to use
+ * @return the length of the value to fetch
+ */
+unsigned prepare_value_for_net(Int_ctx ctx, Int_net net);
 
 DLLEXPORT
 char value_at(unsigned i);

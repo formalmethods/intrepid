@@ -100,63 +100,6 @@ INT_ENGINE_RESULT_REACHABLE = _api.INT_ENGINE_RESULT_REACHABLE
 _api.INT_ENGINE_RESULT_UNREACHABLE_swigconstant(_api)
 INT_ENGINE_RESULT_UNREACHABLE = _api.INT_ENGINE_RESULT_UNREACHABLE
 
-_api.INT_KIND_UNKNOWN_swigconstant(_api)
-INT_KIND_UNKNOWN = _api.INT_KIND_UNKNOWN
-
-_api.INT_KIND_INPUT_swigconstant(_api)
-INT_KIND_INPUT = _api.INT_KIND_INPUT
-
-_api.INT_KIND_NUMBER_swigconstant(_api)
-INT_KIND_NUMBER = _api.INT_KIND_NUMBER
-
-_api.INT_KIND_AND_swigconstant(_api)
-INT_KIND_AND = _api.INT_KIND_AND
-
-_api.INT_KIND_OR_swigconstant(_api)
-INT_KIND_OR = _api.INT_KIND_OR
-
-_api.INT_KIND_NOT_swigconstant(_api)
-INT_KIND_NOT = _api.INT_KIND_NOT
-
-_api.INT_KIND_IFF_swigconstant(_api)
-INT_KIND_IFF = _api.INT_KIND_IFF
-
-_api.INT_KIND_XOR_swigconstant(_api)
-INT_KIND_XOR = _api.INT_KIND_XOR
-
-_api.INT_KIND_ADD_swigconstant(_api)
-INT_KIND_ADD = _api.INT_KIND_ADD
-
-_api.INT_KIND_SUB_swigconstant(_api)
-INT_KIND_SUB = _api.INT_KIND_SUB
-
-_api.INT_KIND_MUL_swigconstant(_api)
-INT_KIND_MUL = _api.INT_KIND_MUL
-
-_api.INT_KIND_DIV_swigconstant(_api)
-INT_KIND_DIV = _api.INT_KIND_DIV
-
-_api.INT_KIND_MOD_swigconstant(_api)
-INT_KIND_MOD = _api.INT_KIND_MOD
-
-_api.INT_KIND_EQ_swigconstant(_api)
-INT_KIND_EQ = _api.INT_KIND_EQ
-
-_api.INT_KIND_LEQ_swigconstant(_api)
-INT_KIND_LEQ = _api.INT_KIND_LEQ
-
-_api.INT_KIND_LT_swigconstant(_api)
-INT_KIND_LT = _api.INT_KIND_LT
-
-_api.INT_KIND_GEQ_swigconstant(_api)
-INT_KIND_GEQ = _api.INT_KIND_GEQ
-
-_api.INT_KIND_GT_swigconstant(_api)
-INT_KIND_GT = _api.INT_KIND_GT
-
-_api.INT_KIND_ITE_swigconstant(_api)
-INT_KIND_ITE = _api.INT_KIND_ITE
-
 def mk_ctx():
     """mk_ctx() -> Int_ctx"""
     return _api.mk_ctx()
@@ -381,6 +324,18 @@ def counterexample_prepare_value_for_net(ctx, cex, net, depth):
 
     """
     return _api.counterexample_prepare_value_for_net(ctx, cex, net, depth)
+
+def prepare_value_for_net(ctx, net):
+    """
+    prepare_value_for_net(Int_ctx ctx, Int_net net) -> unsigned int
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    net: Int_net
+
+    """
+    return _api.prepare_value_for_net(ctx, net)
 
 def value_at(i):
     """

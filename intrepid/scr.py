@@ -31,6 +31,7 @@ def mk_row_condition(ctx, inputs, pastInputs, modeStr2mode, modes, pastMode, row
     edgeNet = None
     pastEdgeNet = None
     pastWhen = ip.mk_eq(ctx, oldModeNet, pastMode) 
+
     for i in range(1, len(row) - 1):
         conj = None
         if row[i] == 't':
@@ -88,7 +89,6 @@ def mk_scr_helper(ctx, csvfilename, modeStr2mode, inputs, pastInputs, modes, pas
             rowCurrentMode = ip.mk_number(ctx, rowCurrentModeStr, ip.mk_int8_type(ctx))
             if rowCurrentMode == None:
                 raise ipex.IntrepidException('Cannot find mode:', row[-1])
-            rowCondition = ip.mk_true(ctx)
             result = ip.mk_ite(ctx, rowCondition, rowCurrentMode, result)
     return result
 

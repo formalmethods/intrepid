@@ -80,7 +80,7 @@ def mk_scr_helper(ctx, csvfilename, modeStr2mode, inputs, pastInputs, modes, pas
     with open(csvfilename, 'r') as csvfile:
         for row in csv.reader(csvfile, delimiter=','):
             if len(inputs) + 2 != len(row):
-                raise ipex.IntrepidException('Input number mismatch')
+                raise ipex.IntrepidException('Input number mismatch: expected ' + str(len(inputs)) + ', actual ' + str(len(row) - 2))
             if firstRow:
                 firstRow = False
                 continue

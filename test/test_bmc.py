@@ -1,5 +1,6 @@
 import unittest
 import intrepid as ip
+import intrepid.utils
 
 class TestBmc(unittest.TestCase):
 
@@ -33,9 +34,9 @@ class TestBmc(unittest.TestCase):
         result = ip.bmc_reach_targets(bmc)
         self.assertEquals(ip.INT_ENGINE_RESULT_REACHABLE, result)
         cex = ip.bmc_get_counterexample(self.ctx, bmc, gate)
-        value_x = ip.counterexample_get_value_for_net(self.ctx, cex, x, 0)
+        value_x = ip.utils.counterexample_get_value_for_net(self.ctx, cex, x, 0)
         self.assertEquals('true', value_x)
-        value_y = ip.counterexample_get_value_for_net(self.ctx, cex, y, 0)
+        value_y = ip.utils.counterexample_get_value_for_net(self.ctx, cex, y, 0)
         self.assertEquals('true', value_y)
 
     def test_bmc_03(self):

@@ -30,5 +30,3 @@ from api import mk_ctx, del_ctx, mk_engine_bmc, set_bmc_current_depth,\
                 INT_ENGINE_RESULT_UNKNOWN,\
                 INT_ENGINE_RESULT_REACHABLE,\
                 INT_ENGINE_RESULT_UNREACHABLE
-
-from utils import counterexample_get_value_for_net, to_string

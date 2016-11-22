@@ -193,6 +193,19 @@ def bmc_add_target(ctx, engine, target):
     """
     return _api.bmc_add_target(ctx, engine, target)
 
+def bmc_add_watch(ctx, engine, watch):
+    """
+    bmc_add_watch(Int_ctx ctx, Int_engine_bmc engine, Int_net watch)
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    engine: Int_engine_bmc
+    watch: Int_net
+
+    """
+    return _api.bmc_add_watch(ctx, engine, watch)
+
 def bmc_reach_targets(engine):
     """
     bmc_reach_targets(Int_engine_bmc engine) -> Int_engine_result
@@ -227,6 +240,19 @@ def br_add_target(ctx, engine, target):
 
     """
     return _api.br_add_target(ctx, engine, target)
+
+def br_add_watch(ctx, engine, watch):
+    """
+    br_add_watch(Int_ctx ctx, Int_engine_br engine, Int_net watch)
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    engine: Int_engine_br
+    watch: Int_net
+
+    """
+    return _api.br_add_watch(ctx, engine, watch)
 
 def br_reach_targets(engine):
     """

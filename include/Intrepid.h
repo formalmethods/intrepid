@@ -111,6 +111,14 @@ void bmc_add_target(Int_ctx ctx, Int_engine_bmc engine, Int_net target);
 
 DLLEXPORT
 /**
+ * @brief bmc_add_watch Adds a watched net
+ * @param ctx the context to use
+ * @param engine
+ */
+void bmc_add_watch(Int_ctx ctx, Int_engine_bmc engine, Int_net watch);
+
+DLLEXPORT
+/**
  * @brief bmc_reach_targets Tries to reach any previously added target,
  *        stops when the first is reached
  * @param engine the bmc engine to use
@@ -133,6 +141,14 @@ DLLEXPORT
  * @param engine
  */
 void br_add_target(Int_ctx ctx, Int_engine_br engine, Int_net target);
+
+DLLEXPORT
+/**
+ * @brief br_add_watch Adds a watched net
+ * @param ctx the context to use
+ * @param engine
+ */
+void br_add_watch(Int_ctx ctx, Int_engine_br engine, Int_net watch);
 
 DLLEXPORT
 /**

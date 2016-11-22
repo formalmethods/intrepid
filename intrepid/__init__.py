@@ -13,6 +13,7 @@ Engineering and Industrial Automation.
 from api import mk_ctx, del_ctx, mk_engine_bmc, set_bmc_current_depth,\
                 bmc_add_target, bmc_reach_targets, mk_engine_br,\
                 br_add_target, br_reach_targets, mk_boolean_type,\
+                bmc_add_watch, br_add_watch,\
                 mk_int8_type, mk_int16_type, mk_int32_type, mk_uint8_type,\
                 mk_uint16_type, mk_uint32_type, mk_real_type, mk_double_type,\
                 mk_undef, mk_true, mk_false, mk_number, mk_not, mk_and, mk_or,\

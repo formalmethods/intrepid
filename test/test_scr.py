@@ -17,24 +17,24 @@ class TestScr(unittest.TestCase):
         result = ip.bmc_reach_targets(bmc)
         return ip.INT_ENGINE_RESULT_REACHABLE == result
 
-    def makeModeGreen(self):
+    def makeModeOff(self):
         return ip.mk_number(self.ctx, '0', ip.mk_int8_type(self.ctx))
 
-    def makeModeYellow(self):
+    def makeModeGreen(self):
         return ip.mk_number(self.ctx, '1', ip.mk_int8_type(self.ctx))
 
-    def makeModeRed(self):
+    def makeModeYellow(self):
         return ip.mk_number(self.ctx, '2', ip.mk_int8_type(self.ctx))
 
-    def makeModeOff(self):
+    def makeModeRed(self):
         return ip.mk_number(self.ctx, '3', ip.mk_int8_type(self.ctx))
 
     def makeModes(self):
         # This order must match the one defined in traffic_light.ord
-        return [self.makeModeGreen(),\
+        return [self.makeModeOff(),\
+                self.makeModeGreen(),\
                 self.makeModeYellow(),\
-                self.makeModeRed(),\
-                self.makeModeOff()]
+                self.makeModeRed()]
 
     def test_traffic_light(self):
         """
@@ -43,16 +43,16 @@ class TestScr(unittest.TestCase):
 
         modes = self.makeModes()
 
-        pastInputs = [ip.mk_input(self.ctx, 'PastOnGreen', ip.mk_boolean_type(self.ctx)),\
+        pastInputs = [ip.mk_input(self.ctx, 'PastOnTurnOff', ip.mk_boolean_type(self.ctx)),\
+                      ip.mk_input(self.ctx, 'PastOnGreen', ip.mk_boolean_type(self.ctx)),\
                       ip.mk_input(self.ctx, 'PastOnYellow', ip.mk_boolean_type(self.ctx)),\
                       ip.mk_input(self.ctx, 'PastOnRed', ip.mk_boolean_type(self.ctx)),\
-                      ip.mk_input(self.ctx, 'PastOnTurnOff', ip.mk_boolean_type(self.ctx)),\
                       ip.mk_input(self.ctx, 'PastDayTime', ip.mk_boolean_type(self.ctx))]
 
-        inputs = [ip.mk_input(self.ctx, 'OnGreen', ip.mk_boolean_type(self.ctx)),\
+        inputs = [ip.mk_input(self.ctx, 'OnTurnOff', ip.mk_boolean_type(self.ctx)),\
+                  ip.mk_input(self.ctx, 'OnGreen', ip.mk_boolean_type(self.ctx)),\
                   ip.mk_input(self.ctx, 'OnYellow', ip.mk_boolean_type(self.ctx)),\
                   ip.mk_input(self.ctx, 'OnRed', ip.mk_boolean_type(self.ctx)),\
-                  ip.mk_input(self.ctx, 'OnTurnOff', ip.mk_boolean_type(self.ctx)),\
                   ip.mk_input(self.ctx, 'DayTime', ip.mk_boolean_type(self.ctx))]
 
         pastMode = ip.mk_input(self.ctx, 'PastMode', ip.mk_int8_type(self.ctx))
@@ -80,8 +80,8 @@ class TestScr(unittest.TestCase):
                       ip.mk_true(self.ctx)]
 
         inputs = [ip.mk_false(self.ctx),\
-                  ip.mk_true(self.ctx),\
                   ip.mk_false(self.ctx),\
+                  ip.mk_true(self.ctx),\
                   ip.mk_false(self.ctx),\
                   ip.mk_false(self.ctx)]
 
@@ -111,8 +111,8 @@ class TestScr(unittest.TestCase):
 
         inputs = [ip.mk_false(self.ctx),\
                   ip.mk_false(self.ctx),\
-                  ip.mk_true(self.ctx),\
                   ip.mk_false(self.ctx),\
+                  ip.mk_true(self.ctx),\
                   ip.mk_false(self.ctx)]
 
         pastMode = self.makeModeYellow()
@@ -139,8 +139,8 @@ class TestScr(unittest.TestCase):
                       ip.mk_false(self.ctx),\
                       ip.mk_true(self.ctx)]
 
-        inputs = [ip.mk_true(self.ctx),\
-                  ip.mk_false(self.ctx),\
+        inputs = [ip.mk_false(self.ctx),\
+                  ip.mk_true(self.ctx),\
                   ip.mk_false(self.ctx),\
                   ip.mk_false(self.ctx),\
                   ip.mk_false(self.ctx)]
@@ -169,10 +169,10 @@ class TestScr(unittest.TestCase):
                       ip.mk_false(self.ctx),\
                       ip.mk_false(self.ctx)]
 
-        inputs = [ip.mk_false(self.ctx),\
+        inputs = [ip.mk_true(self.ctx),\
                   ip.mk_false(self.ctx),\
                   ip.mk_false(self.ctx),\
-                  ip.mk_true(self.ctx),\
+                  ip.mk_false(self.ctx),\
                   ip.mk_false(self.ctx)]
 
         pastMode = self.makeModeYellow()
@@ -200,8 +200,8 @@ class TestScr(unittest.TestCase):
                       ip.mk_false(self.ctx)]
 
         inputs = [ip.mk_false(self.ctx),\
-                  ip.mk_true(self.ctx),\
                   ip.mk_false(self.ctx),\
+                  ip.mk_true(self.ctx),\
                   ip.mk_false(self.ctx),\
                   ip.mk_false(self.ctx)]
 

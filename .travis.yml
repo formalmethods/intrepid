@@ -14,11 +14,11 @@ addons:
 python:
 - "2.7"
 
-before_install:
+install:
+- sudo python setup.py install
 - pip install codecov
 
 before_script: 
-- sudo python setup.py install
 - LD_LIBRARY_PATH=`pwd`/libs/linux64
 - export LD_LIBRARY_PATH
 

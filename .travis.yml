@@ -1,3 +1,5 @@
+sudo: false
+
 language: python
 
 os:
@@ -15,7 +17,7 @@ python:
 - "2.7"
 
 install:
-- sudo python setup.py install
+- python setup.py install
 - pip install --user codecov
 
 before_script: 

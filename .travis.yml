@@ -19,3 +19,6 @@ before_script:
 - export LD_LIBRARY_PATH
 
 script: python -m unittest discover -s test
+
+after_success:
+- bash <(curl -s https://codecov.io/bash)

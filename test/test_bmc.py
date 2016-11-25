@@ -51,6 +51,17 @@ class TestBmc(unittest.TestCase):
         ip.set_bmc_current_depth(bmc, 0)
         result = ip.bmc_reach_targets(bmc)
         self.assertEquals(ip.INT_ENGINE_RESULT_UNREACHABLE, result)
+
+    def test_bmc_04(self):
+        bt = ip.mk_boolean_type(self.ctx)
+        f = ip.mk_false(ctx)
+        t = ip.mk_true(ctx)
+        l1 = ip.mk_latch(ctx, 'l1', bt)
+        l2 = ip.mk_latch(ctx, 'l2', bt)
+        l3 = ip.mk_latch(ctx, 'l3', bt)
+        ip.set_latch_init_next(ctx, l1, t, l3)
+        ip.set_latch_init_next(ctx, l2, f, l1)
+        ip.set_latch_init_next(ctx, l3, f, l2)
     
 if __name__ == '__main__':
     unittest.main()

@@ -14,7 +14,7 @@ addons:
 python:
 - "2.7"
 
-install:
+before_install:
 - pip install codecov
 
 before_script: 

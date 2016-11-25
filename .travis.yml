@@ -18,16 +18,16 @@ python:
 
 install:
 - python setup.py install
-- pip install codecov
+# - pip install codecov
 
 before_script: 
 - LD_LIBRARY_PATH=`pwd`/libs/linux64
 - export LD_LIBRARY_PATH
 
 script:
-# - python -m unittest discover -s test
-- coverage run --source intrepid test/test_bmc.py
+- python -m unittest discover -s test
+# - coverage run --source intrepid test/test_bmc.py
 
-after_success:
-- codecov
-- bash <(curl -s https://codecov.io/bash)
+# after_success:
+# - codecov
+# - bash <(curl -s https://codecov.io/bash)

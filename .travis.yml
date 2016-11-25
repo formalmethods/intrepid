@@ -18,7 +18,7 @@ python:
 
 install:
 - python setup.py install
-- pip install --user codecov
+- pip install codecov
 
 before_script: 
 - LD_LIBRARY_PATH=`pwd`/libs/linux64

@@ -117,11 +117,11 @@ def del_ctx(ctx):
 
 def throw_exception(msg):
     """
-    throw_exception(char * msg)
+    throw_exception(char const * msg)
 
     Parameters
     ----------
-    msg: char *
+    msg: char const *
 
     """
     return _api.throw_exception(msg)

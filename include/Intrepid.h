@@ -76,7 +76,7 @@ DLLEXPORT
 void del_ctx(Int_ctx ctx);
 
 DLLEXPORT
-void throw_exception(char* msg);
+void throw_exception(const char* msg);
 
 DLLEXPORT
 void clear_exception();

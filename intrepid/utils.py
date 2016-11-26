@@ -57,11 +57,20 @@ def counterexample_get_as_dictionary(ctx, cex, inputs, watches):
         result[name] = steps
     return result
 
-def load_circuit_from_file(ctx, filepath):
+def bmc_reach_at_depth(ctx, bmc, depth):
     """
-    Loads the circuit contained in the filepath in memory.
-    The nets are put under namespace to avoid name clashes
-    with other files.
+    Runs bmc to try to reach the targets, at the given depth
+
+    Parameters
+    ----------
+    ctx: the intrepid context
+    bmc: the bmc engine to use
+    depth: the depth to use
     """
-    ip.push_namespace(filepath)
-    ip.pop_namespace(filepath)
+    ip.set_bmc_current_depth(bmc, depth)
+    result = ip.bmc_reach_targets(bmc)
+    reached_targets = []
+    if ip.INT_ENGINE_RESULT_REACHABLE == result:
+        for i in range(ip.bmc_last_reached_targets_number(bmc)):
+            reached_targets.append(ip.bmc_last_reached_target(bmc, i))
+    return reached_targets

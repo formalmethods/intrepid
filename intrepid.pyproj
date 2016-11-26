@@ -43,14 +43,10 @@
     <Compile Include="test\test_bmc.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="tools\utils.py">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="intrepid" />
     <Folder Include="inputs\" />
-    <Folder Include="tools\" />
     <Folder Include="test" />
   </ItemGroup>
   <ItemGroup>

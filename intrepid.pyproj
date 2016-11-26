@@ -36,16 +36,10 @@
     <Compile Include="intrepid\utils.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="setup_linux64.py" />
-    <Compile Include="setup_osx.py" />
     <Compile Include="test\test_scr.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="tools\equivalence_checking.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="intrepid\__init__.py" />
-    <Compile Include="setup_win64.py" />
     <Compile Include="test\test_bmc.py">
       <SubType>Code</SubType>
     </Compile>

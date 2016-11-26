@@ -16,11 +16,11 @@ bits, _ = platform.architecture()
 packageDataList = []
 
 if systemStr == 'Linux':
-      if bits == 32:
+      if bits == "32bit":
       	   print 'Copying linux32 libraries'
       	   shutil.copy('libs/linux32/_api.so', 'intrepid')
            packageDataList = ['_api.so']
-      elif bits == 64:
+      elif bits == "64bit":
       	   print 'Copying linux64 libraries'
       	   shutil.copy('libs/linux64/_api.so', 'intrepid')
            packageDataList = ['_api.so']
@@ -57,6 +57,10 @@ setup(name='intrepid',
       package_data={'intrepid' : packageDataList}
 )
 
+suffix = "32"
+if bits == "64bits":
+    suffix = "64" 
+
 if systemStr == 'Linux':
       print "Don't forget to do:"
-      print 'export LD_LIBRARY_PATH=`pwd`/libs/linux64'
+      print 'export LD_LIBRARY_PATH=`pwd`/libs/linux' + suffix

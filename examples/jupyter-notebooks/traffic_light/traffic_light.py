@@ -1,10 +1,10 @@
 import intrepid as ip
 import intrepid.scr
-import intrepid.utils
 
 inputs = {}
+outputs = {}
+constants = {}
 proof_objectives = {}
-outputs = []
 
 def mk_naked_circuit(ctx, n1, n2, n3, n4, n5):
     # OnOff -> n1
@@ -21,18 +21,23 @@ def mk_naked_circuit(ctx, n1, n2, n3, n4, n5):
     n12 = ip.mk_latch(ctx, 'traffic_light/Past(Mode)', ip.mk_int8_type(ctx))
     # traffic_light/false
     n13 = ip.mk_false(ctx)
+    constants['traffic_light/false'] = n13
     # traffic_light/Off
     n14 = ip.mk_number(ctx, '0', ip.mk_int8_type(ctx))
+    constants['traffic_light/Off'] = n14
     # Bus Creator
     n15 = [n1, n2, n3, n4, n5]
     # Bus Creator1
     n16 = [n6, n9, n8, n7, n10]
     # traffic_light/Green
     n17 = ip.mk_number(ctx, '1', ip.mk_int8_type(ctx))
+    constants['traffic_light/Green'] = n17
     # traffic_light/Yellow
     n18 = ip.mk_number(ctx, '2', ip.mk_int8_type(ctx))
+    constants['traffic_light/Yellow'] = n18
     # traffic_light/Red
     n19 = ip.mk_number(ctx, '3', ip.mk_int8_type(ctx))
+    constants['traffic_light/Red'] = n19
     # Bus Creator2
     n20 = [n14, n17, n18, n19]
     n21_1 = ip.scr.mk_scr(ctx, 'traffic_light', n15, n16, n20, n12)
@@ -74,4 +79,5 @@ def mk_circuit(ctx):
     n22 = mk_naked_circuit(ctx, n1, n2, n3, n4, n5)
     # n22 -> traffic_light/out
     ip.mk_output(ctx, n22)
-    outputs.append(n22)
+    outputs['traffic_light/out'] = n22
+

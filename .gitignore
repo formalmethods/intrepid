@@ -12,3 +12,5 @@ intrepid/intrepid_dll.dll
 intrepid/libz3.dll
 /.vs/intrepid/v14/.suo
 .ipynb_checkpoints
+intrepid.pyproj
+intrepid.sln

@@ -1,8 +1,7 @@
-from .context import sample
+from .context import intrepid as ip
+import intrepid.utils
 
 import unittest
-import intrepid as ip
-import intrepid.utils
 
 class TestBmc(unittest.TestCase):
 

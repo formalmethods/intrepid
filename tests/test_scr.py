@@ -1,8 +1,7 @@
-from .context import sample
+from .context import intrepid as ip
+import intrepid.scr
 
 import unittest
-import intrepid as ip
-import intrepid.scr
 
 class TestScr(unittest.TestCase):
 
@@ -58,7 +57,7 @@ class TestScr(unittest.TestCase):
                   ip.mk_input(self.ctx, 'DayTime', ip.mk_boolean_type(self.ctx))]
 
         pastMode = ip.mk_input(self.ctx, 'PastMode', ip.mk_int8_type(self.ctx))
-        currentMode = ip.scr.mk_scr(self.ctx, 'test/files/traffic_light',
+        currentMode = ip.scr.mk_scr(self.ctx, 'tests/files/traffic_light',
                                     inputs, pastInputs, modes, pastMode) 
 
         # Uncomment the next line to display table on screen
@@ -88,7 +87,7 @@ class TestScr(unittest.TestCase):
                   ip.mk_false(self.ctx)]
 
         pastMode = self.makeModeGreen()
-        currentMode = ip.scr.mk_scr(self.ctx, 'test/files/traffic_light',
+        currentMode = ip.scr.mk_scr(self.ctx, 'tests/files/traffic_light',
                                     inputs, pastInputs, modes, pastMode) 
 
         target = ip.mk_eq(self.ctx, currentMode, self.makeModeYellow())
@@ -118,7 +117,7 @@ class TestScr(unittest.TestCase):
                   ip.mk_false(self.ctx)]
 
         pastMode = self.makeModeYellow()
-        currentMode = ip.scr.mk_scr(self.ctx, 'test/files/traffic_light',
+        currentMode = ip.scr.mk_scr(self.ctx, 'tests/files/traffic_light',
                                     inputs, pastInputs, modes, pastMode) 
 
         target = ip.mk_eq(self.ctx, currentMode, self.makeModeRed())
@@ -148,7 +147,7 @@ class TestScr(unittest.TestCase):
                   ip.mk_false(self.ctx)]
 
         pastMode = self.makeModeRed()
-        currentMode = ip.scr.mk_scr(self.ctx, 'test/files/traffic_light',
+        currentMode = ip.scr.mk_scr(self.ctx, 'tests/files/traffic_light',
                                     inputs, pastInputs, modes, pastMode) 
 
         target = ip.mk_eq(self.ctx, currentMode, self.makeModeGreen())
@@ -178,7 +177,7 @@ class TestScr(unittest.TestCase):
                   ip.mk_false(self.ctx)]
 
         pastMode = self.makeModeYellow()
-        currentMode = ip.scr.mk_scr(self.ctx, 'test/files/traffic_light',
+        currentMode = ip.scr.mk_scr(self.ctx, 'tests/files/traffic_light',
                                     inputs, pastInputs, modes, pastMode) 
 
         target = ip.mk_eq(self.ctx, currentMode, self.makeModeOff())
@@ -208,7 +207,7 @@ class TestScr(unittest.TestCase):
                   ip.mk_false(self.ctx)]
 
         pastMode = self.makeModeOff()
-        currentMode = ip.scr.mk_scr(self.ctx, 'test/files/traffic_light',
+        currentMode = ip.scr.mk_scr(self.ctx, 'tests/files/traffic_light',
                                     inputs, pastInputs, modes, pastMode) 
 
         target = ip.mk_eq(self.ctx, currentMode, self.makeModeYellow())

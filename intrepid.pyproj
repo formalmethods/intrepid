@@ -22,10 +22,6 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="inputs\script_02.py" />
-    <Compile Include="inputs\script_01.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="intrepid\api.py" />
     <Compile Include="intrepid\exceptions.py">
       <SubType>Code</SubType>
@@ -40,10 +36,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="intrepid\__init__.py" />
+    <Compile Include="tests\context.py" />
+    <Compile Include="tests\test_bmc.py" />
+    <Compile Include="tests\test_scr.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="intrepid" />
-    <Folder Include="inputs\" />
+    <Folder Include="tests\" />
+    <Folder Include="tests\files\" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\2.7" />
@@ -53,6 +53,10 @@
       <Name>_api.pyd</Name>
       <PythonExtension>libs\win64\_api.pyd</PythonExtension>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="tests\files\traffic_light.csv" />
+    <Content Include="tests\files\traffic_light.ord" />
   </ItemGroup>
   <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />

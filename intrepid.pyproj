@@ -30,7 +30,7 @@
     <Compile Include="intrepid\exceptions.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="intrepid\module1.py">
+    <Compile Include="intrepid\plots.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="intrepid\scr.py">
@@ -39,18 +39,11 @@
     <Compile Include="intrepid\utils.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="test\test_scr.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="intrepid\__init__.py" />
-    <Compile Include="test\test_bmc.py">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="intrepid" />
     <Folder Include="inputs\" />
-    <Folder Include="test" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\2.7" />

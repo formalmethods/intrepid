@@ -1,4 +1,4 @@
-from context import sample
+from .context import sample
 
 import unittest
 import intrepid as ip

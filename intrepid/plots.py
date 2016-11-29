@@ -4,8 +4,8 @@ from matplotlib import pyplot as plt
 def create_subplot(allPlots, n, x, y, legend):
     subplot = plt.subplot(allPlots, 1, n)
     subplot.axes.set_xticks(n)
-    subplot.axes.set_yticks([0, 1])
-    subplot.set_ylim(-1, 2)
+    #subplot.axes.set_yticks([0, 1])
+    #subplot.set_ylim(-1, 2)
     plt.step(x, y)
     plt.legend(legend)
 

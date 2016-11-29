@@ -58,7 +58,7 @@ setup(name='intrepid',
 )
 
 suffix = "32"
-if bits == "64bits":
+if bits == "64bit":
     suffix = "64" 
 
 if systemStr == 'Linux':

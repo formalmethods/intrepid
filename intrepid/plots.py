@@ -6,7 +6,7 @@ def create_subplot(allPlots, n, x, y, legend):
     maxy = max(y)
     subplot = plt.subplot(allPlots, 1, n)
     subplot.axes.set_xticks(x)
-    subplot.axes.set_yticks(range(miny, maxy))
+    subplot.axes.set_yticks(range(miny, maxy + 1))
     subplot.set_ylim(miny - 1, maxy + 1)
     plt.step(x, y, label=legend)
     plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)

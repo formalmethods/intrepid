@@ -1,4 +1,5 @@
 import intrepid as ip
+import collections
 
 class Circuit(object):
     """
@@ -54,7 +55,7 @@ class Circuit(object):
         Makes the outputs contained in the already filled-out
         self.outputs.
         """
-        for _, net in self.outputs:
+        for i, (name, net) in enumerate(self.outputs.iteritems()):
             ip.mk_output(self.ctx, net)
 
     def _mk_inputs(self):
@@ -65,4 +66,13 @@ class Circuit(object):
         raise NotImplementedError('Should have implemented this')
 
     def _mk_naked_circuit_impl(self, inputs):
+        """
+        Makes the naked circuit.
+
+        Args:
+            inputs (OrderedDict): the inputs to use
+
+        Returns:
+            (OrderedDict) the outputs
+        """
         raise NotImplementedError('Should have implemented this')

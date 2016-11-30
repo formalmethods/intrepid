@@ -2,20 +2,22 @@ import intrepid as ip
 from matplotlib import pyplot as plt
 
 def create_subplot(allPlots, n, x, y, legend):
+    miny = min(y)
+    maxy = max(y)
     subplot = plt.subplot(allPlots, 1, n)
-    subplot.axes.set_xticks(n)
-    #subplot.axes.set_yticks([0, 1])
-    #subplot.set_ylim(-1, 2)
-    plt.step(x, y)
-    plt.legend(legend)
+    subplot.axes.set_xticks(x)
+    subplot.axes.set_yticks(range(miny, maxy))
+    subplot.set_ylim(miny - 1, maxy + 1)
+    plt.step(x, y, label=legend)
+    plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+    # plt.plot()
 
 def plot_counterexample_dictionary(cex):
     """
     Draws one step plot per each signal in the counterexample.
 
-    Parameters
-    ----------
-    cex: the dictionary of the counterexample
+    Args:
+        cex (Dictionary): the dictionary of the counterexample
     """
 
     if len(cex.keys()) == 0:
@@ -32,7 +34,7 @@ def plot_counterexample_dictionary(cex):
     for key in cex.keys():
         if len(cex[key]) == 0:
             ip.exceptions.IntrepidException('Unexpected counterexample with no values')
-        for value in len(cex[key]):
+        for value in range(len(cex[key])):
             v = cex[key][value]
             if v == 'true':
                 cex[key][value] = 1
@@ -45,5 +47,7 @@ def plot_counterexample_dictionary(cex):
     n = 1
     for key in cex.keys():
        create_subplot(allPlots, n, steps, cex[key], key) 
+       n += 1
 
+    plt.tight_layout()
     plt.show()

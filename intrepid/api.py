@@ -668,6 +668,44 @@ def mk_iff(ctx, x, y):
     """
     return _api.mk_iff(ctx, x, y)
 
+def mk_minus(ctx, x):
+    """
+    mk_minus(Int_ctx ctx, Int_net x) -> Int_net
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    x: Int_net
+
+    """
+    return _api.mk_minus(ctx, x)
+
+def mk_add(ctx, x, y):
+    """
+    mk_add(Int_ctx ctx, Int_net x, Int_net y) -> Int_net
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    x: Int_net
+    y: Int_net
+
+    """
+    return _api.mk_add(ctx, x, y)
+
+def mk_sub(ctx, x, y):
+    """
+    mk_sub(Int_ctx ctx, Int_net x, Int_net y) -> Int_net
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    x: Int_net
+    y: Int_net
+
+    """
+    return _api.mk_sub(ctx, x, y)
+
 def mk_eq(ctx, x, y):
     """
     mk_eq(Int_ctx ctx, Int_net x, Int_net y) -> Int_net
@@ -809,6 +847,20 @@ def set_latch_init_next(ctx, latch, init, next):
 
     """
     return _api.set_latch_init_next(ctx, latch, init, next)
+
+def mk_substitute(ctx, term, new_subterm, old_subterm):
+    """
+    mk_substitute(Int_ctx ctx, Int_net term, Int_net new_subterm, Int_net old_subterm) -> Int_net
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    term: Int_net
+    new_subterm: Int_net
+    old_subterm: Int_net
+
+    """
+    return _api.mk_substitute(ctx, term, new_subterm, old_subterm)
 # This file is compatible with both classic and new-style classes.
 
 

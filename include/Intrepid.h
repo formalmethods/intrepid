@@ -53,7 +53,6 @@ DEFINE_TYPE(Int_engine_br);
 DEFINE_TYPE(Int_simulator);
 DEFINE_TYPE(Int_counterexample);
 typedef unsigned Int_net;
-typedef unsigned Int_value;
 
 typedef enum {
     INT_ENGINE_RESULT_UNKNOWN,
@@ -470,6 +469,15 @@ DLLEXPORT
 Int_net mk_iff(Int_ctx ctx, Int_net x, Int_net y);
 
 DLLEXPORT
+Int_net mk_minus(Int_ctx ctx, Int_net x);
+
+DLLEXPORT
+Int_net mk_add(Int_ctx ctx, Int_net x, Int_net y);
+
+DLLEXPORT
+Int_net mk_sub(Int_ctx ctx, Int_net x, Int_net y);
+
+DLLEXPORT
 /**
  * @brief mk_eq equates two nets of type integer, real, or double
  * @param ctx the context to use
@@ -574,6 +582,11 @@ DLLEXPORT
  */
 void set_latch_init_next(Int_ctx ctx, Int_net latch,
                          Int_net init, Int_net next);
+
+DLLEXPORT
+Int_net mk_substitute(Int_ctx ctx, Int_net term,
+                      Int_net new_subterm,
+                      Int_net old_subterm);
 
 #ifdef __cplusplus
 }  // extern "C"

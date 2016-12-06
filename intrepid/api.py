@@ -180,6 +180,17 @@ def set_bmc_current_depth(engine, depth):
     """
     return _api.set_bmc_current_depth(engine, depth)
 
+def set_bmc_optimize(engine):
+    """
+    set_bmc_optimize(Int_engine_bmc engine)
+
+    Parameters
+    ----------
+    engine: Int_engine_bmc
+
+    """
+    return _api.set_bmc_optimize(engine)
+
 def bmc_add_target(ctx, engine, target):
     """
     bmc_add_target(Int_ctx ctx, Int_engine_bmc engine, Int_net target)

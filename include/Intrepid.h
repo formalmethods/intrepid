@@ -102,6 +102,13 @@ void set_bmc_current_depth(Int_engine_bmc engine, unsigned depth);
 
 DLLEXPORT
 /**
+ * @brief set_bmc_optimize
+ * @param engine the bmc engine to use
+ */
+void set_bmc_optimize(Int_engine_bmc engine);
+
+DLLEXPORT
+/**
  * @brief bmc_add_target Adds a reachability target
  * @param ctx the context to use
  * @param engine

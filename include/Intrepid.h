@@ -133,6 +133,9 @@ DLLEXPORT
 Int_engine_result bmc_reach_targets(Int_engine_bmc engine);
 
 DLLEXPORT
+void bmc_remove_last_reached_targets(Int_engine_bmc engine);
+
+DLLEXPORT
 /**
  * @brief mk_engine_br Creates a Backward Reachability engine
  * @param ctx the context to use
@@ -164,6 +167,9 @@ DLLEXPORT
  * @return the result of the search
  */
 Int_engine_result br_reach_targets(Int_engine_br engine);
+
+DLLEXPORT
+void br_remove_last_reached_targets(Int_engine_br engine);
 
 DLLEXPORT
 /**

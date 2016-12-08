@@ -4,6 +4,7 @@ Utilities that simplify the use of the api
 
 import intrepid as ip
 import imp
+import collections
 
 def counterexample_get_value_for_net(ctx, cex, net, depth):
     """
@@ -48,7 +49,7 @@ def counterexample_get_as_dictionary(ctx, cex, inputs, watches):
     inputs: a dictionary name -> net for input nets
     watches: a dictionary name -> net for watched nets
     """
-    result = {}
+    result = collections.OrderedDict()
     for name, net in inputs.iteritems():
         steps = counterexample_get_as_steps(ctx, cex, net)
         result[name] = steps

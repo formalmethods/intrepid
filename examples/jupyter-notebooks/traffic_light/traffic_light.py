@@ -50,6 +50,7 @@ class SimulinkCircuit(ip.circuit.Circuit):
         n21_1 = ip.scr.mk_scr(self.ctx, 'traffic_light', n15, n16, n20, n12)
         # traffic_light/Mode
         n22 = ip.mk_ite(self.ctx, n11, n14, n21_1)
+        self.nets['traffic_light/Mode'] = n22
         in6 = ip.mk_true(self.ctx)
         ip.set_latch_init_next(self.ctx, n6, in6, n1)
         in7 = ip.mk_true(self.ctx)

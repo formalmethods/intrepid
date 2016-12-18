@@ -23,7 +23,7 @@ class Circuit(object):
             namespace (bool=False): whether to set a namespace
         """
         if namespace:
-            ip.push_namespace(self.ctx, name)
+            ip.push_namespace(self.ctx, self.name)
         self._mk_inputs()
         self.outputs = self._mk_naked_circuit_impl(self.inputs)
         self._mk_outputs()
@@ -44,7 +44,7 @@ class Circuit(object):
             (OrderedDict) the ordered dictionary of the outputs
         """
         if namespace:
-            ip.push_namespace(self.ctx, name)
+            ip.push_namespace(self.ctx, self.name)
         outputs = self._mk_circuit_naked_impl(self, inputs)
         if namespace:
             ip.pop_namespace(self.ctx)

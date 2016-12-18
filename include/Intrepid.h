@@ -318,6 +318,17 @@ Int_net simulator_last_reached_target(Int_simulator simulator, unsigned n);
 
 DLLEXPORT
 /**
+ * @brief simulator_default_simulate Simulate the given targets using
+ *                                   default values for inputs
+ * @param simulator the simulator to use
+ * @param depth the last depth to simulate
+ * @return the simulated values in form of counterexample
+ */
+Int_counterexample simulator_default_simulate(Int_simulator simulator,
+                                              unsigned depth);
+
+DLLEXPORT
+/**
  * @brief mk_boolean_type Creates a Boolean type
  * @param ctx the context to use
  * @return A Boolean type

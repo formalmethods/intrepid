@@ -478,6 +478,18 @@ def simulator_last_reached_target(simulator, n):
     """
     return _api.simulator_last_reached_target(simulator, n)
 
+def simulator_default_simulate(simulator, depth):
+    """
+    simulator_default_simulate(Int_simulator simulator, unsigned int depth) -> Int_counterexample
+
+    Parameters
+    ----------
+    simulator: Int_simulator
+    depth: unsigned int
+
+    """
+    return _api.simulator_default_simulate(simulator, depth)
+
 def mk_boolean_type(ctx):
     """
     mk_boolean_type(Int_ctx ctx) -> Int_type

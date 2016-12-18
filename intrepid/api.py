@@ -228,6 +228,17 @@ def bmc_reach_targets(engine):
     """
     return _api.bmc_reach_targets(engine)
 
+def bmc_remove_last_reached_targets(engine):
+    """
+    bmc_remove_last_reached_targets(Int_engine_bmc engine)
+
+    Parameters
+    ----------
+    engine: Int_engine_bmc
+
+    """
+    return _api.bmc_remove_last_reached_targets(engine)
+
 def mk_engine_br(ctx):
     """
     mk_engine_br(Int_ctx ctx) -> Int_engine_br
@@ -275,6 +286,17 @@ def br_reach_targets(engine):
 
     """
     return _api.br_reach_targets(engine)
+
+def br_remove_last_reached_targets(engine):
+    """
+    br_remove_last_reached_targets(Int_engine_br engine)
+
+    Parameters
+    ----------
+    engine: Int_engine_br
+
+    """
+    return _api.br_remove_last_reached_targets(engine)
 
 def bmc_last_reached_targets_number(engine):
     """

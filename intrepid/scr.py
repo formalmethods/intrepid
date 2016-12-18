@@ -1,5 +1,6 @@
 import intrepid as ip
 import intrepid.exceptions as ipex
+import intrepid.utils
 import csv
 import os.path
 
@@ -15,7 +16,7 @@ def mk_falling_edge(ctx, edgeNet, pastEdgeNet, pastWhen):
     n3 = ip.mk_and(ctx, n2, pastEdgeNet)
     return n3
 
-def mk_row_condition(ctx, inputs, pastInputs, modeStr2mode, modes, pastMode, row):
+def mk_row_condition(ctx, inputs, pastInputs, modeStr2mode, modes, pastMode, row, rowNumber):
     assert len(inputs) == len(pastInputs)
     assert len(row) == len(inputs) + 2
 
@@ -52,7 +53,7 @@ def mk_row_condition(ctx, inputs, pastInputs, modeStr2mode, modes, pastMode, row
             pastWhen = ip.mk_and(ctx, pastWhen, conj)
 
     if edgeNet == None or pastEdgeNet == None:
-        raise ipex.IntrepidException('Cannot find raising or falling edge in row')
+        raise ipex.IntrepidException('Cannot find raising or falling edge in row ' + str(rowNumber))
 
     if raisingEdge:
         return mk_raising_edge(ctx, edgeNet, pastEdgeNet, pastWhen)
@@ -77,6 +78,7 @@ def retrieve_modes_order(ordfilename):
 def mk_scr_helper(ctx, csvfilename, modeStr2mode, inputs, pastInputs, modes, pastMode):
     firstRow = True
     result = pastMode
+    rowNumber = 1
     with open(csvfilename, 'r') as csvfile:
         for row in csv.reader(csvfile, delimiter=','):
             if len(inputs) + 2 != len(row):
@@ -84,7 +86,8 @@ def mk_scr_helper(ctx, csvfilename, modeStr2mode, inputs, pastInputs, modes, pas
             if firstRow:
                 firstRow = False
                 continue
-            rowCondition = mk_row_condition(ctx, inputs, pastInputs, modeStr2mode, modes, pastMode, row)
+            rowNumber += 1
+            rowCondition = mk_row_condition(ctx, inputs, pastInputs, modeStr2mode, modes, pastMode, row, rowNumber)
             rowCurrentModeStr = str(modeStr2mode[row[-1]])
             rowCurrentMode = ip.mk_number(ctx, rowCurrentModeStr, ip.mk_int8_type(ctx))
             if rowCurrentMode == None:

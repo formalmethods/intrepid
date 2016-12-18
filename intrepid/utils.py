@@ -4,6 +4,8 @@ Utilities that simplify the use of the api
 
 import intrepid as ip
 import imp
+import collections
+import pandas as pd
 
 def counterexample_get_value_for_net(ctx, cex, net, depth):
     """
@@ -37,18 +39,20 @@ def to_string(ctx, net):
 
 def counterexample_get_as_dictionary(ctx, cex, inputs, watches):
     """
-    Returns the counterexample as a dictionary, whose keys
+    Returns the counterexample as an ordered dictionary, whose keys
     are the nets, and the values are the list of values,
     one per each time step.
 
-    Parameters
-    ----------
-    ctx: the intrepid context
-    cex: the counterexample
-    inputs: a dictionary name -> net for input nets
-    watches: a dictionary name -> net for watched nets
+    Args:
+        ctx: the intrepid context
+        cex: the counterexample
+        inputs: a dictionary name -> net for input nets
+        watches: a dictionary name -> net for watched nets
+
+    Returns:
+        a dictionary name -> [value at step 0, ..., value at step n]
     """
-    result = {}
+    result = collections.OrderedDict()
     for name, net in inputs.iteritems():
         steps = counterexample_get_as_steps(ctx, cex, net)
         result[name] = steps
@@ -56,6 +60,29 @@ def counterexample_get_as_dictionary(ctx, cex, inputs, watches):
         steps = counterexample_get_as_steps(ctx, cex, net)
         result[name] = steps
     return result
+
+def counterexample_get_as_dataframe(cexDict):
+    """
+    Returns the counterexample as a pandas dataframe
+
+          step0 ... stepn
+    name0
+    ...
+    namem
+
+    Args:
+        cexDict: the counterexample as a dictionary
+
+    Returns:
+        the cex in a pandas dataframe
+    """
+    matrix = []
+    indexes = []
+    for name, values in cexDict.iteritems():
+        indexes.append(name)
+        matrix.append(values)
+    df = pd.DataFrame(matrix, index=indexes)
+    return df
 
 def bmc_reach_at_depth(ctx, bmc, depth):
     """

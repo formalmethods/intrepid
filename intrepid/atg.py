@@ -1,7 +1,8 @@
 import intrepid as ip
 import intrepid.utils
+import pandas as pd
 
-def compute_mcdc(ctx, class_, decisions):
+def compute_mcdc(ctx, class_, decisions, maxDepth):
     """
     Computes MC/DC tests in form of a table.
 
@@ -31,11 +32,17 @@ def compute_mcdc(ctx, class_, decisions):
             compute_mcdc_targets(ctx, instA, instB, decision, conditions)\
             for decision, conditions in decisions.iteritems() }
 
-    # Compute MC/DC tables: this is the computationally
+    # Compute MC/DC cexes: this is the computationally
     # expensive part that calls model checking routines
-    tables = solve_mcdc_targets(ctx, instA, instB, decision2testObjectives)
+    decision2cexes = solve_mcdc_targets(ctx, decision2testObjectives, maxDepth)
 
-    return tables
+    # Compute MC/DC tables from cexes
+    decision2table = compute_mcdc_tables(ctx, instA, instB, decision2cexes)
+
+    # Compute pretty tables
+    decision2prettyTable = compute_pretty_tables(decision2table)
+
+    return decision2prettyTable
 
 def compute_mcdc_targets(ctx, instA, instB, decision, conditions):
     """
@@ -92,12 +99,18 @@ def compute_mcdc_targets(ctx, instA, instB, decision, conditions):
 
     return targets
 
-def solve_mcdc_targets(ctx, instA, instB, decision2testObjectives):
+def solve_mcdc_targets(ctx, decision2testObjectives, maxDepth):
+    """
+    Solves the MC/DC targets, maximizing the number of solved
+    test objectives per each call.
+    """
     bmc = ip.mk_engine_bmc(ctx)
 
     testObjectives2decision = {}
+    decision2cexes = {}
     totalTargets = 0
     for decision, tos in decision2testObjectives.iteritems():
+        decision2cexes[decision] = []
         for to in tos:
             testObjectives2decision[to] = decision
             ip.bmc_add_target(ctx, bmc, to)
@@ -105,16 +118,9 @@ def solve_mcdc_targets(ctx, instA, instB, decision2testObjectives):
 
     ip.set_bmc_optimize(bmc)
 
-    allInputs = {}
-    for name, net in instA.inputs.iteritems():
-        allInputs['instA/' + name] = net
-    for name, net in instB.inputs.iteritems():
-        allInputs['instB/' + name] = net
     done = False
     depth = 0
     totalReached = 0
-    # Hardcoded
-    maxDepth = 10
     while not done:
         ip.set_bmc_current_depth(bmc, depth)
         result = ip.bmc_reach_targets(bmc)
@@ -126,9 +132,58 @@ def solve_mcdc_targets(ctx, instA, instB, decision2testObjectives):
         reached = ip.bmc_last_reached_targets_number(bmc)
         if reached > 0:
             totalReached += reached
-            cex = ip.bmc_get_counterexample(ctx, bmc, testObjs[0])
-            cexDict = ip.utils.counterexample_get_as_dictionary(ctx, cex, allInputs, {})
+            cex = None
+            for i in range(reached):
+                reachedTarget = ip.bmc_last_reached_target(bmc, i)
+                if i == 0:
+                    cex = ip.bmc_get_counterexample(ctx, bmc, reachedTarget)
+                decision = testObjectives2decision[reachedTarget]
+                decision2cexes[decision].append(cex)
+            ip.bmc_remove_last_reached_targets(bmc)
         if totalReached == totalTargets:
             done = True
 
-    return cexDict
+    return decision2cexes
+
+def compute_mcdc_tables(ctx, instA, instB, decision2cexes):
+    """
+    Computes MC/DC tables out of counterexamples.
+    """
+    decision2table = {}
+    for decision, cexes in decision2cexes.iteritems():
+        decision2table[decision] = []
+        for cex in cexes:
+            test1 = ip.utils.counterexample_get_as_dictionary(ctx, cex, instA.inputs, { decision : instA.nets[decision] })
+            test2 = ip.utils.counterexample_get_as_dictionary(ctx, cex, instB.inputs, { decision : instB.nets[decision] })
+            decision2table[decision].append(test1)
+            decision2table[decision].append(test2)
+    return decision2table
+
+def compute_pretty_tables(decision2table):
+    """
+    Postprocess raw MC/DC tables to get something presentation ready.
+    """
+    decision2prettyTable = {}
+    for decision, table in decision2table.iteritems():
+        prettyTable = []
+        header = []
+        for inputValue in table:
+            for input, value in inputValue.iteritems():
+               header.append(input)
+            break
+        prettyTable.append(header)
+        for inputValue in table:
+            row = []
+            for _, value in inputValue.iteritems():
+                row.append(value[0])
+            prettyTable.append(row)
+        decision2prettyTable[decision] = prettyTable
+    return decision2prettyTable
+
+def get_tables_as_dataframe(decision2table):
+    result = {}
+    for decision, table in decision2table.iteritems():
+        df = pd.DataFrame(table[1:], columns=table[0])
+        df = df.drop_duplicates()
+        result[decision] = df
+    return result

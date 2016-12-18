@@ -25,7 +25,7 @@ from api import mk_ctx, del_ctx, mk_engine_bmc, set_bmc_current_depth, set_bmc_o
                 bmc_last_reached_targets_number, br_last_reached_targets_number,\
                 bmc_last_reached_target, br_last_reached_target,\
                 bmc_get_counterexample, br_get_counterexample,\
-                prepare_value_for_net,\
+                prepare_value_for_net, bmc_remove_last_reached_targets, br_remove_last_reached_targets,\
                 counterexample_prepare_value_for_net, counterexample_get_max_depth,\
                 mk_assumption, value_at,\
                 push_namespace, pop_namespace,\

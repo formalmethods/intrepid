@@ -2,6 +2,8 @@ import intrepid as ip
 import intrepid.utils
 import pandas as pd
 
+_ATG
+
 def compute_mcdc(ctx, class_, decisions, maxDepth):
     """
     Computes MC/DC tests in form of a table.
@@ -34,7 +36,7 @@ def compute_mcdc(ctx, class_, decisions, maxDepth):
 
     # Compute MC/DC cexes: this is the computationally
     # expensive part that calls model checking routines
-    decision2cexes = solve_mcdc_targets(ctx, decision2testObjectives, maxDepth)
+    decision2cexes, decision2unreachable = solve_mcdc_targets(ctx, decision2testObjectives, maxDepth)
 
     # Compute MC/DC tables from cexes
     decision2table = compute_mcdc_tables(ctx, instA, instB, decision2cexes)
@@ -104,23 +106,49 @@ def solve_mcdc_targets(ctx, decision2testObjectives, maxDepth):
     Solves the MC/DC targets, maximizing the number of solved
     test objectives per each call.
     """
+    # Bmc engine will be used to compute counterexamples
     bmc = ip.mk_engine_bmc(ctx)
 
     testObjectives2decision = {}
     decision2cexes = {}
-    totalTargets = 0
+    decision2unreachable = {}
+    targets = []
     for decision, tos in decision2testObjectives.iteritems():
         decision2cexes[decision] = []
+        decision2unreachable[decision] = []
         for to in tos:
             testObjectives2decision[to] = decision
-            ip.bmc_add_target(ctx, bmc, to)
-            totalTargets += 1
+            targets.append(to)
 
+    totalTargets = len(targets)
+
+    # Compute unreachable targets first
+    totalUnreached = 0
+    totalReached = 0
+    for target in targets:
+        br = ip.mk_engine_br(ctx)
+        ip.br_add_target(ctx, br, target)
+        result = ip.br_reach_targets(br)
+        if result == ip.INT_ENGINE_RESULT_UNREACHABLE:
+            decision = testObjectives2decision[target]
+            decision2unreachable[decision].append(target)
+            totalUnreached += 1
+        elif result == ip.INT_ENGINE_RESULT_REACHABLE:
+            ip.bmc_add_target(ctx, bmc, target)
+            totalReached += 1
+
+    print 'There are', totalTargets, 'test objectives:'
+    print '-', totalUnreached, 'unreachable test objectives'
+    print '-', totalReached, 'reachable test objectives'
+
+    if totalUnreached == totalTargets:
+        return decision2cexes, decision2unreachable
+
+    # Compute counterexamples for reachable targets
     ip.set_bmc_optimize(bmc)
-
     done = False
     depth = 0
-    totalReached = 0
+    bmcTotalReached = 0
     while not done:
         ip.set_bmc_current_depth(bmc, depth)
         result = ip.bmc_reach_targets(bmc)
@@ -131,7 +159,7 @@ def solve_mcdc_targets(ctx, decision2testObjectives, maxDepth):
             continue
         reached = ip.bmc_last_reached_targets_number(bmc)
         if reached > 0:
-            totalReached += reached
+            bmcTotalReached += reached
             cex = None
             for i in range(reached):
                 reachedTarget = ip.bmc_last_reached_target(bmc, i)
@@ -140,10 +168,14 @@ def solve_mcdc_targets(ctx, decision2testObjectives, maxDepth):
                 decision = testObjectives2decision[reachedTarget]
                 decision2cexes[decision].append(cex)
             ip.bmc_remove_last_reached_targets(bmc)
-        if totalReached == totalTargets:
+        if bmcTotalReached == totalReached:
             done = True
 
-    return decision2cexes
+    totalUndecided = totalReached - bmcTotalReached
+    if totalUndecided != 0:
+        print 'There are', totalUndecided, 'undecided test objectives within depth', maxDepth
+
+    return decision2cexes, decision2unreachable
 
 def compute_mcdc_tables(ctx, instA, instB, decision2cexes):
     """

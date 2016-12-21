@@ -502,6 +502,9 @@ DLLEXPORT
 Int_net mk_sub(Int_ctx ctx, Int_net x, Int_net y);
 
 DLLEXPORT
+Int_net mk_mul(Int_ctx ctx, Int_net x, Int_net y);
+
+DLLEXPORT
 /**
  * @brief mk_eq equates two nets of type integer, real, or double
  * @param ctx the context to use

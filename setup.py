@@ -35,11 +35,11 @@ elif systemStr == 'Windows':
       shutil.copy('libs/win64/_api.pyd', 'intrepid')
       packageDataList = ['_api.pyd', 'intrepid_dll.dll', 'libz3.dll']
 elif systemStr == 'Darwin':
-      print 'Copying osx libraries'
       cwd = os.getcwd()
       call(["install_name_tool", "-change", "libintrepid_dll.dylib", cwd + "/libs/osx/libintrepid_dll.dylib", "libs/osx/_api.so"])
       call(["install_name_tool", "-change", "libz3.dylib", cwd + "/libs/osx/libz3.dylib", "libs/osx/_api.so"])
       call(["install_name_tool", "-change", "libz3.dylib", cwd + "/libs/osx/libz3.dylib", "libs/osx/libintrepid_dll.dylib"])
+      print 'Copying osx libraries'
       shutil.copy('libs/osx/_api.so', 'intrepid')
       packageDataList = ['_api.so']
 else:
@@ -59,7 +59,7 @@ setup(name='intrepid',
 
 suffix = "32"
 if bits == "64bit":
-    suffix = "64" 
+    suffix = "64"
 
 if systemStr == 'Linux':
       print "Don't forget to do:"

@@ -442,6 +442,19 @@ def simulator_add_target(ctx, simulator, target):
     """
     return _api.simulator_add_target(ctx, simulator, target)
 
+def simulator_add_watch(ctx, simulator, watch):
+    """
+    simulator_add_watch(Int_ctx ctx, Int_simulator simulator, Int_net watch)
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    simulator: Int_simulator
+    watch: Int_net
+
+    """
+    return _api.simulator_add_watch(ctx, simulator, watch)
+
 def simulator_simulate(simulator, cex, depth):
     """
     simulator_simulate(Int_simulator simulator, Int_counterexample cex, unsigned int depth)

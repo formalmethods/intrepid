@@ -287,6 +287,14 @@ void simulator_add_target(Int_ctx ctx, Int_simulator simulator, Int_net target);
 
 DLLEXPORT
 /**
+ * @brief simulator_add_target Adds a target to a simulator
+ * @param simulator the simulator to use
+ * @param watch the watch to add
+ */
+void simulator_add_watch(Int_ctx ctx, Int_simulator simulator, Int_net watch);
+
+DLLEXPORT
+/**
  * @brief simulator_simulate Simulate the given targets using the provided
  *        counterexample, up to the provided depth
  * @param simulator the simulator to use

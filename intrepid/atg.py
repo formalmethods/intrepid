@@ -2,8 +2,6 @@ import intrepid as ip
 import intrepid.utils
 import pandas as pd
 
-_ATG
-
 def compute_mcdc(ctx, class_, decisions, maxDepth):
     """
     Computes MC/DC tests in form of a table.

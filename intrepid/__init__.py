@@ -19,9 +19,9 @@ from api import mk_ctx, del_ctx, mk_engine_bmc, set_bmc_current_depth, set_bmc_o
                 mk_undef, mk_true, mk_false, mk_number, mk_not, mk_and, mk_or,\
                 mk_xor, mk_iff, mk_eq, mk_leq, mk_lt, mk_geq, mk_gt, mk_input,\
                 mk_output, mk_latch, set_latch_init_next, mk_neq, mk_ite,\
-                mk_add, mk_sub, mk_minus, mk_substitute,\
+                mk_add, mk_mul, mk_sub, mk_minus, mk_substitute,\
                 mk_simulator, simulator_add_target, simulator_simulate, simulator_default_simulate,\
-                simulator_last_reached_targets_number, simulator_last_reached_target,\
+                simulator_last_reached_targets_number, simulator_last_reached_target, simulator_add_watch,\
                 bmc_last_reached_targets_number, br_last_reached_targets_number,\
                 bmc_last_reached_target, br_last_reached_target,\
                 bmc_get_counterexample, br_get_counterexample,\

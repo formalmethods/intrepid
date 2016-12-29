@@ -48,7 +48,7 @@ else:
 
 
 setup(name='intrepid',
-      version='0.1.1',
+      version='0.1.2',
       description='Intrepid Model Checker',
       author='Roberto Bruttomesso',
       author_email='roberto.bruttomesso@gmail.com',

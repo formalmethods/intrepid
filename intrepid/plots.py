@@ -2,6 +2,7 @@ import intrepid as ip
 from matplotlib import pyplot as plt
 
 def create_subplot(allPlots, n, x, y, legend):
+    y = [int(elem) for elem in y]
     miny = min(y)
     maxy = max(y)
     subplot = plt.subplot(allPlots, 1, n)

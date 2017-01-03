@@ -11,9 +11,13 @@ $ python -m pip install jupyter
 
 Alternatively, the [conda][2] python release comes with both python 2.7 and jupyter preinstalled.
 
-# Prequisites for Windows
-- 64bits version
+# Prerequisites for Windows
 - [Visual C++ Redistributable for Visual Studio 2015][4]
+
+# Supported OSes 
+- Windows 7 or above, 64 bit
+- Ubuntu 14.04 or above, 32 or 64 bit
+- Version 10.10 (Yosemite) or above
 
 # Install
 From the root directory of intrepid, execute
@@ -48,6 +52,9 @@ python -m unittest discover
 If the unit tests go through without any error,
 then you should have a working version of
 intrepid installed in your python environment.
+
+# Bug reporting
+Please report any bug you should experience via github's "Issues" page.
 
 # Feedback
 If you wish to drop a feedback you may write to

@@ -9,11 +9,11 @@ $ python -m pip install pandas
 $ python -m pip install jupyter
 ```
 
-Alternatively, the [conda][2] python release comes with both python 2.7 and jupyter preinstalled.
+Alternatively, the [conda][5] python release comes with both python 2.7 and jupyter preinstalled.
 
 # Prequisites for Windows
 - 64bits version
-- Visual C++ Redistributable for Visual Studio 2015 [link][4]
+- [Visual C++ Redistributable for Visual Studio 2015][4]
 
 # Install
 From the root directory of intrepid, execute

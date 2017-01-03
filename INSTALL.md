@@ -1,6 +1,6 @@
 # Prerequisites for any OS
 - [python 2.7][1]: required. 
-- [pandas][4]: required. Can be installed with
+- [pandas][5]: required. Can be installed with
 ```
 $ python -m pip install pandas
 ```
@@ -9,7 +9,7 @@ $ python -m pip install pandas
 $ python -m pip install jupyter
 ```
 
-Alternatively, the [conda][5] python release comes with both python 2.7 and jupyter preinstalled.
+Alternatively, the [conda][2] python release comes with both python 2.7 and jupyter preinstalled.
 
 # Prequisites for Windows
 - 64bits version

@@ -9,7 +9,7 @@ addons:
     sources:
         - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ubuntu-toolchain-r-test; fi
     packages:
-        - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then gcc-4.8; fi
+        - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then gcc-4.8; fi;
         - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then g++-4.8; fi
 
 python:
@@ -20,9 +20,9 @@ install:
     - python setup.py install
 
 before_script: 
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then LD_LIBRARY_PATH=`pwd`/libs/linux64; fi
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export LD_LIBRARY_PATH; fi
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then DYLD_LIBRARY_PATH=`pwd`/libs/osx; fi
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then LD_LIBRARY_PATH=`pwd`/libs/linux64; fi;
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export LD_LIBRARY_PATH; fi;
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then DYLD_LIBRARY_PATH=`pwd`/libs/osx; fi;
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export DYLD_LIBRARY_PATH; fi
 
 script:

@@ -1,6 +1,15 @@
 # Prerequisites for any OS
-- python 2.7 [link1][1], [link2][2] (this one contains jupyter by default)
-- jupyter package [link][3] (optional, allows using the notebooks under examples/)
+- [python 2.7][1]: required. 
+- [pandas][4]: required. Can be installed with
+```
+$ python -m pip install pandas
+```
+- [jupyter][3]: optional: allows running the ipython notebooks under folder examples/. Can be installed with
+```
+$ python -m pip install jupyter
+```
+
+Alternatively, the [conda][2] python release comes with both python 2.7 and jupyter preinstalled.
 
 # Prequisites for Windows
 - 64bits version
@@ -49,3 +58,4 @@ If you wish to drop a feedback you may write to
 [2]: https://www.continuum.io/downloads "Anaconda"
 [3]: http://jupyter.org/ "Jupyter"
 [4]: https://www.microsoft.com/en-us/download/details.aspx?id=48145 "Visual C++ Redistributable for Visual Studio 2015"
+[5]: http://pandas.pydata.org/ "Python Data Analysis Library"

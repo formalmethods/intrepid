@@ -62,8 +62,14 @@ if bits == "64bit":
     suffix = "64"
 
 if systemStr == 'Linux':
+      print ""
+      print "*************************************************"
       print "Don't forget to do:"
       print 'export LD_LIBRARY_PATH=`pwd`/libs/linux' + suffix
+      print "*************************************************"
 elif systemStr == 'Darwin':
+      print ""
+      print "*************************************************"
       print "Don't forget to do:"
       print 'export DYLD_LIBRARY_PATH=`pwd`/libs/osx'
+      print "*************************************************"

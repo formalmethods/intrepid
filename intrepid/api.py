@@ -932,6 +932,25 @@ def mk_substitute(ctx, term, new_subterm, old_subterm):
 
     """
     return _api.mk_substitute(ctx, term, new_subterm, old_subterm)
+
+def trace_dump_to_file(filename):
+    """
+    trace_dump_to_file(char const * filename)
+
+    Parameters
+    ----------
+    filename: char const *
+
+    """
+    return _api.trace_dump_to_file(filename)
+
+def trace_print_to_stdout():
+    """trace_print_to_stdout()"""
+    return _api.trace_print_to_stdout()
+
+def trace_print_to_stderr():
+    """trace_print_to_stderr()"""
+    return _api.trace_print_to_stderr()
 # This file is compatible with both classic and new-style classes.
 
 

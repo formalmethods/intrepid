@@ -47,10 +47,13 @@ class SimulinkCircuit(ip.circuit.Circuit):
         self.nets['traffic_light/Red'] = n19
         # Bus Creator2
         n20 = [n14, n17, n18, n19]
-        n21_1 = ip.scr.mk_scr(self.ctx, 'traffic_light', n15, n16, n20, n12)
+        # traffic_light/Mode1
+        n21 = ip.mk_ite(self.ctx, n11, n14, n12)
+        self.nets['traffic_light/Mode1'] = n21
+        n22_1 = ip.scr.mk_scr(self.ctx, 'traffic_light', n15, n16, n20, n21)
         # traffic_light/Mode
-        n22 = ip.mk_ite(self.ctx, n11, n14, n21_1)
-        self.nets['traffic_light/Mode'] = n22
+        n23 = ip.mk_ite(self.ctx, n11, n14, n22_1)
+        self.nets['traffic_light/Mode'] = n23
         in6 = ip.mk_true(self.ctx)
         ip.set_latch_init_next(self.ctx, n6, in6, n1)
         in7 = ip.mk_true(self.ctx)
@@ -64,10 +67,10 @@ class SimulinkCircuit(ip.circuit.Circuit):
         in11 = ip.mk_true(self.ctx)
         ip.set_latch_init_next(self.ctx, n11, in11, n13)
         in12 = ip.mk_number(self.ctx, '1', ip.mk_int8_type(self.ctx))
-        ip.set_latch_init_next(self.ctx, n12, in12, n22)
-        # n22 -> out
+        ip.set_latch_init_next(self.ctx, n12, in12, n23)
+        # n23 -> out
         outputs = collections.OrderedDict()
-        outputs['traffic_light/out'] = n22
+        outputs['traffic_light/out'] = n23
         return outputs
 
     def _mk_inputs(self):

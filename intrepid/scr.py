@@ -66,16 +66,21 @@ def mk_row_condition(ctx, inputs, pastInputs, modeStr2mode, modes, pastMode, row
 
 def retrieve_modes_order(ordfilename):
     modeStr2mode = {}
-    modes = []
+    modeStr2modeValue = {}
+    lines = []
     with open(ordfilename, 'r') as ordfile:
-        modes = ordfile.readlines()
+        lines = ordfile.readlines()
     i = 0
-    for mode in modes:
-        modeStr2mode[mode.rstrip()] = i
+    for line in lines:
+        pair = line.split()
+        if len(pair) != 2:
+            raise ipex.IntrepidException('Parse error at line ' + str(i+1) + ' of ' + ordfilename)
+        modeStr2mode[pair[0]] = i
+        modeStr2modeValue[pair[0]] = pair[1]
         i += 1
-    return modeStr2mode
+    return modeStr2mode, modeStr2modeValue
 
-def mk_scr_helper(ctx, csvfilename, modeStr2mode, inputs, pastInputs, modes, pastMode):
+def mk_scr_helper(ctx, csvfilename, modeStr2mode, modeStr2modeValue, inputs, pastInputs, modes, pastMode):
     firstRow = True
     result = pastMode
     rowNumber = 1
@@ -88,11 +93,11 @@ def mk_scr_helper(ctx, csvfilename, modeStr2mode, inputs, pastInputs, modes, pas
                 continue
             rowNumber += 1
             rowCondition = mk_row_condition(ctx, inputs, pastInputs, modeStr2mode, modes, pastMode, row, rowNumber)
-            rowCurrentModeStr = str(modeStr2mode[row[-1]])
-            rowCurrentMode = ip.mk_number(ctx, rowCurrentModeStr, ip.mk_int8_type(ctx))
-            if rowCurrentMode == None:
+            rowCurrentModeStr = str(modeStr2modeValue[row[-1]])
+            rowCurrentModeNet = ip.mk_number(ctx, rowCurrentModeStr, ip.mk_int8_type(ctx))
+            if rowCurrentModeNet == None:
                 raise ipex.IntrepidException('Cannot find mode:', row[-1])
-            result = ip.mk_ite(ctx, rowCondition, rowCurrentMode, result)
+            result = ip.mk_ite(ctx, rowCondition, rowCurrentModeNet, result)
     return result
 
 def mk_scr(ctx, name, inputs, pastInputs, modes, pastMode):
@@ -109,8 +114,8 @@ def mk_scr(ctx, name, inputs, pastInputs, modes, pastMode):
     if not os.path.isfile(ordfilename):
         raise ipex.IntrepidException('Cannot find ' + ordfilename)
 
-    modeStr2mode = retrieve_modes_order(ordfilename)
-    return mk_scr_helper(ctx, csvfilename, modeStr2mode, inputs, pastInputs, modes, pastMode)
+    modeStr2mode, modeStr2modeValue = retrieve_modes_order(ordfilename)
+    return mk_scr_helper(ctx, csvfilename, modeStr2mode, modeStr2modeValue, inputs, pastInputs, modes, pastMode)
             
 
 

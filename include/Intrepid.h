@@ -623,6 +623,15 @@ Int_net mk_substitute(Int_ctx ctx, Int_net term,
                       Int_net new_subterm,
                       Int_net old_subterm);
 
+DLLEXPORT
+void trace_dump_to_file(const char* filename);
+
+DLLEXPORT
+void trace_print_to_stdout();
+
+DLLEXPORT
+void trace_print_to_stderr();
+
 #ifdef __cplusplus
 }  // extern "C"
 #endif

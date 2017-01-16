@@ -1,10 +1,23 @@
 # Prerequisites for any OS
-- python 2.7 [link1][1], [link2][2] (this one contains jupyter by default)
-- jupyter package [link][3] (optional, allows using the notebooks under examples/)
+- [python 2.7][1]: required. 
+- [pandas][5]: required. Can be installed with
+```
+$ python -m pip install pandas
+```
+- [jupyter][3]: optional: allows running the ipython notebooks under folder examples/. Can be installed with
+```
+$ python -m pip install jupyter
+```
 
-# Prequisites for Windows
-- 64bits version
-- Visual C++ Redistributable for Visual Studio 2015 [link][4]
+Alternatively, the [conda][2] python release comes with both python 2.7 and jupyter preinstalled.
+
+# Prerequisites for Windows
+- [Visual C++ Redistributable for Visual Studio 2015][4]
+
+# Supported OSes 
+- Windows 7 or above, 64 bit
+- Ubuntu 14.04 or above, 32 or 64 bit
+- Version 10.10 (Yosemite) or above
 
 # Install
 From the root directory of intrepid, execute
@@ -40,6 +53,9 @@ If the unit tests go through without any error,
 then you should have a working version of
 intrepid installed in your python environment.
 
+# Bug reporting
+Please report any bug you should experience via github's "Issues" page.
+
 # Feedback
 If you wish to drop a feedback you may write to
 `roberto.bruttomesso@gmail.com`.
@@ -49,3 +65,4 @@ If you wish to drop a feedback you may write to
 [2]: https://www.continuum.io/downloads "Anaconda"
 [3]: http://jupyter.org/ "Jupyter"
 [4]: https://www.microsoft.com/en-us/download/details.aspx?id=48145 "Visual C++ Redistributable for Visual Studio 2015"
+[5]: http://pandas.pydata.org/ "Python Data Analysis Library"

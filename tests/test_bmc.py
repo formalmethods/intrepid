@@ -1,6 +1,5 @@
 from .context import intrepid as ip
 import intrepid.utils
-
 import unittest
 
 class TestBmc(unittest.TestCase):

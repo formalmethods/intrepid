@@ -101,19 +101,14 @@ def mk_scr_helper(ctx, csvfilename, modeStr2mode, modeStr2modeValue, inputs, pas
     return result
 
 def mk_scr(ctx, name, inputs, pastInputs, modes, pastMode):
-
     if len(inputs) != len(pastInputs):
         raise ipex.IntrepidException('Inputs and past inputs differ in size')
-
     csvfilename = name + '.csv'
     ordfilename = name + '.ord'
-
     if not os.path.isfile(csvfilename):
         raise ipex.IntrepidException('Cannot find ' + csvfilename)
-
     if not os.path.isfile(ordfilename):
         raise ipex.IntrepidException('Cannot find ' + ordfilename)
-
     modeStr2mode, modeStr2modeValue = retrieve_modes_order(ordfilename)
     return mk_scr_helper(ctx, csvfilename, modeStr2mode, modeStr2modeValue, inputs, pastInputs, modes, pastMode)
             

@@ -1,6 +1,7 @@
-import unittest
+from .context import intrepid as ip
 import intrepid as ip
 import intrepid.utils
+import unittest
 
 class TestBr(unittest.TestCase):
 

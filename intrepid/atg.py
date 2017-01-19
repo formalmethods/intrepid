@@ -27,6 +27,12 @@ def compute_mcdc(ctx, class_, decisions, maxDepth):
     instA.mk_circuit(True)
     instB.mk_circuit(True)
 
+    # Flattens inputs and outputs into nets, for simplicity
+    instA.nets.update(instA.inputs)
+    instA.nets.update(instA.outputs)
+    instB.nets.update(instB.inputs)
+    instB.nets.update(instB.outputs)
+
     # Creates test objectives
     decision2testObjectives = { decision :\
             compute_mcdc_targets(ctx, instA, instB, decision, conditions)\

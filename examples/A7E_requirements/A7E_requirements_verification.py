@@ -10,12 +10,14 @@ def mk_negation_of_property_3(ctx, inst):
     aflyUpdate = inst.nets['A7E_requirements/NU/AflyUpd']
     boc = inst.nets['A7E_requirements/WD/BOC']
     sboc = inst.nets['A7E_requirements/WD/SBOC']
-    pre = ip.mk_eq(ctx, navigationUpdateMode, aflyUpdate)
-    post1 = ip.mk_neq(ctx, weaponDeliveryMode, boc)
-    post2 = ip.mk_neq(ctx, weaponDeliveryMode, sboc)
-    post = ip.mk_and(ctx, post1, post2)
-    # NavUpd=AflyUpd /\ WpnDel!=BOC /\ WpnDel!=SBOC
-    target = ip.mk_and(ctx, pre, post)
+    navAfly = ip.mk_neq(ctx, navigationUpdateMode, aflyUpdate)
+    wpnBoc = ip.mk_eq(ctx, weaponDeliveryMode, boc)
+    wpnSboc = ip.mk_eq(ctx, weaponDeliveryMode, sboc)
+    # NavUpd!=AflyUpd /\ WpnDel=BOC
+    target1 = ip.mk_and(ctx, navAfly, wpnBoc)
+    # NavUpd!=AflyUpd /\ WpnDel=SBOC
+    target2 = ip.mk_and(ctx, navAfly, wpnSboc)
+    target = ip.mk_or(ctx, target1, target2)
     return target
 
 if __name__ == "__main__":

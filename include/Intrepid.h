@@ -51,7 +51,7 @@ DEFINE_TYPE(Int_type);
 DEFINE_TYPE(Int_engine_bmc);
 DEFINE_TYPE(Int_engine_br);
 DEFINE_TYPE(Int_simulator);
-DEFINE_TYPE(Int_counterexample);
+DEFINE_TYPE(Int_trace);
 typedef unsigned Int_net;
 
 typedef enum {
@@ -207,43 +207,45 @@ Int_net br_last_reached_target(Int_engine_br engine, unsigned n);
 
 DLLEXPORT
 /**
- * @brief bmc_get_counterexample Return the counterexample for a reached target
+ * @brief bmc_get_trace Return the trace for a reached target
  * @param ctx the context to use
+ * @param bmc the bmc engine to use
  * @param target the reached target in a previous call to bmc
- * @return the counterexample that shows reachability of target
+ * @return the trace that shows reachability of target
  */
-Int_counterexample bmc_get_counterexample(Int_ctx ctx,
-                                          Int_engine_bmc,
-                                          Int_net target);
+Int_trace bmc_get_trace(Int_ctx ctx,
+                        Int_engine_bmc bmc,
+                        Int_net target);
 
 DLLEXPORT
 /**
- * @brief br_get_counterexample Return the counterexample for a reached target
+ * @brief br_get_trace Return the trace for a reached target
  * @param ctx the context to use
+ * @param br the backward reach engine to use
  * @param target the reached target in a previous call to br
- * @return the counterexample that shows reachability of target
+ * @return the trace that shows reachability of target
  */
-Int_counterexample br_get_counterexample(Int_ctx ctx,
-                                         Int_engine_br,
-                                         Int_net target);
+Int_trace br_get_trace(Int_ctx ctx,
+                       Int_engine_br br,
+                       Int_net target);
 
 DLLEXPORT
 /**
- * @brief counterexample_get_value_for_net 
+ * @brief trace_get_value_for_net 
  * 
  * Internally stores the value of a net at a certain depth in 
- * the counterexample for later retrieval with function value_at
+ * the trace for later retrieval with function value_at
  *
  * @param ctx the context to use
- * @param cex the counterexample to inspect
+ * @param cex the trace to inspect
  * @param net the net to use
  * @param depth the depth at which to retrieve the value
  * @return the length of the value to fetch
  */
-unsigned counterexample_prepare_value_for_net(Int_ctx ctx,
-                                              Int_counterexample cex,
-                                              Int_net net,
-                                              unsigned depth);
+unsigned trace_prepare_value_for_net(Int_ctx ctx,
+                                     Int_trace cex,
+                                     Int_net net,
+                                     unsigned depth);
 
 DLLEXPORT
 /**
@@ -263,11 +265,18 @@ char value_at(unsigned i);
 
 DLLEXPORT
 /**
- * @brief counterexample_get_max_depth Gets the max depth of the counterexample
- * @param cex the counterexample to inspect
+ * @brief trace_get_max_depth Gets the max depth of the trace
+ * @param cex the trace to inspect
  * @return the max depth
  */
-unsigned counterexample_get_max_depth(Int_counterexample cex);
+unsigned trace_get_max_depth(Int_trace trace);
+
+DLLEXPORT
+Int_trace mk_trace(Int_ctx ctx);
+
+DLLEXPORT
+void trace_set_value(Int_trace trace, Int_net net,
+                     const char* value, unsigned depth);
 
 DLLEXPORT
 /**
@@ -279,15 +288,7 @@ Int_simulator mk_simulator(Int_ctx ctx);
 
 DLLEXPORT
 /**
- * @brief simulator_add_target Adds a target to a simulator
- * @param simulator the simulator to use
- * @param target the target to add
- */
-void simulator_add_target(Int_ctx ctx, Int_simulator simulator, Int_net target);
-
-DLLEXPORT
-/**
- * @brief simulator_add_target Adds a target to a simulator
+ * @brief simulator_add_target Adds a net to watch during simulation
  * @param simulator the simulator to use
  * @param watch the watch to add
  */
@@ -296,44 +297,14 @@ void simulator_add_watch(Int_ctx ctx, Int_simulator simulator, Int_net watch);
 DLLEXPORT
 /**
  * @brief simulator_simulate Simulate the given targets using the provided
- *        counterexample, up to the provided depth
+ *        trace, up to the provided depth
  * @param simulator the simulator to use
- * @param cex the cex to simulate
+ * @param trace the trace to simulate
  * @param depth the last depth to simulate
  */
 void simulator_simulate(Int_simulator simulator,
-                        Int_counterexample cex,
+                        Int_trace trace,
                         unsigned depth);
-
-DLLEXPORT
-/**
- * @brief simulator_last_reached_targets_number Return the number of last
- *        reached targets during the last simulation run
- * @param ctx the context to use
- * @param simulator the simulator to use
- * @return the number of reached targets computed by simulation
- */
-unsigned simulator_last_reached_targets_number(Int_simulator simulator);
-
-DLLEXPORT
-/**
- * @brief simulator_last_reached_target Return the n-th last reached target
- * @param simulator the simulator to use
- * @param n the number of target to get
- * @return the n-th last reached target during simulation
- */
-Int_net simulator_last_reached_target(Int_simulator simulator, unsigned n);
-
-DLLEXPORT
-/**
- * @brief simulator_default_simulate Simulate the given targets using
- *                                   default values for inputs
- * @param simulator the simulator to use
- * @param depth the last depth to simulate
- * @return the simulated values in form of counterexample
- */
-Int_counterexample simulator_default_simulate(Int_simulator simulator,
-                                              unsigned depth);
 
 DLLEXPORT
 /**
@@ -624,13 +595,13 @@ Int_net mk_substitute(Int_ctx ctx, Int_net term,
                       Int_net old_subterm);
 
 DLLEXPORT
-void trace_dump_to_file(const char* filename);
+void apitrace_dump_to_file(const char* filename);
 
 DLLEXPORT
-void trace_print_to_stdout();
+void apitrace_print_to_stdout();
 
 DLLEXPORT
-void trace_print_to_stderr();
+void apitrace_print_to_stderr();
 
 #ifdef __cplusplus
 }  // extern "C"

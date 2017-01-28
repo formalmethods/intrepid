@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """
-Setup script for Intrepid Model Checker Python package
+Setup script for Intrepyd
 """
 
 from distutils.core import setup
@@ -18,11 +18,11 @@ packageDataList = []
 if systemStr == 'Linux':
       if bits == "32bit":
       	   print 'Copying linux32 libraries'
-      	   shutil.copy('libs/linux32/_api.so', 'intrepid')
+      	   shutil.copy('libs/linux32/_api.so', 'intrepyd')
            packageDataList = ['_api.so']
       elif bits == "64bit":
       	   print 'Copying linux64 libraries'
-      	   shutil.copy('libs/linux64/_api.so', 'intrepid')
+      	   shutil.copy('libs/linux64/_api.so', 'intrepyd')
            packageDataList = ['_api.so']
       else:
            print 'Unsupported number of bits', bits
@@ -30,9 +30,9 @@ if systemStr == 'Linux':
 
 elif systemStr == 'Windows':
       print 'Copying win64 libraries'
-      shutil.copy('libs/win64/libz3.dll', 'intrepid')
-      shutil.copy('libs/win64/intrepid_dll.dll', 'intrepid')
-      shutil.copy('libs/win64/_api.pyd', 'intrepid')
+      shutil.copy('libs/win64/libz3.dll', 'intrepyd')
+      shutil.copy('libs/win64/intrepid_dll.dll', 'intrepyd')
+      shutil.copy('libs/win64/_api.pyd', 'intrepyd')
       packageDataList = ['_api.pyd', 'intrepid_dll.dll', 'libz3.dll']
 elif systemStr == 'Darwin':
       cwd = os.getcwd()
@@ -40,21 +40,21 @@ elif systemStr == 'Darwin':
       call(["install_name_tool", "-change", "libz3.dylib", cwd + "/libs/osx/libz3.dylib", "libs/osx/_api.so"])
       call(["install_name_tool", "-change", "libz3.dylib", cwd + "/libs/osx/libz3.dylib", "libs/osx/libintrepid_dll.dylib"])
       print 'Copying osx libraries'
-      shutil.copy('libs/osx/_api.so', 'intrepid')
+      shutil.copy('libs/osx/_api.so', 'intrepyd')
       packageDataList = ['_api.so']
 else:
       print 'Unsupported OS', systemStr
       sys.exit(1)
 
 
-setup(name='intrepid',
-      version='0.1.2',
-      description='Intrepid Model Checker',
+setup(name='intrepyd',
+      version='0.2.0',
+      description='Intrepyd',
       author='Roberto Bruttomesso',
       author_email='roberto.bruttomesso@gmail.com',
-      url='http://github.com/bobosoft/intrepid',
-      packages=['intrepid'],
-      package_data={'intrepid' : packageDataList}
+      url='http://github.com/formalmethods/intrepyd',
+      packages=['intrepyd'],
+      package_data={'intrepyd' : packageDataList}
 )
 
 suffix = "32"

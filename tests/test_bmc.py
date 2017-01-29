@@ -1,4 +1,5 @@
-from .context import intrepyd as ip
+#from .context import intrepyd as ip
+import intrepyd as ip
 from intrepyd.engine import EngineResult
 import unittest
 
@@ -17,22 +18,22 @@ class TestBmc(unittest.TestCase):
         result = bmc.reach_targets()
         self.assertEquals(EngineResult.REACHABLE, result)
 
-#     def test_bmc_02(self):
-#         bt = ip.mk_boolean_type(self.ctx)
-#         x = ip.mk_input(self.ctx, "x", bt)
-#         y = ip.mk_input(self.ctx, "y", bt)
-#         gate = ip.mk_and(self.ctx, x, y)
-#         ip.mk_output(self.ctx, gate)
-#         bmc = ip.mk_engine_bmc(self.ctx)
-#         ip.bmc_add_target(self.ctx, bmc, gate)
-#         ip.set_bmc_current_depth(bmc, 0)
-#         result = ip.bmc_reach_targets(bmc)
-#         self.assertEquals(ip.INT_ENGINE_RESULT_REACHABLE, result)
-#         cex = ip.bmc_get_counterexample(self.ctx, bmc, gate)
-#         value_x = ip.utils.counterexample_get_value_for_net(self.ctx, cex, x, 0)
-#         self.assertEquals('true', value_x)
-#         value_y = ip.utils.counterexample_get_value_for_net(self.ctx, cex, y, 0)
-#         self.assertEquals('true', value_y)
+    @unittest.skip("Skipping bmc 02")
+    def test_bmc_02(self):
+        context = ip.Context()
+        bt = context.mk_boolean_type()
+        x = context.mk_input("x", bt)
+        y = context.mk_input("y", bt)
+        gate = context.mk_and(x, y)
+        context.mk_output(gate)
+        bmc = context.mk_bmc()
+        bmc.add_target(gate)
+        bmc.set_current_depth(0)
+        result = bmc.reach_targets()
+        self.assertEquals(EngineResult.REACHABLE, result)
+        trace = bmc.get_last_trace()
+        self.assertEquals('true', trace[x])
+        self.assertEquals('true', trace[y])
 
 #     def test_bmc_03(self):
 #         bt = ip.mk_boolean_type(self.ctx)

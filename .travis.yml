@@ -16,10 +16,13 @@ python:
 
 install:
     - pip install -r requirements.txt
+    - pip install coverage
     - python setup.py install
 
 before_script: 
     - export LD_LIBRARY_PATH=`pwd`/libs/linux64
 
 script:
-    - python -m unittest discover
+    - coverage -m unittest discover
+    - coverage report
+    - coveralls

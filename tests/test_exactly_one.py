@@ -1,4 +1,4 @@
-from .context import intrepyd as ip
+import intrepyd as ip
 import unittest
 
 # class TestExactlyOne(unittest.TestCase):

@@ -151,6 +151,8 @@ class Context(object):
         return value
 
     def _register(self, rawnet, name):
+        if name == None:
+            name = '__n' + str(rawnet)
         if name in self.nets:
             raise Exception('Name already used: ' + name)
         self.nets[name] = rawnet

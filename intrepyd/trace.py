@@ -8,22 +8,25 @@ class Trace(dict):
     """
     def __init__(self, ctx, rawtrace=None):
         self.ctx = ctx
+        self.rawtrace = None
         if rawtrace == None:
             # Creates an empty trace, dictionary is left empty
             rawtrace = ip.api.mk_trace(self.ctx)
         else:
-            watchedNets = [ip.api.trace_get_watched_net(self.ctx, trace, i)\
-                           for i in range(ip.api.trace_get_watched_nets_number(self.ctx, trace))]
+            watchedNets = [ip.api.trace_get_watched_net(rawtrace, i)\
+                           for i in range(ip.api.trace_get_watched_nets_number(rawtrace))]
+            tempDict = {}
             for net in watchedNets:
-                self[net] = self._get_as_steps(ctx, trace, net)
+                tempDict[net] = list(self._get_as_steps(rawtrace, net))
         self.rawtrace = rawtrace
+        self.update(tempDict)
 
-    def __setitem__(self, key, values):
+    def __setitem__(self, net, values):
         depth = 0
         for value in values:
-            ip.api.trace_set_value(self.ctx, self.rawtrace, str(value), depth)
+            ip.api.trace_set_value(self.ctx, self.rawtrace, net, depth, str(value))
             depth += 1
-        self.__setitem__(key, value)
+        self.__setitem__(net, value)
 
     def get_as_dataframe(self, name2net):
         """
@@ -51,9 +54,8 @@ class Trace(dict):
         Simplifies the retrieval of the set values per step for a net in a trace.
         """
         maxDepth = ip.api.trace_get_max_depth(trace)
-        return (self._get_numeric_value(value)\
-                for depth in range(0, maxDepth + 1)\
-                    for value in self._get_value_for_net(self.ctx, trace, net, depth))
+        return (self._get_numeric_value(self._get_value_for_net(trace, net, depth))\
+                for depth in range(0, maxDepth + 1))
 
     def _get_numeric_value(self, value):
         """
@@ -61,6 +63,8 @@ class Trace(dict):
         """
         if '.' in value:
             return float(value)
+        elif value == '?':
+            return '?'
         elif value == 'true':
             return 1
         elif value == 'false':

@@ -275,8 +275,14 @@ DLLEXPORT
 Int_trace mk_trace(Int_ctx ctx);
 
 DLLEXPORT
-void trace_set_value(Int_trace trace, Int_net net,
-                     const char* value, unsigned depth);
+void trace_set_value(Int_ctx ctx, Int_trace trace, Int_net net,
+                     unsigned depth, const char* value);
+
+DLLEXPORT
+unsigned trace_get_watched_nets_number(Int_trace trace);
+
+DLLEXPORT
+Int_net trace_get_watched_net(Int_trace trace, unsigned i);
 
 DLLEXPORT
 /**

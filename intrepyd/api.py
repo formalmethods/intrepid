@@ -429,19 +429,43 @@ def mk_trace(ctx):
     """
     return _api.mk_trace(ctx)
 
-def trace_set_value(trace, net, value, depth):
+def trace_set_value(ctx, trace, net, depth, value):
     """
-    trace_set_value(Int_trace trace, Int_net net, char const * value, unsigned int depth)
+    trace_set_value(Int_ctx ctx, Int_trace trace, Int_net net, unsigned int depth, char const * value)
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    trace: Int_trace
+    net: Int_net
+    depth: unsigned int
+    value: char const *
+
+    """
+    return _api.trace_set_value(ctx, trace, net, depth, value)
+
+def trace_get_watched_nets_number(trace):
+    """
+    trace_get_watched_nets_number(Int_trace trace) -> unsigned int
 
     Parameters
     ----------
     trace: Int_trace
-    net: Int_net
-    value: char const *
-    depth: unsigned int
 
     """
-    return _api.trace_set_value(trace, net, value, depth)
+    return _api.trace_get_watched_nets_number(trace)
+
+def trace_get_watched_net(trace, i):
+    """
+    trace_get_watched_net(Int_trace trace, unsigned int i) -> Int_net
+
+    Parameters
+    ----------
+    trace: Int_trace
+    i: unsigned int
+
+    """
+    return _api.trace_get_watched_net(trace, i)
 
 def mk_simulator(ctx):
     """

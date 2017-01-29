@@ -24,5 +24,7 @@ before_script:
 
 script:
     - coverage -m unittest discover
+
+after_success:
     - coverage report
     - coveralls

@@ -1,4 +1,3 @@
-#from .context import intrepyd as ip
 import intrepyd as ip
 from intrepyd.engine import EngineResult
 import unittest
@@ -18,7 +17,6 @@ class TestBmc(unittest.TestCase):
         result = bmc.reach_targets()
         self.assertEquals(EngineResult.REACHABLE, result)
 
-    @unittest.skip("Skipping bmc 02")
     def test_bmc_02(self):
         context = ip.Context()
         bt = context.mk_boolean_type()

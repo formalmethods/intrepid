@@ -1,4 +1,5 @@
 import intrepyd as ip
+import intrepyd.api
 
 def mk_at_most_one(ctx, nets):
     """
@@ -8,12 +9,12 @@ def mk_at_most_one(ctx, nets):
         ctx: the context to use
         nets: the nets to use
     """
-    atMostOne = ip.mk_true(ctx)
+    atMostOne = ip.api.mk_true(ctx)
     numNets = len(nets)
     for i in range(numNets - 1):
         for j in range(i + 1, numNets):
-            conj = ip.mk_or(ctx, ip.mk_not(ctx, nets[i]), ip.mk_not(ctx, nets[j]))
-            atMostOne = ip.mk_and(ctx, atMostOne, conj)
+            conj = ip.api.mk_or(ctx, ip.api.mk_not(ctx, nets[i]), ip.api.mk_not(ctx, nets[j]))
+            atMostOne = ip.api.mk_and(ctx, atMostOne, conj)
     return atMostOne
 
 def mk_at_least_one(ctx, nets):
@@ -24,10 +25,10 @@ def mk_at_least_one(ctx, nets):
         ctx: the context to use
         nets: the nets to use
     """
-    atLeastOne = ip.mk_false(ctx)
+    atLeastOne = ip.api.mk_false(ctx)
     numNets = len(nets)
     for i in range(numNets):
-        atLeastOne = ip.mk_or(ctx, atLeastOne, nets[i])
+        atLeastOne = ip.api.mk_or(ctx, atLeastOne, nets[i])
     return atLeastOne
 
 def mk_exactly_one(ctx, nets, name):
@@ -44,9 +45,9 @@ def mk_exactly_one(ctx, nets, name):
     Returns:
         a net expressing the constraint "exactly one is true"
     """
-    ip.push_namespace(ctx, name)
+    ip.api.push_namespace(ctx, name)
     result = _mk_exactly_one_cv(ctx, nets)
-    ip.pop_namespace(ctx)
+    ip.api.pop_namespace(ctx)
     return result
 
 def _mk_exactly_one_cv(ctx, nets, k=3, depth=0, nGroup=0):
@@ -63,7 +64,7 @@ def _mk_exactly_one_cv(ctx, nets, k=3, depth=0, nGroup=0):
             group = []
             for j in range(i, min(i + k, numNets)):
                 group.append(nets[j])
-            cv = mk_exactly_one_cv(ctx, group, k, depth + 1, nGroup)
+            cv = _mk_exactly_one_cv(ctx, group, k, depth + 1, nGroup)
             commanderVariables.append(cv)
             i += k
             nGroup += 1
@@ -73,26 +74,26 @@ def _mk_exactly_one_cv(ctx, nets, k=3, depth=0, nGroup=0):
 
     # Encoding happens here
     numNets = len(netsToProcess)
-    cv = ip.mk_input(ctx, "cv_" + str(depth) + "_" + str(nGroup), ip.mk_boolean_type(ctx))
-    exactlyOne = ip.mk_true(ctx)
+    cv = ip.api.mk_input(ctx, "__cv_" + str(depth) + "_" + str(nGroup), ip.api.mk_boolean_type(ctx))
+    exactlyOne = ip.api.mk_true(ctx)
     # Type 1 clauses
     atMostOneTrue = mk_at_most_one(ctx, netsToProcess)
-    exactlyOne = ip.mk_and(ctx, exactlyOne, atMostOneTrue)
+    exactlyOne = ip.api.mk_and(ctx, exactlyOne, atMostOneTrue)
     # Type 2 clauses
-    cvTrueThenAtLeastOneTrue = ip.mk_not(ctx, cv)
+    cvTrueThenAtLeastOneTrue = ip.api.mk_not(ctx, cv)
     for i in range(numNets):
-        cvTrueThenAtLeastOneTrue = ip.mk_or(ctx, cvTrueThenAtLeastOneTrue, netsToProcess[i])
-    exactlyOne = ip.mk_and(ctx, exactlyOne, cvTrueThenAtLeastOneTrue)
+        cvTrueThenAtLeastOneTrue = ip.api.mk_or(ctx, cvTrueThenAtLeastOneTrue, netsToProcess[i])
+    exactlyOne = ip.api.mk_and(ctx, exactlyOne, cvTrueThenAtLeastOneTrue)
     # Type 3 clauses
-    cvFalseThenAllFalse = ip.mk_true(ctx)
+    cvFalseThenAllFalse = ip.api.mk_true(ctx)
     for i in range(numNets):
-        conj = ip.mk_or(ctx, cv, ip.mk_not(ctx, netsToProcess[i]))
-        cvFalseThenAllFalse = ip.mk_and(ctx, cvFalseThenAllFalse, conj)
-    exactlyOne = ip.mk_and(ctx, exactlyOne, cvFalseThenAllFalse)
+        conj = ip.api.mk_or(ctx, cv, ip.api.mk_not(ctx, netsToProcess[i]))
+        cvFalseThenAllFalse = ip.api.mk_and(ctx, cvFalseThenAllFalse, conj)
+    exactlyOne = ip.api.mk_and(ctx, exactlyOne, cvFalseThenAllFalse)
     # Type 4 clauses
     if depth == 0:
         atMostOneTrue = mk_at_most_one(ctx, netsToProcess)
         atLeastOneTrue = mk_at_least_one(ctx, netsToProcess)
-        exactlyOne = ip.mk_and(ctx, exactlyOne, atMostOneTrue)
-        exactlyOne = ip.mk_and(ctx, exactlyOne, atLeastOneTrue)
+        exactlyOne = ip.api.mk_and(ctx, exactlyOne, atMostOneTrue)
+        exactlyOne = ip.api.mk_and(ctx, exactlyOne, atLeastOneTrue)
     return exactlyOne

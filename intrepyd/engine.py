@@ -35,7 +35,10 @@ class Engine(object):
         """
         Returns the list of targets that has been reached last
         """
-        raise NotImplementedError('Should have implemented this')
+        if self.lastResult != EngineResult.REACHABLE:
+            return
+        lastReachedTargetsNo = self._get_last_reached_targets_number_impl()
+        return (self._get_last_reached_target_impl(i) for i in range(lastReachedTargetsNo))
 
     def get_last_trace(self):
         """
@@ -80,6 +83,12 @@ class Engine(object):
         """
         raise NotImplementedError('Should have implemented this')
 
+    def _get_last_reached_targets_number_impl(self):
+        raise NotImplementedError('Should have implemented this')
+
+    def _get_last_reached_target_impl(self, target):
+        raise NotImplementedError('Should have implemented this')
+
       
 class Bmc(Engine):
     """
@@ -92,12 +101,6 @@ class Bmc(Engine):
 
     def add_target(self, net):
         ip.api.bmc_add_target(self.ctx, self.bmc, net)
-
-    def get_last_reached_targets(self):
-        if self.lastResult != EngineResult.REACHABLE:
-            return
-        lastReachedTargetsNo = ip.api.bmc_last_reached_targets_number(self.bmc)
-        return (ip.api.bmc_last_reached_target(self.bmc, i) for i in range(lastReachedTargetsNo))
 
     def remove_last_reached_targets(self):
         if self.lastResult != EngineResult.REACHABLE:
@@ -129,6 +132,12 @@ class Bmc(Engine):
     def _reach_targets_impl(self):
         return ip.api.bmc_reach_targets(self.bmc)
 
+    def _get_last_reached_targets_number_impl(self):
+        return ip.api.bmc_last_reached_targets_number(self.bmc)
+
+    def _get_last_reached_target_impl(self, target):
+        return ip.api.bmc_last_reached_target(self.bmc, target)
+
 
 class OptimizingBmc(Bmc):
     """
@@ -154,6 +163,12 @@ class BackwardReach(Engine):
 
     def add_target(self, net):
         ip.api.br_add_target(self.ctx, self.br, net)
+
+    def get_last_reached_targets(self):
+        if self.lastResult != EngineResult.REACHABLE:
+            return
+        lastReachedTargetsNo = ip.api.bmc_last_reached_targets_number(self.bmc)
+        return (ip.api.bmc_last_reached_target(self.bmc, i) for i in range(lastReachedTargetsNo))
        
     def get_last_reached_targets(self):
         if self.lastResult != EngineResult.REACHABLE:
@@ -170,8 +185,8 @@ class BackwardReach(Engine):
         if self.lastResult != EngineResult.REACHABLE:
             raise Exception('Cannot get a trace as last result was not REACHABLE')
         target = next(self.get_last_reached_targets())
-        cex = ip.api.br_get_trace(self.ctx, self.br, target)
-        return ip.trace.Trace(self.ctx, cex)
+        rawtrace = ip.api.br_get_trace(self.ctx, self.br, target)
+        return ip.trace.Trace(self.ctx, rawtrace)
 
     def add_watch(self, net):
         ip.api.br_add_watch(self.ctx, self.br, net)
@@ -184,3 +199,12 @@ class BackwardReach(Engine):
 
     def _reach_targets_impl(self):
         return ip.api.br_reach_targets(self.br)
+       
+    def _reach_targets_impl(self):
+        return ip.api.br_reach_targets(self.br)
+
+    def _get_last_reached_targets_number_impl(self):
+        return ip.api.br_last_reached_targets_number(self.br)
+
+    def _get_last_reached_target_impl(self, target):
+        return ip.api.br_last_reached_target(self.br, target)

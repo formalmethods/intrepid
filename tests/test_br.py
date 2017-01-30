@@ -1,39 +1,36 @@
 import intrepyd as ip
+from intrepyd.engine import EngineResult
 import unittest
 
-# class TestBr(unittest.TestCase):
+@unittest.skip("Buggy br api")
+class TestBr(unittest.TestCase):
 
-#     def setUp(self):
-#         self.ctx = ip.mk_ctx()
+    def test_br_01(self):
+        context = ip.Context()
+        realtype = context.mk_real_type()
+        limit = context.mk_number("50", realtype)
+        one = context.mk_number("1", realtype)
+        counter1 = context.mk_latch("counter1", realtype)
+        plusone = context.mk_add(counter1, one)
+        context.set_latch_init_next(counter1, one, plusone)
+        counter2 = context.mk_latch("counter2", realtype)
+        plusone = context.mk_add(counter2, one)
+        context.set_latch_init_next(counter2, one, plusone)
+        mul = context.mk_mul(counter1, counter2)
+        context.mk_output(mul)
+        target = context.mk_leq(limit, mul)
+        br = context.mk_backward_reach()
+        br.add_target(target)
+        br.add_watch(counter1)
+        br.add_watch(counter2)
+        result = br.reach_targets()
+        self.assertEquals(EngineResult.REACHABLE, result)
+        trace = br.get_last_trace()
+        traceDict = trace.get_as_net_dictionary()
+        counter1lastValue = traceDict[counter1][-1]
+        counter2lastValue = traceDict[counter2][-1]
+        self.assertEquals(counter1lastValue, "8.0")
+        self.assertEquals(counter2lastValue, "8.0")
 
-#     def tearDown(self):
-#         ip.del_ctx(self.ctx)
-
-#     def test_br_01(self):
-#         realtype = ip.mk_real_type(self.ctx)
-#         limit = ip.mk_number(self.ctx, "50", realtype)
-#         one = ip.mk_number(self.ctx, "1", realtype)
-#         counter1 = ip.mk_latch(self.ctx, "counter1", realtype)
-#         plusone = ip.mk_add(self.ctx, counter1, one)
-#         ip.set_latch_init_next(self.ctx, counter1, one, plusone)
-#         counter2 = ip.mk_latch(self.ctx, "counter2", realtype)
-#         plusone = ip.mk_add(self.ctx, counter2, one)
-#         ip.set_latch_init_next(self.ctx, counter2, one, plusone)
-#         mul = ip.mk_mul(self.ctx, counter1, counter2)
-#         ip.mk_output(self.ctx, mul)
-#         target = ip.mk_leq(self.ctx, limit, mul)
-#         br = ip.mk_engine_br(self.ctx)
-#         ip.br_add_target(self.ctx, br, target)
-#         ip.br_add_watch(self.ctx, br, counter1)
-#         ip.br_add_watch(self.ctx, br, counter2)
-#         result = ip.br_reach_targets(br)
-#         self.assertEquals(ip.INT_ENGINE_RESULT_REACHABLE, result)
-#         cex = ip.br_get_counterexample(self.ctx, br, target)
-#         cexDict = ip.utils.counterexample_get_as_dictionary(self.ctx, cex, {}, { 'counter1' : counter1, 'counter2' : counter2 })
-#         counter1lastValue = cexDict['counter1'][-1]
-#         counter2lastValue = cexDict['counter2'][-1]
-#         self.assertEquals(counter1lastValue, "8.0")
-#         self.assertEquals(counter2lastValue, "8.0")
-
-# if __name__ == '__main__':
-#     unittest.main()
+if __name__ == '__main__':
+    unittest.main()

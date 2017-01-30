@@ -13,6 +13,7 @@ class Context(object):
        self.outputs = collections.OrderedDict()
        self.latches = {}
        self.nets = {}
+       self.net2name = {}
        self.booleantype = ip.api.mk_boolean_type(self.ctx)
        self.int8type = ip.api.mk_int8_type(self.ctx)
        self.int16type = ip.api.mk_int16_type(self.ctx)
@@ -140,11 +141,11 @@ class Context(object):
     def mk_backward_reach(self):
         return ip.engine.BackwardReach(self.ctx)
 
-    def to_string(ctx, net):
+    def to_string(self, net):
         """
         Returns the given net as a string, as given from the underlying smt-solver.
         """
-        size = ip.api.prepare_value_for_net(ctx, net)
+        size = ip.api.prepare_value_for_net(self.ctx, net)
         value = ''
         for i in range(size):
             value += ip.api.value_at(i)
@@ -156,16 +157,19 @@ class Context(object):
         if name in self.nets:
             raise Exception('Name already used: ' + name)
         self.nets[name] = rawnet
+        self.net2name[rawnet] = name
         return rawnet
 
     def _register_input(self, rawnet, name):
         name = self._register(rawnet, name)
         self.inputs[name] = rawnet
+        self.net2name[rawnet] = name
         return rawnet
 
     def _register_latch(self, rawnet, name):
-        name = self._register(rawnet, rawtype, name)
+        name = self._register(rawnet, name)
         self.latches[name] = rawnet
+        self.net2name[rawnet] = name
         return rawnet
 
     def _register_output(self, rawnet, name):

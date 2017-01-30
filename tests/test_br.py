@@ -2,7 +2,6 @@ import intrepyd as ip
 from intrepyd.engine import EngineResult
 import unittest
 
-@unittest.skip("Buggy br api")
 class TestBr(unittest.TestCase):
 
     def test_br_01(self):

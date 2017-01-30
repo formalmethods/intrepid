@@ -7,8 +7,10 @@ class TestScr(unittest.TestCase):
 
     def setUp(self):
         self.ctx = ip.api.mk_ctx()
+        print 'created', self.ctx
 
     def tearDown(self):
+        print 'deleting', self.ctx
         ip.api.del_ctx(self.ctx)
 
     def isReachableAtDepth(self, target, depth):
@@ -37,7 +39,6 @@ class TestScr(unittest.TestCase):
                 self.makeModeYellow(),\
                 self.makeModeRed()]
 
-    @unittest.skip("Buggy api")
     def test_traffic_light_00(self):
         """
         Just outputs the parser table for manual inspection
@@ -58,13 +59,10 @@ class TestScr(unittest.TestCase):
                   ip.api.mk_input(self.ctx, 'DayTime', ip.api.mk_boolean_type(self.ctx))]
 
         pastMode = ip.api.mk_input(self.ctx, 'PastMode', ip.api.mk_int8_type(self.ctx))
-        currentMode = ip.api.scr.mk_scr(self.ctx, 'tests/files/traffic_light',
+        currentMode = ip.scr.mk_scr(self.ctx, 'tests/files/traffic_light',
                                     inputs, pastInputs, modes, pastMode) 
+        ip.api.apitrace_dump_to_file('trace.cpp')
 
-        # Uncomment the next line to display table on screen
-        # print ip.api.utils.to_string(self.ctx, currentMode)
-
-    @unittest.skip("Buggy api")
     def test_traffic_light_01(self):
         """
         past(Daylight) = true
@@ -89,13 +87,13 @@ class TestScr(unittest.TestCase):
                   ip.api.mk_false(self.ctx)]
 
         pastMode = self.makeModeGreen()
-        currentMode = ip.api.scr.mk_scr(self.ctx, 'tests/files/traffic_light',
+        currentMode = ip.scr.mk_scr(self.ctx, 'tests/files/traffic_light',
                                     inputs, pastInputs, modes, pastMode) 
 
         target = ip.api.mk_eq(self.ctx, currentMode, self.makeModeYellow())
         self.assertTrue(self.isReachableAtDepth(target, 0))
 
-    @unittest.skip("Buggy api")
+
     def test_traffic_light_02(self):
         """
         past(Daylight) = true
@@ -120,13 +118,13 @@ class TestScr(unittest.TestCase):
                   ip.api.mk_false(self.ctx)]
 
         pastMode = self.makeModeYellow()
-        currentMode = ip.api.scr.mk_scr(self.ctx, 'tests/files/traffic_light',
+        currentMode = ip.scr.mk_scr(self.ctx, 'tests/files/traffic_light',
                                     inputs, pastInputs, modes, pastMode) 
 
         target = ip.api.mk_eq(self.ctx, currentMode, self.makeModeRed())
         self.assertTrue(self.isReachableAtDepth(target, 0))
 
-    @unittest.skip("Buggy api")
+
     def test_traffic_light_03(self):
         """
         past(Daylight) = true
@@ -151,13 +149,13 @@ class TestScr(unittest.TestCase):
                   ip.api.mk_false(self.ctx)]
 
         pastMode = self.makeModeRed()
-        currentMode = ip.api.scr.mk_scr(self.ctx, 'tests/files/traffic_light',
+        currentMode = ip.scr.mk_scr(self.ctx, 'tests/files/traffic_light',
                                     inputs, pastInputs, modes, pastMode) 
 
         target = ip.api.mk_eq(self.ctx, currentMode, self.makeModeGreen())
         self.assertTrue(self.isReachableAtDepth(target, 0))
 
-    @unittest.skip("Buggy api")
+
     def test_traffic_light_04(self):
         """
         past(Daylight) = false
@@ -182,13 +180,13 @@ class TestScr(unittest.TestCase):
                   ip.api.mk_false(self.ctx)]
 
         pastMode = self.makeModeYellow()
-        currentMode = ip.api.scr.mk_scr(self.ctx, 'tests/files/traffic_light',
+        currentMode = ip.scr.mk_scr(self.ctx, 'tests/files/traffic_light',
                                     inputs, pastInputs, modes, pastMode) 
 
         target = ip.api.mk_eq(self.ctx, currentMode, self.makeModeOff())
         self.assertTrue(self.isReachableAtDepth(target, 0))
 
-    @unittest.skip("Buggy api")
+
     def test_traffic_light_05(self):
         """
         past(Daylight) = false
@@ -213,7 +211,7 @@ class TestScr(unittest.TestCase):
                   ip.api.mk_false(self.ctx)]
 
         pastMode = self.makeModeOff()
-        currentMode = ip.api.scr.mk_scr(self.ctx, 'tests/files/traffic_light',
+        currentMode = ip.scr.mk_scr(self.ctx, 'tests/files/traffic_light',
                                     inputs, pastInputs, modes, pastMode) 
 
         target = ip.api.mk_eq(self.ctx, currentMode, self.makeModeYellow())

@@ -1,17 +1,18 @@
 import intrepyd as ip
+import intrepyd.api
 import csv
 import os.path
 
 def mk_raising_edge(ctx, edgeNet, pastEdgeNet, pastWhen):
-    n1 = ip.mk_not(ctx, pastEdgeNet)
-    n2 = ip.mk_and(ctx, n1, pastWhen)
-    n3 = ip.mk_and(ctx, n2, edgeNet)
+    n1 = ip.api.mk_not(ctx, pastEdgeNet)
+    n2 = ip.api.mk_and(ctx, n1, pastWhen)
+    n3 = ip.api.mk_and(ctx, n2, edgeNet)
     return n3
 
 def mk_falling_edge(ctx, edgeNet, pastEdgeNet, pastWhen):
-    n1 = ip.mk_not(ctx, edgeNet)
-    n2 = ip.mk_and(ctx, n1, pastWhen)
-    n3 = ip.mk_and(ctx, n2, pastEdgeNet)
+    n1 = ip.api.mk_not(ctx, edgeNet)
+    n2 = ip.api.mk_and(ctx, n1, pastWhen)
+    n3 = ip.api.mk_and(ctx, n2, pastEdgeNet)
     return n3
 
 def mk_row_condition(ctx, inputs, pastInputs, modeStr2mode, modes, pastMode, row, rowNumber):
@@ -29,14 +30,14 @@ def mk_row_condition(ctx, inputs, pastInputs, modeStr2mode, modes, pastMode, row
     fallingEdge = False
     edgeNet = None
     pastEdgeNet = None
-    pastWhen = ip.mk_eq(ctx, oldModeNet, pastMode) 
+    pastWhen = ip.api.mk_eq(ctx, oldModeNet, pastMode) 
 
     for i in range(1, len(row) - 1):
         conj = None
         if row[i] == 't':
             conj = pastInputs[i-1]
         elif row[i] == 'f':
-            conj = ip.mk_not(ctx, pastInputs[i-1])
+            conj = ip.api.mk_not(ctx, pastInputs[i-1])
         elif row[i] == 'T':
             raisingEdge = True
             edgeNet = inputs[i-1]
@@ -48,7 +49,7 @@ def mk_row_condition(ctx, inputs, pastInputs, modeStr2mode, modes, pastMode, row
         else:
             pass
         if conj != None:
-            pastWhen = ip.mk_and(ctx, pastWhen, conj)
+            pastWhen = ip.api.mk_and(ctx, pastWhen, conj)
 
     if edgeNet == None or pastEdgeNet == None:
         raise Exception('Cannot find raising or falling edge in row ' + str(rowNumber))
@@ -92,10 +93,10 @@ def mk_scr_helper(ctx, csvfilename, modeStr2mode, modeStr2modeValue, inputs, pas
             rowNumber += 1
             rowCondition = mk_row_condition(ctx, inputs, pastInputs, modeStr2mode, modes, pastMode, row, rowNumber)
             rowCurrentModeStr = str(modeStr2modeValue[row[-1]])
-            rowCurrentModeNet = ip.mk_number(ctx, rowCurrentModeStr, ip.mk_int8_type(ctx))
+            rowCurrentModeNet = ip.api.mk_number(ctx, rowCurrentModeStr, ip.api.mk_int8_type(ctx))
             if rowCurrentModeNet == None:
                 raise Exception('Cannot find mode:', row[-1])
-            result = ip.mk_ite(ctx, rowCondition, rowCurrentModeNet, result)
+            result = ip.api.mk_ite(ctx, rowCondition, rowCurrentModeNet, result)
     return result
 
 def mk_scr(ctx, name, inputs, pastInputs, modes, pastMode):

@@ -7,11 +7,9 @@ class TestScr(unittest.TestCase):
 
     def setUp(self):
         self.ctx = ip.api.mk_ctx()
-        print 'created', self.ctx
 
-    def tearDown(self):
-        print 'deleting', self.ctx
-        ip.api.del_ctx(self.ctx)
+    # def tearDown(self):
+    #     ip.api.del_ctx(self.ctx)
 
     def isReachableAtDepth(self, target, depth):
         bmc = ip.api.mk_engine_bmc(self.ctx)

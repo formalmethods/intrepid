@@ -1,13 +1,14 @@
 import intrepyd as ip
+import intrepyd.api
 
-def mk_counter(ctx, name, type, limit, init=None, increment=None, enable=None, reset=None):
+def mk_counter(context, name, type, limit, init=None, increment=None, enable=None, reset=None):
     """
     Counts from init to limit by increment. When limit
     is reached, limit is outputted. An enable signal may
     also be specified.
 
     Args:
-        ctx: the context to use
+        context: the context to use
         name: the unique name of this counter
         type: the type of the data stored in the counter
         limit: the limit after which the counter saturates
@@ -21,21 +22,21 @@ def mk_counter(ctx, name, type, limit, init=None, increment=None, enable=None, r
         true iff the counter has reached saturation
     """
     if init == None:
-        init = ip.mk_number(ctx, "0", type)
+        init = context.mk_number("0", type)
     if increment == None:
-        increment = ip.mk_number(ctx, "1", type)
+        increment = context.mk_number("1", type)
     if enable == None:
-        enable = ip.mk_true(ctx)
+        enable = context.mk_true()
     if reset == None:
-        reset = ip.mk_false(ctx)
+        reset = context.mk_false()
 
-    counter = ip.mk_latch(ctx, name, type)
-    notQ = ip.mk_lt(ctx, counter, limit)
-    next = ip.mk_ite(ctx, reset,\
+    counter = context.mk_latch(name, type)
+    notQ = context.mk_lt(counter, limit)
+    next = context.mk_ite(reset,\
                           init,\
-                          ip.mk_ite(ctx, ip.mk_and(ctx, enable, notQ),\
-                                         ip.mk_add(ctx, counter, increment),\
+                          context.mk_ite(context.mk_and(enable, notQ),\
+                                         context.mk_add(counter, increment),\
                                          counter))
-    ip.set_latch_init_next(ctx, counter, init, next)
-    Q = ip.mk_not(ctx, notQ)
+    context.set_latch_init_next(counter, init, next)
+    Q = context.mk_not(notQ)
     return counter, Q

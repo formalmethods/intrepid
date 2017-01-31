@@ -30,6 +30,12 @@ class Context(object):
     def __del__(self):
         ip.api.del_ctx(self.ctx)
 
+    def push_namespace(name):
+        ip.api.push_namespace(self.ctx, name)
+
+    def pop_namespace():
+        ip.api.pop_namespace(self.ctx)
+
     def mk_boolean_type(self):
        return self.booleantype
 
@@ -137,6 +143,9 @@ class Context(object):
 
     def mk_bmc(self):
         return ip.engine.Bmc(self.ctx)
+
+    def mk_optimizing_bmc(self):
+        return ip.engine.OptimizingBmc(self.ctx)
 
     def mk_backward_reach(self):
         return ip.engine.BackwardReach(self.ctx)

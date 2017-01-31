@@ -1,13 +1,13 @@
-import intrepid as ip
-import intrepid.utils
+import intrepyd as ip
+from intrepyd.engine import EngineResult
 import pandas as pd
 
-def compute_mcdc(ctx, class_, decisions, maxDepth):
+def compute_mcdc(context, class_, decisions, maxDepth):
     """
     Computes MC/DC tests in form of a table.
 
     Args:
-        ctx: the intrepid context to use
+        context: the intrepyd context to use
         class_ (class): a python class that defines the circuit
         decisions (Dictionary): each key of the dictionary is the
                     name of a decision, and the values are the
@@ -22,8 +22,8 @@ def compute_mcdc(ctx, class_, decisions, maxDepth):
     """
 
     # Fetches and duplicates the circuit
-    instA = class_(ctx, 'InstA')
-    instB = class_(ctx, 'InstB')
+    instA = class_(context, 'InstA')
+    instB = class_(context, 'InstB')
     instA.mk_circuit(True)
     instB.mk_circuit(True)
 
@@ -35,40 +35,39 @@ def compute_mcdc(ctx, class_, decisions, maxDepth):
 
     # Creates test objectives
     decision2testObjectives = { decision :\
-            compute_mcdc_targets(ctx, instA, instB, decision, conditions)\
+            compute_mcdc_targets(context, instA, instB, decision, conditions)\
             for decision, conditions in decisions.iteritems() }
 
     # Compute MC/DC cexes: this is the computationally
     # expensive part that calls model checking routines
-    decision2cexes, decision2unreachable = solve_mcdc_targets(ctx, decision2testObjectives, maxDepth)
+    decision2cexes, decision2unreachable = solve_mcdc_targets(context, decision2testObjectives, maxDepth)
 
     # Compute MC/DC tables from cexes
-    decision2table = compute_mcdc_tables(ctx, instA, instB, decision2cexes)
+    decision2table = compute_mcdc_tables(context, instA, instB, decision2cexes)
 
     # Compute pretty tables
     decision2prettyTable = compute_pretty_tables(decision2table)
 
     return decision2prettyTable
 
-def compute_mcdc_targets(ctx, instA, instB, decision, conditions):
+def compute_mcdc_targets(context, instA, instB, decision, conditions):
     """
     Computes the MC/DC reachability target for the
     two copies of the circuit.
 
     Args:
-        ctx (Int_ctx): the intrepid context to use
-        instA (circuit.Circuit): an instance of the circuit
-        instB (circuit.Circuit): an instance of the circuit
-        decision (str): the name of a decision
-        conditions ([str, ...]): the list of names of the conditions
+        context: the intrepid context to use
+        instA: an instance of the circuit
+        instB: an instance of the circuit
+        decision: the name of a decision
+        conditions: the list of names of the conditions
 
     Returns:
-        ([Int_net, Int_net, ...]) the list of targets, whose reachability
-                    implies the existence of an MC/DC test
+        the list of targets, whose reachability implies the existence of an MC/DC test
     """
     decisionA = instA.nets[decision]
     decisionB = instB.nets[decision]
-    decisionA_diff_decisionB = ip.mk_neq(ctx, decisionA, decisionB)
+    decisionA_diff_decisionB = context.mk_neq(decisionA, decisionB)
 
     conditionA_neq_conditionB = []
     conditionsA = []
@@ -78,7 +77,7 @@ def compute_mcdc_targets(ctx, instA, instB, decision, conditions):
         conditionsA.append(cA)
         cB = instB.nets[condition]
         conditionsB.append(cB)
-        conditionA_neq_conditionB.append(ip.mk_neq(ctx, cA, cB))
+        conditionA_neq_conditionB.append(context.mk_neq(cA, cB))
 
     targets = []
     for i in range(len(conditions)):
@@ -90,28 +89,28 @@ def compute_mcdc_targets(ctx, instA, instB, decision, conditions):
         # test objective must differ in A and B
         conj2 = decisionA_diff_decisionB
         # decisionA[not(cA)/cA] != decisionA
-        not_cA = ip.mk_not(ctx, cA)
-        decisionA_not_cA = ip.mk_substitute(ctx, decisionA, not_cA, cA)
-        conj3 = ip.mk_neq(ctx, decisionA_not_cA, decisionA)
+        not_cA = context.mk_not(cA)
+        decisionA_not_cA = context.mk_substitute(decisionA, not_cA, cA)
+        conj3 = context.mk_neq(decisionA_not_cA, decisionA)
         # decisionB[not(cB)/cB] != decisionB
-        not_cB = ip.mk_not(ctx, cB)
-        decisionB_not_cB = ip.mk_substitute(ctx, decisionB, not_cB, cB)
-        conj4 = ip.mk_neq(ctx, decisionB_not_cB, decisionB)
+        not_cB = context.mk_not(cB)
+        decisionB_not_cB = context.mk_substitute(decisionB, not_cB, cB)
+        conj4 = context.mk_neq(decisionB_not_cB, decisionB)
         # Creates final conjunction
-        tmp1 = ip.mk_and(ctx, conj1, conj2)
-        tmp2 = ip.mk_and(ctx, tmp1, conj3)
-        target = ip.mk_and(ctx, tmp2, conj4)
+        tmp1 = context.mk_and(conj1, conj2)
+        tmp2 = context.mk_and(tmp1, conj3)
+        target = context.mk_and(tmp2, conj4)
         targets.append(target)
 
     return targets
 
-def solve_mcdc_targets(ctx, decision2testObjectives, maxDepth):
+def solve_mcdc_targets(context, decision2testObjectives, maxDepth):
     """
     Solves the MC/DC targets, maximizing the number of solved
     test objectives per each call.
     """
     # Bmc engine will be used to compute counterexamples
-    bmc = ip.mk_engine_bmc(ctx)
+    bmc = context.mk_optimizing_bmc()
 
     testObjectives2decision = {}
     decision2cexes = {}
@@ -130,15 +129,15 @@ def solve_mcdc_targets(ctx, decision2testObjectives, maxDepth):
     totalUnreached = 0
     totalReached = 0
     for target in targets:
-        br = ip.mk_engine_br(ctx)
-        ip.br_add_target(ctx, br, target)
-        result = ip.br_reach_targets(br)
-        if result == ip.INT_ENGINE_RESULT_UNREACHABLE:
+        br = context.mk_backward_reach()
+        br.add_target(target)
+        result = br.reach_targets()
+        if result == EngineResult.UNREACHABLE:
             decision = testObjectives2decision[target]
             decision2unreachable[decision].append(target)
             totalUnreached += 1
-        elif result == ip.INT_ENGINE_RESULT_REACHABLE:
-            ip.bmc_add_target(ctx, bmc, target)
+        elif result == EngineResult.REACHABLE:
+            bmc.add_target(target)
             totalReached += 1
 
     print 'There are', totalTargets, 'test objectives:'
@@ -149,29 +148,28 @@ def solve_mcdc_targets(ctx, decision2testObjectives, maxDepth):
         return decision2cexes, decision2unreachable
 
     # Compute counterexamples for reachable targets
-    ip.set_bmc_optimize(bmc)
     done = False
     depth = 0
     bmcTotalReached = 0
     while not done:
-        ip.set_bmc_current_depth(bmc, depth)
-        result = ip.bmc_reach_targets(bmc)
-        if result != ip.INT_ENGINE_RESULT_REACHABLE:
+        bmc.set_current_depth(depth)
+        result = bmc.reach_targets()
+        if result != EngineResult.REACHABLE:
             if depth == maxDepth:
                 done = True
             depth += 1
             continue
-        reached = ip.bmc_last_reached_targets_number(bmc)
+        reached = bmc.last_reached_targets_number()
         if reached > 0:
             bmcTotalReached += reached
             cex = None
             for i in range(reached):
-                reachedTarget = ip.bmc_last_reached_target(bmc, i)
+                reachedTarget = bmc.last_reached_target(i)
                 if i == 0:
-                    cex = ip.bmc_get_counterexample(ctx, bmc, reachedTarget)
+                    trace = bmc.get_trace(reachedTarget)
                 decision = testObjectives2decision[reachedTarget]
-                decision2cexes[decision].append(cex)
-            ip.bmc_remove_last_reached_targets(bmc)
+                decision2cexes[decision].append(trace)
+            bmc.remove_last_reached_targets()
         if bmcTotalReached == totalReached:
             done = True
 
@@ -181,16 +179,22 @@ def solve_mcdc_targets(ctx, decision2testObjectives, maxDepth):
 
     return decision2cexes, decision2unreachable
 
-def compute_mcdc_tables(ctx, instA, instB, decision2cexes):
+def compute_mcdc_tables(context, instA, instB, decision2cexes):
     """
     Computes MC/DC tables out of counterexamples.
     """
     decision2table = {}
-    for decision, cexes in decision2cexes.iteritems():
+    for decision, traces in decision2cexes.iteritems():
         decision2table[decision] = []
-        for cex in cexes:
-            test1 = ip.utils.counterexample_get_as_dictionary(ctx, cex, instA.inputs, { decision : instA.nets[decision] })
-            test2 = ip.utils.counterexample_get_as_dictionary(ctx, cex, instB.inputs, { decision : instB.nets[decision] })
+        for trace in traces:
+            simulator = context.mk_simulator()
+            simulator.add_watch(instA.nets[decision])
+            simulator.add_watch(instB.nets[decision])
+            simulator.simulate(trace)
+            test1 = trace.get_as_net_dictionary()
+            test2 = trace.get_as_net_dictionary()
+            test1.pop(instA.nets[decision])
+            test2.pop(instB.nets[decision])
             decision2table[decision].append(test1)
             decision2table[decision].append(test2)
     return decision2table

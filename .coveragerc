@@ -1,0 +1,17 @@
+[run]
+branch = True
+source = intrepyd
+
+[report]
+exclude_lines =
+	# Re-enable pragma
+	pragma: no cover
+
+	raise Exception
+	raise NotImplementedError
+
+	if __name__ == .__main__.:
+
+[html]
+directory = coverage_html_report
+

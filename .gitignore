@@ -14,3 +14,5 @@ intrepyd/libz3.dll
 .ipynb_checkpoints
 intrepyd.pyproj
 intrepyd.sln
+coverage_html_report
+.coverage

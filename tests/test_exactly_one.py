@@ -8,7 +8,7 @@ class TestExactlyOne(unittest.TestCase):
     def setUp(self):
         self.ctx = ip.Context()
 
-    def createAndRunNets(self, n):
+    def create_and_run_nets(self, n):
         nets = []
         bt = self.ctx.mk_boolean_type()
         for i in range(n):
@@ -22,28 +22,28 @@ class TestExactlyOne(unittest.TestCase):
         self.assertEqual(1, len(list(reachedNets)))
 
     def test_exactly_one_01(self):
-        self.createAndRunNets(1)
+        self.create_and_run_nets(1)
 
     def test_exactly_one_02(self):
-        self.createAndRunNets(2)
+        self.create_and_run_nets(2)
 
     def test_exactly_one_03(self):
-        self.createAndRunNets(3)
+        self.create_and_run_nets(3)
 
     def test_exactly_one_04(self):
-        self.createAndRunNets(4)
+        self.create_and_run_nets(4)
 
     def test_exactly_one_05(self):
-        self.createAndRunNets(10)
+        self.create_and_run_nets(10)
 
     def test_exactly_one_06(self):
-        self.createAndRunNets(11)
+        self.create_and_run_nets(11)
 
     def test_exactly_one_07(self):
-        self.createAndRunNets(12)
+        self.create_and_run_nets(12)
 
     def test_exactly_one_08(self):
-        self.createAndRunNets(43)
+        self.create_and_run_nets(43)
 
     def test_exactly_one_09(self):
         nets = []

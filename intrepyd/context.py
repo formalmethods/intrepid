@@ -1,6 +1,8 @@
 import intrepyd as ip
 import intrepyd.api
 import intrepyd.engine
+import intrepyd.simulator
+import intrepyd.trace
 import collections
 
 class Context(object):
@@ -149,6 +151,12 @@ class Context(object):
 
     def mk_backward_reach(self):
         return ip.engine.BackwardReach(self.ctx)
+
+    def mk_simulator(self):
+        return ip.simulator.Simulator(self.ctx)
+
+    def mk_trace(self):
+        return ip.trace.Trace(self.ctx)
 
     def to_string(self, net):
         """

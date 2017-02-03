@@ -39,6 +39,9 @@ class Trace(object):
         return value
 
     def set_value(self, net, depth, value):
+        print 'net:', net
+        print 'dep:', depth
+        print 'val:', value
         ip.api.trace_set_value(self.ctx, self.rawtrace, net, depth, value)
 
     def get_as_net_dictionary(self, net2name=None):

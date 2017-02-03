@@ -3,7 +3,7 @@ from intrepyd.engine import EngineResult
 import intrepyd.pseudoboolean
 import unittest
 
-class TestExactlyOne(unittest.TestCase):
+class TestPseudoBoolean(unittest.TestCase):
 
     def setUp(self):
         self.ctx = ip.Context()

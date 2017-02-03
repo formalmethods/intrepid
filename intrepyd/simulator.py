@@ -1,4 +1,5 @@
 import intrepyd as ip
+import intrepyd.api
 import intrepyd.trace
 
 class Simulator(object):
@@ -7,13 +8,13 @@ class Simulator(object):
     """
     def __init__(self, ctx):
         self.ctx = ctx
-        self.simulator = ip.mk_engine_simulator(self.ctx)
+        self.simulator = ip.api.mk_engine_simulator(self.ctx)
 
     def add_watch(self, net):
         """
         Tells the simulator about a net whose value will be reported in the simulated trace
         """
-        ip.simulator_add_watch(self.ctx, self.simulator, net)
+        ip.api.simulator_add_watch(self.ctx, self.simulator, net)
 
-    def simulate(self, trace):
-        ip.simulator_simulate(self.ctx, self.simulator, trace.rawtrace)
+    def simulate(self, trace, depth):
+        ip.api.simulator_simulate(self.simulator, trace.rawtrace, depth)

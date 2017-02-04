@@ -8,7 +8,7 @@ class Simulator(object):
     """
     def __init__(self, ctx):
         self.ctx = ctx
-        self.simulator = ip.api.mk_engine_simulator(self.ctx)
+        self.simulator = ip.api.mk_simulator(self.ctx)
 
     def add_watch(self, net):
         """

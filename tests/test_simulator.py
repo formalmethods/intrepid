@@ -5,11 +5,8 @@ import unittest
 
 class TestSimulator(unittest.TestCase):
 
-    def setUp(self):
-        self.ctx = ip.Context()
-
     def test_simulator_01(self):
-        ctx = self.ctx
+        ctx = ip.Context()
         bt = ctx.mk_boolean_type()
         x = ctx.mk_input('x', bt)
         y = ctx.mk_input('y', bt)
@@ -21,6 +18,25 @@ class TestSimulator(unittest.TestCase):
         sim.add_watch(x_and_y)
         sim.simulate(tr, 0)
         self.assertEqual('true', tr.get_value(x_and_y, 0))
+
+    def test_simulator_02(self):
+        ctx = ip.Context()
+        it = ctx.mk_int8_type()
+        x = ctx.mk_input('x', it)
+        counter = ctx.mk_latch('counter', it)
+        init = ctx.mk_number('0', it) 
+        next_ = ctx.mk_add(counter, x)
+        ctx.set_latch_init_next(counter, init, next_)
+        tr = ctx.mk_trace()
+        tr.set_value(x, 0, '1')
+        tr.set_value(x, 1, '3')
+        tr.set_value(x, 2, '2')
+        sim = ctx.mk_simulator()
+        sim.add_watch(counter)
+        sim.simulate(tr, 2)
+        self.assertEqual('0', tr.get_value(counter, 0))
+        self.assertEqual('1', tr.get_value(counter, 1))
+        self.assertEqual('4', tr.get_value(counter, 2))
 
 if __name__ == '__main__':
     unittest.main()

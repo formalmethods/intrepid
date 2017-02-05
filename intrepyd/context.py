@@ -28,15 +28,20 @@ class Context(object):
        self.undef = ip.api.mk_undef(self.ctx)
        self.true = ip.api.mk_true(self.ctx)
        self.false = ip.api.mk_false(self.ctx)
+       self.namespaces = []
 
     def __del__(self):
         ip.api.del_ctx(self.ctx)
 
-    def push_namespace(name):
+    def push_namespace(self, name):
         ip.api.push_namespace(self.ctx, name)
+        self.namespaces.append(name)
 
-    def pop_namespace():
+    def pop_namespace(self):
         ip.api.pop_namespace(self.ctx)
+        if len(self.namespaces) == 0:
+            raise Exception('Cannot pop namespace, empty list')
+        return self.namespaces.pop()
 
     def mk_boolean_type(self):
        return self.booleantype
@@ -168,9 +173,18 @@ class Context(object):
             value += ip.api.value_at(i)
         return value
 
+    def _current_namespace_prefix(self):
+        result = ''
+        for ns in self.namespaces:
+            result += ns + '.'
+        return result
+
     def _register(self, rawnet, name):
+        if rawnet in self.net2name:
+            return rawnet
         if name == None:
             name = '__n' + str(rawnet)
+        name = self._current_namespace_prefix() +  name
         if name in self.nets:
             raise Exception('Name already used: ' + name)
         self.nets[name] = rawnet

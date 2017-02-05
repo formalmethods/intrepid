@@ -159,14 +159,15 @@ def solve_mcdc_targets(context, decision2testObjectives, maxDepth):
                 done = True
             depth += 1
             continue
-        reached = bmc.last_reached_targets_number()
-        if reached > 0:
-            bmcTotalReached += reached
+        reached = bmc.get_last_reached_targets()
+        if len(reached) > 0:
+            bmcTotalReached += len(reached)
             cex = None
-            for i in range(reached):
-                reachedTarget = bmc.last_reached_target(i)
-                if i == 0:
+            first = True
+            for reachedTarget in reached:
+                if first:
                     trace = bmc.get_trace(reachedTarget)
+                    first = False
                 decision = testObjectives2decision[reachedTarget]
                 decision2cexes[decision].append(trace)
             bmc.remove_last_reached_targets()
@@ -223,6 +224,8 @@ def compute_pretty_tables(decision2table):
 def get_tables_as_dataframe(decision2table):
     result = {}
     for decision, table in decision2table.iteritems():
+        if len(table) == 1:
+            continue
         df = pd.DataFrame(table[1:], columns=table[0])
         df = df.drop_duplicates()
         result[decision] = df

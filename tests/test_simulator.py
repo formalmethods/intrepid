@@ -30,7 +30,6 @@ class TestSimulator(unittest.TestCase):
         tr = ctx.mk_trace()
         tr.set_value(x, 0, '1')
         tr.set_value(x, 1, '3')
-        tr.set_value(x, 2, '2')
         sim = ctx.mk_simulator()
         sim.add_watch(counter)
         sim.simulate(tr, 2)

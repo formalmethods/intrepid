@@ -107,7 +107,7 @@ class Bmc(Engine):
     def remove_last_reached_targets(self):
         if self.lastResult != EngineResult.REACHABLE:
             return
-        ip.api.bmc_remove_last_reached_targets(self.ctx, self.bmc)
+        ip.api.bmc_remove_last_reached_targets(self.bmc)
 
     def get_last_trace(self):
         if self.lastResult != EngineResult.REACHABLE:

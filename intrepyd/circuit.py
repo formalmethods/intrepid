@@ -14,7 +14,7 @@ class Circuit(object):
         self.outputs = collections.OrderedDict()
         self.targets = collections.OrderedDict()
 
-    def mk_circuit(self, namespace=False):
+    def mk_circuit(self, putNamespace=False):
         """
         Makes the circuit, including inputs and outputs.
         Optionally, it inserts a namespace.
@@ -22,12 +22,12 @@ class Circuit(object):
         Args:
             namespace (bool=False): whether to set a namespace
         """
-        if namespace:
+        if putNamespace:
             self.context.push_namespace(self.name)
         self._mk_inputs()
         self.outputs = self._mk_naked_circuit_impl(self.inputs)
         self._mk_outputs()
-        if namespace:
+        if putNamespace:
             self.context.pop_namespace()
 
     def mk_naked_circuit(self, inputs, namespace=False):

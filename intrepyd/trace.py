@@ -28,6 +28,9 @@ class Trace(object):
             return 0
         return int(value)
 
+    def get_max_depth(self):
+        return ip.api.trace_get_max_depth(self.rawtrace)
+
     def get_value(self, net, depth):
         """
         Retrieval of a value from the trace for a net at a depth

@@ -1,6 +1,7 @@
 import intrepyd as ip
 from intrepyd.engine import EngineResult
 import pandas as pd
+import collections as cl
 
 def compute_mcdc(context, class_, decisions, maxDepth):
     """
@@ -38,12 +39,12 @@ def compute_mcdc(context, class_, decisions, maxDepth):
             compute_mcdc_targets(context, instA, instB, decision, conditions)\
             for decision, conditions in decisions.iteritems() }
 
-    # Compute MC/DC cexes: this is the computationally
+    # Compute MC/DC traces: this is the computationally
     # expensive part that calls model checking routines
-    decision2cexes, decision2unreachable = solve_mcdc_targets(context, decision2testObjectives, maxDepth)
+    decision2traces, decision2unreachable = solve_mcdc_targets(context, decision2testObjectives, maxDepth)
 
-    # Compute MC/DC tables from cexes
-    decision2table = compute_mcdc_tables(context, instA, instB, decision2cexes)
+    # Compute MC/DC tables from traces
+    decision2table = compute_mcdc_tables(context, instA, instB, decision2traces)
 
     # Compute pretty tables
     decision2prettyTable = compute_pretty_tables(decision2table)
@@ -113,11 +114,11 @@ def solve_mcdc_targets(context, decision2testObjectives, maxDepth):
     bmc = context.mk_optimizing_bmc()
 
     testObjectives2decision = {}
-    decision2cexes = {}
+    decision2traces = {}
     decision2unreachable = {}
     targets = []
     for decision, tos in decision2testObjectives.iteritems():
-        decision2cexes[decision] = []
+        decision2traces[decision] = []
         decision2unreachable[decision] = []
         for to in tos:
             testObjectives2decision[to] = decision
@@ -145,7 +146,7 @@ def solve_mcdc_targets(context, decision2testObjectives, maxDepth):
     print '-', totalReached, 'reachable test objectives'
 
     if totalUnreached == totalTargets:
-        return decision2cexes, decision2unreachable
+        return decision2traces, decision2unreachable
 
     # Compute counterexamples for reachable targets
     done = False
@@ -160,17 +161,12 @@ def solve_mcdc_targets(context, decision2testObjectives, maxDepth):
             depth += 1
             continue
         reached = bmc.get_last_reached_targets()
-        if len(reached) > 0:
-            bmcTotalReached += len(reached)
-            cex = None
-            first = True
-            for reachedTarget in reached:
-                if first:
-                    trace = bmc.get_trace(reachedTarget)
-                    first = False
-                decision = testObjectives2decision[reachedTarget]
-                decision2cexes[decision].append(trace)
-            bmc.remove_last_reached_targets()
+        trace = bmc.get_last_trace()
+        for reachedTarget in reached:
+            decision = testObjectives2decision[reachedTarget]
+            decision2traces[decision].append(trace)
+            bmcTotalReached += 1
+        bmc.remove_last_reached_targets()
         if bmcTotalReached == totalReached:
             done = True
 
@@ -178,26 +174,29 @@ def solve_mcdc_targets(context, decision2testObjectives, maxDepth):
     if totalUndecided != 0:
         print 'There are', totalUndecided, 'undecided test objectives within depth', maxDepth
 
-    return decision2cexes, decision2unreachable
+    return decision2traces, decision2unreachable
 
-def compute_mcdc_tables(context, instA, instB, decision2cexes):
+def compute_mcdc_tables(context, instA, instB, decision2traces):
     """
     Computes MC/DC tables out of counterexamples.
     """
     decision2table = {}
-    for decision, traces in decision2cexes.iteritems():
+    for decision, traces in decision2traces.iteritems():
+        instAtestNets = instA.inputs.values() + [instA.nets[decision]]
+        instBtestNets = instB.inputs.values() + [instB.nets[decision]]
         decision2table[decision] = []
         for trace in traces:
             simulator = context.mk_simulator()
             simulator.add_watch(instA.nets[decision])
             simulator.add_watch(instB.nets[decision])
-            simulator.simulate(trace)
-            test1 = trace.get_as_net_dictionary()
-            test2 = trace.get_as_net_dictionary()
-            test1.pop(instA.nets[decision])
-            test2.pop(instB.nets[decision])
-            decision2table[decision].append(test1)
-            decision2table[decision].append(test2)
+            simulator.simulate(trace, trace.get_max_depth())
+            fullTestA = trace.get_as_net_dictionary()
+            fullTestB = trace.get_as_net_dictionary()
+            testA = cl.OrderedDict((context.net2name[k], v) for k,v in fullTestA.iteritems() if k in instAtestNets)
+            testB = cl.OrderedDict((context.net2name[k], v) for k,v in fullTestB.iteritems() if k in instBtestNets)
+            print 'testA:', testA
+            print 'testB:', testB
+            decision2table[decision].append((testA, testB))
     return decision2table
 
 def compute_pretty_tables(decision2table):
@@ -209,15 +208,12 @@ def compute_pretty_tables(decision2table):
         prettyTable = []
         header = []
         for inputValue in table:
-            for input, value in inputValue.iteritems():
-               header.append(input)
-            break
+            input, _ = inputValue
+            header.append(input)
         prettyTable.append(header)
         for inputValue in table:
-            row = []
-            for _, value in inputValue.iteritems():
-                row.append(value[0])
-            prettyTable.append(row)
+            _, value = inputValue
+            prettyTable.append(value)
         decision2prettyTable[decision] = prettyTable
     return decision2prettyTable
 
@@ -226,6 +222,8 @@ def get_tables_as_dataframe(decision2table):
     for decision, table in decision2table.iteritems():
         if len(table) == 1:
             continue
+        print 'tab[1:]:', table[1:]
+        print 'tab[0]:', table[0]
         df = pd.DataFrame(table[1:], columns=table[0])
         df = df.drop_duplicates()
         result[decision] = df

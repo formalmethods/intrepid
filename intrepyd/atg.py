@@ -30,9 +30,7 @@ def compute_mcdc(context, class_, decisions, maxDepth):
 
     # Flattens inputs and outputs into nets, for simplicity
     instA.nets.update(instA.inputs)
-    instA.nets.update(instA.outputs)
     instB.nets.update(instB.inputs)
-    instB.nets.update(instB.outputs)
 
     # Creates test objectives
     decision2testObjectives = { decision :\
@@ -44,7 +42,7 @@ def compute_mcdc(context, class_, decisions, maxDepth):
     decision2traces, decision2unreachable = solve_mcdc_targets(context, decision2testObjectives, maxDepth)
 
     # Compute MC/DC tables from traces
-    decision2table = compute_mcdc_tables(context, instA, instB, decision2traces)
+    decision2table = compute_mcdc_tables(context, instA, instB, decision2traces, decisions)
 
     # Compute pretty tables
     decision2prettyTable = compute_pretty_tables(decision2table)
@@ -176,7 +174,7 @@ def solve_mcdc_targets(context, decision2testObjectives, maxDepth):
 
     return decision2traces, decision2unreachable
 
-def compute_mcdc_tables(context, instA, instB, decision2traces):
+def compute_mcdc_tables(context, instA, instB, decision2traces, decisions):
     """
     Computes MC/DC tables out of counterexamples.
     """
@@ -184,7 +182,9 @@ def compute_mcdc_tables(context, instA, instB, decision2traces):
     for decision, traces in decision2traces.iteritems():
         instAtestNets = instA.inputs.values() + [instA.nets[decision]]
         instBtestNets = instB.inputs.values() + [instB.nets[decision]]
-        decision2table[decision] = []
+        header = [cond for cond in decisions[decision]]
+        header.append(decision)
+        decision2table[decision] = [header]
         for trace in traces:
             simulator = context.mk_simulator()
             simulator.add_watch(instA.nets[decision])
@@ -192,10 +192,8 @@ def compute_mcdc_tables(context, instA, instB, decision2traces):
             simulator.simulate(trace, trace.get_max_depth())
             fullTestA = trace.get_as_net_dictionary()
             fullTestB = trace.get_as_net_dictionary()
-            testA = cl.OrderedDict((context.net2name[k], v) for k,v in fullTestA.iteritems() if k in instAtestNets)
-            testB = cl.OrderedDict((context.net2name[k], v) for k,v in fullTestB.iteritems() if k in instBtestNets)
-            print 'testA:', testA
-            print 'testB:', testB
+            testA = [v[0] for k, v in fullTestA.iteritems() if k in instAtestNets]
+            testB = [v[0] for k, v in fullTestB.iteritems() if k in instBtestNets]
             decision2table[decision].append((testA, testB))
     return decision2table
 
@@ -204,16 +202,16 @@ def compute_pretty_tables(decision2table):
     Postprocess raw MC/DC tables to get something presentation ready.
     """
     decision2prettyTable = {}
+    first = True
     for decision, table in decision2table.iteritems():
         prettyTable = []
-        header = []
-        for inputValue in table:
-            input, _ = inputValue
-            header.append(input)
-        prettyTable.append(header)
-        for inputValue in table:
-            _, value = inputValue
-            prettyTable.append(value)
+        for row in table:
+            if first:
+                first = False
+                prettyTable.append(row)
+            else:
+                prettyTable.append(row[0])
+                prettyTable.append(row[1])
         decision2prettyTable[decision] = prettyTable
     return decision2prettyTable
 
@@ -222,8 +220,6 @@ def get_tables_as_dataframe(decision2table):
     for decision, table in decision2table.iteritems():
         if len(table) == 1:
             continue
-        print 'tab[1:]:', table[1:]
-        print 'tab[0]:', table[0]
         df = pd.DataFrame(table[1:], columns=table[0])
         df = df.drop_duplicates()
         result[decision] = df

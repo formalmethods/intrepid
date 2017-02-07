@@ -194,13 +194,11 @@ class Context(object):
     def _register_input(self, rawnet, name):
         name = self._register(rawnet, name)
         self.inputs[name] = rawnet
-        self.net2name[rawnet] = name
         return rawnet
 
     def _register_latch(self, rawnet, name):
         name = self._register(rawnet, name)
         self.latches[name] = rawnet
-        self.net2name[rawnet] = name
         return rawnet
 
     def _register_output(self, rawnet, name):

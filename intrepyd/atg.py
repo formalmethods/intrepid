@@ -47,7 +47,7 @@ def compute_mcdc(context, class_, decisions, maxDepth):
     # Compute pretty tables
     decision2prettyTable = compute_pretty_tables(decision2table)
 
-    return decision2prettyTable
+    return decision2prettyTable, decision2unreachable
 
 def compute_mcdc_targets(context, instA, instB, decision, conditions):
     """
@@ -139,9 +139,9 @@ def solve_mcdc_targets(context, decision2testObjectives, maxDepth):
             bmc.add_target(target)
             totalReached += 1
 
-    print 'There are', totalTargets, 'test objectives:'
-    print '-', totalUnreached, 'unreachable test objectives'
-    print '-', totalReached, 'reachable test objectives'
+    # print 'There are', totalTargets, 'test objectives:'
+    # print '-', totalUnreached, 'unreachable test objectives'
+    # print '-', totalReached, 'reachable test objectives'
 
     if totalUnreached == totalTargets:
         return decision2traces, decision2unreachable

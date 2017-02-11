@@ -1,10 +1,8 @@
 import intrepyd as ip
 import intrepyd.atg
 import intrepyd.circuit
-import intrepyd.utils
-import collections
-import pprint
-import pandas as pd
+
+# The translated circuit
 import circuit
 
 if __name__ == "__main__":

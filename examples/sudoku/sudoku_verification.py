@@ -1,25 +1,25 @@
-import intrepid as ip
+import intrepyd as ip
+from intrepyd.engine import EngineResult
 import sudoku
 import time
 
 if __name__ == "__main__":
     startTime = time.time()
-    ctx = ip.mk_ctx()
+    ctx = ip.Context()
     inst = sudoku.SimulinkCircuit(ctx, 'sudoku')
     inst.mk_circuit()
     prsTime = time.time() - startTime
-    negProp = inst.proof_objectives['sudoku/Proof Objective']
-    bmc = ip.mk_engine_bmc(ctx)
-    ip.bmc_add_target(ctx, bmc, negProp)
-    ip.bmc_add_watch(ctx, bmc, negProp)
-    result = ip.bmc_reach_targets(bmc)
-    if result == ip.INT_ENGINE_RESULT_REACHABLE:
+    negProp = inst.targets['sudoku/Proof Objective']
+    bmc = ctx.mk_bmc()
+    bmc.add_target(negProp)
+    result = bmc.reach_targets()
+    if result == EngineResult.REACHABLE:
         print 'There is a solution:'
-        cex = ip.bmc_get_counterexample(ctx, bmc, negProp)
-        cexDict = ip.utils.counterexample_get_as_dictionary(ctx, cex, inst.inputs, {})
+        trace = bmc.get_last_trace()
+        traceDict = trace.get_as_net_dictionary()
         cell = 1
         table = ''
-        for _, value in cexDict.iteritems():
+        for _, value in traceDict.iteritems():
             table += value[0] + ' '
             if cell % 9 == 0 and cell != 81:
                 table += '\n'

@@ -1,0 +1,6 @@
+PastMode,OnTurnOff,OnGreen,OnYellow,OnRed,Daytime,CurrentMode
+Green,,,T,,t,Yellow
+Red,,T,,,t,Green
+Yellow,,,,T,t,Red
+Yellow,T,,,,f,TurnedOff
+TurnedOff,,,T,,f,Yellow

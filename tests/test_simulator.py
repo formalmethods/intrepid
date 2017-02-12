@@ -17,7 +17,7 @@ class TestSimulator(unittest.TestCase):
         sim = ctx.mk_simulator()
         sim.add_watch(x_and_y)
         sim.simulate(tr, 0)
-        self.assertEqual('true', tr.get_value(x_and_y, 0))
+        self.assertEqual(1, ip.trace.Trace.get_numeric_value(tr.get_value(x_and_y, 0)))
 
     def test_simulator_02(self):
         ctx = ip.Context()

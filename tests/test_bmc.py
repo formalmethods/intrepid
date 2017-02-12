@@ -30,8 +30,8 @@ class TestBmc(unittest.TestCase):
         result = bmc.reach_targets()
         self.assertEquals(EngineResult.REACHABLE, result)
         trace = bmc.get_last_trace()
-        self.assertEquals('true', trace.get_value(x, 0))
-        self.assertEquals('true', trace.get_value(y, 0))
+        self.assertEquals(1, ip.trace.Trace.get_numeric_value(trace.get_value(x, 0)))
+        self.assertEquals(1, ip.trace.Trace.get_numeric_value(trace.get_value(y, 0)))
 
     def test_bmc_03(self):
         context = ip.Context()

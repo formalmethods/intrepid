@@ -14,7 +14,7 @@ class Trace(object):
         self.rawtrace = rawtrace
 
     @staticmethod
-    def get_numeric_value(self, value):
+    def get_numeric_value(value):
         """
         Coverts a string value (including true, false) into a corresponding float or integer.
         """

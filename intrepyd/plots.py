@@ -1,4 +1,5 @@
 import intrepyd as ip
+import intrepyd.trace
 from matplotlib import pyplot as plt
 
 def create_subplot(allPlots, n, x, y, legend):
@@ -13,41 +14,42 @@ def create_subplot(allPlots, n, x, y, legend):
     plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
     # plt.plot()
 
-def plot_trace_dictionary(cex):
+def plot_trace_dictionary(trace):
     """
     Draws one step plot per each signal in the counterexample.
 
     Args:
-        cex (Dictionary): the dictionary of the counterexample
+        trace (Dictionary): the dictionary of the counterexample
     """
 
-    if len(cex.keys()) == 0:
+    if len(trace.keys()) == 0:
         return
 
     # Computes the step numerals [0, ...]
-    steps = [step for step in range(len(cex[cex.keys()[0]]) + 1)]
+    steps = [step for step in range(len(trace[trace.keys()[0]]) + 1)]
 
     # Preprocess the counterexample duplicate the first value.
     # This is a visual trick to make plots look nicer (in particular
     # to have a better displaying of the first value that would
     # otherwise be hidden by the y-axis. Also turn 'true' in 1,
     # 'false' in 0, '?' in 0
-    for key in cex.keys():
-        if len(cex[key]) == 0:
+    for key in trace.keys():
+        if len(trace[key]) == 0:
             raise Exception('Unexpected counterexample with no values')
-        for value in range(len(cex[key])):
-            v = cex[key][value]
-            if v == 'true':
-                cex[key][value] = 1
-            elif v == 'false' or v == '?':
-                cex[key][value] = 0
-        cex[key].insert(0, cex[key][0])
+        for value in range(len(trace[key])):
+            v = trace[key][value]
+            v = ip.trace.Trace.get_numeric_value(v)
+            if v == '?':
+                trace[key][value] = 0
+            else:
+                trace[key][value] = v
+        trace[key].insert(0, trace[key][0])
 
     # Create the plots, one in each subplot
-    allPlots = len(cex.keys())
+    allPlots = len(trace.keys())
     n = 1
-    for key in cex.keys():
-       create_subplot(allPlots, n, steps, cex[key], key) 
+    for key in trace.keys():
+       create_subplot(allPlots, n, steps, trace[key], key) 
        n += 1
 
     plt.tight_layout()

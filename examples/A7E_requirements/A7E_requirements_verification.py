@@ -1,5 +1,4 @@
-import intrepid as ip
-import intrepid.utils
+import intrepyd as ip
 import A7E_requirements
 import time
 import sys

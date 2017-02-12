@@ -1,6 +1,6 @@
-import intrepid as ip
-import intrepid.components
-import intrepid.utils
+import intrepyd as ip
+import intrepyd.components
+import intrepyd.utils
 
 ctx = ip.mk_ctx()
 int8type = ip.mk_int8_type(ctx)

@@ -7,7 +7,7 @@ import collections
 
 class Context(object):
     """
-    An intrepid context
+    An intrepyd context
     """
     def __init__(self):
        self.ctx = ip.api.mk_ctx()

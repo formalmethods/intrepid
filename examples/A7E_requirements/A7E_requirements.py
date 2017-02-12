@@ -1,6 +1,6 @@
-import intrepid as ip
-import intrepid.scr
-import intrepid.circuit
+import intrepyd as ip
+import intrepyd.scr
+import intrepyd.circuit
 import collections
 
 class SimulinkCircuit(ip.circuit.Circuit):

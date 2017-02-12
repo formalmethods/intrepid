@@ -55,7 +55,7 @@ def compute_mcdc_targets(context, instA, instB, decision, conditions):
     two copies of the circuit.
 
     Args:
-        context: the intrepid context to use
+        context: the intrepyd context to use
         instA: an instance of the circuit
         instB: an instance of the circuit
         decision: the name of a decision

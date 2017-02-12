@@ -1,4 +1,4 @@
-import intrepid as ip
+import intrepyd as ip
 from matplotlib import pyplot as plt
 
 def create_subplot(allPlots, n, x, y, legend):
@@ -13,7 +13,7 @@ def create_subplot(allPlots, n, x, y, legend):
     plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
     # plt.plot()
 
-def plot_counterexample_dictionary(cex):
+def plot_trace_dictionary(cex):
     """
     Draws one step plot per each signal in the counterexample.
 

@@ -10,6 +10,8 @@ exclude_lines =
 	raise Exception
 	raise NotImplementedError
 
+	intrepyd/plots.py
+
 	if __name__ == .__main__.:
 
 [html]

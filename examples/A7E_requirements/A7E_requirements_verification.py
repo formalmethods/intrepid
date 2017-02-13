@@ -1,65 +1,89 @@
 import intrepyd as ip
+from intrepyd.engine import EngineResult
 import A7E_requirements
 import time
 import sys
 
+# Property 3:
+#
+# If the system is in WpnDel modes BOC or SBOC,
+# then NavUpd is in AflyUpd
+#
+#
+# In formula:
+#
+# F := (WpnDel=BOC \/ WpnDel=SBOC) -> NavUpd=AflyUpd
+#
+# 
+# Reachability query: !F
+#
+# !F                                                                    <->
+# (WpnDel=BOC \/ WpnDel=SBOC) /\ NavUpd!=AflyUpd                        <->
+# (WpnDel=BOC /\ NavUpd!=AflyUpd) \/ (WpnDel=SBOC /\ NavUpd!=AflyUpd)
 def mk_negation_of_property_3(ctx, inst):
     navigationUpdateMode = inst.nets['A7E_requirements/NU/Mode']
     weaponDeliveryMode = inst.nets['A7E_requirements/WD/Mode']
     aflyUpdate = inst.nets['A7E_requirements/NU/AflyUpd']
     boc = inst.nets['A7E_requirements/WD/BOC']
     sboc = inst.nets['A7E_requirements/WD/SBOC']
-    navAfly = ip.mk_neq(ctx, navigationUpdateMode, aflyUpdate)
-    wpnBoc = ip.mk_eq(ctx, weaponDeliveryMode, boc)
-    wpnSboc = ip.mk_eq(ctx, weaponDeliveryMode, sboc)
-    # NavUpd!=AflyUpd /\ WpnDel=BOC
-    target1 = ip.mk_and(ctx, navAfly, wpnBoc)
-    # NavUpd!=AflyUpd /\ WpnDel=SBOC
-    target2 = ip.mk_and(ctx, navAfly, wpnSboc)
-    target = ip.mk_or(ctx, target1, target2)
+    navAfly = ctx.mk_neq(navigationUpdateMode, aflyUpdate)
+    wpnBoc = ctx.mk_eq(weaponDeliveryMode, boc)
+    wpnSboc = ctx.mk_eq(weaponDeliveryMode, sboc)
+    # NavUpd!=AflyUpd /\ WpnDel=BOC (1)
+    target1 = ctx.mk_and(navAfly, wpnBoc)
+    # NavUpd!=AflyUpd /\ WpnDel=SBOC (2)
+    target2 = ctx.mk_and(navAfly, wpnSboc)
+    # (1) \/ (2)
+    target = ctx.mk_or(target1, target2)
+    return target
+
+# Converse of Property 3:
+#
+# If the system is in NavUpd mode AflyUpd,
+# then WpnDel is in either BOC or SBOC
+#
+#
+# In formula:
+#
+# CF := (WpnDel=BOC \/ WpnDel=SBOC) <- NavUpd=AflyUpd
+#
+# 
+# Reachability query: !CF
+#
+# !CF                                              <->
+# !(WpnDel=BOC \/ WpnDel=SBOC) /\ NavUpd=AflyUpd   <->
+# WpnDel!=BOC /\ WpnDel!=SBOC /\ NavUpd=AflyUpd
+def mk_negation_of_converse_of_property_3(ctx, inst):
+    navigationUpdateMode = inst.nets['A7E_requirements/NU/Mode']
+    weaponDeliveryMode = inst.nets['A7E_requirements/WD/Mode']
+    aflyUpdate = inst.nets['A7E_requirements/NU/AflyUpd']
+    boc = inst.nets['A7E_requirements/WD/BOC']
+    sboc = inst.nets['A7E_requirements/WD/SBOC']
+    navAfly = ctx.mk_eq(navigationUpdateMode, aflyUpdate)
+    wpnBoc = ctx.mk_neq(weaponDeliveryMode, boc)
+    wpnSboc = ctx.mk_neq(weaponDeliveryMode, sboc)
+    # NavUpd=AflyUpd /\ WpnDel!=BOC (1)
+    tmp = ctx.mk_and(navAfly, wpnBoc)
+    # (1) /\ WpnDel=SBOC
+    target = ctx.mk_and(tmp, wpnSboc)
     return target
 
 if __name__ == "__main__":
     startTime = time.time()
-    ctx = ip.mk_ctx()
+    ctx = ip.Context()
     inst = A7E_requirements.SimulinkCircuit(ctx, 'A7E')
     inst.mk_circuit()
     wdm = inst.nets['A7E_requirements/WD/Mode']
     num = inst.nets['A7E_requirements/NU/Mode']
     prsTime = time.time() - startTime
     negProp3 = mk_negation_of_property_3(ctx, inst) 
+    convnegProg3 = mk_negation_of_converse_of_property_3(ctx, inst)
 
-    br = ip.mk_engine_br(ctx)
-    ip.br_add_target(ctx, br, negProp3)
-    ip.br_add_watch(ctx, br, negProp3)
-    result = ip.br_reach_targets(br)
-    print "Unreachable: ", result == ip.INT_ENGINE_RESULT_UNREACHABLE
-
-    # bmc = ip.mk_engine_bmc(ctx)
-    # wdmfs = inst.nets['A7E_requirements/WDMFS']
-    # ow = inst.nets['A7E_requirements/Other_Weapon']
-    # wmboc = inst.nets['A7E_requirements/ro19'] 
-    # ip.bmc_add_watch(ctx, bmc, wdmfs)
-    # ip.bmc_add_watch(ctx, bmc, ow)
-    # ip.bmc_add_watch(ctx, bmc, wmboc)
-    # ip.bmc_add_target(ctx, bmc, negProp3)
-    # for depth in range(0, 50):
-    #     print "Trying depth", depth
-    #     ip.set_bmc_current_depth(bmc, depth)
-    #     result = ip.bmc_reach_targets(bmc)
-    #     if result == ip.INT_ENGINE_RESULT_REACHABLE:
-    #         print "Reachable"
-    #         cex = ip.bmc_get_counterexample(ctx, bmc, negProp3)
-    #         cexDict = ip.utils.counterexample_get_as_dictionary(ctx, cex, inst.inputs, { 'NUM' : num,\
-    #         										 'WDM' : wdm,\
-    #     										 'WDMFS' : wdmfs,\
-    #     										 'OthWp' : ow,\
-    #     										 'WM=BOC' : wmboc })
-    #         cexDf = ip.utils.counterexample_get_as_dataframe(cexDict)
-    #         print cexDf
-    #         break
-    #     sys.stdout.flush()
-    # ip.del_ctx(ctx)
+    br = ctx.mk_backward_reach()
+    br.add_target(negProp3)
+    br.add_target(convnegProg3)
+    result = br.reach_targets()
+    print "Unreachable?", result == EngineResult.UNREACHABLE
 
     endTime = time.time() - startTime
     print 'Parse time:', prsTime

@@ -16,11 +16,13 @@ def create_subplot(allPlots, n, x, y, legend):
 
 def plot_trace_dictionary(trace):
     """
-    Draws one step plot per each signal in the counterexample.
+    Draws one step plot per each signal in the trace.
 
     Args:
-        trace (Dictionary): the dictionary of the counterexample
+        trace (Dictionary): the dictionary of the trace
     """
+    if trace == None:
+        raise Exception('Null trace given as input')
 
     if len(trace.keys()) == 0:
         return
@@ -35,7 +37,7 @@ def plot_trace_dictionary(trace):
     # 'false' in 0, '?' in 0
     for key in trace.keys():
         if len(trace[key]) == 0:
-            raise Exception('Unexpected counterexample with no values')
+            raise Exception('Unexpected trace with no values')
         for value in range(len(trace[key])):
             v = trace[key][value]
             v = ip.trace.Trace.get_numeric_value(v)

@@ -38,5 +38,5 @@ def mk_counter(context, name, type, limit, init=None, increment=None, enable=Non
                                          context.mk_add(counter, increment),\
                                          counter))
     context.set_latch_init_next(counter, init, next)
-    Q = context.mk_not(notQ)
+    Q = context.mk_not(notQ, name + '.Q')
     return counter, Q

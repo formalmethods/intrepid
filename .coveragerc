@@ -1,6 +1,7 @@
 [run]
 branch = True
 source = intrepyd
+omit = intrepyd/plots.py
 
 [report]
 exclude_lines =
@@ -9,8 +10,6 @@ exclude_lines =
 
 	raise Exception
 	raise NotImplementedError
-
-	intrepyd/plots.py
 
 	if __name__ == .__main__.:
 

@@ -19,7 +19,12 @@ Alternatively, the [conda][2] python release comes with both python 2.7 and jupy
 - Ubuntu 14.04 or above, 32 or 64 bit
 - Version 10.10 (Yosemite) or above
 
-# Install
+# Install using pip
+```
+$ pip install git+https://github.com/formalmethods/intrepyd
+```
+
+# Install from a cloned/downloaded source
 From the root directory of intrepid, execute
 ```
 $ python setup.py install

@@ -22,9 +22,9 @@ class Trace(object):
             return float(value)
         elif value == '?':
             return '?'
-        elif value == 'true':
+        elif value == 'T':
             return 1
-        elif value == 'false':
+        elif value == 'F':
             return 0
         return int(value)
 
@@ -42,6 +42,10 @@ class Trace(object):
         return value
 
     def set_value(self, net, depth, value):
+        if value == 'true':
+            value = 'T'
+        elif value == 'false':
+            value = 'F'
         ip.api.trace_set_value(self.ctx, self.rawtrace, net, depth, value)
 
     def get_as_net_dictionary(self, net2name=None):

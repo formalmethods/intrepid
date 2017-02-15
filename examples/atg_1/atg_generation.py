@@ -26,7 +26,7 @@ class CircAnd(ip.circuit.Circuit):
 if __name__ == "__main__":
     ctx = ip.Context()
     decisions = { 'O' : ['A', 'B'] }
-    tables = ip.atg.compute_mcdc(ctx, CircAnd, decisions, maxDepth=10)
+    tables, _ = ip.atg.compute_mcdc(ctx, CircAnd, decisions, maxDepth=10)
     decision2dataframe = ip.atg.get_tables_as_dataframe(tables)
     if len(decision2dataframe) != 0:
         print '\nGenerated tests:'

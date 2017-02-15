@@ -15,11 +15,11 @@ class TestComponents(unittest.TestCase):
         simulator.add_watch(Q)
         simulator.simulate(tr, 12)
         self.assertEqual('9', tr.get_value(counter, 9))
-        self.assertEqual('false', tr.get_value(Q, 9))
+        self.assertEqual('F', tr.get_value(Q, 9))
         self.assertEqual('10', tr.get_value(counter, 10))
-        self.assertEqual('true', tr.get_value(Q, 10))
+        self.assertEqual('T', tr.get_value(Q, 10))
         self.assertEqual('10', tr.get_value(counter, 11))
-        self.assertEqual('true', tr.get_value(Q, 11))
+        self.assertEqual('T', tr.get_value(Q, 11))
 
 if __name__ == '__main__':
     unittest.main()

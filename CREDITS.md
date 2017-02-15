@@ -1,7 +1,7 @@
 # Third-party software
 
 ## Z3
-Intrepid links against Microsoft's Z3 Prover [link][1].
+Intrepyd links against Microsoft's Z3 Prover [link][1].
 Z3 is released under MIT licence, which is available from
 [here][1], and that we inline for convenience:
 ```

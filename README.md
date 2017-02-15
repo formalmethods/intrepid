@@ -7,7 +7,7 @@ a rich API, to allow the rapid prototyping of **formal methods** algorithm
 for the rigorous analysis of circuits, specifications, models.
 
 ## Installation
-Please refer to the dedicated [file](INSTALL.md).
+Please refer to the following [instructions](INSTALL.md).
 
 ## FAQs
 Please refer to the dedicated [Wiki page](https://github.com/formalmethods/intrepyd/wiki/FAQs).

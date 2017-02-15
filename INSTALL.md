@@ -21,7 +21,7 @@ Alternatively, the [conda][2] python release comes with both python 2.7 and jupy
 
 # Install using pip
 ```
-$ pip install https+git://github.com/formalmethods/intrepyd
+$ pip install git+https://github.com/formalmethods/intrepyd
 ```
 
 # Install from a cloned/downloaded source

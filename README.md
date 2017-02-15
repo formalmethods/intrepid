@@ -2,8 +2,12 @@
 [![Coverage Status](https://coveralls.io/repos/github/formalmethods/intrepyd/badge.svg?branch=master)](https://coveralls.io/github/formalmethods/intrepyd?branch=master)
 
 # Intrepyd
-Intre**py**d is a python module that provides a number of formal methods tools
+Intre**py**d is a **python** module that provides a simulator and a model checker in form of
+a rich API, to allow the rapid prototyping of **formal methods** algorithm
 for the rigorous analysis of circuits, specifications, models.
 
-Intre**py**d relies on the C++ Intrepid model checking library for low-level CPU intensive
-computations.
+## Installation
+Please refer to the dedicated [file](INSTALL.md).
+
+## FAQs
+Please refer to the dedicated [Wiki page](https://github.com/formalmethods/intrepyd/wiki/FAQs).

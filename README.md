@@ -3,7 +3,7 @@
 
 # Intrepyd
 Intre**py**d is a **python** module that provides a simulator and a model checker in form of
-a rich API, to allow the rapid prototyping of **formal methods** algorithm
+a rich API, to allow the rapid prototyping of **formal methods** algorithms
 for the rigorous analysis of circuits, specifications, models.
 
 ## Installation

@@ -45,9 +45,9 @@ class Circuit(object):
         """
         if namespace:
             self.context.push_namespace(self.name)
-        outputs = self._mk_circuit_naked_impl(self, inputs)
+        outputs = self._mk_naked_circuit_impl(inputs)
         if namespace:
-            self.context.pop_namespace(self.ctx)
+            self.context.pop_namespace()
         return outputs
 
     def _mk_outputs(self):

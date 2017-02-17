@@ -7,6 +7,7 @@ class TestTrace(unittest.TestCase):
     def test_trace_01(self):
         ctx = intrepyd.Context()
         tr = ctx.mk_trace()
+        i0 = ctx.mk_input('i0', ctx.mk_boolean_type())
         i1 = ctx.mk_input('i1', ctx.mk_boolean_type())
         i2 = ctx.mk_input('i2', ctx.mk_int8_type())
         i3 = ctx.mk_input('i3', ctx.mk_int16_type())
@@ -15,6 +16,7 @@ class TestTrace(unittest.TestCase):
         i6 = ctx.mk_input('i6', ctx.mk_uint16_type())
         i7 = ctx.mk_input('i7', ctx.mk_uint32_type())
         i8 = ctx.mk_input('i8', ctx.mk_real_type())
+        tr.set_value(i0, 0, 'F')
         tr.set_value(i1, 0, 'T')
         tr.set_value(i2, 0, '1')
         tr.set_value(i3, 0, '2')
@@ -23,6 +25,7 @@ class TestTrace(unittest.TestCase):
         tr.set_value(i6, 0, '5')
         tr.set_value(i7, 0, '6')
         tr.set_value(i8, 0, '7.0')
+        self.assertEqual('F', tr.get_value(i0, 0))
         self.assertEqual('T', tr.get_value(i1, 0))
         self.assertEqual('1', tr.get_value(i2, 0))
         self.assertEqual('2', tr.get_value(i3, 0))
@@ -32,6 +35,7 @@ class TestTrace(unittest.TestCase):
         self.assertEqual('6', tr.get_value(i7, 0))
         self.assertEqual('7.0', tr.get_value(i8, 0))
         nv = intrepyd.trace.Trace.get_numeric_value;
+        self.assertEqual(0, nv(tr.get_value(i0, 0)))
         self.assertEqual(1, nv(tr.get_value(i1, 0)))
         self.assertEqual(1, nv(tr.get_value(i2, 0)))
         self.assertEqual(2, nv(tr.get_value(i3, 0)))
@@ -40,6 +44,8 @@ class TestTrace(unittest.TestCase):
         self.assertEqual(5, nv(tr.get_value(i6, 0)))
         self.assertEqual(6, nv(tr.get_value(i7, 0)))
         self.assertEqual(7.0, nv(tr.get_value(i8, 0)))
+        df = tr.get_as_dataframe(ctx.net2name)
+        self.assertEqual('F', df[0][0])
 
 if __name__ == '__main__':
     unittest.main()

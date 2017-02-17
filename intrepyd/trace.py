@@ -68,7 +68,7 @@ class Trace(object):
         depth -> [valuenet1@depth, valuenet2@depth, ...]
         """
         return {depth : list(self._get_values_at_depth(net, depth))\
-                for depth in ip.api.trace_get_max_depth(self.trace)}
+                for depth in range(ip.api.trace_get_max_depth(self.rawtrace))}
 
     def get_as_dataframe(self, net2name):
         """

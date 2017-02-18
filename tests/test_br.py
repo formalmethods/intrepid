@@ -31,5 +31,24 @@ class TestBr(unittest.TestCase):
         self.assertEquals(counter1lastValue, "8.0")
         self.assertEquals(counter2lastValue, "8.0")
 
+    def test_br_02(self):
+        context = ip.Context()
+        bt = context.mk_boolean_type()
+        x = context.mk_input("x", bt)
+        y = context.mk_input("y", bt)
+        target1 = context.mk_and(x, y)
+        target2 = context.mk_and(context.mk_not(x), y)
+        br = context.mk_backward_reach()
+        br.add_target(target1)
+        br.add_target(target2)
+        result = br.reach_targets()
+        self.assertEquals(EngineResult.REACHABLE, result)
+        self.assertEquals(1, len(list(br.get_last_reached_targets())))
+        br.remove_last_reached_targets()
+        result = br.reach_targets()
+        self.assertEquals(EngineResult.REACHABLE, result)
+        self.assertEquals(1, len(list(br.get_last_reached_targets())))
+        br.remove_last_reached_targets()
+
 if __name__ == '__main__':
     unittest.main()

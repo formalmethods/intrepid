@@ -72,6 +72,25 @@ class TestBmc(unittest.TestCase):
         bmc.set_current_depth(2)
         result = bmc.reach_targets()
         self.assertEquals(EngineResult.REACHABLE, result)
+
+    def test_bmc_05(self):
+        context = ip.Context()
+        bt = context.mk_boolean_type()
+        x = context.mk_input("x", bt)
+        y = context.mk_input("y", bt)
+        target1 = context.mk_and(x, y)
+        target2 = context.mk_and(context.mk_not(x), y)
+        bmc = context.mk_bmc()
+        bmc.add_target(target1)
+        bmc.add_target(target2)
+        result = bmc.reach_targets()
+        self.assertEquals(EngineResult.REACHABLE, result)
+        self.assertEquals(1, len(list(bmc.get_last_reached_targets())))
+        bmc.remove_last_reached_targets()
+        result = bmc.reach_targets()
+        self.assertEquals(EngineResult.REACHABLE, result)
+        self.assertEquals(1, len(list(bmc.get_last_reached_targets())))
+
     
 if __name__ == '__main__':
     unittest.main()

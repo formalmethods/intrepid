@@ -90,6 +90,7 @@ class TestBmc(unittest.TestCase):
         result = bmc.reach_targets()
         self.assertEquals(EngineResult.REACHABLE, result)
         self.assertEquals(1, len(list(bmc.get_last_reached_targets())))
+        bmc.remove_last_reached_targets()
 
     
 if __name__ == '__main__':

@@ -104,11 +104,6 @@ class Bmc(Engine):
     def add_target(self, net):
         ip.api.bmc_add_target(self.ctx, self.bmc, net)
 
-    def remove_last_reached_targets(self):
-        if self.lastResult != EngineResult.REACHABLE:
-            return
-        ip.api.bmc_remove_last_reached_targets(self.bmc)
-
     def get_last_trace(self):
         if self.lastResult != EngineResult.REACHABLE:
             raise Exception('Cannot get a trace as last result was not REACHABLE')

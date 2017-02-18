@@ -10,6 +10,10 @@ exclude_lines =
 
 	raise Exception
 	raise NotImplementedError
+	except ImportError
+	except NameError
+	except Exception
+	except AttributeError
 
 	if __name__ == .__main__.:
 

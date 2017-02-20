@@ -16,3 +16,4 @@ intrepyd.pyproj
 intrepyd.sln
 coverage_html_report
 .coverage
+update_libs.sh

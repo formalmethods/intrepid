@@ -17,3 +17,4 @@ intrepyd.sln
 coverage_html_report
 .coverage
 update_libs.sh
+create_win_dist.sh

@@ -48,7 +48,7 @@ else:
 
 
 setup(name='intrepyd',
-      version='0.3.0',
+      version='0.3.1',
       description='Intrepyd',
       author='Roberto Bruttomesso',
       author_email='roberto.bruttomesso@gmail.com',

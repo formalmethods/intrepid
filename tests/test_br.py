@@ -50,5 +50,19 @@ class TestBr(unittest.TestCase):
         self.assertEquals(1, len(list(br.get_last_reached_targets())))
         br.remove_last_reached_targets()
 
+    def test_br_03(self):
+        context = ip.Context()
+        rt = context.mk_real_type()
+        x = context.mk_input("x", rt)
+        y = context.mk_input("y", rt)
+        mul = context.mk_mul(x, y)
+        mul = context.mk_mul(mul, y)
+        n70 = context.mk_number('70', rt)
+        lt = context.mk_lt(n70, mul)
+        br = context.mk_backward_reach()
+        br.add_target(lt)
+        result = br.reach_targets()
+        self.assertEquals(EngineResult.REACHABLE, result)
+
 if __name__ == '__main__':
     unittest.main()

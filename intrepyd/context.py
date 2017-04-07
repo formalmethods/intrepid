@@ -94,6 +94,9 @@ class Context(object):
     def mk_xor(self, x, y, name=None):
         return self._register(ip.api.mk_xor(self.ctx, x, y), name=name)
 
+    def mk_implies(self, x, y, name=None):
+        return self._register(ip.api.mk_or(self.ctx, ip.api.mk_not(self.ctx, x), y), name=name)
+
     def mk_iff(self, x, y, name=None):
         return self._register(ip.api.mk_iff(self.ctx, x, y), name=name)
 

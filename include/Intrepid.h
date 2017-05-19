@@ -378,11 +378,27 @@ Int_type mk_real_type(Int_ctx ctx);
 
 DLLEXPORT
 /**
- * @brief mk_double_type Creates an double type
+ * @brief mk_float16_type Creates a floating point 16 type
  * @param ctx the context to use
- * @return a double type
+ * @return a float 16 type
  */
-Int_type mk_double_type(Int_ctx ctx);
+Int_type mk_float16_type(Int_ctx ctx);
+
+DLLEXPORT
+/**
+ * @brief mk_float32_type Creates a floating point 32 type
+ * @param ctx the context to use
+ * @return a float 32 type
+ */
+Int_type mk_float32_type(Int_ctx ctx);
+
+DLLEXPORT
+/**
+ * @brief mk_float64_type Creates a floating point 64 type
+ * @param ctx the context to use
+ * @return a float 64 type
+ */
+Int_type mk_float64_type(Int_ctx ctx);
 
 DLLEXPORT
 /**
@@ -491,7 +507,7 @@ Int_net mk_mul(Int_ctx ctx, Int_net x, Int_net y);
 
 DLLEXPORT
 /**
- * @brief mk_eq equates two nets of type integer, real, or double
+ * @brief mk_eq equates two nets of type integer, real, or float
  * @param ctx the context to use
  * @param x
  * @param y

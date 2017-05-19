@@ -592,16 +592,38 @@ def mk_real_type(ctx):
     """
     return _api.mk_real_type(ctx)
 
-def mk_double_type(ctx):
+def mk_float16_type(ctx):
     """
-    mk_double_type(Int_ctx ctx) -> Int_type
+    mk_float16_type(Int_ctx ctx) -> Int_type
 
     Parameters
     ----------
     ctx: Int_ctx
 
     """
-    return _api.mk_double_type(ctx)
+    return _api.mk_float16_type(ctx)
+
+def mk_float32_type(ctx):
+    """
+    mk_float32_type(Int_ctx ctx) -> Int_type
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+
+    """
+    return _api.mk_float32_type(ctx)
+
+def mk_float64_type(ctx):
+    """
+    mk_float64_type(Int_ctx ctx) -> Int_type
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+
+    """
+    return _api.mk_float64_type(ctx)
 
 def mk_undef(ctx):
     """

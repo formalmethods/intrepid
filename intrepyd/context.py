@@ -69,8 +69,14 @@ class Context(object):
     def mk_real_type(self):
         return self.realtype
 
-    def mk_double_type(self):
-        return self.doubletype
+    def mk_float16_type(self):
+        return self.float16type
+
+    def mk_float32_type(self):
+        return self.float32type
+
+    def mk_float64_type(self):
+        return self.float64type
 
     def mk_undef(self):
         return self.undef
@@ -125,6 +131,9 @@ class Context(object):
 
     def mk_mul(self, x, y, name=None):
         return self._register(ip.api.mk_mul(self.ctx, x, y), name=name)
+
+    def mk_div(self, x, y, name=None):
+        return self._register(ip.api.mk_div(self.ctx, x, y), name=name)
 
     def mk_sub(self, x, y, name=None):
         return self._register(ip.api.mk_sub(self.ctx, x, y), name=name)

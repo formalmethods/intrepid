@@ -1,0 +1,31 @@
+{
+    // The top node for lustre files
+    "node.top" : "top",
+
+    // true to produce a simulation using
+    // input values in "simulation.file", if present, or
+    // using default simulation values for each type
+    "simulation" : true,
+    // The number of frames for which simulation
+    // should be run
+    "simulation.frames" : 10,
+    // The simulation file to use (if not present
+    // it will be created)
+    "simulation.file" : "sim.csv",
+
+    // true to verify the properties that are found in the design
+    "verification" : false,
+    // Timeout limit for verification (-1 means no limit)
+    "verification.timeout" : -1,
+    // The verification engine to use among
+    // - bmc: a bounded model checker (can disprove, cannot prove)
+    // - br: backward reachability (can prove and disprove, but it is
+    //       slower at disproving compared to bmc)
+    // - combined: both bmc and br are run in parallel in two separate
+    //             processes, verification terminates when an engine
+    //             produces a result
+    "verification.engine" : "combined",
+
+    // Enables or disables verbosity
+    "verbose" : false
+}

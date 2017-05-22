@@ -13,8 +13,9 @@ Entry point
 
 import argparse as ap
 import colorama as cl
-import intrepyd as ip
 import config
+import pandas as pd
+
 
 BAR = '#' * 64
 SPLASH =\
@@ -45,42 +46,51 @@ def parse_arguments():
     return arg_parser.parse_args()
 
 
-def parse_simulink(infile):
-    assert False
-    return None
-
-
-def parse_lustre(infile):
-    assert False  
-    return None
-
-
-def parse_infile(infile):
+def translate_simulink(infile):
     """
-    Parses an input file depending on the suffix
+    Translates a simulink file into intrepyd syntax
+    """
+    return None
+
+
+def translate_lustre(infile):
+    """
+    Translates a lustre file into intrepyd syntax
+    """
+    return None
+
+
+def translate_infile(infile):
+    """
+    Translates an input file depending on the suffix
     """
     ctx = None
     if infile[-4:] == '.slx' or infile[-4:] == '.mdl':
-        ctx = parse_simulink(infile)
+        ctx = translate_simulink(infile)
     elif infile[-4:] == '.lus' or infile[-4:] == '.ec':
-        ctx = parse_lustre(infile)
+        ctx = translate_lustre(infile)
     else:
         raise RuntimeError('Did not recognize a file extension in [slx, mdl, lus, ec]')
     return ctx
+
 
 def main():
     """
     Main
     """
     parsed_args = parse_arguments()
-    ctx = parse_infile(parsed_args.INFILE)
     cfg = config.Config.get_instance(parsed_args.config)
     verbose = cfg["verbose"]
+    if verbose:
+        print 'Parsing input file'
+    ctx = translate_infile(parsed_args.INFILE)
     if verbose:
         print SPLASH
     if cfg["simulation"]:
         if verbose:
-            print 'do simulation'
+            print 'Running simulation'
+        sim_file = cfg["simulation.file"]
+        sim_data = pd.read_csv(sim_file)
 
 if __name__ == "__main__":
     cl.init()

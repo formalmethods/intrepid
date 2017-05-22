@@ -42,6 +42,9 @@ class Trace(object):
         return int(value)
 
     def get_max_depth(self):
+        """
+        Returns the max depth of the trace
+        """
         return ip.api.trace_get_max_depth(self.rawtrace)
 
     def get_value(self, net, depth):
@@ -55,6 +58,9 @@ class Trace(object):
         return value
 
     def set_value(self, net, depth, value):
+        """
+        Sets a value for a net at a certain depth
+        """
         if value == 'true':
             value = 'T'
         elif value == 'false':
@@ -64,7 +70,7 @@ class Trace(object):
     def get_as_net_dictionary(self, net2name=None):
         """
         Return the trace as a dictionary
-        
+
         net -> [value@0, value@1, ...]
         """
         watchedNets = [ip.api.trace_get_watched_net(self.rawtrace, i)\
@@ -77,7 +83,7 @@ class Trace(object):
     def get_as_depth_dictionary(self):
         """
         Return the trace as a dictionary
-        
+
         depth -> [valuenet1@depth, valuenet2@depth, ...]
         """
         return {depth : list(self._get_values_at_depth(net, depth))\

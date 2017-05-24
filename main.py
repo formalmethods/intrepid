@@ -103,6 +103,8 @@ def simulate(ctx, cfg, verbose):
             print 'Simulating using default values into ' + sim_file
     simulator = ctx.mk_simulator()
     simulator.simulate(trace, depth)
+    for _, net in ctx.inputs.iteritems():
+        simulator.add_watch(net)
     print trace.get_as_net_dictionary()
     dataframe = trace.get_as_dataframe(ctx.net2name)
     dataframe.to_csv(sim_file)

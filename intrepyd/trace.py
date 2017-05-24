@@ -105,6 +105,25 @@ class Trace(object):
             matrix.append(values)
         return pd.DataFrame(matrix, index=indexes)
 
+    def set_from_dataframe(self, dataframe, inputname2net):
+        """
+        Return a trace from a pandas dataframe. Only input values
+        are considered in filling up the trace
+        """
+        max_depth = 0
+        row = 0
+        for name in dataframe.index:
+            if name in inputname2net:
+                net = inputname2net[name]
+                depth = 0
+                for value in dataframe.values[row]:
+                    self.set_value(net, depth, value)
+                    depth += 1
+                    if depth > max_depth:
+                        max_depth = depth
+            row += 1
+        return max_depth
+
     def _get_as_steps(self, net):
         """
         Simplifies the retrieval of the set values per step for a net in a trace.

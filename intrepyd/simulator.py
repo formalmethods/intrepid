@@ -30,4 +30,7 @@ class Simulator(object):
         ip.api.simulator_add_watch(self.ctx, self.simulator, net)
 
     def simulate(self, trace, depth):
+        """
+        Executes a simulation using the values in trace, up to the specified depth
+        """
         ip.api.simulator_simulate(self.simulator, trace.rawtrace, depth)

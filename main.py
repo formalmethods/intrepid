@@ -14,7 +14,10 @@ Entry point
 import argparse as ap
 import colorama as cl
 import config
+import intrepyd as ip
+import ip.colors as ic
 import pandas as pd
+import os
 
 
 BAR = '#' * 64
@@ -50,6 +53,7 @@ def translate_simulink(infile):
     """
     Translates a simulink file into intrepyd syntax
     """
+    raise NotImplementedError
     return None
 
 
@@ -57,6 +61,8 @@ def translate_lustre(infile):
     """
     Translates a lustre file into intrepyd syntax
     """
+    ctx = ip.Context()
+
     return None
 
 
@@ -74,6 +80,28 @@ def translate_infile(infile):
     return ctx
 
 
+def simulate(ctx, cfg, verbose):
+    """
+    Simulates the design using default values for inputs or by taking
+    input values from an existing simulation file
+    """
+    sim_file = cfg["simulation.file"]
+    trace = ctx.mk_trace()
+    depth = cfg["simulation.depth"]
+    if os.path.isfile(sim_file):
+        if verbose:
+            print 'Re-simulating using input values from ' + sim_file
+        sim_data = pd.read_csv(sim_file)
+        depth = trace.set_from_pandas_dataframe(sim_data)
+    else:
+        if verbose:
+            print 'Simulating using default values into ' + sim_file
+    simulator = ctx.mk_simulator()
+    simulator.simulate(trace, depth)
+    dataframe = trace.get_as_dataframe(ctx.net2name)
+    dataframe.write_csv(sim_file)
+
+
 def main():
     """
     Main
@@ -87,11 +115,14 @@ def main():
     if verbose:
         print SPLASH
     if cfg["simulation"]:
-        if verbose:
-            print 'Running simulation'
-        sim_file = cfg["simulation.file"]
-        sim_data = pd.read_csv(sim_file)
+        simulate(ctx, cfg, verbose)
+
 
 if __name__ == "__main__":
     cl.init()
-    main()
+    try:
+        main()
+    except:
+        print ic.good('ABORTED')
+        raise
+    print ic.good('OK')

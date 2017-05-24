@@ -6,9 +6,8 @@
     // input values in "simulation.file", if present, or
     // using default simulation values for each type
     "simulation" : true,
-    // The number of frames for which simulation
-    // should be run
-    "simulation.frames" : 10,
+    // The depth for which simulation will be run
+    "simulation.depth" : 10,
     // The simulation file to use (if not present
     // it will be created)
     "simulation.file" : "sim.csv",

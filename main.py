@@ -84,10 +84,14 @@ def simulate(ctx, cfg, verbose):
     else:
         if verbose:
             print 'Simulating using default values into ' + sim_file
+        dpt = 0
+        while dpt < depth:
+            for _, net in ctx.inputs.iteritems():
+                trace.set_value(net)
     simulator = ctx.mk_simulator()
-    simulator.simulate(trace, depth)
-    for _, net in ctx.inputs.iteritems():
+    for _, net in ctx.outputs:
         simulator.add_watch(net)
+    simulator.simulate(trace, depth)
     print trace.get_as_net_dictionary()
     dataframe = trace.get_as_dataframe(ctx.net2name)
     dataframe.to_csv(sim_file)

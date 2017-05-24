@@ -11,9 +11,8 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 This module implements the class for traces
 """
 
-import intrepyd as ip
-import intrepyd.api
 import pandas as pd
+import intrepyd as ip
 
 class Trace(object):
     """
@@ -22,7 +21,7 @@ class Trace(object):
     def __init__(self, ctx, rawtrace=None):
         self.ctx = ctx
         self.rawtrace = None
-        if rawtrace == None:
+        if rawtrace is None:
             rawtrace = ip.api.mk_trace(self.ctx)
         self.rawtrace = rawtrace
 
@@ -73,12 +72,12 @@ class Trace(object):
 
         net -> [value@0, value@1, ...]
         """
-        watchedNets = [ip.api.trace_get_watched_net(self.rawtrace, i)\
+        watched_nets = [ip.api.trace_get_watched_net(self.rawtrace, i)\
                        for i in range(ip.api.trace_get_watched_nets_number(self.rawtrace))]
-        if net2name == None:
-            return {net : list(self._get_as_steps(net)) for net in watchedNets}
+        if net2name is None:
+            return {net : list(self._get_as_steps(net)) for net in watched_nets}
         else:
-            return {net2name[net] : list(self._get_as_steps(net)) for net in watchedNets}
+            return {net2name[net] : list(self._get_as_steps(net)) for net in watched_nets}
 
     def get_as_depth_dictionary(self):
         """
@@ -86,7 +85,7 @@ class Trace(object):
 
         depth -> [valuenet1@depth, valuenet2@depth, ...]
         """
-        return {depth : list(self._get_values_at_depth(net, depth))\
+        return {depth : list(self._get_values_at_depth(depth))\
                 for depth in range(ip.api.trace_get_max_depth(self.rawtrace))}
 
     def get_as_dataframe(self, net2name):
@@ -128,13 +127,13 @@ class Trace(object):
         """
         Simplifies the retrieval of the set values per step for a net in a trace.
         """
-        maxDepth = ip.api.trace_get_max_depth(self.rawtrace)
-        return (self.get_value(net, depth) for depth in range(0, maxDepth + 1))
+        max_depth = ip.api.trace_get_max_depth(self.rawtrace)
+        return (self.get_value(net, depth) for depth in range(0, max_depth + 1))
 
     def _get_values_at_depth(self, depth):
         """
         Simplifies the retrieval of the set values per step for a net in a trace.
         """
-        watchedNets = [ip.api.trace_get_watched_net(self.rawtrace, i)\
+        watched_nets = [ip.api.trace_get_watched_net(self.rawtrace, i)\
                        for i in range(ip.api.trace_get_watched_nets_number(self.rawtrace))]
-        return (self._get_value_for_net(net, depth) for net in watchedNets)
+        return (self.get_value(net, depth) for net in watched_nets)

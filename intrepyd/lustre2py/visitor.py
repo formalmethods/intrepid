@@ -11,13 +11,13 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 This module implements a generic vistor infrastructure
 """
 
-from lustre2py.expression import ZeroaryExpression, UnaryExpression, BinaryExpression,\
-                                 CallExpression, InitCurrExpression, ITEExpression,\
-                                 LiteralExpression, TupleExpression
-from lustre2py.instruction import Equation, Property
-from lustre2py.node import Node
-from lustre2py.variable import VarDeclGroup
-from lustre2py.datatype import Primitive, Enum, Array, Struct, Subrange
+from intrepyd.lustre2py.expression import ZeroaryExpression, UnaryExpression, BinaryExpression,\
+                                          CallExpression, InitCurrExpression, ITEExpression,\
+                                          LiteralExpression, TupleExpression
+from intrepyd.lustre2py.instruction import Equation, Property
+from intrepyd.lustre2py.node import Node
+from intrepyd.lustre2py.variable import VarDeclGroup
+from intrepyd.lustre2py.datatype import Primitive, Enum, Array, Struct, Subrange
 
 
 class Visitor(object):

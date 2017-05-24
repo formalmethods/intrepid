@@ -12,10 +12,10 @@ This module implements the main parsing routine of Lustre files
 """
 
 from antlr4 import FileStream, CommonTokenStream
-from lustre2py.LustreLexer import LustreLexer
-from lustre2py.LustreParser import LustreParser
-from lustre2py.astbuilder import ASTBuilder
-from lustre2py.ast import Ast
+from intrepyd.lustre2py.LustreLexer import LustreLexer
+from intrepyd.lustre2py.LustreParser import LustreParser
+from intrepyd.lustre2py.astbuilder import ASTBuilder
+from intrepyd.lustre2py.ast import Ast
 
 def parse(infile):
     """

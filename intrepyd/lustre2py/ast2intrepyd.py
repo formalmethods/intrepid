@@ -11,10 +11,10 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 This module implements a printer of an AST into Intrepyd syntax
 """
 
-from lustre2py.visitor import Visitor
-from lustre2py.instruction import Equation, Property
-from lustre2py.node import Node
-from lustre2py.expression import Expression
+from intrepyd.lustre2py.visitor import Visitor
+from intrepyd.lustre2py.instruction import Equation, Property
+from intrepyd.lustre2py.node import Node
+from intrepyd.lustre2py.expression import Expression
 
 CONTEXT = 'ctx'
 FIRSTTICK = '__first_tick'

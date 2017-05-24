@@ -11,15 +11,15 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 This module implements the main parsing routine of Lustre files
 """
 
-from lustre2py.LustreVisitor import LustreVisitor
-from lustre2py.node import Node
-from lustre2py.expression import LiteralExpression, ZeroaryExpression,\
-                                 UnaryExpression, BinaryExpression, InitCurrExpression,\
-                                 ITEExpression, Expression, CallExpression,\
-                                 TupleExpression
-from lustre2py.variable import VarDeclGroup
-from lustre2py.instruction import Equation
-from lustre2py.datatype import Primitive
+from intrepyd.lustre2py.LustreVisitor import LustreVisitor
+from intrepyd.lustre2py.node import Node
+from intrepyd.lustre2py.expression import LiteralExpression, ZeroaryExpression,\
+                                          UnaryExpression, BinaryExpression, InitCurrExpression,\
+                                          ITEExpression, Expression, CallExpression,\
+                                          TupleExpression
+from intrepyd.lustre2py.variable import VarDeclGroup
+from intrepyd.lustre2py.instruction import Equation
+from intrepyd.lustre2py.datatype import Primitive
 
 class ASTBuilder(LustreVisitor):
     """

@@ -89,6 +89,6 @@ def translate(filename, topnode, outfilename):
         for inp in inputs:
             args += ', ' + inp
         outfile.write(TAB + 'prop = ' + top.name + '(' + args + ')\n')
-        outfile.write(TAB + 'return' + CONTEXT + '\n')
+        outfile.write(TAB + 'return ' + CONTEXT + '\n')
         outfile.write('\nif __name__ == "__main__":\n')
         outfile.write(TAB + 'ctx = lustre2py_main()\n\n')

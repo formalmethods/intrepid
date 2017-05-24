@@ -11,8 +11,8 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 This module implements infrastructure to store nodes
 """
 
-from lustre2py.visitable import Visitable
-from lustre2py.expression import Expression
+from intrepyd.lustre2py.visitable import Visitable
+from intrepyd.lustre2py.expression import Expression
 
 _GREY = 1
 _BLACK = 2

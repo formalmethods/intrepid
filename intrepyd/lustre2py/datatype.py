@@ -11,7 +11,7 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 This module implements infrastructure to store datatypes
 """
 
-from lustre2py.visitable import Visitable
+from intrepyd.lustre2py.visitable import Visitable
 
 class Datatype(Visitable):
     """

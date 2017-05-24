@@ -11,7 +11,7 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 This module implements infrastructure to store expressions
 """
 
-from lustre2py.visitable import Visitable
+from intrepyd.lustre2py.visitable import Visitable
 
 class Expression(Visitable):
     """

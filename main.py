@@ -21,22 +21,6 @@ import intrepyd.colors as ic
 import intrepyd.lustre2py.translator as tr
 
 
-BAR = '#' * 64
-SPLASH =\
-'\n' + BAR +\
-r"""
-
-      .__        __                                  .___
-      |__| _____/  |________   ____ ______ ___.__. __| _/
-      |  |/    \   __\_  __ \_/ __ \\____ <   |  |/ __ |
-      |  |   |  \  |  |  | \/\  ___/|  |_> >___  / /_/ |
-      |__|___|  /__|  |__|    \___  >   __// ____\____ |
-              \/                  \/|__|   \/         \/
-      https://github.com/formalmethods/intrepyd
-
-""" + BAR + '\n'
-
-
 def parse_arguments():
     """
     Command-line parser
@@ -119,8 +103,6 @@ def main():
     if verbose:
         print 'Parsing input file'
     ctx = translate_infile(parsed_args.INFILE, cfg)
-    if verbose:
-        print SPLASH
     if cfg["simulation"]:
         simulate(ctx, cfg, verbose)
 

@@ -16,7 +16,7 @@ import colorama as cl
 import config
 import intrepyd as ip
 import intrepyd.colors as ic
-import intrepyd.lustre2py as lp
+import intrepyd.lustre2py.translator as tr
 import pandas as pd
 import os
 import importlib
@@ -65,7 +65,7 @@ def translate_lustre(infile, topnode):
     """
     outmodule = 'encoding'
     outfilename = outmodule + '.py'
-    lp.translator.translate(infile, topnode, outfilename)
+    tr.translate(infile, topnode, outfilename)
     enc = importlib.import_module(outmodule)
     ctx = enc.lustre2py_main()
     return ctx
@@ -97,14 +97,15 @@ def simulate(ctx, cfg, verbose):
         if verbose:
             print 'Re-simulating using input values from ' + sim_file
         sim_data = pd.read_csv(sim_file)
-        depth = trace.set_from_pandas_dataframe(sim_data)
+        depth = trace.set_from_dataframe(sim_data, ctx.inputs)
     else:
         if verbose:
             print 'Simulating using default values into ' + sim_file
     simulator = ctx.mk_simulator()
     simulator.simulate(trace, depth)
+    print trace.get_as_net_dictionary()
     dataframe = trace.get_as_dataframe(ctx.net2name)
-    dataframe.write_csv(sim_file)
+    dataframe.to_csv(sim_file)
 
 
 def main():
@@ -128,6 +129,6 @@ if __name__ == "__main__":
     try:
         main()
     except:
-        print ic.good('ABORTED')
+        print ic.fail('ABORTED')
         raise
     print ic.good('OK')

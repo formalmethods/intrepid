@@ -200,7 +200,7 @@ class Context(object):
             return rawnet
         if name == None:
             name = '__n' + str(rawnet)
-        name = self._current_namespace_prefix() +  name
+        name = self._current_namespace_prefix() + name
         if name in self.nets:
             raise Exception('Name already used: ' + name)
         self.nets[name] = rawnet
@@ -208,17 +208,17 @@ class Context(object):
         return rawnet
 
     def _register_input(self, rawnet, name):
-        name = self._register(rawnet, name)
+        rawnet = self._register(rawnet, name)
         self.inputs[name] = rawnet
         return rawnet
 
     def _register_latch(self, rawnet, name):
-        name = self._register(rawnet, name)
+        rawnet = self._register(rawnet, name)
         self.latches[name] = rawnet
         return rawnet
 
     def _register_output(self, rawnet, name):
         if name == None:
             name = '__o' + str(rawnet)
-        name = self._register(rawnet, name)
+        rawnet = self._register(rawnet, name)
         self.outputs[name] = rawnet

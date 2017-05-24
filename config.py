@@ -34,6 +34,7 @@ class Config(object):
             for line in fdesc.readlines():
                 line = line.lstrip()
                 if len(line) > 2 and line[0] == '/' and line[1] == '/':
+                    # Ignores commented-out lines
                     continue
                 config_string += line
             self._config = json.loads(config_string)

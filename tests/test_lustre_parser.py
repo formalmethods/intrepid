@@ -21,54 +21,17 @@ class TestParserKind2(unittest.TestCase):
     Unit tests for lustre parser
     """
 
-    PATH_TO_KIND2_BENCHMARKS_ROOT = '../kind2-benchmarks'
+    PATH_TO_KIND2_BENCHMARKS_ROOT = 'tests/kind2-benchmarks/'
 
     @staticmethod
-    def test_parser_simulation():
+    def test_parser():
         """
-        Tests for sub-directory simulation
+        Tries to parse some selected benchamarks from kind2-benchmarks repo
         """
-        bpath = TestParserKind2.PATH_TO_KIND2_BENCHMARKS_ROOT + '/simulation/'
+        bpath = TestParserKind2.PATH_TO_KIND2_BENCHMARKS_ROOT
         bfiles = [bpath + f for f in listdir(bpath)\
                                 if isfile(join(bpath, f)) and f.endswith('.lus')]
         for fname in bfiles:
-            print 'Parsing', fname
-            parser.parse(fname)
-
-    @staticmethod
-    def test_parser_protocol():
-        """
-        Tests for sub-directory protocol
-        """
-        bpath = TestParserKind2.PATH_TO_KIND2_BENCHMARKS_ROOT + '/protocol/'
-        bfiles = [bpath + f for f in listdir(bpath)\
-                                if isfile(join(bpath, f)) and f.endswith('.lus')]
-        for fname in bfiles:
-            print 'Parsing', fname
-            parser.parse(fname)
-
-    @staticmethod
-    def test_parser_memory2():
-        """
-        Tests for sub-directory memory2
-        """
-        bpath = TestParserKind2.PATH_TO_KIND2_BENCHMARKS_ROOT + '/memory2/'
-        bfiles = [bpath + f for f in listdir(bpath)\
-                                if isfile(join(bpath, f)) and f.endswith('.lus')]
-        for fname in bfiles:
-            print 'Parsing', fname
-            parser.parse(fname)
-
-    @staticmethod
-    def test_parser_memory1():
-        """
-        Tests for sub-directory memory1
-        """
-        bpath = TestParserKind2.PATH_TO_KIND2_BENCHMARKS_ROOT + '/memory1/'
-        bfiles = [bpath + f for f in listdir(bpath)\
-                                if isfile(join(bpath, f)) and f.endswith('.lus')]
-        for fname in bfiles:
-            print 'Parsing', fname
             parser.parse(fname)
 
 if __name__ == "__main__":

@@ -15,9 +15,11 @@ import argparse as ap
 import colorama as cl
 import config
 import intrepyd as ip
-import ip.colors as ic
+import intrepyd.colors as ic
+import intrepyd.lustre2py as lp
 import pandas as pd
 import os
+import importlib
 
 
 BAR = '#' * 64
@@ -57,16 +59,19 @@ def translate_simulink(infile):
     return None
 
 
-def translate_lustre(infile):
+def translate_lustre(infile, topnode):
     """
     Translates a lustre file into intrepyd syntax
     """
-    ctx = ip.Context()
+    outmodule = 'encoding'
+    outfilename = outmodule + '.py'
+    lp.translator.translate(infile, topnode, outfilename)
+    enc = importlib.import_module(outmodule)
+    ctx = enc.lustre2py_main()
+    return ctx
 
-    return None
 
-
-def translate_infile(infile):
+def translate_infile(infile, cfg):
     """
     Translates an input file depending on the suffix
     """
@@ -74,7 +79,7 @@ def translate_infile(infile):
     if infile[-4:] == '.slx' or infile[-4:] == '.mdl':
         ctx = translate_simulink(infile)
     elif infile[-4:] == '.lus' or infile[-4:] == '.ec':
-        ctx = translate_lustre(infile)
+        ctx = translate_lustre(infile, cfg['lustre.topnode'])
     else:
         raise RuntimeError('Did not recognize a file extension in [slx, mdl, lus, ec]')
     return ctx
@@ -111,7 +116,7 @@ def main():
     verbose = cfg["verbose"]
     if verbose:
         print 'Parsing input file'
-    ctx = translate_infile(parsed_args.INFILE)
+    ctx = translate_infile(parsed_args.INFILE, cfg)
     if verbose:
         print SPLASH
     if cfg["simulation"]:

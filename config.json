@@ -1,6 +1,6 @@
 {
     // The top node for lustre files
-    "node.top" : "top",
+    "lustre.topnode" : "top",
 
     // true to produce a simulation using
     // input values in "simulation.file", if present, or

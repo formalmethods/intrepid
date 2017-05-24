@@ -12,10 +12,10 @@ Translates a lustre file into an intrepyd equivalent
 """
 
 import datetime
-import lustre2py.parser as lusp
-from lustre2py.ast2intrepyd import Ast2Intrepyd, TAB, CONTEXT, FIRSTTICK,\
-                                   LUSTREDT2INTREPYDDT, BOOLTYPE, INTTYPE,\
-                                   REALTYPE, LATCH2PRE, LATCHEQUIV
+import intrepyd.lustre2py.parser as lusp
+from intrepyd.lustre2py.ast2intrepyd import Ast2Intrepyd, TAB, CONTEXT, FIRSTTICK,\
+                                            LUSTREDT2INTREPYDDT, BOOLTYPE, INTTYPE,\
+                                            REALTYPE, LATCH2PRE, LATCHEQUIV
 
 def compute_node_prototype(node):
     """
@@ -29,7 +29,7 @@ def compute_node_prototype(node):
         outputs += [decl.datatype.name] * len(decl.variables)
     return (inputs, outputs)
 
-def translate(filename, topnode):
+def translate(filename, topnode, outfilename):
     """
     Translates a lustre file into a python
     """
@@ -64,13 +64,11 @@ def translate(filename, topnode):
         today = str(datetime.date.today())
         outfile.write('# Translated from ' + filename + ' using lustre2py on ' + today)
         outfile.write('\n\n')
-        outfile.write('import time\n')
         outfile.write('import intrepyd\n\n')
         outfile.write(LATCH2PRE + ' = {}\n')
         outfile.write(LATCHEQUIV + ' = []\n\n')
         outfile.write(encoding)
         outfile.write('def lustre2py_main():\n')
-        outfile.write(TAB + 'start = time.time()\n')
         outfile.write(TAB + CONTEXT + ' = intrepyd.Context()\n')
         outfile.write(TAB + BOOLTYPE + ' = ' + CONTEXT + '.mk_boolean_type()\n')
         outfile.write(TAB + INTTYPE + ' = ' + CONTEXT + '.mk_int32_type()\n')
@@ -91,27 +89,6 @@ def translate(filename, topnode):
         for inp in inputs:
             args += ', ' + inp
         outfile.write(TAB + 'prop = ' + top.name + '(' + args + ')\n')
-
-        use_br = True
-        if use_br:
-            outfile.write(TAB + 'br = ctx.mk_backward_reach()\n')
-            outfile.write(TAB + 'br.add_target(ctx.mk_not(prop))\n')
-            outfile.write(TAB + 'intrepyd.api.apitrace_dump_to_file("trace.cpp")\n')
-            outfile.write(TAB + 'result = br.reach_targets()\n')
-        else:
-            outfile.write(TAB + 'bmc = ctx.mk_bmc()\n')
-            outfile.write(TAB + 'bmc.add_target(ctx.mk_not(prop))\n')
-            outfile.write(TAB + 'intrepyd.api.apitrace_dump_to_file("trace.cpp")\n')
-            outfile.write(TAB + 'depth = 0\n')
-            outfile.write(TAB + 'result = intrepyd.engine.EngineResult.UNKNOWN\n')
-            outfile.write(TAB + 'while True:\n')
-            outfile.write(TAB + TAB + 'bmc.set_current_depth(depth)\n')
-            outfile.write(TAB + TAB + 'result = bmc.reach_targets()\n')
-            outfile.write(TAB + TAB + 'if result == intrepyd.engine.EngineResult.REACHABLE:\n')
-            outfile.write(TAB + TAB + TAB + 'break\n')
-            outfile.write(TAB + TAB + 'depth += 1\n')
-        outfile.write(TAB + 'return result, time.time() - start\n')
-
+        outfile.write(TAB + 'return' + CONTEXT + '\n')
         outfile.write('\nif __name__ == "__main__":\n')
-        outfile.write(TAB + 'result, mtime = lustre2py_main()\n')
-        outfile.write(TAB + 'print result, mtime\n')
+        outfile.write(TAB + 'ctx = lustre2py_main()\n\n')

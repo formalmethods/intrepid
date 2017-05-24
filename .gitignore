@@ -19,3 +19,4 @@ coverage_html_report
 update_libs.sh
 create_win_dist.sh
 encoding.py
+sim.csv

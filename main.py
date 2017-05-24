@@ -79,7 +79,7 @@ def simulate(ctx, cfg, verbose):
     if os.path.isfile(sim_file):
         if verbose:
             print 'Re-simulating using input values from ' + sim_file
-        sim_data = pd.read_csv(sim_file)
+        sim_data = pd.read_csv(sim_file, index_col=0)
         depth = trace.set_from_dataframe(sim_data, ctx.inputs)
     else:
         if verbose:
@@ -87,12 +87,12 @@ def simulate(ctx, cfg, verbose):
         dpt = 0
         while dpt < depth:
             for _, net in ctx.inputs.iteritems():
-                trace.set_value(net)
+                trace.set_value(net, dpt, 'false')
+            dpt += 1
     simulator = ctx.mk_simulator()
     for _, net in ctx.outputs:
         simulator.add_watch(net)
     simulator.simulate(trace, depth)
-    print trace.get_as_net_dictionary()
     dataframe = trace.get_as_dataframe(ctx.net2name)
     dataframe.to_csv(sim_file)
 

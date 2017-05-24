@@ -1,3 +1,16 @@
+"""
+Copyright (C) 2017 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
+
+This file is distributed under the terms of the 3-clause BSD License.
+A copy of the license can be found in the root directory or at
+https://opensource.org/licenses/BSD-3-Clause.
+
+Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
+  Date: 27/03/2017
+
+This module implements infrastructure for creating nets and engines
+"""
+
 import intrepyd as ip
 import intrepyd.api
 import intrepyd.engine
@@ -148,7 +161,8 @@ class Context(object):
         return self._register_input(ip.api.mk_input(self.ctx, name, type_), name=name)
 
     def mk_output(self, x, name=None):
-        self._register_output(ip.api.mk_output(self.ctx, x), name=name)
+        ip.api.mk_output(self.ctx, x)
+        self._register_output(x, name=name)
 
     def mk_latch(self, name, type_):
         return self._register_latch(ip.api.mk_latch(self.ctx, name, type_), name=name)
@@ -189,16 +203,16 @@ class Context(object):
 
     def _current_namespace_prefix(self):
         result = ''
-        for ns in self.namespaces:
-            result += ns + '.'
+        for namespace in self.namespaces:
+            result += namespace + '.'
         return result
 
     def _register(self, rawnet, name):
         if rawnet in self.net2name:
             return rawnet
-        if name == None:
+        if name is None:
             name = '__n' + str(rawnet)
-        name = self._current_namespace_prefix() +  name
+        name = self._current_namespace_prefix() + name
         if name in self.nets:
             raise Exception('Name already used: ' + name)
         self.nets[name] = rawnet
@@ -206,17 +220,17 @@ class Context(object):
         return rawnet
 
     def _register_input(self, rawnet, name):
-        name = self._register(rawnet, name)
+        rawnet = self._register(rawnet, name)
         self.inputs[name] = rawnet
         return rawnet
 
     def _register_latch(self, rawnet, name):
-        name = self._register(rawnet, name)
+        rawnet = self._register(rawnet, name)
         self.latches[name] = rawnet
         return rawnet
 
     def _register_output(self, rawnet, name):
-        if name == None:
+        if name is None:
             name = '__o' + str(rawnet)
-        name = self._register(rawnet, name)
+        rawnet = self._register(rawnet, name)
         self.outputs[name] = rawnet

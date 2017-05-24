@@ -46,9 +46,11 @@ else:
       print 'Unsupported OS', systemStr
       sys.exit(1)
 
+# Retrieves version
+VERSION = open('VERSION').readlines()[0].strip()
 
 setup(name='intrepyd',
-      version='0.3.1',
+      version=VERSION,
       description='Intrepyd',
       author='Roberto Bruttomesso',
       author_email='roberto.bruttomesso@gmail.com',

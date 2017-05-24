@@ -68,7 +68,7 @@ def translate_infile(infile, cfg):
     return ctx
 
 
-def simulate(ctx, cfg, verbose):
+def simulate(ctx, cfg, verbose, outputs):
     """
     Simulates the design using default values for inputs or by taking
     input values from an existing simulation file
@@ -85,16 +85,19 @@ def simulate(ctx, cfg, verbose):
         if verbose:
             print 'Simulating using default values into ' + sim_file
         dpt = 0
-        while dpt < depth:
+        while dpt <= depth:
             for _, net in ctx.inputs.iteritems():
                 trace.set_value(net, dpt, 'false')
             dpt += 1
     simulator = ctx.mk_simulator()
-    for _, net in ctx.outputs:
-        simulator.add_watch(net)
+    for output in outputs:
+        simulator.add_watch(output)
     simulator.simulate(trace, depth)
     dataframe = trace.get_as_dataframe(ctx.net2name)
     dataframe.to_csv(sim_file)
+    if verbose:
+        print 'Simulation result written to ' + sim_file
+    print dataframe
 
 
 def main():
@@ -106,9 +109,11 @@ def main():
     verbose = cfg["verbose"]
     if verbose:
         print 'Parsing input file'
-    ctx = translate_infile(parsed_args.INFILE, cfg)
+    ret = translate_infile(parsed_args.INFILE, cfg)
+    ctx = ret[0]
+    outputs = ret[1:]
     if cfg["simulation"]:
-        simulate(ctx, cfg, verbose)
+        simulate(ctx, cfg, verbose, outputs)
 
 
 if __name__ == "__main__":

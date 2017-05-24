@@ -88,7 +88,17 @@ def translate(filename, topnode, outfilename):
         args = CONTEXT + ', ' + FIRSTTICK
         for inp in inputs:
             args += ', ' + inp
-        outfile.write(TAB + 'prop = ' + top.name + '(' + args + ')\n')
-        outfile.write(TAB + 'return ' + CONTEXT + '\n')
+        index = 0
+        sep = ''
+        outs = ''
+        if len(node2proto[top.name][1]) == 0:
+            raise RuntimeError('Top node has no outputs')
+        for _ in node2proto[top.name][1]:
+            name = 'o%d' % index
+            index += 1
+            outs += sep + name
+            sep = ', '
+        outfile.write(TAB + outs + ' = ' + top.name + '(' + args + ')\n')
+        outfile.write(TAB + 'return ' + CONTEXT + ', ' + outs + '\n')
         outfile.write('\nif __name__ == "__main__":\n')
-        outfile.write(TAB + 'ctx = lustre2py_main()\n\n')
+        outfile.write(TAB + 'ctx, _ = lustre2py_main()\n\n')

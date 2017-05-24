@@ -879,7 +879,7 @@ def mk_output(arg1, net):
     net: Int_net
 
     """
-    return _api.mk_output(arg1, net)
+    _api.mk_output(arg1, net)
 
 def mk_assumption(arg1, net):
     """

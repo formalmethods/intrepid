@@ -1,0 +1,5 @@
+node top(a : bool) returns (b : bool);
+let
+	b = true -> a and pre b;
+tel
+

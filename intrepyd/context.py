@@ -150,7 +150,8 @@ class Context(object):
         return self._register_input(ip.api.mk_input(self.ctx, name, type_), name=name)
 
     def mk_output(self, x, name=None):
-        self._register_output(ip.api.mk_output(self.ctx, x), name=name)
+        ip.api.mk_output(self.ctx, x)
+        self._register_output(x, name=name)
 
     def mk_latch(self, name, type_):
         return self._register_latch(ip.api.mk_latch(self.ctx, name, type_), name=name)

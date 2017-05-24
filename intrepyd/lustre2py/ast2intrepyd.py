@@ -190,6 +190,9 @@ class Ast2Intrepyd(Visitor):
         for prop in node.properties:
             self._properties.append(prop.accept(self))
         sep = ''
+        for out in node.output_decls:
+            for var in out.variables:
+                self._result += TAB + CONTEXT + '.net2name[' + var + '] = "' + var + '"\n'
         self._result += TAB + 'return '
         for out in node.output_decls:
             self._result += sep + out.accept(self)

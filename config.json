@@ -8,9 +8,6 @@
     "simulation" : true,
     // The depth for which simulation will be run
     "simulation.depth" : 10,
-    // The simulation file to use (if not present
-    // it will be created)
-    "simulation.file" : "sim.csv",
 
     // true to verify the properties that are found in the design
     "verification" : false,

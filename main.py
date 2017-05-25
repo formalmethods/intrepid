@@ -68,12 +68,12 @@ def translate_infile(infile, cfg):
     return ctx
 
 
-def simulate(ctx, cfg, verbose, outputs):
+def simulate(ctx, infile, cfg, verbose, outputs):
     """
     Simulates the design using default values for inputs or by taking
     input values from an existing simulation file
     """
-    sim_file = cfg["simulation.file"]
+    sim_file = os.path.basename(infile) + '.csv'
     trace = ctx.mk_trace()
     depth = cfg["simulation.depth"]
     if os.path.isfile(sim_file):
@@ -113,7 +113,7 @@ def main():
     ctx = ret[0]
     outputs = ret[1:]
     if cfg["simulation"]:
-        simulate(ctx, cfg, verbose, outputs)
+        simulate(ctx, parsed_args.INFILE, cfg, verbose, outputs)
 
 
 if __name__ == "__main__":
@@ -123,4 +123,3 @@ if __name__ == "__main__":
     except:
         print ic.fail('ABORTED')
         raise
-    print ic.good('OK')

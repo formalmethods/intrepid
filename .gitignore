@@ -20,3 +20,5 @@ update_libs.sh
 create_win_dist.sh
 encoding.py
 sim.csv
+trace.cpp
+bug.lus

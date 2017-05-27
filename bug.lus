@@ -1,5 +1,20 @@
-node top(a : bool) returns (b : bool);
+node Sofar( X : bool ) returns ( Sofar : bool );
 let
-	b = true -> a and pre b;
+    Sofar = X -> X or pre Sofar;
 tel
 
+node firefly(init : int) returns (invalid : int);
+let
+	invalid = init -> pre invalid;
+tel
+
+node top(init : int) returns( OK : bool );
+    var invalid : int;
+        env : bool;
+let
+    invalid = firefly( init );
+    env = Sofar( init = 1 );
+    OK = env => invalid >= 0;
+  --%MAIN;
+  --%PROPERTY OK;
+tel

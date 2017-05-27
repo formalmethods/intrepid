@@ -19,6 +19,7 @@ import colorama as cl
 import config
 import intrepyd.colors as ic
 import intrepyd.lustre2py.translator as tr
+import intrepyd.api as api
 
 
 def parse_arguments():
@@ -115,11 +116,35 @@ def main():
     if cfg["simulation"]:
         simulate(ctx, parsed_args.INFILE, cfg, verbose, outputs)
 
+def maindiff():
+    """
+    Main
+    """
+    parsed_args = parse_arguments()
+    cfg = config.Config.get_instance(parsed_args.config)
+    ret = translate_infile(parsed_args.INFILE, cfg)
+    ctx = ret[0]
+    outputs = ret[1:]
+    bad = ctx.mk_not(outputs[0])
+    br = ctx.mk_backward_reach()
+    br.add_target(bad)
+    result_br = br.reach_targets()
+    api.apitrace_dump_to_file('trace.cpp')
+    # print 'result  br:', result_br
+    # bmc = ctx.mk_bmc()
+    # bmc.add_target(bad)
+    # bmc.set_current_depth(1)
+    # result_bmc = bmc.reach_targets()
+    # print 'result bmc:', result_bmc
+    # trace = bmc.get_last_trace()
+    # print trace.get_as_dataframe(ctx.net2name)
+
 
 if __name__ == "__main__":
     cl.init()
     try:
-        main()
+        # main()
+        maindiff()
     except:
         print ic.fail('ABORTED')
         raise

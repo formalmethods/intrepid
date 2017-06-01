@@ -113,8 +113,14 @@ def main():
     ret = translate_infile(parsed_args.INFILE, cfg)
     ctx = ret[0]
     outputs = ret[1:]
-    if cfg["simulation"]:
-        simulate(ctx, parsed_args.INFILE, cfg, verbose, outputs)
+    # if cfg["simulation"]:
+    #     simulate(ctx, parsed_args.INFILE, cfg, verbose, outputs)
+    bad = ctx.mk_not(outputs[0])
+    breach = ctx.mk_backward_reach()
+    breach.add_target(bad)
+    result = breach.reach_targets()
+    print result
+
 
 def maindiff():
     """
@@ -126,25 +132,28 @@ def maindiff():
     ctx = ret[0]
     outputs = ret[1:]
     bad = ctx.mk_not(outputs[0])
-    br = ctx.mk_backward_reach()
-    br.add_target(bad)
-    result_br = br.reach_targets()
-    api.apitrace_dump_to_file('trace.cpp')
-    # print 'result  br:', result_br
-    # bmc = ctx.mk_bmc()
-    # bmc.add_target(bad)
-    # bmc.set_current_depth(1)
-    # result_bmc = bmc.reach_targets()
-    # print 'result bmc:', result_bmc
-    # trace = bmc.get_last_trace()
+    bmc = ctx.mk_bmc()
+    bmc.add_target(bad)
+    bmc.set_current_depth(1)
+    result_bmc = bmc.reach_targets()
+    # trace = breach.get_last_trace()
     # print trace.get_as_dataframe(ctx.net2name)
+    print result_bmc
+    breach = ctx.mk_backward_reach()
+    breach.add_target(bad)
+    api.apitrace_dump_to_file('trace.cpp')
+    result_breach = breach.reach_targets()
+    # trace = breach.get_last_trace()
+    # print trace.get_as_dataframe(ctx.net2name)
+    print result_breach
+
 
 
 if __name__ == "__main__":
     cl.init()
     try:
-        # main()
-        maindiff()
+        main()
+        # maindiff()
     except:
         print ic.fail('ABORTED')
         raise

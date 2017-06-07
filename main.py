@@ -114,12 +114,12 @@ def main():
     ctx = ret[0]
     outputs = ret[1:]
     # if cfg["simulation"]:
-    #     simulate(ctx, parsed_args.INFILE, cfg, verbose, outputs)
-    bad = ctx.mk_not(outputs[0])
-    breach = ctx.mk_backward_reach()
-    breach.add_target(bad)
-    result = breach.reach_targets()
-    print result
+    simulate(ctx, parsed_args.INFILE, cfg, verbose, outputs)
+    # bad = ctx.mk_not(outputs[0])
+    # breach = ctx.mk_backward_reach()
+    # breach.add_target(bad)
+    # result = breach.reach_targets()
+    # print result
 
 
 def maindiff():
@@ -134,18 +134,18 @@ def maindiff():
     bad = ctx.mk_not(outputs[0])
     bmc = ctx.mk_bmc()
     bmc.add_target(bad)
-    bmc.set_current_depth(1)
+    bmc.set_current_depth(10)
     result_bmc = bmc.reach_targets()
     # trace = breach.get_last_trace()
     # print trace.get_as_dataframe(ctx.net2name)
-    print result_bmc
+    print 'BMC   ', result_bmc
     breach = ctx.mk_backward_reach()
     breach.add_target(bad)
     api.apitrace_dump_to_file('trace.cpp')
     result_breach = breach.reach_targets()
     # trace = breach.get_last_trace()
     # print trace.get_as_dataframe(ctx.net2name)
-    print result_breach
+    print 'BREACH', result_breach
 
 
 

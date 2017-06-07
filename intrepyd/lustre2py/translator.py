@@ -62,7 +62,7 @@ def translate(filename, topnode, outfilename):
     outfilename = 'encoding.py'
     with open(outfilename, 'w') as outfile:
         today = str(datetime.date.today())
-        outfile.write('# Translated from ' + filename + ' using lustre2py on ' + today)
+        outfile.write('# Translated from ' + filename + ' using intrepyd.lustre2py on ' + today)
         outfile.write('\n\n')
         outfile.write('import intrepyd\n\n')
         outfile.write(LATCH2PRE + ' = {}\n')

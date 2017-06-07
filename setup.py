@@ -3,7 +3,8 @@
 Setup script for Intrepyd
 """
 
-from distutils.core import setup
+# from distutils.core import setup
+from setuptools import setup
 from subprocess import call
 import shutil
 import platform
@@ -56,7 +57,14 @@ setup(name='intrepyd',
       author_email='roberto.bruttomesso@gmail.com',
       url='http://github.com/formalmethods/intrepyd',
       packages=['intrepyd'],
-      package_data={'intrepyd' : packageDataList}
+      package_data={'intrepyd' : packageDataList},
+      install_requires=[
+          'numpy>=1.12',
+          'pandas>=0.19.1',
+          'enum>=0.4.6',
+          'colorama>=0.3.9',
+          'antlr4-python2-runtime==4.6'
+      ]
 )
 
 suffix = "32"

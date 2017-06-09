@@ -23,27 +23,27 @@ class Context(object):
     An intrepyd context
     """
     def __init__(self):
-       self.ctx = ip.api.mk_ctx()
-       self.inputs = collections.OrderedDict()
-       self.outputs = collections.OrderedDict()
-       self.latches = {}
-       self.nets = {}
-       self.net2name = {}
-       self.booleantype = ip.api.mk_boolean_type(self.ctx)
-       self.int8type = ip.api.mk_int8_type(self.ctx)
-       self.int16type = ip.api.mk_int16_type(self.ctx)
-       self.int32type = ip.api.mk_int32_type(self.ctx)
-       self.uint8type = ip.api.mk_uint8_type(self.ctx)
-       self.uint16type = ip.api.mk_uint16_type(self.ctx)
-       self.uint32type = ip.api.mk_uint32_type(self.ctx)
-       self.realtype = ip.api.mk_real_type(self.ctx)
-       self.float16type = ip.api.mk_float16_type(self.ctx)
-       self.float32type = ip.api.mk_float32_type(self.ctx)
-       self.float64type = ip.api.mk_float64_type(self.ctx)
-       self.undef = ip.api.mk_undef(self.ctx)
-       self.true = ip.api.mk_true(self.ctx)
-       self.false = ip.api.mk_false(self.ctx)
-       self.namespaces = []
+        self.ctx = ip.api.mk_ctx()
+        self.inputs = collections.OrderedDict()
+        self.outputs = collections.OrderedDict()
+        self.latches = {}
+        self.nets = {}
+        self.net2name = {}
+        self.booleantype = ip.api.mk_boolean_type(self.ctx)
+        self.int8type = ip.api.mk_int8_type(self.ctx)
+        self.int16type = ip.api.mk_int16_type(self.ctx)
+        self.int32type = ip.api.mk_int32_type(self.ctx)
+        self.uint8type = ip.api.mk_uint8_type(self.ctx)
+        self.uint16type = ip.api.mk_uint16_type(self.ctx)
+        self.uint32type = ip.api.mk_uint32_type(self.ctx)
+        self.realtype = ip.api.mk_real_type(self.ctx)
+        self.float16type = ip.api.mk_float16_type(self.ctx)
+        self.float32type = ip.api.mk_float32_type(self.ctx)
+        self.float64type = ip.api.mk_float64_type(self.ctx)
+        self.undef = ip.api.mk_undef(self.ctx)
+        self.true = ip.api.mk_true(self.ctx)
+        self.false = ip.api.mk_false(self.ctx)
+        self.namespaces = []
 
     def __del__(self):
         ip.api.del_ctx(self.ctx)

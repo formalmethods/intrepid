@@ -20,6 +20,14 @@ import config
 import intrepyd.colors as ic
 import intrepyd.lustre2py.translator as tr
 import intrepyd.api as api
+import intrepyd.engine as en
+import intrepyd
+import multiprocessing as mp
+import time
+import random as rm
+
+
+global_ctx = intrepyd.Context()
 
 
 def parse_arguments():
@@ -35,7 +43,7 @@ def parse_arguments():
     return arg_parser.parse_args()
 
 
-def translate_simulink(infile):
+def translate_simulink(ctx, infile):
     """
     Translates a simulink file into intrepyd syntax
     """
@@ -43,7 +51,7 @@ def translate_simulink(infile):
     return None
 
 
-def translate_lustre(infile, topnode):
+def translate_lustre(ctx, infile, topnode):
     """
     Translates a lustre file into intrepyd syntax
     """
@@ -51,22 +59,21 @@ def translate_lustre(infile, topnode):
     outfilename = outmodule + '.py'
     tr.translate(infile, topnode, outfilename)
     enc = importlib.import_module(outmodule)
-    ctx = enc.lustre2py_main()
-    return ctx
+    return enc.lustre2py_main(ctx)
 
 
-def translate_infile(infile, cfg):
+def translate_infile(ctx, infile, cfg):
     """
     Translates an input file depending on the suffix
     """
-    ctx = None
+    outputs = None
     if infile[-4:] == '.slx' or infile[-4:] == '.mdl':
-        ctx = translate_simulink(infile)
+        outputs = translate_simulink(ctx, infile)
     elif infile[-4:] == '.lus' or infile[-4:] == '.ec':
-        ctx = translate_lustre(infile, cfg['lustre.topnode'])
+        outputs = translate_lustre(ctx, infile, cfg['lustre.topnode'])
     else:
         raise RuntimeError('Did not recognize a file extension in [slx, mdl, lus, ec]')
-    return ctx
+    return outputs
 
 
 def simulate(ctx, infile, cfg, verbose, outputs):
@@ -101,6 +108,74 @@ def simulate(ctx, infile, cfg, verbose, outputs):
     print dataframe
 
 
+def run_bmc(target): #, queue):
+    """
+    Worker for bmc
+    """
+    print 'Running BMC'
+    # bmc = global_ctx.mk_bmc()
+    # bmc.add_target(target)
+    # i = 0
+    # while True:
+    #     bmc.set_current_depth(i)
+    #     result_bmc = bmc.reach_targets()
+    #     if result_bmc == en.EngineResult.REACHABLE:
+    #         break
+    #     i += 1
+    # queue.put('r')
+
+
+def run_backward_reach(target): #, queue):
+    """
+    Worker for backward reach
+    """
+    print 'Running BREACH'
+    # breach = global_ctx.mk_backward_reach()
+    # breach.add_target(target)
+    # result_breach = breach.reach_targets()
+    # if result_breach == en.EngineResult.REACHABLE:
+    #     queue.put('r')
+    # else:
+    #     queue.put('u')
+
+
+def reach_target_in_parallel(target, timeout=31536000):
+    """
+    Solve the given target using bmc and backward reach in parallel
+    """
+    assert not global_ctx is None
+    # queue = mp.Queue()
+    proc_bmc = mp.Process(target=run_bmc, args=(target, )) #queue))
+    proc_br = mp.Process(target=run_backward_reach, args=(target, )) #queue))
+    print 'Here'
+    start = time.time()
+    proc_bmc.start()
+    proc_br.start()
+    res = 'Unknown'
+    # while True:
+    #     time.sleep(.1)
+    #     if time.time() - start >= timeout:
+    #         res = 'Timeout'
+    #         proc_bmc.terminate()
+    #         proc_br.terminate()
+    #         break
+    #     if not proc_bmc.is_alive():
+    #         # assert not queue.empty()
+    #         # res = queue.get()
+    #         proc_br.terminate()
+    #         proc_br.join()
+    #         break
+    #     if not proc_br.is_alive():
+    #         # assert not queue.empty()
+    #         # res = queue.get()
+    #         proc_bmc.terminate()
+    #         proc_bmc.join()
+    #         break
+    proc_bmc.join()
+    proc_br.join()
+    print res, time.time() - start
+
+
 def main():
     """
     Main
@@ -110,42 +185,41 @@ def main():
     verbose = cfg["verbose"]
     if verbose:
         print 'Parsing input file'
-    ret = translate_infile(parsed_args.INFILE, cfg)
-    ctx = ret[0]
-    outputs = ret[1:]
+    outputs = translate_infile(global_ctx, parsed_args.INFILE, cfg)
     # if cfg["simulation"]:
-    simulate(ctx, parsed_args.INFILE, cfg, verbose, outputs)
-    # bad = ctx.mk_not(outputs[0])
+    # simulate(ctx, parsed_args.INFILE, cfg, verbose, outputs)
+    target = global_ctx.mk_not(outputs)
     # breach = ctx.mk_backward_reach()
     # breach.add_target(bad)
     # result = breach.reach_targets()
     # print result
+    print reach_target_in_parallel(target)
 
 
-def maindiff():
-    """
-    Main
-    """
-    parsed_args = parse_arguments()
-    cfg = config.Config.get_instance(parsed_args.config)
-    ret = translate_infile(parsed_args.INFILE, cfg)
-    ctx = ret[0]
-    outputs = ret[1:]
-    bad = ctx.mk_not(outputs[0])
-    bmc = ctx.mk_bmc()
-    bmc.add_target(bad)
-    bmc.set_current_depth(10)
-    result_bmc = bmc.reach_targets()
-    # trace = breach.get_last_trace()
-    # print trace.get_as_dataframe(ctx.net2name)
-    print 'BMC   ', result_bmc
-    breach = ctx.mk_backward_reach()
-    breach.add_target(bad)
-    api.apitrace_dump_to_file('trace.cpp')
-    result_breach = breach.reach_targets()
-    # trace = breach.get_last_trace()
-    # print trace.get_as_dataframe(ctx.net2name)
-    print 'BREACH', result_breach
+# def maindiff():
+#     """
+#     Main
+#     """
+#     parsed_args = parse_arguments()
+#     cfg = config.Config.get_instance(parsed_args.config)
+#     ret = translate_infile(parsed_args.INFILE, cfg)
+#     ctx = ret[0]
+#     outputs = ret[1:]
+#     bad = ctx.mk_not(outputs[0])
+#     bmc = ctx.mk_bmc()
+#     bmc.add_target(bad)
+#     bmc.set_current_depth(10)
+#     result_bmc = bmc.reach_targets()
+#     # trace = breach.get_last_trace()
+#     # print trace.get_as_dataframe(ctx.net2name)
+#     print 'BMC   ', result_bmc
+#     breach = ctx.mk_backward_reach()
+#     breach.add_target(bad)
+#     api.apitrace_dump_to_file('trace.cpp')
+#     result_breach = breach.reach_targets()
+#     # trace = breach.get_last_trace()
+#     # print trace.get_as_dataframe(ctx.net2name)
+#     print 'BREACH', result_breach
 
 
 

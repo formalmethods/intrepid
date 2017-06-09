@@ -68,8 +68,7 @@ def translate(filename, topnode, outfilename):
         outfile.write(LATCH2PRE + ' = {}\n')
         outfile.write(LATCHEQUIV + ' = []\n\n')
         outfile.write(encoding)
-        outfile.write('def lustre2py_main():\n')
-        outfile.write(TAB + CONTEXT + ' = intrepyd.Context()\n')
+        outfile.write('def lustre2py_main(' + CONTEXT +'):\n')
         outfile.write(TAB + BOOLTYPE + ' = ' + CONTEXT + '.mk_boolean_type()\n')
         outfile.write(TAB + INTTYPE + ' = ' + CONTEXT + '.mk_int32_type()\n')
         outfile.write(TAB + REALTYPE + ' = ' + CONTEXT + '.mk_real_type()\n')
@@ -99,6 +98,7 @@ def translate(filename, topnode, outfilename):
             outs += sep + name
             sep = ', '
         outfile.write(TAB + outs + ' = ' + top.name + '(' + args + ')\n')
-        outfile.write(TAB + 'return ' + CONTEXT + ', ' + outs + '\n')
+        outfile.write(TAB + 'return ' + outs + '\n')
         outfile.write('\nif __name__ == "__main__":\n')
-        outfile.write(TAB + 'ctx, _ = lustre2py_main()\n\n')
+        outfile.write(TAB + CONTEXT + ' = intrepyd.Context()\n')
+        outfile.write(TAB + 'lustre2py_main(' + CONTEXT + ')\n\n')

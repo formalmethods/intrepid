@@ -107,75 +107,6 @@ def simulate(ctx, infile, cfg, verbose, outputs):
         print 'Simulation result written to ' + sim_file
     print dataframe
 
-
-def run_bmc(target): #, queue):
-    """
-    Worker for bmc
-    """
-    print 'Running BMC'
-    # bmc = global_ctx.mk_bmc()
-    # bmc.add_target(target)
-    # i = 0
-    # while True:
-    #     bmc.set_current_depth(i)
-    #     result_bmc = bmc.reach_targets()
-    #     if result_bmc == en.EngineResult.REACHABLE:
-    #         break
-    #     i += 1
-    # queue.put('r')
-
-
-def run_backward_reach(target): #, queue):
-    """
-    Worker for backward reach
-    """
-    print 'Running BREACH'
-    # breach = global_ctx.mk_backward_reach()
-    # breach.add_target(target)
-    # result_breach = breach.reach_targets()
-    # if result_breach == en.EngineResult.REACHABLE:
-    #     queue.put('r')
-    # else:
-    #     queue.put('u')
-
-
-def reach_target_in_parallel(target, timeout=31536000):
-    """
-    Solve the given target using bmc and backward reach in parallel
-    """
-    assert not global_ctx is None
-    # queue = mp.Queue()
-    proc_bmc = mp.Process(target=run_bmc, args=(target, )) #queue))
-    proc_br = mp.Process(target=run_backward_reach, args=(target, )) #queue))
-    print 'Here'
-    start = time.time()
-    proc_bmc.start()
-    proc_br.start()
-    res = 'Unknown'
-    # while True:
-    #     time.sleep(.1)
-    #     if time.time() - start >= timeout:
-    #         res = 'Timeout'
-    #         proc_bmc.terminate()
-    #         proc_br.terminate()
-    #         break
-    #     if not proc_bmc.is_alive():
-    #         # assert not queue.empty()
-    #         # res = queue.get()
-    #         proc_br.terminate()
-    #         proc_br.join()
-    #         break
-    #     if not proc_br.is_alive():
-    #         # assert not queue.empty()
-    #         # res = queue.get()
-    #         proc_bmc.terminate()
-    #         proc_bmc.join()
-    #         break
-    proc_bmc.join()
-    proc_br.join()
-    print res, time.time() - start
-
-
 def main():
     """
     Main
@@ -185,49 +116,18 @@ def main():
     verbose = cfg["verbose"]
     if verbose:
         print 'Parsing input file'
-    outputs = translate_infile(global_ctx, parsed_args.INFILE, cfg)
-    # if cfg["simulation"]:
-    # simulate(ctx, parsed_args.INFILE, cfg, verbose, outputs)
-    target = global_ctx.mk_not(outputs)
-    # breach = ctx.mk_backward_reach()
-    # breach.add_target(bad)
-    # result = breach.reach_targets()
-    # print result
-    print reach_target_in_parallel(target)
-
-
-# def maindiff():
-#     """
-#     Main
-#     """
-#     parsed_args = parse_arguments()
-#     cfg = config.Config.get_instance(parsed_args.config)
-#     ret = translate_infile(parsed_args.INFILE, cfg)
-#     ctx = ret[0]
-#     outputs = ret[1:]
-#     bad = ctx.mk_not(outputs[0])
-#     bmc = ctx.mk_bmc()
-#     bmc.add_target(bad)
-#     bmc.set_current_depth(10)
-#     result_bmc = bmc.reach_targets()
-#     # trace = breach.get_last_trace()
-#     # print trace.get_as_dataframe(ctx.net2name)
-#     print 'BMC   ', result_bmc
-#     breach = ctx.mk_backward_reach()
-#     breach.add_target(bad)
-#     api.apitrace_dump_to_file('trace.cpp')
-#     result_breach = breach.reach_targets()
-#     # trace = breach.get_last_trace()
-#     # print trace.get_as_dataframe(ctx.net2name)
-#     print 'BREACH', result_breach
-
-
+    ctx = intrepyd.Context()
+    outputs = translate_infile(ctx, parsed_args.INFILE, cfg)
+    bad = ctx.mk_not(outputs)
+    breach = ctx.mk_backward_reach()
+    breach.add_target(bad)
+    result = breach.reach_targets()
+    print result
 
 if __name__ == "__main__":
     cl.init()
     try:
         main()
-        # maindiff()
     except:
         print ic.fail('ABORTED')
         raise

@@ -122,7 +122,12 @@ def main():
     breach = ctx.mk_backward_reach()
     breach.add_target(bad)
     result = breach.reach_targets()
-    print result
+    if result == en.EngineResult.UNREACHABLE:
+         print 'Safe'
+    elif result == en.EngineResult.REACHABLE:
+         print 'Unsafe'
+    else:
+         print 'Unknown'
 
 if __name__ == "__main__":
     cl.init()

@@ -23,8 +23,9 @@ before_script:
     - export LD_LIBRARY_PATH=`pwd`/libs/linux64
 
 script:
-    - coverage run -m unittest discover
+#    - coverage run -m unittest discover
+    - python -m unittest discover
 
-after_success:
-    - coverage report
-    - coveralls
+#after_success:
+#    - coverage report
+#    - coveralls

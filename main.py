@@ -119,9 +119,18 @@ def main():
     ctx = intrepyd.Context()
     outputs = translate_infile(ctx, parsed_args.INFILE, cfg)
     bad = ctx.mk_not(outputs)
-    breach = ctx.mk_backward_reach()
-    breach.add_target(bad)
-    result = breach.reach_targets()
+    # breach = ctx.mk_backward_reach()
+    # breach.add_target(bad)
+    # result = breach.reach_targets()
+    bmc = ctx.mk_bmc()
+    bmc.add_target(bad)
+    for i in range(0, 100):
+        bmc.set_current_depth(i)
+        result = bmc.reach_targets()
+        if result == en.EngineResult.REACHABLE:
+             print 'Unsafe'
+             return
+        print 'Done depth', i
     if result == en.EngineResult.UNREACHABLE:
          print 'Safe'
     elif result == en.EngineResult.REACHABLE:

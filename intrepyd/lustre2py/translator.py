@@ -59,7 +59,7 @@ def translate(filename, topnode, outfilename):
     if top is None:
         raise Exception('Top node not found')
 
-    outfilename = 'encoding.py'
+    # outfilename = 'encoding.py'
     with open(outfilename, 'w') as outfile:
         today = str(datetime.date.today())
         outfile.write('# Translated from ' + filename + ' using intrepyd.lustre2py on ' + today)

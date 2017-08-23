@@ -13,21 +13,17 @@ Entry point
 
 import argparse as ap
 import os
+import multiprocessing as mp
+import time
 import importlib
+import subprocess as sp
 import pandas as pd
 import colorama as cl
 import config
 import intrepyd.colors as ic
 import intrepyd.lustre2py.translator as tr
-import intrepyd.api as api
 import intrepyd.engine as en
 import intrepyd
-import multiprocessing as mp
-import time
-import random as rm
-
-
-global_ctx = intrepyd.Context()
 
 
 def parse_arguments():
@@ -51,18 +47,18 @@ def translate_simulink(ctx, infile):
     return None
 
 
-def translate_lustre(ctx, infile, topnode):
+def translate_lustre(ctx, infile, topnode, disamb):
     """
     Translates a lustre file into intrepyd syntax
     """
-    outmodule = 'encoding'
+    outmodule = 'encoding_' + disamb
     outfilename = outmodule + '.py'
     tr.translate(infile, topnode, outfilename)
     enc = importlib.import_module(outmodule)
     return enc.lustre2py_main(ctx)
 
 
-def translate_infile(ctx, infile, cfg):
+def translate_infile(ctx, infile, cfg, disamb):
     """
     Translates an input file depending on the suffix
     """
@@ -70,7 +66,7 @@ def translate_infile(ctx, infile, cfg):
     if infile[-4:] == '.slx' or infile[-4:] == '.mdl':
         outputs = translate_simulink(ctx, infile)
     elif infile[-4:] == '.lus' or infile[-4:] == '.ec':
-        outputs = translate_lustre(ctx, infile, cfg['lustre.topnode'])
+        outputs = translate_lustre(ctx, infile, cfg['lustre.topnode'], disamb)
     else:
         raise RuntimeError('Did not recognize a file extension in [slx, mdl, lus, ec]')
     return outputs
@@ -107,36 +103,64 @@ def simulate(ctx, infile, cfg, verbose, outputs):
         print 'Simulation result written to ' + sim_file
     print dataframe
 
+
+def run_bmc(engine, cfg):
+    max_depth = cfg["bmc.max_depth"]
+    verbose = cfg["verbose"]
+    for depth in range(0, max_depth):
+        if verbose:
+            print "BMC depth", depth
+        engine.set_current_depth(depth)
+        res = engine.reach_targets()
+        if res == en.EngineResult.REACHABLE:
+            return res
+    return en.EngineResult.UNKNOWN
+
+
+def run_br(engine, cfg):
+    return engine.reach_targets()
+
+
 def main():
     """
     Main
     """
     parsed_args = parse_arguments()
+    infile = parsed_args.INFILE
     cfg = config.Config.get_instance(parsed_args.config)
     verbose = cfg["verbose"]
     if verbose:
         print 'Parsing input file'
     ctx = intrepyd.Context()
-    outputs = translate_infile(ctx, parsed_args.INFILE, cfg)
-    bad = ctx.mk_not(outputs)
-    # breach = ctx.mk_backward_reach()
-    # breach.add_target(bad)
-    # result = breach.reach_targets()
-    bmc = ctx.mk_bmc()
-    bmc.add_target(bad)
-    for i in range(0, 100):
-        bmc.set_current_depth(i)
-        result = bmc.reach_targets()
-        if result == en.EngineResult.REACHABLE:
-             print 'Unsafe'
-             return
-        print 'Done depth', i
-    if result == en.EngineResult.UNREACHABLE:
-         print 'Safe'
-    elif result == en.EngineResult.REACHABLE:
-         print 'Unsafe'
+    output = translate_infile(ctx, infile, cfg, '_main')
+    bad = ctx.mk_not(output)
+    engine_string = cfg["verification.engine"]
+    engine = None
+    if verbose:
+        print 'Verifying'
+    if engine_string == "bmc":
+        engine = ctx.mk_bmc()
+    elif engine_string == "br":
+        engine = ctx.mk_backward_reach() 
     else:
-         print 'Unknown'
+        raise RuntimeError("Unknown engine " + engine_string)
+    engine.add_target(bad)
+    res = en.EngineResult.UNKNOWN
+    if engine_string == "bmc":
+        res = run_bmc(engine, cfg)
+    elif engine_string == "br":
+        res = run_br(engine, cfg)
+    else:
+        raise RuntimeError("Unknown engine " + engine_string)
+    if res == en.EngineResult.REACHABLE:
+        trace_file = os.path.basename(infile) + '.csv'
+        trace = engine.get_last_trace()
+        dataframe = trace.get_as_dataframe(ctx.net2name)
+        dataframe.to_csv(trace_file)
+        if verbose:
+            print 'Trace written to ' + trace_file
+    print res
+
 
 if __name__ == "__main__":
     cl.init()
@@ -145,3 +169,4 @@ if __name__ == "__main__":
     except:
         print ic.fail('ABORTED')
         raise
+

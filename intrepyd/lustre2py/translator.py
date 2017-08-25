@@ -29,10 +29,12 @@ def compute_node_prototype(node):
         outputs += [decl.datatype.name] * len(decl.variables)
     return (inputs, outputs)
 
-def translate(filename, topnode, outfilename):
+def translate(filename, topnode, outfilename, realtype):
     """
     Translates a lustre file into a python
     """
+    if not realtype in ['real', 'float16', 'float32', 'float64']:
+        raise Exception('Unsupported real type ' + realtype)
     # Parse lustre into AST
     ast = lusp.parse(filename)
     # Compute nodes prototypes
@@ -41,7 +43,7 @@ def translate(filename, topnode, outfilename):
     encoding = ''
     properties = []
     top = None
-    ast_printer = Ast2Intrepyd(node2proto)
+    ast_printer = Ast2Intrepyd(node2proto, realtype)
     for node in ast.nodes:
         # Important: sort equations by dependencies!
         node.sort_equations()
@@ -59,7 +61,6 @@ def translate(filename, topnode, outfilename):
     if top is None:
         raise Exception('Top node not found')
 
-    # outfilename = 'encoding.py'
     with open(outfilename, 'w') as outfile:
         today = str(datetime.date.today())
         outfile.write('# Translated from ' + filename + ' using intrepyd.lustre2py on ' + today)
@@ -71,7 +72,7 @@ def translate(filename, topnode, outfilename):
         outfile.write('def lustre2py_main(' + CONTEXT +'):\n')
         outfile.write(TAB + BOOLTYPE + ' = ' + CONTEXT + '.mk_boolean_type()\n')
         outfile.write(TAB + INTTYPE + ' = ' + CONTEXT + '.mk_int32_type()\n')
-        outfile.write(TAB + REALTYPE + ' = ' + CONTEXT + '.mk_real_type()\n')
+        outfile.write(TAB + REALTYPE + ' = ' + CONTEXT + '.mk_' + realtype + '_type()\n')
         outfile.write(TAB + FIRSTTICK + ' = ' + CONTEXT +\
                       '.mk_latch("' + FIRSTTICK + '", ctx.mk_boolean_type())\n')
         outfile.write(TAB + CONTEXT +\

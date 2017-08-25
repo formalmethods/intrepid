@@ -139,7 +139,7 @@ class Ast2Intrepyd(Visitor):
     """
     Visitor for printing AST on stdout
     """
-    def __init__(self, node2proto):
+    def __init__(self, node2proto, realtype):
         self._result = ''
         self._main_node = None
         self._properties = []
@@ -149,6 +149,7 @@ class Ast2Intrepyd(Visitor):
         self._latch_decls = []
         self._node2proto = node2proto
         self._pre_decls = set()
+        self._realtype = realtype
 
     def _get_new_name(self):
         self._id += 1
@@ -171,7 +172,7 @@ class Ast2Intrepyd(Visitor):
         self._result += '):\n'
         self._result += TAB + BOOLTYPE + ' = ' + CONTEXT + '.mk_boolean_type()\n'
         self._result += TAB + INTTYPE + ' = ' + CONTEXT + '.mk_int32_type()\n'
-        self._result += TAB + REALTYPE + ' = ' + CONTEXT + '.mk_real_type()\n'
+        self._result += TAB + REALTYPE + ' = ' + CONTEXT + '.mk_' + self._realtype + '_type()\n'
         for loc in node.local_decls:
             loc.accept(self)
         for out in node.output_decls:

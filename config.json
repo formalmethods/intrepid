@@ -2,6 +2,11 @@
     // The top node for lustre files
     "lustre.topnode" : "top",
 
+    // Specifies the type to use for reals
+    // - real: uses infinite-precision rational arithmetic
+    // - float16, float32, float64: uses floating-point with the given precision
+    "type.real" : "float32",
+
     // true to produce a simulation using
     // input values in "simulation.file", if present, or
     // using default simulation values for each type

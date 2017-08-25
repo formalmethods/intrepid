@@ -47,15 +47,15 @@ def translate_simulink(ctx, infile):
     return None
 
 
-def translate_lustre(ctx, infile, topnode, disamb):
+def translate_lustre(ctx, infile, topnode, disamb, realtype):
     """
     Translates a lustre file into intrepyd syntax
     """
     outmodule = 'encoding_' + disamb
     outfilename = outmodule + '.py'
-    tr.translate(infile, topnode, outfilename)
+    tr.translate(infile, topnode, outfilename, realtype)
     enc = importlib.import_module(outmodule)
-    return enc.lustre2py_main(ctx)
+    return [enc.lustre2py_main(ctx)]
 
 
 def translate_infile(ctx, infile, cfg, disamb):
@@ -66,13 +66,13 @@ def translate_infile(ctx, infile, cfg, disamb):
     if infile[-4:] == '.slx' or infile[-4:] == '.mdl':
         outputs = translate_simulink(ctx, infile)
     elif infile[-4:] == '.lus' or infile[-4:] == '.ec':
-        outputs = translate_lustre(ctx, infile, cfg['lustre.topnode'], disamb)
+        outputs = translate_lustre(ctx, infile, cfg['lustre.topnode'], disamb, cfg['type.real'])
     else:
         raise RuntimeError('Did not recognize a file extension in [slx, mdl, lus, ec]')
     return outputs
 
 
-def simulate(ctx, infile, cfg, verbose, outputs):
+def simulate(ctx, infile, cfg, outputs):
     """
     Simulates the design using default values for inputs or by taking
     input values from an existing simulation file
@@ -86,7 +86,7 @@ def simulate(ctx, infile, cfg, verbose, outputs):
         sim_data = pd.read_csv(sim_file, index_col=0)
         depth = trace.set_from_dataframe(sim_data, ctx.inputs)
     else:
-        if verbose:
+        if cfg["verbose"]:
             print 'Simulating using default values into ' + sim_file
         dpt = 0
         while dpt <= depth:
@@ -121,23 +121,13 @@ def run_br(engine, cfg):
     return engine.reach_targets()
 
 
-def main():
-    """
-    Main
-    """
-    parsed_args = parse_arguments()
-    infile = parsed_args.INFILE
-    cfg = config.Config.get_instance(parsed_args.config)
-    verbose = cfg["verbose"]
-    if verbose:
-        print 'Parsing input file'
-    ctx = intrepyd.Context()
-    output = translate_infile(ctx, infile, cfg, '_main')
+def verify(ctx, cfg, output):
     bad = ctx.mk_not(output)
     engine_string = cfg["verification.engine"]
     engine = None
+    verbose = cfg["verbose"]
     if verbose:
-        print 'Verifying'
+        print 'Verifying using', engine_string
     if engine_string == "bmc":
         engine = ctx.mk_bmc()
     elif engine_string == "br":
@@ -162,6 +152,25 @@ def main():
     print res
 
 
+def main():
+    """
+    Main
+    """
+    parsed_args = parse_arguments()
+    infile = parsed_args.INFILE
+    cfg = config.Config.get_instance(parsed_args.config)
+    verbose = cfg["verbose"]
+    if verbose:
+        print 'Parsing', infile
+    ctx = intrepyd.Context()
+    outputs = translate_infile(ctx, infile, cfg, 'main')
+    if verbose:
+        print 'Translated as encoding_main.py'
+    if cfg["verification"]:
+        for output in outputs:
+            verify(ctx, cfg, output)
+
+
 if __name__ == "__main__":
     cl.init()
     try:
@@ -169,4 +178,3 @@ if __name__ == "__main__":
     except:
         print ic.fail('ABORTED')
         raise
-

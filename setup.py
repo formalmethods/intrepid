@@ -4,7 +4,7 @@ Setup script for Intrepyd
 """
 
 # from distutils.core import setup
-from setuptools import setup
+from setuptools import setup, find_packages
 from subprocess import call
 import shutil
 import platform
@@ -56,7 +56,8 @@ setup(name='intrepyd',
       author='Roberto Bruttomesso',
       author_email='roberto.bruttomesso@gmail.com',
       url='http://github.com/formalmethods/intrepyd',
-      packages=['intrepyd'],
+      #packages=['intrepyd'],
+      packages=find_packages(),
       package_data={'intrepyd' : packageDataList},
       install_requires=[
           'numpy>=1.12',

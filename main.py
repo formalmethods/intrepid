@@ -19,10 +19,10 @@ import importlib
 import subprocess as sp
 import pandas as pd
 import colorama as cl
-import config
 import intrepyd.colors as ic
 import intrepyd.lustre2py.translator as tr
 import intrepyd.engine as en
+import intrepyd.config as cg
 import intrepyd
 
 
@@ -135,6 +135,7 @@ def verify(ctx, cfg, output):
     else:
         raise RuntimeError("Unknown engine " + engine_string)
     engine.add_target(bad)
+    intrepyd.api.apitrace_dump_to_file("trace.cpp")
     res = en.EngineResult.UNKNOWN
     if engine_string == "bmc":
         res = run_bmc(engine, cfg)
@@ -158,7 +159,7 @@ def main():
     """
     parsed_args = parse_arguments()
     infile = parsed_args.INFILE
-    cfg = config.Config.get_instance(parsed_args.config)
+    cfg = cg.Config.get_instance(parsed_args.config)
     verbose = cfg["verbose"]
     if verbose:
         print 'Parsing', infile

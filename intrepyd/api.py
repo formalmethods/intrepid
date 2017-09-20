@@ -813,6 +813,19 @@ def mk_div(ctx, x, y):
     """
     return _api.mk_div(ctx, x, y)
 
+def mk_mod(ctx, x, y):
+    """
+    mk_mod(Int_ctx ctx, Int_net x, Int_net y) -> Int_net
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    x: Int_net
+    y: Int_net
+
+    """
+    return _api.mk_mod(ctx, x, y)
+
 def mk_eq(ctx, x, y):
     """
     mk_eq(Int_ctx ctx, Int_net x, Int_net y) -> Int_net

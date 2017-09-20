@@ -148,6 +148,9 @@ class Context(object):
     def mk_div(self, x, y, name=None):
         return self._register(ip.api.mk_div(self.ctx, x, y), name=name)
 
+    def mk_mod(self, x, y, name=None):
+        return self._register(ip.api.mk_mod(self.ctx, x, y), name=name)
+
     def mk_sub(self, x, y, name=None):
         return self._register(ip.api.mk_sub(self.ctx, x, y), name=name)
 

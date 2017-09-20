@@ -14,10 +14,11 @@ Alternatively, the [conda][2] python release comes with both python 2.7 and jupy
 # Prerequisites for Windows
 - [Visual C++ Redistributable for Visual Studio 2015][4]
 
-# Supported OSes 
+# Officially Supported OSes 
 - Windows 7 or above, 64 bit
-- Ubuntu 14.04 or above, 32 or 64 bit
-- Version 10.10 (Yosemite) or above
+- Ubuntu 16.04 or above, 64 bit
+For other OSes please contact me privately at 
+`roberto.bruttomesso@gmail.com`.
 
 # Install using pip
 ```

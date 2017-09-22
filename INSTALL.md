@@ -60,7 +60,7 @@ then you should have a working version of
 intrepid installed in your python environment.
 
 # Bug reporting
-Please report any bug you should experience via github's "Issues" page.
+Please report any bug you should experience [here](https://github.com/formalmethods/intrepyd/issues).
 
 # Feedback
 If you wish to drop a feedback you may write to

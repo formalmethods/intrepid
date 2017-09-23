@@ -56,7 +56,7 @@ setup(name='intrepyd',
       author='Roberto Bruttomesso',
       author_email='roberto.bruttomesso@gmail.com',
       url='http://github.com/formalmethods/intrepyd',
-      #packages=['intrepyd'],
+      download_url='http://github.com/formalmethods/intrepyd/archive/' + VERSION + 'tar.gz',
       packages=find_packages(),
       package_data={'intrepyd' : packageDataList},
       install_requires=[
@@ -65,7 +65,8 @@ setup(name='intrepyd',
           'enum>=0.4.6',
           'colorama>=0.3.9',
           'antlr4-python2-runtime==4.6'
-      ]
+      ],
+      classifiers = []
 )
 
 suffix = "32"

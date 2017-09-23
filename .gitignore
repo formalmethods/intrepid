@@ -21,4 +21,6 @@ create_win_dist.sh
 encoding.py
 sim.csv
 trace.cpp
-bug.lus
+encoding_main.py
+intrepyd.egg-info
+backup

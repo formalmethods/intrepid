@@ -23,6 +23,7 @@ import intrepyd.colors as ic
 import intrepyd.lustre2py.translator as tr
 import intrepyd.engine as en
 import intrepyd.config as cg
+import intrepyd.tools as ts
 import intrepyd
 
 
@@ -39,69 +40,18 @@ def parse_arguments():
     return arg_parser.parse_args()
 
 
-def translate_simulink(ctx, infile):
-    """
-    Translates a simulink file into intrepyd syntax
-    """
-    raise NotImplementedError
-    return None
-
-
-def translate_lustre(ctx, infile, topnode, disamb, realtype):
-    """
-    Translates a lustre file into intrepyd syntax
-    """
-    outmodule = 'encoding_' + disamb
-    outfilename = outmodule + '.py'
-    tr.translate(infile, topnode, outfilename, realtype)
-    enc = importlib.import_module(outmodule)
-    return [enc.lustre2py_main(ctx)]
-
-
-def translate_infile(ctx, infile, cfg, disamb):
+def translate_infile(ctx, infile, cfg):
     """
     Translates an input file depending on the suffix
     """
     outputs = None
     if infile[-4:] == '.slx' or infile[-4:] == '.mdl':
-        outputs = translate_simulink(ctx, infile)
+        outputs = ts.translate_simulink(ctx, infile, cfg['type.real'])
     elif infile[-4:] == '.lus' or infile[-4:] == '.ec':
-        outputs = translate_lustre(ctx, infile, cfg['lustre.topnode'], disamb, cfg['type.real'])
+        outputs = ts.translate_lustre(ctx, infile, cfg['lustre.topnode'], cfg['type.real'])
     else:
         raise RuntimeError('Did not recognize a file extension in [slx, mdl, lus, ec]')
     return outputs
-
-
-def simulate(ctx, infile, cfg, outputs):
-    """
-    Simulates the design using default values for inputs or by taking
-    input values from an existing simulation file
-    """
-    sim_file = os.path.basename(infile) + '.csv'
-    trace = ctx.mk_trace()
-    depth = cfg["simulation.depth"]
-    if os.path.isfile(sim_file):
-        if verbose:
-            print 'Re-simulating using input values from ' + sim_file
-        sim_data = pd.read_csv(sim_file, index_col=0)
-        depth = trace.set_from_dataframe(sim_data, ctx.inputs)
-    else:
-        if cfg["verbose"]:
-            print 'Simulating using default values into ' + sim_file
-        dpt = 0
-        while dpt <= depth:
-            for _, net in ctx.inputs.iteritems():
-                trace.set_value(net, dpt, 'false')
-            dpt += 1
-    simulator = ctx.mk_simulator()
-    for output in outputs:
-        simulator.add_watch(output)
-    simulator.simulate(trace, depth)
-    dataframe = trace.get_as_dataframe(ctx.net2name)
-    dataframe.to_csv(sim_file)
-    if verbose:
-        print 'Simulation result written to ' + sim_file
-    print dataframe
 
 
 def run_bmc(engine, cfg):

@@ -55,7 +55,7 @@ def simulate(ctx, infile, depth, outputs):
         dpt = 0
         while dpt <= depth:
             for _, net in ctx.inputs.iteritems():
-                trace.set_value(net, dpt, 'false')
+                trace.set_value(net, dpt, ctx.get_default_value(net))
             dpt += 1
     simulator = ctx.mk_simulator()
     for output in outputs:

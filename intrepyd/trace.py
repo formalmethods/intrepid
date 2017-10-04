@@ -116,7 +116,7 @@ class Trace(object):
                 net = inputname2net[name]
                 depth = 0
                 for value in dataframe.values[row]:
-                    self.set_value(net, depth, value)
+                    self.set_value(net, depth, str(value))
                     if depth > max_depth:
                         max_depth = depth
                     depth += 1

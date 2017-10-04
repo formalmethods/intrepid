@@ -29,6 +29,7 @@ class Context(object):
         self.latches = {}
         self.nets = {}
         self.net2name = {}
+        self.input2type = {}
         self.booleantype = ip.api.mk_boolean_type(self.ctx)
         self.int8type = ip.api.mk_int8_type(self.ctx)
         self.int16type = ip.api.mk_int16_type(self.ctx)
@@ -161,7 +162,7 @@ class Context(object):
         return self._register(ip.api.mk_ite(self.ctx, i, t, e), name=name)
 
     def mk_input(self, name, type_):
-        return self._register_input(ip.api.mk_input(self.ctx, name, type_), name=name)
+        return self._register_input(ip.api.mk_input(self.ctx, name, type_), type_, name=name)
 
     def mk_output(self, x, name=None):
         ip.api.mk_output(self.ctx, x)
@@ -204,6 +205,16 @@ class Context(object):
             value += ip.api.value_at(i)
         return value
 
+    def get_default_value(self, type_):
+        """
+        Returns a default value for the given type
+        """
+        if type_ == self.booleantype:
+            return 'F'
+        elif type_ in [self.float16type, self.float32type, self.float64type, self.realtype]:
+            return '0.0'
+        return '0'
+
     def _current_namespace_prefix(self):
         result = ''
         for namespace in self.namespaces:
@@ -222,9 +233,10 @@ class Context(object):
         self.net2name[rawnet] = name
         return rawnet
 
-    def _register_input(self, rawnet, name):
+    def _register_input(self, rawnet, type_, name):
         rawnet = self._register(rawnet, name)
         self.inputs[name] = rawnet
+        self.input2type[name] = type_
         return rawnet
 
     def _register_latch(self, rawnet, name):

@@ -213,6 +213,7 @@ class Context(object):
             return 'F'
         elif type_ in [self.float16type, self.float32type, self.float64type, self.realtype]:
             return '0.0'
+        assert(type_ in [self.int8type, self.int16type, self.int32type, self.uint8type, self.uint16type, self.uint32type])
         return '0'
 
     def _current_namespace_prefix(self):
@@ -236,7 +237,7 @@ class Context(object):
     def _register_input(self, rawnet, type_, name):
         rawnet = self._register(rawnet, name)
         self.inputs[name] = rawnet
-        self.input2type[name] = type_
+        self.input2type[rawnet] = type_
         return rawnet
 
     def _register_latch(self, rawnet, name):

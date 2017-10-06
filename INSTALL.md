@@ -17,6 +17,7 @@ Alternatively, the [conda][2] python release comes with both python 2.7 and jupy
 # Officially Supported OSes 
 - Windows 7 or above, 64 bit
 - Ubuntu 16.04 or above, 64 bit
+
 For other OSes please contact me privately at 
 `roberto.bruttomesso@gmail.com`.
 
@@ -36,13 +37,8 @@ $ python setup.py install
 ## Linux
 From the root directory of intrepid, execute
 ```
-export LD_LIBRARY_PATH=`pwd`/libs/linux32
-```
-or
-```
 export LD_LIBRARY_PATH=`pwd`/libs/linux64
 ```
-depending on your OS architecture.
 
 ## OSX
 From the root directory of intrepid, execute

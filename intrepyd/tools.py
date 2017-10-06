@@ -36,7 +36,7 @@ def translate_lustre(ctx, infile, topnode, realtype):
     outfilename = outmodule + '.py'
     tr.translate(infile, topnode, outfilename, realtype)
     enc = importlib.import_module(outmodule)
-    return [enc.lustre2py_main(ctx)]
+    return enc.lustre2py_main(ctx)
 
 
 def simulate(ctx, infile, depth, outputs):

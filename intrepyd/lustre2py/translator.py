@@ -99,7 +99,7 @@ def translate(filename, topnode, outfilename, realtype):
             outs += sep + name
             sep = ', '
         outfile.write(TAB + outs + ' = ' + top.name + '(' + args + ')\n')
-        outfile.write(TAB + 'return ' + outs + '\n')
+        outfile.write(TAB + 'return [' + outs + ']\n')
         outfile.write('\ndef lustre2py_main_ctxless():\n')
         outfile.write(TAB + CONTEXT + ' = intrepyd.Context()\n')
         outfile.write(TAB + 'return ' + CONTEXT + ', lustre2py_main(' + CONTEXT + ')\n')

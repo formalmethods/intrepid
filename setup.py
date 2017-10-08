@@ -60,8 +60,8 @@ setup(name='intrepyd',
       packages=find_packages(),
       package_data={'intrepyd' : packageDataList},
       install_requires=[
-          'numpy>=1.12',
-          'pandas==0.19.1',
+      #    'numpy>=1.12',
+      #    'pandas==0.19.1',
           'enum>=0.4.6',
           'colorama>=0.3.9',
           'antlr4-python2-runtime==4.6'

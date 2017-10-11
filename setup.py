@@ -3,10 +3,7 @@
 Setup script for Intrepyd
 """
 
-# from distutils.core import setup
 from setuptools import setup, find_packages
-from subprocess import call
-import shutil
 import platform
 import sys
 import os
@@ -14,74 +11,34 @@ import os
 systemStr = platform.system()
 bits, _ = platform.architecture()
 
-packageDataList = []
+if bits != "64bit":
+    print 'Error: only 64bits architectures are supported'
+    sys.exit(1)
 
+if systemStr != 'Linux' and systemStr != 'Windows':
+    print 'Error: only Linux and Windows OSes are supported'
+    sys.exit(1)
+
+arch_data_files = None
 if systemStr == 'Linux':
-      if bits == "32bit":
-      	   print 'Copying linux32 libraries'
-      	   shutil.copy('libs/linux32/_api.so', 'intrepyd')
-           packageDataList = ['_api.so']
-      elif bits == "64bit":
-      	   print 'Copying linux64 libraries'
-      	   shutil.copy('libs/linux64/_api.so', 'intrepyd')
-           packageDataList = ['_api.so']
-      else:
-           print 'Unsupported number of bits', bits
-           sys.exit(1)
-
-elif systemStr == 'Windows':
-      print 'Copying win64 libraries'
-      shutil.copy('libs/win64/libz3.dll', 'intrepyd')
-      shutil.copy('libs/win64/intrepid_dll.dll', 'intrepyd')
-      shutil.copy('libs/win64/_api.pyd', 'intrepyd')
-      packageDataList = ['_api.pyd', 'intrepid_dll.dll', 'libz3.dll']
-elif systemStr == 'Darwin':
-      cwd = os.getcwd()
-      call(["install_name_tool", "-change", "libintrepid_dll.dylib", cwd + "/libs/osx/libintrepid_dll.dylib", "libs/osx/_api.so"])
-      call(["install_name_tool", "-change", "libz3.dylib", cwd + "/libs/osx/libz3.dylib", "libs/osx/_api.so"])
-      call(["install_name_tool", "-change", "libz3.dylib", cwd + "/libs/osx/libz3.dylib", "libs/osx/libintrepid_dll.dylib"])
-      print 'Copying osx libraries'
-      shutil.copy('libs/osx/_api.so', 'intrepyd')
-      packageDataList = ['_api.so']
-else:
-      print 'Unsupported OS', systemStr
-      sys.exit(1)
+    arch_data_files = [('/usr/lib/', ['libs/linux64/libz3.so', 'libs/linux64/intrepid_dll.so', 'libs/linux64/_api.so'])]
 
 # Retrieves version
 VERSION = open('VERSION').readlines()[0].strip()
 
 setup(name='intrepyd',
       version=VERSION,
-      description='Intrepyd',
+      description='Intrepyd Model Checker',
       author='Roberto Bruttomesso',
       author_email='roberto.bruttomesso@gmail.com',
+      maintainer='Roberto Bruttomesso',
+      maintainer_email='roberto.bruttomesso@gmail.com',
       url='http://github.com/formalmethods/intrepyd',
-      download_url='http://github.com/formalmethods/intrepyd/archive/' + VERSION + 'tar.gz',
+      download_url='http://github.com/formalmethods/intrepyd/archive/' + VERSION + '.tar.gz',
       packages=find_packages(),
-      package_data={'intrepyd' : packageDataList},
-      install_requires=[
-      #    'numpy>=1.12',
-      #    'pandas==0.19.1',
-          'enum>=0.4.6',
-          'colorama>=0.3.9',
-          'antlr4-python2-runtime==4.6'
-      ],
-      classifiers = []
+      data_files=arch_data_files,
+      license='BSD-3-Clause',
+      platforms=['Windows', 'Linux'],
+      long_description='Intrepyd is a Model Checker for Lustre and Simulink, that can deal with machine-precise types (including floating-points). It is based on SMT-solving (Microsoft Z3). More at https://formalmethods.github.io.'
 )
 
-suffix = "32"
-if bits == "64bit":
-    suffix = "64"
-
-if systemStr == 'Linux':
-      print ""
-      print "*************************************************"
-      print "Don't forget to do:"
-      print 'export LD_LIBRARY_PATH=`pwd`/libs/linux' + suffix
-      print "*************************************************"
-elif systemStr == 'Darwin':
-      print ""
-      print "*************************************************"
-      print "Don't forget to do:"
-      print 'export DYLD_LIBRARY_PATH=`pwd`/libs/osx'
-      print "*************************************************"

@@ -9,5 +9,8 @@ for the rigorous analysis of circuits, specifications, models.
 ## Installation
 Please refer to the following [instructions](INSTALL.md).
 
+## Formal Methods Little Corner
+A collection of experiences using Intrepyd can be found [here](https://formalmethods.github.io).
+
 ## FAQs
 Please refer to the dedicated [Wiki page](https://github.com/formalmethods/intrepyd/wiki/FAQs).

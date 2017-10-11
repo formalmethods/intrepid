@@ -3,31 +3,30 @@
 Setup script for Intrepyd
 """
 
-from setuptools import setup, find_packages
 import platform
 import sys
-import os
+from setuptools import setup, find_packages
 
-VERSION = '0.5.5'
+VERSION = '0.5.6'
 
-systemStr = platform.system()
+system_str = platform.system()
 bits, _ = platform.architecture()
 
 if bits != "64bit":
     print 'Error: only 64bits architectures are supported. For other OSes please write to roberto.bruttomesso@gmail.com.'
     sys.exit(1)
 
-if systemStr != 'Linux' and systemStr != 'Windows':
+if system_str != 'Linux' and system_str != 'Windows':
     print 'Error: only Linux and Windows OSes are officially supported. For other OSes please write to roberto.bruttomesso@gmail.com.'
     sys.exit(1)
 
 arch_data_files = None
-if systemStr == 'Linux':
-    arch_data_files = [('/usr/lib/', ['libs/linux64/libz3.so', 'libs/linux64/libintrepid_dll.so', 'libs/linux64/_api.so'])]
-elif systemStr == 'Windows':
-    arch_data_files = [('', ['libs/win64/libz3.dll', 'libs/win64/intrepid_dll.dll', 'libs/win64/_api.pyd'])]
+if system_str == 'Linux':
+    arch_data_files = [('/usr/lib64', ['libs/linux64/libz3.so', 'libs/linux64/libintrepid_dll.so', 'libs/linux64/_api.so'])]
+elif system_str == 'Windows':
+    arch_data_files = [('intrepyd', ['libs/win64/libz3.dll', 'libs/win64/intrepid_dll.dll', 'libs/win64/_api.pyd'])]
 
-long_desc="""
+long_desc = """
 # Intrepyd
 Intrepyd is a python module that provides a simulator and a model checker in form of
 a rich API, to allow the rapid prototyping of **formal methods** algorithms

@@ -7,7 +7,7 @@ import platform
 import sys
 from setuptools import setup, find_packages
 
-VERSION = '0.5.9'
+VERSION = '0.5.11'
 
 system_str = platform.system()
 bits, _ = platform.architecture()
@@ -56,6 +56,7 @@ setup(name='intrepyd',
       download_url='http://github.com/formalmethods/intrepyd/archive/' + VERSION + '.tar.gz',
       packages=find_packages(),
       data_files=arch_data_files,
+      # Does not work for sdist!
       package_data={'libs' : ['linux64/*.so', 'win64/*.dll', 'win64/*.pyd']},
       license='BSD-3-Clause',
       platforms=['Windows', 'Linux'],

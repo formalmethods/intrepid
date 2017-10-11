@@ -1,1 +1,5 @@
 recursive-include libs *.dll *.pyd *.so
+graft tests/files
+graft tests/kind2-benchmarks
+include LICENSE.md
+include CREDITS.md

@@ -8,6 +8,8 @@ import platform
 import sys
 import os
 
+VERSION = '0.5.5'
+
 systemStr = platform.system()
 bits, _ = platform.architecture()
 
@@ -25,7 +27,18 @@ if systemStr == 'Linux':
 elif systemStr == 'Windows':
     arch_data_files = [('', ['libs/win64/libz3.dll', 'libs/win64/intrepid_dll.dll', 'libs/win64/_api.pyd'])]
 
-VERSION = '0.5.2'
+long_desc="""
+# Intrepyd
+Intrepyd is a python module that provides a simulator and a model checker in form of
+a rich API, to allow the rapid prototyping of **formal methods** algorithms
+for the rigorous analysis of circuits, specifications, models.
+
+## Formal Methods Little Corner
+A collection of experiences using Intrepyd can be found at https://formalmethods.github.io.
+
+## FAQs
+Please refer to the dedicated Wiki page at https://github.com/formalmethods/intrepyd/wiki/FAQs.
+"""
 
 setup(name='intrepyd',
       version=VERSION,
@@ -41,6 +54,6 @@ setup(name='intrepyd',
       package_data={'libs' : ['linux64/*.so', 'win64/*.dll', 'win64/*.pyd']},
       license='BSD-3-Clause',
       platforms=['Windows', 'Linux'],
-      long_description='Intrepyd is a Model Checker for Lustre and Simulink, that can deal with machine-precise types (including floating-points). It is based on SMT-solving (Microsoft Z3). More at https://formalmethods.github.io.'
+      long_description=long_desc
 )
 

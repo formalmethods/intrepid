@@ -7,7 +7,7 @@ import platform
 import sys
 from setuptools import setup, find_packages
 
-VERSION = '0.5.7'
+VERSION = '0.5.9'
 
 system_str = platform.system()
 bits, _ = platform.architecture()
@@ -24,19 +24,25 @@ arch_data_files = None
 if system_str == 'Linux':
     arch_data_files = [('/usr/lib64', ['libs/linux64/libz3.so', 'libs/linux64/libintrepid_dll.so', 'libs/linux64/_api.so'])]
 elif system_str == 'Windows':
-    arch_data_files = [('intrepyd', ['libs/win64/libz3.dll', 'libs/win64/intrepid_dll.dll', 'libs/win64/_api.pyd'])]
+    arch_data_files = [('Lib/site-packages/intrepyd', ['libs/win64/libz3.dll', 'libs/win64/intrepid_dll.dll', 'libs/win64/_api.pyd'])]
 
 long_desc = """
-# Intrepyd
+========
+Intrepyd
+========
 Intrepyd is a python module that provides a simulator and a model checker in form of
 a rich API, to allow the rapid prototyping of **formal methods** algorithms
 for the rigorous analysis of circuits, specifications, models.
 
-## Formal Methods Little Corner
-A collection of experiences using Intrepyd can be found at https://formalmethods.github.io.
+============================
+Formal Methods Little Corner
+============================
+A collection of experiences using Intrepyd can be found `here <https://formalmethods.github.io>`_.
 
-## FAQs
-Please refer to the dedicated Wiki page at https://github.com/formalmethods/intrepyd/wiki/FAQs.
+====
+FAQs
+====
+Please refer to the dedicated `Wiki page <https://github.com/formalmethods/intrepyd/wiki/FAQs>`_.
 """
 
 setup(name='intrepyd',

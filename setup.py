@@ -7,7 +7,7 @@ import platform
 import sys
 from setuptools import setup, find_packages
 
-VERSION = '0.5.12'
+VERSION = '0.5.13'
 
 system_str = platform.system()
 bits, _ = platform.architecture()

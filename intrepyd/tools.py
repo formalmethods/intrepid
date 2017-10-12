@@ -25,8 +25,8 @@ def translate_simulink(ctx, infile, realtype):
     """
     outmodule = 'encoding'
     outfilename = outmodule + '.py'
-    ret = subprocess.check_output(['java', '-jar', 'simulink2py.jar', infile, outfilename, realtype])
-    print ret
+    jar_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'simulink2py.jar')
+    subprocess.check_output(['java', '-jar', jar_path, infile, outfilename, realtype])
     enc = importlib.import_module(outmodule)
     return enc.SimulinkCircuit(ctx, infile)
 

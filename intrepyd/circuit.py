@@ -11,7 +11,6 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 This module implements infrastructure to store instructions
 """
 
-import intrepyd as ip
 import collections
 
 class Circuit(object):

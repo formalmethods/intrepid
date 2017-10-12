@@ -12,20 +12,23 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 Provides some tools that could be used almost out of the box
 """
 
+import subprocess
 import os
 import importlib
 import pandas as pd
 import intrepyd.lustre2py.translator as tr
-import intrepyd.engine as en
-import intrepyd
 
 
 def translate_simulink(ctx, infile, realtype):
     """
     Translates a simulink file into intrepyd syntax
     """
-    raise NotImplementedError
-    return None
+    outmodule = 'encoding'
+    outfilename = outmodule + '.py'
+    ret = subprocess.check_output(['java', '-jar', 'simulink2py.jar', infile, outfilename, realtype])
+    print ret
+    enc = importlib.import_module(outmodule)
+    return enc.SimulinkCircuit(ctx, infile)
 
 
 def translate_lustre(ctx, infile, topnode, realtype):

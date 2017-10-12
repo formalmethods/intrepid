@@ -22,9 +22,9 @@ if system_str != 'Linux' and system_str != 'Windows':
 
 arch_data_files = None
 if system_str == 'Linux':
-    arch_data_files = [('lib/python2.7/site-packages/intrepyd', ['libs/linux64/libz3.so', 'libs/linux64/libintrepid_dll.so', 'libs/linux64/_api.so'])]
+    arch_data_files = [('lib/python2.7/site-packages/intrepyd', ['simulink2py/simulink2py.jar', 'libs/linux64/libz3.so', 'libs/linux64/libintrepid_dll.so', 'libs/linux64/_api.so'])]
 elif system_str == 'Windows':
-    arch_data_files = [('lib/site-packages/intrepyd', ['libs/win64/libz3.dll', 'libs/win64/intrepid_dll.dll', 'libs/win64/_api.pyd'])]
+    arch_data_files = [('lib/site-packages/intrepyd', ['simulink2py/simulink2py.jar', 'libs/win64/libz3.dll', 'libs/win64/intrepid_dll.dll', 'libs/win64/_api.pyd'])]
 
 long_desc = """
 ========
@@ -57,7 +57,7 @@ setup(name='intrepyd',
       packages=find_packages(),
       data_files=arch_data_files,
       # Does not work for sdist!
-      package_data={'libs' : ['linux64/*.so', 'win64/*.dll', 'win64/*.pyd']},
+      package_data={'libs' : ['linux64/*.so', 'win64/*.dll', 'win64/*.pyd'], 'simulink2py' : ['simulink2py.jar']},
       license='BSD-3-Clause',
       platforms=['Windows', 'Linux'],
       long_description=long_desc

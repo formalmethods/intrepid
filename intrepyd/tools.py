@@ -19,25 +19,25 @@ import pandas as pd
 import intrepyd.lustre2py.translator as tr
 
 
-def translate_simulink(ctx, infile, realtype):
+def translate_simulink(ctx, infilename, realtype, outmodule='encoding'):
     """
     Translates a simulink file into intrepyd syntax
     """
-    outmodule = 'encoding'
     outfilename = outmodule + '.py'
     jar_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'simulink2py.jar')
-    subprocess.check_output(['java', '-jar', jar_path, infile, outfilename, realtype])
+    subprocess.check_output(['java', '-jar', jar_path, infilename, outfilename, realtype])
+    print 'Simulink file', infilename, 'translated as', outfilename
     enc = importlib.import_module(outmodule)
-    return enc.SimulinkCircuit(ctx, infile)
+    return enc.SimulinkCircuit(ctx, infilename)
 
 
-def translate_lustre(ctx, infile, topnode, realtype):
+def translate_lustre(ctx, infilename, topnode, realtype, outmodule='encoding'):
     """
     Translates a lustre file into intrepyd syntax
     """
-    outmodule = 'encoding'
     outfilename = outmodule + '.py'
-    tr.translate(infile, topnode, outfilename, realtype)
+    tr.translate(infilename, topnode, outfilename, realtype)
+    print 'Lustre file', infilename, 'translated as', outfilename
     enc = importlib.import_module(outmodule)
     return enc.lustre2py_main(ctx)
 

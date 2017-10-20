@@ -8,7 +8,7 @@ https://opensource.org/licenses/BSD-3-Clause.
 Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
   Date: 27/03/2017
 
-This module implements infrastructure to store instructions
+This module implements a toolbox for Automated Test Generation
 """
 
 import intrepyd as ip

@@ -65,29 +65,43 @@ def translate(filename, topnode, outfilename, realtype):
         today = str(datetime.date.today())
         outfile.write('# Translated from ' + filename + ' using intrepyd.lustre2py on ' + today)
         outfile.write('\n\n')
-        outfile.write('import intrepyd\n\n')
+        outfile.write('import intrepyd as ip\n')
+        outfile.write('import intrepyd.scr\n')
+        outfile.write('import intrepyd.circuit\n')
+        outfile.write('import collections\n\n')
         outfile.write(LATCH2PRE + ' = {}\n')
         outfile.write(LATCHEQUIV + ' = []\n\n')
-        outfile.write(encoding)
-        outfile.write('def lustre2py_main(' + CONTEXT +'):\n')
-        outfile.write(TAB + BOOLTYPE + ' = ' + CONTEXT + '.mk_boolean_type()\n')
-        outfile.write(TAB + INTTYPE + ' = ' + CONTEXT + '.mk_int32_type()\n')
-        outfile.write(TAB + REALTYPE + ' = ' + CONTEXT + '.mk_' + realtype + '_type()\n')
-        outfile.write(TAB + FIRSTTICK + ' = ' + CONTEXT +\
-                      '.mk_latch("' + FIRSTTICK + '", ctx.mk_boolean_type())\n')
-        outfile.write(TAB + CONTEXT +\
+        outfile.write('class LustreCircuit(ip.circuit.Circuit):\n')
+        outfile.write(TAB + 'def __init__(self, ctx, name):\n')
+        outfile.write(TAB + TAB + 'ip.circuit.Circuit.__init__(self, ctx, name)\n')
+        outfile.write(TAB + TAB + BOOLTYPE + ' = ' + CONTEXT + '.mk_boolean_type()\n')
+        outfile.write(TAB + TAB + INTTYPE + ' = ' + CONTEXT + '.mk_int32_type()\n')
+        outfile.write(TAB + TAB + REALTYPE + ' = ' + CONTEXT + '.mk_' + realtype + '_type()\n')
+        outfile.write(TAB + TAB + FIRSTTICK + ' = ' + CONTEXT +\
+                      '.mk_latch("' + FIRSTTICK + '", ' + BOOLTYPE + ')\n')
+        outfile.write(TAB + TAB + CONTEXT +\
                       '.set_latch_init_next(' + FIRSTTICK + ', ctx.mk_true(), ctx.mk_false())\n')
+        outfile.write('\n')
+        outfile.write(TAB + 'def _mk_inputs(self):\n')
         index = 0
         inputs = []
         for ttype in node2proto[top.name][0]:
             name = 'i%d' % index
-            outfile.write(TAB + name + ' = ' + CONTEXT + '.mk_input("' + name + '", ' +\
+            outfile.write(TAB + TAB + name + ' = ' + CONTEXT + '.mk_input("' + name + '", ' +\
                           LUSTREDT2INTREPYDDT[ttype] + ')\n')
+            outfile.write(TAB + TAB + 'self.inputs[' + name + '] = ' + name + '\n')
             inputs.append(name)
             index += 1
-        args = CONTEXT + ', ' + FIRSTTICK
-        for inp in inputs:
-            args += ', ' + inp
+        outfile.write('\n')
+        outfile.write(TAB + 'def _mk_naked_circuit_impl(self, inputs):\n')
+        outfile.write(TAB + TAB + 'input_keys = list(inputs)\n')
+        args = ''
+        sep = ''
+        index = 0
+        for _ in inputs:
+            args += sep + 'input_keys[' + str(index) + ']'
+            sep = ', '
+            index += 1
         index = 0
         sep = ''
         outs = ''
@@ -98,10 +112,11 @@ def translate(filename, topnode, outfilename, realtype):
             index += 1
             outs += sep + name
             sep = ', '
-        outfile.write(TAB + outs + ' = ' + top.name + '(' + args + ')\n')
-        outfile.write(TAB + 'return [' + outs + ']\n')
-        outfile.write('\ndef lustre2py_main_ctxless():\n')
-        outfile.write(TAB + CONTEXT + ' = intrepyd.Context()\n')
-        outfile.write(TAB + 'return ' + CONTEXT + ', lustre2py_main(' + CONTEXT + ')\n')
-        outfile.write('\nif __name__ == "__main__":\n')
-        outfile.write(TAB + 'lustre2py_main_ctxless()\n\n')
+        outfile.write(TAB + TAB + outs + ' = self.' + top.name + '(' + args + ')\n')
+        outfile.write(TAB + TAB + 'outputs = collections.OrderedDict()\n')
+        index = 0
+        for _ in node2proto[top.name][1]:
+            name = 'o%d' % index
+            outfile.write(TAB + TAB + "outputs['" + name + "'] = " + name + "\n\n")
+        outfile.write(TAB + TAB + 'return outputs\n')
+        outfile.write(encoding)

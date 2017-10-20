@@ -16,12 +16,14 @@ from intrepyd.lustre2py.instruction import Equation, Property
 from intrepyd.lustre2py.node import Node
 from intrepyd.lustre2py.expression import Expression
 
-CONTEXT = 'ctx'
-FIRSTTICK = '__first_tick'
-INTTYPE = '__it'
-REALTYPE = '__rt'
-BOOLTYPE = '__bt'
+CTX = 'context'
+CONTEXT = 'self.' + CTX
+FIRSTTICK = 'self.__first_tick'
+INTTYPE = 'self.__it'
+REALTYPE = 'self.__rt'
+BOOLTYPE = 'self.__bt'
 TAB = ' ' * 4
+DTAB = TAB + TAB
 LATCH2PRE = 'LATCH2PRE'
 LATCHEQUIV = 'LATCHEQUIV'
 _DEFAULT_BOOL_INIT = CONTEXT + '.mk_false()'
@@ -166,13 +168,10 @@ class Ast2Intrepyd(Visitor):
         self._latch_decls = []
         if node.main:
             self._main_node = node
-        self._result += 'def ' + node.name + '(' + CONTEXT + ', ' + FIRSTTICK
+        self._result += TAB + 'def ' + node.name + '(self'
         for inp in node.input_decls:
             self._result += ', ' + inp.accept(self)
         self._result += '):\n'
-        self._result += TAB + BOOLTYPE + ' = ' + CONTEXT + '.mk_boolean_type()\n'
-        self._result += TAB + INTTYPE + ' = ' + CONTEXT + '.mk_int32_type()\n'
-        self._result += TAB + REALTYPE + ' = ' + CONTEXT + '.mk_' + self._realtype + '_type()\n'
         for loc in node.local_decls:
             loc.accept(self)
         for out in node.output_decls:
@@ -181,11 +180,11 @@ class Ast2Intrepyd(Visitor):
             equat.accept(self)
         for latch_decl in self._latch_decls:
             new_name, init, operand = latch_decl
-            self._result += TAB + 'if ' + operand + ' in ' + LATCH2PRE + ':\n'
+            self._result += DTAB + 'if ' + operand + ' in ' + LATCH2PRE + ':\n'
             pair = '(' + LATCH2PRE + '[' + operand + '], ' + new_name + ')'
-            self._result += TAB + TAB + LATCHEQUIV + '.append(' + pair + ')\n'
-            self._result += TAB + LATCH2PRE + '[' + operand + '] = ' + new_name + '\n'
-            self._result += TAB + CONTEXT +\
+            self._result += DTAB + TAB + LATCHEQUIV + '.append(' + pair + ')\n'
+            self._result += DTAB + LATCH2PRE + '[' + operand + '] = ' + new_name + '\n'
+            self._result += DTAB + CONTEXT +\
                             '.set_latch_init_next(' + new_name + ', ' +\
                                                   init + ', ' + operand + ')\n'
         for prop in node.properties:
@@ -193,8 +192,8 @@ class Ast2Intrepyd(Visitor):
         sep = ''
         for out in node.output_decls:
             for var in out.variables:
-                self._result += TAB + CONTEXT + '.net2name[' + var + '] = "' + var + '"\n'
-        self._result += TAB + 'return '
+                self._result += DTAB + CONTEXT + '.net2name[' + var + '] = "' + var + '"\n'
+        self._result += DTAB + 'return '
         for out in node.output_decls:
             self._result += sep + out.accept(self)
             sep = ', '
@@ -221,7 +220,7 @@ class Ast2Intrepyd(Visitor):
     def _visit_equation(self, equat):
         assert isinstance(equat, Equation)
         expr = equat.expression.accept(self)
-        result = TAB
+        result = DTAB
         sep = ''
         for lhs in equat.lhs:
             result += sep + lhs
@@ -233,7 +232,7 @@ class Ast2Intrepyd(Visitor):
         new_name = self._get_new_name()
         init = expr.init.accept(self)
         curr = expr.curr.accept(self)
-        self._result += TAB + new_name + ' = ' +\
+        self._result += DTAB + new_name + ' = ' +\
                         CONTEXT + '.mk_ite(' +\
                                   FIRSTTICK + ', ' +\
                                   init + ', ' + curr + ')\n'
@@ -259,7 +258,7 @@ class Ast2Intrepyd(Visitor):
                 return new_name
             self._pre_decls.add(new_name)
             datatype = _infer_datatype(expr.operand, self._var2datatype, self._node2proto)
-            self._result += TAB + new_name + ' = ' + CONTEXT +\
+            self._result += DTAB + new_name + ' = ' + CONTEXT +\
                             '.mk_latch("' + new_name + '", ' + datatype + ')\n'
             init = None
             if datatype == BOOLTYPE:
@@ -269,7 +268,7 @@ class Ast2Intrepyd(Visitor):
             self._latch_decls.append((new_name, init, operand))
             return new_name
         new_name = self._get_new_name()
-        self._result += TAB + new_name + ' = '
+        self._result += DTAB + new_name + ' = '
         assert expr.operator in LUSTREOP2INTREPYDUNARYOP
         self._result += CONTEXT + '.' +\
                         LUSTREOP2INTREPYDUNARYOP[expr.operator] + '(' + operand + ')\n'
@@ -279,7 +278,7 @@ class Ast2Intrepyd(Visitor):
         new_name = self._get_new_name()
         left = expr.left.accept(self)
         right = expr.right.accept(self)
-        self._result += TAB + new_name + ' = '
+        self._result += DTAB + new_name + ' = '
         assert expr.operator in LUSTREOP2INTREPYDBINARYOP
         self._result += CONTEXT + '.' + LUSTREOP2INTREPYDBINARYOP[expr.operator] +\
                         '(' + left + ', ' + right + ')\n'
@@ -290,22 +289,24 @@ class Ast2Intrepyd(Visitor):
         if_ = expr.if_.accept(self)
         then_ = expr.then_.accept(self)
         else_ = expr.else_.accept(self)
-        self._result += TAB + new_name + ' = ' + CONTEXT +\
+        self._result += DTAB + new_name + ' = ' + CONTEXT +\
                         '.mk_ite(' + if_ + ', ' + then_ + ', ' + else_ + ')\n'
         return new_name
 
     def _visit_call_expression(self, expr):
         new_name = self._get_new_name()
-        result = TAB + CONTEXT +\
+        result = DTAB + CONTEXT +\
                  '.push_namespace(' + self._get_unique_namespace(expr.cid) + ')\n'
-        result += TAB + new_name + ' = ' + expr.cid
-        result += '(' + CONTEXT + ', ' + FIRSTTICK
+        result += DTAB + new_name + ' = self.' + expr.cid
+        result += '('
+        sep = ''
         for param in expr.params:
             param_name = param.accept(self)
-            result += ', ' + param_name
+            result += sep + param_name
+            sep = ', '
         result += ')\n'
         self._result += result
-        self._result += TAB + CONTEXT + '.pop_namespace()\n'
+        self._result += DTAB + CONTEXT + '.pop_namespace()\n'
         return new_name
 
     def _visit_primitive(self, obj):

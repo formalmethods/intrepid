@@ -39,7 +39,7 @@ def translate_lustre(ctx, infilename, topnode, realtype, outmodule='encoding'):
     tr.translate(infilename, topnode, outfilename, realtype)
     print 'Lustre file', infilename, 'translated as', outfilename
     enc = importlib.import_module(outmodule)
-    return enc.lustre2py_main(ctx)
+    return enc.LustreCircuit(ctx, infilename)
 
 
 def simulate(ctx, infile, depth, outputs):

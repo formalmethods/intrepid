@@ -23,11 +23,21 @@ def compute_node_prototype(node):
     """
     inputs = []
     for decl in node.input_decls:
+        print decl.variables
         inputs += [decl.datatype.name] * len(decl.variables)
     outputs = []
     for decl in node.output_decls:
         outputs += [decl.datatype.name] * len(decl.variables)
     return (inputs, outputs)
+
+def compute_node_input_names(node):
+    """
+    Extracts node prototype
+    """
+    inputs = []
+    for decl in node.input_decls:
+        inputs += decl.variables
+    return inputs
 
 def translate(filename, topnode, outfilename, realtype):
     """
@@ -39,6 +49,7 @@ def translate(filename, topnode, outfilename, realtype):
     ast = lusp.parse(filename)
     # Compute nodes prototypes
     node2proto = {node.name : compute_node_prototype(node) for node in ast.nodes}
+    node2inputs = {node.name : compute_node_input_names(node) for node in ast.nodes}
     # Translate AST into intrepyd
     encoding = ''
     properties = []
@@ -86,11 +97,13 @@ def translate(filename, topnode, outfilename, realtype):
         index = 0
         inputs = []
         for ttype in node2proto[top.name][0]:
-            name = 'i%d' % index
-            outfile.write(TAB + TAB + name + ' = ' + CONTEXT + '.mk_input("' + name + '", ' +\
+            net = 'i%d' % index
+            name = node2inputs[top.name][index]
+            outfile.write(TAB + TAB + net + ' = ' + CONTEXT +\
+                          ".mk_input('" + name + "', " +\
                           LUSTREDT2INTREPYDDT[ttype] + ')\n')
-            outfile.write(TAB + TAB + 'self.inputs[' + name + '] = ' + name + '\n')
-            inputs.append(name)
+            outfile.write(TAB + TAB + "self.inputs['" + name + "'] = " + net + '\n')
+            inputs.append(net)
             index += 1
         if index == 0:
             outfile.write(TAB + TAB + 'pass\n')
@@ -101,7 +114,7 @@ def translate(filename, topnode, outfilename, realtype):
         sep = ''
         index = 0
         for _ in inputs:
-            args += sep + 'input_keys[' + str(index) + ']'
+            args += sep + 'inputs[input_keys[' + str(index) + ']]'
             sep = ', '
             index += 1
         index = 0

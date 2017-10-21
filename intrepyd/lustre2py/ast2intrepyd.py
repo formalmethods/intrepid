@@ -24,8 +24,8 @@ REALTYPE = 'self.__rt'
 BOOLTYPE = 'self.__bt'
 TAB = ' ' * 4
 DTAB = TAB + TAB
-LATCH2PRE = 'LATCH2PRE'
-LATCHEQUIV = 'LATCHEQUIV'
+# LATCH2PRE = 'LATCH2PRE'
+# LATCHEQUIV = 'LATCHEQUIV'
 _DEFAULT_BOOL_INIT = CONTEXT + '.mk_false()'
 _DEFAULT_ARIT_INIT = CONTEXT + '.mk_number("0", '
 
@@ -180,10 +180,10 @@ class Ast2Intrepyd(Visitor):
             equat.accept(self)
         for latch_decl in self._latch_decls:
             new_name, init, operand = latch_decl
-            self._result += DTAB + 'if ' + operand + ' in ' + LATCH2PRE + ':\n'
-            pair = '(' + LATCH2PRE + '[' + operand + '], ' + new_name + ')'
-            self._result += DTAB + TAB + LATCHEQUIV + '.append(' + pair + ')\n'
-            self._result += DTAB + LATCH2PRE + '[' + operand + '] = ' + new_name + '\n'
+            # self._result += DTAB + 'if ' + operand + ' in ' + LATCH2PRE + ':\n'
+            # pair = '(' + LATCH2PRE + '[' + operand + '], ' + new_name + ')'
+            # self._result += DTAB + TAB + LATCHEQUIV + '.append(' + pair + ')\n'
+            # self._result += DTAB + LATCH2PRE + '[' + operand + '] = ' + new_name + '\n'
             self._result += DTAB + CONTEXT +\
                             '.set_latch_init_next(' + new_name + ', ' +\
                                                   init + ', ' + operand + ')\n'

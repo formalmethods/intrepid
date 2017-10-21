@@ -15,7 +15,7 @@ import datetime
 import intrepyd.lustre2py.parser as lusp
 from intrepyd.lustre2py.ast2intrepyd import Ast2Intrepyd, TAB, CONTEXT, FIRSTTICK,\
                                             LUSTREDT2INTREPYDDT, BOOLTYPE, INTTYPE,\
-                                            REALTYPE, LATCH2PRE, LATCHEQUIV
+                                            REALTYPE #, LATCH2PRE, LATCHEQUIV
 
 def compute_node_prototype(node):
     """
@@ -69,8 +69,8 @@ def translate(filename, topnode, outfilename, realtype):
         outfile.write('import intrepyd.scr\n')
         outfile.write('import intrepyd.circuit\n')
         outfile.write('import collections\n\n')
-        outfile.write(LATCH2PRE + ' = {}\n')
-        outfile.write(LATCHEQUIV + ' = []\n\n')
+        # outfile.write(LATCH2PRE + ' = {}\n')
+        # outfile.write(LATCHEQUIV + ' = []\n\n')
         outfile.write('class LustreCircuit(ip.circuit.Circuit):\n')
         outfile.write(TAB + 'def __init__(self, ctx, name):\n')
         outfile.write(TAB + TAB + 'ip.circuit.Circuit.__init__(self, ctx, name)\n')
@@ -92,6 +92,8 @@ def translate(filename, topnode, outfilename, realtype):
             outfile.write(TAB + TAB + 'self.inputs[' + name + '] = ' + name + '\n')
             inputs.append(name)
             index += 1
+        if index == 0:
+            outfile.write(TAB + TAB + 'pass\n')
         outfile.write('\n')
         outfile.write(TAB + 'def _mk_naked_circuit_impl(self, inputs):\n')
         outfile.write(TAB + TAB + 'input_keys = list(inputs)\n')
@@ -117,6 +119,7 @@ def translate(filename, topnode, outfilename, realtype):
         index = 0
         for _ in node2proto[top.name][1]:
             name = 'o%d' % index
-            outfile.write(TAB + TAB + "outputs['" + name + "'] = " + name + "\n\n")
+            outfile.write(TAB + TAB + "outputs['" + name + "'] = " + name + "\n")
         outfile.write(TAB + TAB + 'return outputs\n')
+        outfile.write('\n')
         outfile.write(encoding)

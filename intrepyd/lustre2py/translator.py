@@ -23,7 +23,6 @@ def compute_node_prototype(node):
     """
     inputs = []
     for decl in node.input_decls:
-        print decl.variables
         inputs += [decl.datatype.name] * len(decl.variables)
     outputs = []
     for decl in node.output_decls:

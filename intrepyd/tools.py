@@ -26,7 +26,6 @@ def translate_simulink(infilename, realtype, outmodule='encoding'):
     outfilename = outmodule + '.py'
     jar_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'simulink2py.jar')
     subprocess.check_output(['java', '-jar', jar_path, infilename, outfilename, realtype])
-    print 'Simulink file', infilename, 'translated as', outfilename
     enc = importlib.import_module(outmodule)
     return enc
 
@@ -37,7 +36,6 @@ def translate_lustre(infilename, topnode, realtype, outmodule='encoding'):
     """
     outfilename = outmodule + '.py'
     tr.translate(infilename, topnode, outfilename, realtype)
-    print 'Lustre file', infilename, 'translated as', outfilename
     enc = importlib.import_module(outmodule)
     return enc
 

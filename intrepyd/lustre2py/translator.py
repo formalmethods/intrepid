@@ -29,14 +29,14 @@ def compute_node_prototype(node):
         outputs += [decl.datatype.name] * len(decl.variables)
     return (inputs, outputs)
 
-def compute_node_input_names(node):
+def compute_node_names(decls):
     """
     Extracts node prototype
     """
-    inputs = []
-    for decl in node.input_decls:
-        inputs += decl.variables
-    return inputs
+    names = []
+    for decl in decls:
+        names += decl.variables
+    return names
 
 def translate(filename, topnode, outfilename, realtype):
     """
@@ -48,7 +48,8 @@ def translate(filename, topnode, outfilename, realtype):
     ast = lusp.parse(filename)
     # Compute nodes prototypes
     node2proto = {node.name : compute_node_prototype(node) for node in ast.nodes}
-    node2inputs = {node.name : compute_node_input_names(node) for node in ast.nodes}
+    node2inputs = {node.name : compute_node_names(node.input_decls) for node in ast.nodes}
+    node2outputs = {node.name : compute_node_names(node.output_decls) for node in ast.nodes}
     # Translate AST into intrepyd
     encoding = ''
     properties = []
@@ -122,7 +123,7 @@ def translate(filename, topnode, outfilename, realtype):
         if len(node2proto[top.name][1]) == 0:
             raise RuntimeError('Top node has no outputs')
         for _ in node2proto[top.name][1]:
-            name = 'o%d' % index
+            name = node2outputs[top.name][index]
             index += 1
             outs += sep + name
             sep = ', '
@@ -130,7 +131,7 @@ def translate(filename, topnode, outfilename, realtype):
         outfile.write(TAB + TAB + 'outputs = collections.OrderedDict()\n')
         index = 0
         for _ in node2proto[top.name][1]:
-            name = 'o%d' % index
+            name = node2outputs[top.name][index]
             outfile.write(TAB + TAB + "outputs['" + name + "'] = " + name + "\n")
         outfile.write(TAB + TAB + 'return outputs\n')
         outfile.write('\n')

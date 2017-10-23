@@ -136,3 +136,7 @@ def translate(filename, topnode, outfilename, realtype):
         outfile.write(TAB + TAB + 'return outputs\n')
         outfile.write('\n')
         outfile.write(encoding)
+        outfile.write('\n')
+        outfile.write('def mk_instance(ctx, name):\n')
+        outfile.write(TAB + 'return LustreCircuit(ctx, name)\n')
+        outfile.write('\n')

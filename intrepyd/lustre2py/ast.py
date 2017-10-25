@@ -8,7 +8,7 @@ https://opensource.org/licenses/BSD-3-Clause.
 Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
   Date: 01/04/2017
 
-This module implements the main parsing routine of Lustre files
+This module implements a basic AST node
 """
 
 class Ast(object):

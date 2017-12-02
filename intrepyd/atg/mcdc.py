@@ -36,33 +36,33 @@ def compute_mcdc(context, class_, decisions, maxDepth):
     """
 
     # Fetches and duplicates the circuit
-    instA = class_(context, 'InstA')
-    instB = class_(context, 'InstB')
-    instA.mk_circuit(True)
-    instB.mk_circuit(True)
+    inst_a = class_(context, 'InstA')
+    inst_b = class_(context, 'InstB')
+    inst_a.mk_circuit(True)
+    inst_b.mk_circuit(True)
 
     # Flattens inputs and outputs into nets, for simplicity
-    instA.nets.update(instA.inputs)
-    instB.nets.update(instB.inputs)
+    inst_a.nets.update(inst_a.inputs)
+    inst_b.nets.update(inst_b.inputs)
 
     # Creates test objectives
-    decision2testObjectives = { decision :\
-            compute_mcdc_targets(context, instA, instB, decision, conditions)\
-            for decision, conditions in decisions.iteritems() }
+    decision2testobjectives = {decision :\
+            compute_mcdc_targets(context, inst_a, inst_b, decision, conditions)\
+            for decision, conditions in decisions.iteritems()}
 
     # Compute MC/DC traces: this is the computationally
     # expensive part that calls model checking routines
-    decision2traces, decision2unreachable = solve_mcdc_targets(context, decision2testObjectives, maxDepth)
+    decision2traces, decision2unreachable = solve_mcdc_targets(context, decision2testobjectives, maxDepth)
 
     # Compute MC/DC tables from traces
-    decision2table = compute_mcdc_tables(context, instA, instB, decision2traces, decisions)
+    decision2table = compute_mcdc_tables(context, inst_a, inst_b, decision2traces, decisions)
 
     # Compute pretty tables
-    decision2prettyTable = compute_pretty_tables(decision2table)
+    decision2prettytable = compute_pretty_tables(decision2table)
 
-    return decision2prettyTable, decision2unreachable
+    return decision2prettytable, decision2unreachable
 
-def compute_mcdc_targets(context, instA, instB, decision, conditions):
+def compute_mcdc_targets(context, inst_a, inst_b, decision, conditions):
     """
     Computes the MC/DC reachability target for the
     two copies of the circuit.
@@ -77,37 +77,37 @@ def compute_mcdc_targets(context, instA, instB, decision, conditions):
     Returns:
         the list of targets, whose reachability implies the existence of an MC/DC test
     """
-    decisionA = instA.nets[decision]
-    decisionB = instB.nets[decision]
-    decisionA_diff_decisionB = context.mk_neq(decisionA, decisionB)
+    decision_a = inst_a.nets[decision]
+    decision_b = inst_b.nets[decision]
+    decisiona_diff_decisionb = context.mk_neq(decision_a, decision_b)
 
-    conditionA_neq_conditionB = []
-    conditionsA = []
-    conditionsB = []
+    conditiona_neq_conditionb = []
+    conditions_a = []
+    conditions_b = []
     for condition in conditions:
-        cA = instA.nets[condition]
-        conditionsA.append(cA)
-        cB = instB.nets[condition]
-        conditionsB.append(cB)
-        conditionA_neq_conditionB.append(context.mk_neq(cA, cB))
+        condition_a = inst_a.nets[condition]
+        conditions_a.append(condition_a)
+        condition_b = inst_b.nets[condition]
+        conditions_b.append(condition_b)
+        conditiona_neq_conditionb.append(context.mk_neq(condition_a, condition_b))
 
     targets = []
     for i in range(len(conditions)):
         # Building test objective for the i-th condition
-        cA = conditionsA[i]
-        cB = conditionsB[i]
+        condition_a = conditions_a[i]
+        condition_b = conditions_b[i]
         # i-th condition must differ in A and B
-        conj1 = conditionA_neq_conditionB[i]
+        conj1 = conditiona_neq_conditionb[i]
         # test objective must differ in A and B
-        conj2 = decisionA_diff_decisionB
+        conj2 = decisiona_diff_decisionb
         # decisionA[not(cA)/cA] != decisionA
-        not_cA = context.mk_not(cA)
-        decisionA_not_cA = context.mk_substitute(decisionA, not_cA, cA)
-        conj3 = context.mk_neq(decisionA_not_cA, decisionA)
+        not_condition_a = context.mk_not(condition_a)
+        decisiona_not_ca = context.mk_substitute(decision_a, not_condition_a, condition_a)
+        conj3 = context.mk_neq(decisiona_not_ca, decision_a)
         # decisionB[not(cB)/cB] != decisionB
-        not_cB = context.mk_not(cB)
-        decisionB_not_cB = context.mk_substitute(decisionB, not_cB, cB)
-        conj4 = context.mk_neq(decisionB_not_cB, decisionB)
+        not_condition_b = context.mk_not(condition_b)
+        decisiona_not_cb = context.mk_substitute(decision_b, not_condition_b, condition_b)
+        conj4 = context.mk_neq(decisiona_not_cb, decision_b)
         # Creates final conjunction
         tmp1 = context.mk_and(conj1, conj2)
         tmp2 = context.mk_and(tmp1, conj3)
@@ -116,7 +116,7 @@ def compute_mcdc_targets(context, instA, instB, decision, conditions):
 
     return targets
 
-def solve_mcdc_targets(context, decision2testObjectives, maxDepth):
+def solve_mcdc_targets(context, decision2testobjectives, max_depth):
     """
     Solves the MC/DC targets, maximizing the number of solved
     test objectives per each call.
@@ -124,116 +124,118 @@ def solve_mcdc_targets(context, decision2testObjectives, maxDepth):
     # Bmc engine will be used to compute counterexamples
     bmc = context.mk_optimizing_bmc()
 
-    testObjectives2decision = {}
+    testobjectives2decision = {}
     decision2traces = {}
     decision2unreachable = {}
     targets = []
-    for decision, tos in decision2testObjectives.iteritems():
+    for decision, tos in decision2testobjectives.iteritems():
         decision2traces[decision] = []
         decision2unreachable[decision] = []
-        for to in tos:
-            testObjectives2decision[to] = decision
-            targets.append(to)
-
-    totalTargets = len(targets)
+        for test_objective in tos:
+            testobjectives2decision[test_objective] = decision
+            targets.append(test_objective)
+    total_targets = len(targets)
 
     # Compute unreachable targets first
-    totalUnreached = 0
-    totalReached = 0
+    total_unreached = 0
+    total_reached = 0
     for target in targets:
-        br = context.mk_backward_reach()
-        br.add_target(target)
-        result = br.reach_targets()
+        breach = context.mk_backward_reach()
+        breach.add_target(target)
+        result = breach.reach_targets()
         if result == EngineResult.UNREACHABLE:
-            decision = testObjectives2decision[target]
+            decision = testobjectives2decision[target]
             decision2unreachable[decision].append(target)
-            totalUnreached += 1
+            total_unreached += 1
         elif result == EngineResult.REACHABLE:
             bmc.add_target(target)
-            totalReached += 1
+            total_reached += 1
 
     # print 'There are', totalTargets, 'test objectives:'
     # print '-', totalUnreached, 'unreachable test objectives'
     # print '-', totalReached, 'reachable test objectives'
 
-    if totalUnreached == totalTargets:
+    if total_unreached == total_targets:
         return decision2traces, decision2unreachable
 
     # Compute counterexamples for reachable targets
     done = False
     depth = 0
-    bmcTotalReached = 0
+    bmc_total_reached = 0
     while not done:
         bmc.set_current_depth(depth)
         result = bmc.reach_targets()
         if result != EngineResult.REACHABLE:
-            if depth == maxDepth:
+            if depth == max_depth:
                 done = True
             depth += 1
             continue
         reached = bmc.get_last_reached_targets()
         trace = bmc.get_last_trace()
-        for reachedTarget in reached:
-            decision = testObjectives2decision[reachedTarget]
+        for reached_target in reached:
+            decision = testobjectives2decision[reached_target]
             decision2traces[decision].append(trace)
-            bmcTotalReached += 1
+            bmc_total_reached += 1
         bmc.remove_last_reached_targets()
-        if bmcTotalReached == totalReached:
+        if bmc_total_reached == total_reached:
             done = True
 
-    totalUndecided = totalReached - bmcTotalReached
-    if totalUndecided != 0:
-        print 'There are', totalUndecided, 'undecided test objectives within depth', maxDepth
+    total_undecided = total_reached - bmc_total_reached
+    if total_undecided != 0:
+        print 'There are', total_undecided, 'undecided test objectives within depth', max_depth
 
     return decision2traces, decision2unreachable
 
-def compute_mcdc_tables(context, instA, instB, decision2traces, decisions):
+def compute_mcdc_tables(context, inst_a, inst_b, decision2traces, decisions):
     """
     Computes MC/DC tables out of counterexamples.
     """
     decision2table = {}
     for decision, traces in decision2traces.iteritems():
-        instAtestNets = instA.inputs.values() + [instA.nets[decision]]
-        instBtestNets = instB.inputs.values() + [instB.nets[decision]]
+        inst_a_testnets = inst_a.inputs.values() + [inst_a.nets[decision]]
+        inst_b_testnets = inst_b.inputs.values() + [inst_b.nets[decision]]
         header = [cond for cond in decisions[decision]]
         header.append(decision)
         decision2table[decision] = [header]
         for trace in traces:
             simulator = context.mk_simulator()
-            simulator.add_watch(instA.nets[decision])
-            simulator.add_watch(instB.nets[decision])
+            simulator.add_watch(inst_a.nets[decision])
+            simulator.add_watch(inst_b.nets[decision])
             simulator.simulate(trace, trace.get_max_depth())
-            fullTestA = trace.get_as_net_dictionary()
-            fullTestB = trace.get_as_net_dictionary()
-            testA = [v[0] for k, v in fullTestA.iteritems() if k in instAtestNets]
-            testB = [v[0] for k, v in fullTestB.iteritems() if k in instBtestNets]
-            decision2table[decision].append((testA, testB))
+            full_test_a = trace.get_as_net_dictionary()
+            full_test_b = trace.get_as_net_dictionary()
+            test_a = [v[0] for k, v in full_test_a.iteritems() if k in inst_a_testnets]
+            test_b = [v[0] for k, v in full_test_b.iteritems() if k in inst_b_testnets]
+            decision2table[decision].append((test_a, test_b))
     return decision2table
 
 def compute_pretty_tables(decision2table):
     """
     Postprocess raw MC/DC tables to get something presentation ready.
     """
-    decision2prettyTable = {}
+    decision2prettytable = {}
     first = True
     for decision, table in decision2table.iteritems():
-        prettyTable = []
+        pretty_table = []
         for row in table:
             if first:
                 first = False
-                prettyTable.append(row)
+                pretty_table.append(row)
             else:
-                prettyTable.append(row[0])
-                prettyTable.append(row[1])
-        decision2prettyTable[decision] = prettyTable
-    return decision2prettyTable
+                pretty_table.append(row[0])
+                pretty_table.append(row[1])
+        decision2prettytable[decision] = pretty_table
+    return decision2prettytable
 
 def get_tables_as_dataframe(decision2table):
+    """
+    Postprocess table to turn into a dataframe
+    """
     result = {}
     for decision, table in decision2table.iteritems():
         if len(table) == 1:
             continue
-        df = pd.DataFrame(table[1:], columns=table[0])
-        df = df.drop_duplicates()
-        result[decision] = df
+        dataframe = pd.DataFrame(table[1:], columns=table[0])
+        dataframe = dataframe.drop_duplicates()
+        result[decision] = dataframe
     return result

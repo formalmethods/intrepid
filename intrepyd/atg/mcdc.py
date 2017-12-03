@@ -11,12 +11,11 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 This module implements a toolbox for Automated Test Generation
 """
 
-import intrepyd as ip
-from intrepyd.engine import EngineResult
 import pandas as pd
-import collections as cl
+from intrepyd.engine import EngineResult
 
-def compute_mcdc(context, class_, decisions, maxDepth):
+
+def compute_mcdc(context, class_, decisions, max_depth):
     """
     Computes MC/DC tests in form of a table.
 
@@ -52,15 +51,18 @@ def compute_mcdc(context, class_, decisions, maxDepth):
 
     # Compute MC/DC traces: this is the computationally
     # expensive part that calls model checking routines
-    decision2traces, decision2unreachable = solve_mcdc_targets(context, decision2testobjectives, maxDepth)
+    decision2traces, trace2condition, decision2unreachable =\
+            solve_mcdc_targets(context, decision2testobjectives, max_depth)
 
     # Compute MC/DC tables from traces
-    decision2table = compute_mcdc_tables(context, inst_a, inst_b, decision2traces, decisions)
+    decision2table, decision2independencepairs =\
+            compute_mcdc_tables(context, inst_a, inst_b, decision2traces, trace2condition, decisions)
 
     # Compute pretty tables
     decision2prettytable = compute_pretty_tables(decision2table)
 
-    return decision2prettytable, decision2unreachable
+    return decision2prettytable, decision2independencepairs, decision2unreachable
+
 
 def compute_mcdc_targets(context, inst_a, inst_b, decision, conditions):
     """
@@ -69,13 +71,13 @@ def compute_mcdc_targets(context, inst_a, inst_b, decision, conditions):
 
     Args:
         context: the intrepyd context to use
-        instA: an instance of the circuit
-        instB: an instance of the circuit
+        inst_a: an instance of the circuit
+        inst_b: an instance of the circuit
         decision: the name of a decision
         conditions: the list of names of the conditions
 
     Returns:
-        the list of targets, whose reachability implies the existence of an MC/DC test
+        a map from targets to conditions for which target is an independence pair
     """
     decision_a = inst_a.nets[decision]
     decision_b = inst_b.nets[decision]
@@ -91,7 +93,7 @@ def compute_mcdc_targets(context, inst_a, inst_b, decision, conditions):
         conditions_b.append(condition_b)
         conditiona_neq_conditionb.append(context.mk_neq(condition_a, condition_b))
 
-    targets = []
+    targets = {}
     for i in range(len(conditions)):
         # Building test objective for the i-th condition
         condition_a = conditions_a[i]
@@ -112,9 +114,10 @@ def compute_mcdc_targets(context, inst_a, inst_b, decision, conditions):
         tmp1 = context.mk_and(conj1, conj2)
         tmp2 = context.mk_and(tmp1, conj3)
         target = context.mk_and(tmp2, conj4)
-        targets.append(target)
+        targets[target] = i
 
     return targets
+
 
 def solve_mcdc_targets(context, decision2testobjectives, max_depth):
     """
@@ -125,15 +128,18 @@ def solve_mcdc_targets(context, decision2testobjectives, max_depth):
     bmc = context.mk_optimizing_bmc()
 
     testobjectives2decision = {}
+    testobjectives2condition = {}
     decision2traces = {}
     decision2unreachable = {}
     targets = []
     for decision, tos in decision2testobjectives.iteritems():
         decision2traces[decision] = []
         decision2unreachable[decision] = []
-        for test_objective in tos:
+        for test_objective, condition in tos.iteritems():
             testobjectives2decision[test_objective] = decision
+            testobjectives2condition[test_objective] = condition
             targets.append(test_objective)
+    assert len(testobjectives2decision) == len(testobjectives2condition)
     total_targets = len(targets)
 
     # Compute unreachable targets first
@@ -158,6 +164,7 @@ def solve_mcdc_targets(context, decision2testobjectives, max_depth):
     if total_unreached == total_targets:
         return decision2traces, decision2unreachable
 
+    trace2condition = {}
     # Compute counterexamples for reachable targets
     done = False
     depth = 0
@@ -175,6 +182,7 @@ def solve_mcdc_targets(context, decision2testobjectives, max_depth):
         for reached_target in reached:
             decision = testobjectives2decision[reached_target]
             decision2traces[decision].append(trace)
+            trace2condition[trace] = testobjectives2condition[reached_target]
             bmc_total_reached += 1
         bmc.remove_last_reached_targets()
         if bmc_total_reached == total_reached:
@@ -184,19 +192,22 @@ def solve_mcdc_targets(context, decision2testobjectives, max_depth):
     if total_undecided != 0:
         print 'There are', total_undecided, 'undecided test objectives within depth', max_depth
 
-    return decision2traces, decision2unreachable
+    return decision2traces, trace2condition, decision2unreachable
 
-def compute_mcdc_tables(context, inst_a, inst_b, decision2traces, decisions):
+
+def compute_mcdc_tables(context, inst_a, inst_b, decision2traces, trace2condition, decisions):
     """
     Computes MC/DC tables out of counterexamples.
     """
     decision2table = {}
+    decision2independencepairs = {}
     for decision, traces in decision2traces.iteritems():
         inst_a_testnets = inst_a.inputs.values() + [inst_a.nets[decision]]
         inst_b_testnets = inst_b.inputs.values() + [inst_b.nets[decision]]
         header = [cond for cond in decisions[decision]]
         header.append(decision)
         decision2table[decision] = [header]
+        decision2independencepairs[decision] = []
         for trace in traces:
             simulator = context.mk_simulator()
             simulator.add_watch(inst_a.nets[decision])
@@ -207,7 +218,10 @@ def compute_mcdc_tables(context, inst_a, inst_b, decision2traces, decisions):
             test_a = [v[0] for k, v in full_test_a.iteritems() if k in inst_a_testnets]
             test_b = [v[0] for k, v in full_test_b.iteritems() if k in inst_b_testnets]
             decision2table[decision].append((test_a, test_b))
-    return decision2table
+            condition = trace2condition[trace]
+            decision2independencepairs[decision].append(condition)
+    return decision2table, decision2independencepairs
+
 
 def compute_pretty_tables(decision2table):
     """
@@ -226,6 +240,7 @@ def compute_pretty_tables(decision2table):
                 pretty_table.append(row[1])
         decision2prettytable[decision] = pretty_table
     return decision2prettytable
+
 
 def get_tables_as_dataframe(decision2table):
     """

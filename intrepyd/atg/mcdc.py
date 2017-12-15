@@ -58,10 +58,7 @@ def compute_mcdc(context, class_, decisions, max_depth):
     decision2table, decision2independencepairs =\
             compute_mcdc_tables(context, inst_a, inst_b, decision2traces, trace2condition, decisions)
 
-    # Compute pretty tables
-    decision2prettytable = compute_pretty_tables(decision2table)
-
-    return decision2prettytable, decision2independencepairs, decision2unreachable
+    return decision2table, decision2independencepairs, decision2unreachable
 
 
 def compute_mcdc_targets(context, inst_a, inst_b, decision, conditions):
@@ -201,26 +198,58 @@ def compute_mcdc_tables(context, inst_a, inst_b, decision2traces, trace2conditio
     """
     decision2table = {}
     decision2independencepairs = {}
+    seen = {}
     for decision, traces in decision2traces.iteritems():
         inst_a_testnets = inst_a.inputs.values() + [inst_a.nets[decision]]
         inst_b_testnets = inst_b.inputs.values() + [inst_b.nets[decision]]
         header = [cond for cond in decisions[decision]]
         header.append(decision)
         decision2table[decision] = [header]
-        decision2independencepairs[decision] = []
+        decision2independencepairs[decision] = {}
+        test_number = 0
         for trace in traces:
+            test_a_number = None
+            test_b_number = None
+            # Enrich the traces with the value of the output
+            # by performing a simulation
             simulator = context.mk_simulator()
             simulator.add_watch(inst_a.nets[decision])
             simulator.add_watch(inst_b.nets[decision])
             simulator.simulate(trace, trace.get_max_depth())
             full_test_a = trace.get_as_net_dictionary()
             full_test_b = trace.get_as_net_dictionary()
-            test_a = [v[0] for k, v in full_test_a.iteritems() if k in inst_a_testnets]
-            test_b = [v[0] for k, v in full_test_b.iteritems() if k in inst_b_testnets]
-            decision2table[decision].append((test_a, test_b))
+            test_a_candidate = [v[0] for k, v in full_test_a.iteritems() if k in inst_a_testnets]
+            test_b_candidate = [v[0] for k, v in full_test_b.iteritems() if k in inst_b_testnets]
+            test_a_hash = compute_hash(test_a_candidate)
+            test_b_hash = compute_hash(test_b_candidate)
+
+            if test_a_hash in seen:
+                _, test_a_number = seen[test_a_hash]
+            else:
+                seen[test_a_hash] = (test_a_candidate, test_number)
+                decision2table[decision].append(test_a_candidate)
+                test_a_number = test_number
+                test_number += 1
+
+            if test_b_hash in seen:
+                _, test_b_number = seen[test_b_hash]
+            else:
+                seen[test_b_hash] = (test_b_candidate, test_number)
+                decision2table[decision].append(test_b_candidate)
+                test_b_number = test_number
+                test_number += 1
+
             condition = trace2condition[trace]
-            decision2independencepairs[decision].append(condition)
+            condition = decisions[decision][condition]
+            decision2independencepairs[decision][condition] = (test_a_number, test_b_number)
     return decision2table, decision2independencepairs
+
+
+def compute_hash(test):
+    result = ""
+    for val in test:
+        result += val
+    return result
 
 
 def compute_pretty_tables(decision2table):

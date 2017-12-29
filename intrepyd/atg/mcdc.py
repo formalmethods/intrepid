@@ -209,7 +209,11 @@ def compute_mcdc_tables(context, inst_a, inst_b, decision2traces, trace2conditio
         header = [cond for cond in decisions[decision]]
         header.append(decision)
         header_nets_a = set(inst_a_conds_dec)
+        # Enable this to include inputs in the tests (but you need to add also names in headers)
+        # header_nets_a = set(inst_a_testnets)
         header_nets_b = set(inst_b_conds_dec)
+        # Enable this to include inputs in the tests (but you need to add also names in headers)
+        # header_nets_b = set(inst_b_testnets)
         decision2table[decision] = [header]
         decision2independencepairs[decision] = {}
         test_number = 0
@@ -219,8 +223,6 @@ def compute_mcdc_tables(context, inst_a, inst_b, decision2traces, trace2conditio
             # Enrich the traces with the value of the output
             # by performing a simulation
             simulator = context.mk_simulator()
-            # simulator.add_watch(inst_a.nets[decision])
-            # simulator.add_watch(inst_b.nets[decision])
             for net in inst_a_testnets:
                 simulator.add_watch(net)
             for net in inst_b_testnets:

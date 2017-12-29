@@ -42,7 +42,9 @@ def compute_mcdc(context, class_, decisions, max_depth):
 
     # Flattens inputs and outputs into nets, for simplicity
     inst_a.nets.update(inst_a.inputs)
+    inst_a.nets.update(inst_a.outputs)
     inst_b.nets.update(inst_b.inputs)
+    inst_b.nets.update(inst_b.outputs)
 
     # Creates test objectives
     decision2testobjectives = {decision :\
@@ -200,10 +202,14 @@ def compute_mcdc_tables(context, inst_a, inst_b, decision2traces, trace2conditio
     decision2independencepairs = {}
     seen = {}
     for decision, traces in decision2traces.iteritems():
-        inst_a_testnets = inst_a.inputs.values() + [inst_a.nets[decision]]
-        inst_b_testnets = inst_b.inputs.values() + [inst_b.nets[decision]]
+        inst_a_conds_dec = [inst_a.nets[cond] for cond in decisions[decision]] + [inst_a.nets[decision]]
+        inst_a_testnets = inst_a.inputs.values() + inst_a_conds_dec
+        inst_b_conds_dec = [inst_b.nets[cond] for cond in decisions[decision]] + [inst_b.nets[decision]]
+        inst_b_testnets = inst_b.inputs.values() + inst_b_conds_dec
         header = [cond for cond in decisions[decision]]
         header.append(decision)
+        header_nets_a = set(inst_a_conds_dec)
+        header_nets_b = set(inst_b_conds_dec)
         decision2table[decision] = [header]
         decision2independencepairs[decision] = {}
         test_number = 0
@@ -213,13 +219,17 @@ def compute_mcdc_tables(context, inst_a, inst_b, decision2traces, trace2conditio
             # Enrich the traces with the value of the output
             # by performing a simulation
             simulator = context.mk_simulator()
-            simulator.add_watch(inst_a.nets[decision])
-            simulator.add_watch(inst_b.nets[decision])
+            # simulator.add_watch(inst_a.nets[decision])
+            # simulator.add_watch(inst_b.nets[decision])
+            for net in inst_a_testnets:
+                simulator.add_watch(net)
+            for net in inst_b_testnets:
+                simulator.add_watch(net)
             simulator.simulate(trace, trace.get_max_depth())
             full_test_a = trace.get_as_net_dictionary()
             full_test_b = trace.get_as_net_dictionary()
-            test_a_candidate = [v[0] for k, v in full_test_a.iteritems() if k in inst_a_testnets]
-            test_b_candidate = [v[0] for k, v in full_test_b.iteritems() if k in inst_b_testnets]
+            test_a_candidate = [v[0] for k, v in full_test_a.iteritems() if (k in inst_a_testnets and k in header_nets_a)]
+            test_b_candidate = [v[0] for k, v in full_test_b.iteritems() if (k in inst_b_testnets and k in header_nets_b)]
             test_a_hash = compute_hash(test_a_candidate)
             test_b_hash = compute_hash(test_b_candidate)
 
@@ -246,6 +256,9 @@ def compute_mcdc_tables(context, inst_a, inst_b, decision2traces, trace2conditio
 
 
 def compute_hash(test):
+    """
+    Computes a unique hash for a test
+    """
     result = ""
     for val in test:
         result += val

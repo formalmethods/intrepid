@@ -8,14 +8,14 @@ https://opensource.org/licenses/BSD-3-Clause.
 Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
   Date: 27/03/2017
 """
-import unittest
-import intrepyd as ip
-import intrepyd.atg
-import intrepyd.circuit
-import collections
-import pandas as pd
 
-class CircAnd(ip.circuit.Circuit):
+import unittest
+import collections
+import intrepyd as ip
+import intrepyd.atg.mcdc as mcdc
+import intrepyd.circuit as circuit
+
+class CircAnd(circuit.Circuit):
     def __init__(self, ctx, name):
         ip.circuit.Circuit.__init__(self, ctx, name)
 
@@ -39,7 +39,8 @@ class TestAtg(unittest.TestCase):
     def test_atg_01(self):
         ctx = ip.Context()
         decisions = { 'O' : ['A', 'B'] }
-        tables, decision2unreachable = ip.atg.compute_mcdc(ctx, CircAnd, decisions, maxDepth=10)
-        decision2dataframe = ip.atg.get_tables_as_dataframe(tables)
+        tables, indpairs, decision2unreachable = mcdc.compute_mcdc(ctx, CircAnd, decisions, max_depth=10)
+        decision2dataframe = ip.atg.mcdc.get_tables_as_dataframe(tables)
         self.assertEqual(3, len(decision2dataframe['O']))
+        self.assertEqual(2, len(indpairs['O']))
         self.assertEqual(0, len(decision2unreachable['O']))

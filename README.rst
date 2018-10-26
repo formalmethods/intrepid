@@ -9,8 +9,3 @@ for the rigorous analysis of circuits, specifications, models.
 Formal Methods Little Corner
 ============================
 A collection of experiences using Intrepyd can be found `here <https://formalmethods.github.io>`_.
-
-====
-FAQs
-====
-Please refer to the dedicated `Wiki page <https://github.com/formalmethods/intrepyd/wiki/FAQs>`_.

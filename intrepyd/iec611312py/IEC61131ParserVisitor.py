@@ -1,4 +1,4 @@
-# Generated from IEC61131Parser.g4 by ANTLR 4.6
+# Generated from IEC61131Parser.g4 by ANTLR 4.7.1
 from antlr4 import *
 
 # This class defines a complete generic visitor for a parse tree produced by IEC61131ParserParser.

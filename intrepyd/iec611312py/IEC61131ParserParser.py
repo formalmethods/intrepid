@@ -1,12 +1,13 @@
-# Generated from IEC61131Parser.g4 by ANTLR 4.6
+# Generated from IEC61131Parser.g4 by ANTLR 4.7.1
 # encoding: utf-8
 from __future__ import print_function
 from antlr4 import *
 from io import StringIO
+import sys
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write(u"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3")
+        buf.write(u"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3")
         buf.write(u"\u0110\u029c\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6")
         buf.write(u"\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4")
         buf.write(u"\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t")
@@ -83,28 +84,28 @@ def serializedATN():
         buf.write(u"\u00b0\u00c2\u00c2\4\2\u0088\u0088\u00a6\u00a6\4\2hh")
         buf.write(u"vv\4\2\u00ca\u00ca\u00f4\u00f7\3\2\37\63\f\2nn\177\u0081")
         buf.write(u"\u0097\u009a\u00b9\u00c0\u00c3\u00c5\u00cd\u00ce\u00d0")
-        buf.write(u"\u00d2\u00da\u00e9\u00fe\u0104\u0106\u0106\u02d2\2\u008d")
-        buf.write(u"\3\2\2\2\4\u008f\3\2\2\2\6\u009b\3\2\2\2\b\u009e\3\2")
-        buf.write(u"\2\2\n\u00cc\3\2\2\2\f\u00d3\3\2\2\2\16\u00f0\3\2\2\2")
-        buf.write(u"\20\u00f2\3\2\2\2\22\u00f5\3\2\2\2\24\u0107\3\2\2\2\26")
-        buf.write(u"\u0111\3\2\2\2\30\u0113\3\2\2\2\32\u012c\3\2\2\2\34\u012e")
-        buf.write(u"\3\2\2\2\36\u0133\3\2\2\2 \u0135\3\2\2\2\"\u013f\3\2")
-        buf.write(u"\2\2$\u0142\3\2\2\2&\u0146\3\2\2\2(\u014d\3\2\2\2*\u0157")
-        buf.write(u"\3\2\2\2,\u0159\3\2\2\2.\u0162\3\2\2\2\60\u0168\3\2\2")
-        buf.write(u"\2\62\u017c\3\2\2\2\64\u018e\3\2\2\2\66\u0190\3\2\2\2")
-        buf.write(u"8\u019e\3\2\2\2:\u01a1\3\2\2\2<\u01a9\3\2\2\2>\u01ac")
-        buf.write(u"\3\2\2\2@\u01b7\3\2\2\2B\u01bb\3\2\2\2D\u01bf\3\2\2\2")
-        buf.write(u"F\u01cc\3\2\2\2H\u01d3\3\2\2\2J\u01d5\3\2\2\2L\u01e2")
-        buf.write(u"\3\2\2\2N\u01e4\3\2\2\2P\u01eb\3\2\2\2R\u01f1\3\2\2\2")
-        buf.write(u"T\u01fe\3\2\2\2V\u0214\3\2\2\2X\u023e\3\2\2\2Z\u024e")
-        buf.write(u"\3\2\2\2\\\u0252\3\2\2\2^\u0256\3\2\2\2`\u025e\3\2\2")
-        buf.write(u"\2b\u0269\3\2\2\2d\u0270\3\2\2\2f\u027b\3\2\2\2h\u027f")
-        buf.write(u"\3\2\2\2j\u0283\3\2\2\2l\u0285\3\2\2\2n\u0287\3\2\2\2")
-        buf.write(u"p\u028e\3\2\2\2r\u0293\3\2\2\2t\u0297\3\2\2\2v\u0299")
-        buf.write(u"\3\2\2\2xy\7i\2\2y{\7\u0108\2\2z|\5\b\5\2{z\3\2\2\2{")
-        buf.write(u"|\3\2\2\2|~\3\2\2\2}\177\5\6\4\2~}\3\2\2\2~\177\3\2\2")
-        buf.write(u"\2\177\u0080\3\2\2\2\u0080\u008e\7C\2\2\u0081\u0084\7")
-        buf.write(u"8\2\2\u0082\u0085\7\u0108\2\2\u0083\u0085\5\4\3\2\u0084")
+        buf.write(u"\u00d2\u00da\u00e9\u00fe\u0104\u0106\u0106\2\u02d2\2")
+        buf.write(u"\u008d\3\2\2\2\4\u008f\3\2\2\2\6\u009b\3\2\2\2\b\u009e")
+        buf.write(u"\3\2\2\2\n\u00cc\3\2\2\2\f\u00d3\3\2\2\2\16\u00f0\3\2")
+        buf.write(u"\2\2\20\u00f2\3\2\2\2\22\u00f5\3\2\2\2\24\u0107\3\2\2")
+        buf.write(u"\2\26\u0111\3\2\2\2\30\u0113\3\2\2\2\32\u012c\3\2\2\2")
+        buf.write(u"\34\u012e\3\2\2\2\36\u0133\3\2\2\2 \u0135\3\2\2\2\"\u013f")
+        buf.write(u"\3\2\2\2$\u0142\3\2\2\2&\u0146\3\2\2\2(\u014d\3\2\2\2")
+        buf.write(u"*\u0157\3\2\2\2,\u0159\3\2\2\2.\u0162\3\2\2\2\60\u0168")
+        buf.write(u"\3\2\2\2\62\u017c\3\2\2\2\64\u018e\3\2\2\2\66\u0190\3")
+        buf.write(u"\2\2\28\u019e\3\2\2\2:\u01a1\3\2\2\2<\u01a9\3\2\2\2>")
+        buf.write(u"\u01ac\3\2\2\2@\u01b7\3\2\2\2B\u01bb\3\2\2\2D\u01bf\3")
+        buf.write(u"\2\2\2F\u01cc\3\2\2\2H\u01d3\3\2\2\2J\u01d5\3\2\2\2L")
+        buf.write(u"\u01e2\3\2\2\2N\u01e4\3\2\2\2P\u01eb\3\2\2\2R\u01f1\3")
+        buf.write(u"\2\2\2T\u01fe\3\2\2\2V\u0214\3\2\2\2X\u023e\3\2\2\2Z")
+        buf.write(u"\u024e\3\2\2\2\\\u0252\3\2\2\2^\u0256\3\2\2\2`\u025e")
+        buf.write(u"\3\2\2\2b\u0269\3\2\2\2d\u0270\3\2\2\2f\u027b\3\2\2\2")
+        buf.write(u"h\u027f\3\2\2\2j\u0283\3\2\2\2l\u0285\3\2\2\2n\u0287")
+        buf.write(u"\3\2\2\2p\u028e\3\2\2\2r\u0293\3\2\2\2t\u0297\3\2\2\2")
+        buf.write(u"v\u0299\3\2\2\2xy\7i\2\2y{\7\u0108\2\2z|\5\b\5\2{z\3")
+        buf.write(u"\2\2\2{|\3\2\2\2|~\3\2\2\2}\177\5\6\4\2~}\3\2\2\2~\177")
+        buf.write(u"\3\2\2\2\177\u0080\3\2\2\2\u0080\u008e\7C\2\2\u0081\u0084")
+        buf.write(u"\78\2\2\u0082\u0085\7\u0108\2\2\u0083\u0085\5\4\3\2\u0084")
         buf.write(u"\u0082\3\2\2\2\u0084\u0083\3\2\2\2\u0085\u0087\3\2\2")
         buf.write(u"\2\u0086\u0088\5\b\5\2\u0087\u0086\3\2\2\2\u0087\u0088")
         buf.write(u"\3\2\2\2\u0088\u008a\3\2\2\2\u0089\u008b\5\6\4\2\u008a")
@@ -776,9 +777,9 @@ class IEC61131ParserParser ( Parser ):
     PRAGMA=269
     ErrorCharacter=270
 
-    def __init__(self, input):
-        super(IEC61131ParserParser, self).__init__(input)
-        self.checkVersion("4.6")
+    def __init__(self, input, output=sys.stdout):
+        super(IEC61131ParserParser, self).__init__(input, output=output)
+        self.checkVersion("4.7.1")
         self._interp = ParserATNSimulator(self, self.atn, self.decisionsToDFA, self.sharedContextCache)
         self._predicates = None
 
@@ -5334,7 +5335,7 @@ class IEC61131ParserParser ( Parser ):
             elif token in [IEC61131ParserParser.T__20, IEC61131ParserParser.T__21, IEC61131ParserParser.DIGITS]:
                 pass
             else:
-                raise NoViableAltException(self)
+                pass
             self.state = 624
             self.signed_int()
             self.state = 625

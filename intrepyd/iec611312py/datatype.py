@@ -1,5 +1,5 @@
 """
-Copyright (C) 2017 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
+Copyright (C) 2018 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 
 This file is distributed under the terms of the 3-clause BSD License.
 A copy of the license can be found in the root directory or at
@@ -29,6 +29,7 @@ class Datatype(Visitable):
         return self._name
 
     PRIMITIVE = 'PRIMITIVE'
+    FBLOCK = 'FBLOCK'
     ARRAY = 'ARRAY'
     STRUCT = 'STRUCT'
     ENUM = 'ENUM'
@@ -37,7 +38,7 @@ class Datatype(Visitable):
 
 class Primitive(Datatype):
     """
-    Stores a primitive datatype (int, real, bool)
+    Stores a primitive datatype (SINT, USINT, ..., REAL, ...)
     """
     def __init__(self, name):
         Datatype.__init__(self, name, Datatype.PRIMITIVE)

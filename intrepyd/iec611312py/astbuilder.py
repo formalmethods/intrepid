@@ -12,6 +12,7 @@ This module implements the main parsing routine of IEC61131 text
 """
 
 from intrepyd.iec611312py.IEC61131ParserVisitor import IEC61131ParserVisitor
+from intrepyd.iec611312py.assignment import Assignment
 
 class ASTBuilder(IEC61131ParserVisitor):
     """
@@ -19,4 +20,13 @@ class ASTBuilder(IEC61131ParserVisitor):
     IEC program
     """
     def __init__(self):
-        pass
+        self._body = None
+
+    @property
+    def body(self):
+        return self._body
+
+    def visitAssign_stmt(self, ctx):
+        lhs = ctx.getChild(0).accept(self)
+        rhs = ctx.getChild(2).accept(self)
+        return Assignment(lhs, rhs)

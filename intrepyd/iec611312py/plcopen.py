@@ -11,18 +11,71 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 This module implements the main parsing routine of PLCOPEN files
 """
 
-from antlr4 import FileStream, InputStream, CommonTokenStream
+from antlr4 import CommonTokenStream, InputStream
 from xml.etree import ElementTree
+from intrepyd.iec611312py.functionblock import FunctionBlock
+from intrepyd.iec611312py.datatype import Datatype
+from intrepyd.iec611312py.variable import Variable
+from intrepyd.iec611312py.astbuilder import ASTBuilder
+from intrepyd.iec611312py.IEC61131ParserLexer import IEC61131ParserLexer
+from intrepyd.iec611312py.IEC61131ParserParser import IEC61131ParserParser
+from intrepyd.iec611312py.astbuilder import ASTBuilder
+# from intrepyd.iec611312py.ast import Ast
+import re
 
 def parsePlcOpenFile(infile):
     """
     Parse the provided PLCOPEN XML input file, extracts routines and tags
     """
     root = ElementTree.parse(infile).getroot()
-    return parseXmlFunctionBlocks(root)
+    return parsePous(root)
 
-def parseXmlFunctionBlocks(root):
-    pass
+def parsePous(root):
+    for pou in root.iter('pou'):
+        if pou.get('pouType') == 'functionBlock':
+            parseFunctionBlock(pou)
+        else:
+            raise RuntimeError('Unsupported pou type ' + pou.pouType)
 
-def parseXmlFunctionBlock(root):
-    return FunctionBlock()
+def parseFunctionBlock(functionBlock):
+    inputVars, outputVars = parseFbInterface(functionBlock)
+    body = parseFbBody(functionBlock)
+    return FunctionBlock(functionBlock.get('name'), inputVars, outputVars, None, body)
+
+def parseFbInterface(functionBlock):
+    inputVars = None
+    outputVars = None
+    for interface in functionBlock.iter('interface'):
+        for inVars in interface.iter('inputVars'):
+            inputVars = [parseVar(var, Variable.INPUT) for var in inVars.iter('variable')]
+        for outVars in interface.iter('outputVars'):
+            outputVars = [parseVar(var, Variable.OUTPUT) for var in outVars.iter('variable')]
+    return inputVars, outputVars
+
+def parseFbBody(functionBlock):
+    code = None
+    for body in functionBlock.iter('body'):
+        for st in body.iter('ST'):
+            code = st[0].text
+    if code is None:
+        raise RuntimeError('Could not read FunctionBlock body')
+    lexer = IEC61131ParserLexer(InputStream(code))
+    stream = CommonTokenStream(lexer)
+    parser = IEC61131ParserParser(stream)
+    tree = parser.body()
+    ast_builder = ASTBuilder()
+    ast_builder.visit(tree)
+    return ast_builder.body
+    
+def parseVar(var, kind):
+    dtName = var[0][0].tag
+    dtKind = computeDataKind(dtName)
+    datatype = Datatype(dtName, dtKind)
+    return Variable(var.get('name'), datatype, kind)
+
+def computeDataKind(dtName):
+    intPattern = re.compile('[SDL]?U?INT')
+    realPattern = re.compile('L?REAL')
+    if intPattern.match(dtName) or realPattern.match(dtName):
+        return 'PRIMITIVE'
+    raise RuntimeError('Unsupported variable type ' + dtName)

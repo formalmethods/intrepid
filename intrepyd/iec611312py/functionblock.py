@@ -11,14 +11,14 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 This module implements the main store of a FunctionBlock
 """
 
-from datatype import DataType
+from intrepyd.iec611312py.datatype import Datatype
 
-class FunctionBlock(DataType):
+class FunctionBlock(Datatype):
     """
     Holds function block parsed data
     """
     def __init__(self, name, input_vars, output_vars, temp_vars, body):
-        DataType.__init__(self, name)
+        Datatype.__init__(self, name, Datatype.FBLOCK)
         self._input_vars = input_vars
         self._output_vars = output_vars
         self._temp_vars = temp_vars

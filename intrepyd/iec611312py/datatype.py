@@ -6,7 +6,7 @@ A copy of the license can be found in the root directory or at
 https://opensource.org/licenses/BSD-3-Clause.
 
 Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 27/03/2017
+  Date: 01/11/2018
 
 This module implements infrastructure to store datatypes
 """
@@ -17,22 +17,9 @@ class Datatype(Visitable):
     """
     Stores a datatype
     """
-    def __init__(self, kind):
-        self._kind = kind
-
-    PRIMITIVE = 'PRIMITIVE'
-    ARRAY = 'ARRAY'
-    STRUCT = 'STRUCT'
-    ENUM = 'ENUM'
-    SUBRANGE = 'SUBRANGE'
-
-class Primitive(Datatype):
-    """
-    Stores a primitive datatype (int, real, bool)
-    """
-    def __init__(self, name):
-        Datatype.__init__(self, Datatype.PRIMITIVE)
+    def __init__(self, name, kind):
         self._name = name
+        self._kind = kind
 
     @property
     def name(self):
@@ -40,6 +27,35 @@ class Primitive(Datatype):
         Getter
         """
         return self._name
+
+    PRIMITIVE = 'PRIMITIVE'
+    ARRAY = 'ARRAY'
+    STRUCT = 'STRUCT'
+    ENUM = 'ENUM'
+    SUBRANGE = 'SUBRANGE'
+    INSTANCE = 'INSTANCE'
+
+class Primitive(Datatype):
+    """
+    Stores a primitive datatype (int, real, bool)
+    """
+    def __init__(self, name):
+        Datatype.__init__(self, name, Datatype.PRIMITIVE)
+
+class Instance(Datatype):
+    """
+    Stores a function block instance
+    """
+    def __init__(self, name, function_block):
+        Datatype.__init__(self, name, Datatype.INSTANCE)
+        self._function_block = function_block
+
+    @property
+    def function_block(self):
+        """
+        Getter
+        """
+        return self._function_block
 
 class Array(Datatype):
     """

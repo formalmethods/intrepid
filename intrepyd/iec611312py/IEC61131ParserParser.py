@@ -3258,35 +3258,94 @@ class IEC61131ParserParser ( Parser ):
             super(IEC61131ParserParser.Assign_stmtContext, self).__init__(parent, invokingState)
             self.parser = parser
 
-        def variable_name(self):
-            return self.getTypedRuleContext(IEC61131ParserParser.Variable_nameContext,0)
 
+        def getRuleIndex(self):
+            return IEC61131ParserParser.RULE_assign_stmt
+
+     
+        def copyFrom(self, ctx):
+            super(IEC61131ParserParser.Assign_stmtContext, self).copyFrom(ctx)
+
+
+
+    class AssignArrayCellContext(Assign_stmtContext):
+
+        def __init__(self, parser, ctx): # actually a IEC61131ParserParser.Assign_stmtContext)
+            super(IEC61131ParserParser.AssignArrayCellContext, self).__init__(parser)
+            self.copyFrom(ctx)
+
+        def array_access(self):
+            return self.getTypedRuleContext(IEC61131ParserParser.Array_accessContext,0)
 
         def expression(self):
             return self.getTypedRuleContext(IEC61131ParserParser.ExpressionContext,0)
 
 
-        def array_access(self):
-            return self.getTypedRuleContext(IEC61131ParserParser.Array_accessContext,0)
+        def accept(self, visitor):
+            if hasattr(visitor, "visitAssignArrayCell"):
+                return visitor.visitAssignArrayCell(self)
+            else:
+                return visitor.visitChildren(self)
 
 
-        def variable_bit_access(self):
-            return self.getTypedRuleContext(IEC61131ParserParser.Variable_bit_accessContext,0)
+    class AssignVariableContext(Assign_stmtContext):
 
+        def __init__(self, parser, ctx): # actually a IEC61131ParserParser.Assign_stmtContext)
+            super(IEC61131ParserParser.AssignVariableContext, self).__init__(parser)
+            self.copyFrom(ctx)
+
+        def variable_name(self):
+            return self.getTypedRuleContext(IEC61131ParserParser.Variable_nameContext,0)
+
+        def expression(self):
+            return self.getTypedRuleContext(IEC61131ParserParser.ExpressionContext,0)
+
+
+        def accept(self, visitor):
+            if hasattr(visitor, "visitAssignVariable"):
+                return visitor.visitAssignVariable(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class AssignFbAccessContext(Assign_stmtContext):
+
+        def __init__(self, parser, ctx): # actually a IEC61131ParserParser.Assign_stmtContext)
+            super(IEC61131ParserParser.AssignFbAccessContext, self).__init__(parser)
+            self.copyFrom(ctx)
 
         def fb_access(self):
             return self.getTypedRuleContext(IEC61131ParserParser.Fb_accessContext,0)
 
+        def expression(self):
+            return self.getTypedRuleContext(IEC61131ParserParser.ExpressionContext,0)
 
-        def getRuleIndex(self):
-            return IEC61131ParserParser.RULE_assign_stmt
 
         def accept(self, visitor):
-            if hasattr(visitor, "visitAssign_stmt"):
-                return visitor.visitAssign_stmt(self)
+            if hasattr(visitor, "visitAssignFbAccess"):
+                return visitor.visitAssignFbAccess(self)
             else:
                 return visitor.visitChildren(self)
 
+
+    class AssignBitAccessContext(Assign_stmtContext):
+
+        def __init__(self, parser, ctx): # actually a IEC61131ParserParser.Assign_stmtContext)
+            super(IEC61131ParserParser.AssignBitAccessContext, self).__init__(parser)
+            self.copyFrom(ctx)
+
+        def variable_bit_access(self):
+            return self.getTypedRuleContext(IEC61131ParserParser.Variable_bit_accessContext,0)
+
+        def expression(self):
+            return self.getTypedRuleContext(IEC61131ParserParser.ExpressionContext,0)
+
+
+        def accept(self, visitor):
+            if hasattr(visitor, "visitAssignBitAccess"):
+                return visitor.visitAssignBitAccess(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3299,6 +3358,7 @@ class IEC61131ParserParser ( Parser ):
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,39,self._ctx)
             if la_ == 1:
+                localctx = IEC61131ParserParser.AssignVariableContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
                 self.state = 380
                 self.variable_name()
@@ -3309,6 +3369,7 @@ class IEC61131ParserParser ( Parser ):
                 pass
 
             elif la_ == 2:
+                localctx = IEC61131ParserParser.AssignArrayCellContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
                 self.state = 384
                 self.array_access()
@@ -3319,6 +3380,7 @@ class IEC61131ParserParser ( Parser ):
                 pass
 
             elif la_ == 3:
+                localctx = IEC61131ParserParser.AssignBitAccessContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
                 self.state = 388
                 self.variable_bit_access()
@@ -3329,6 +3391,7 @@ class IEC61131ParserParser ( Parser ):
                 pass
 
             elif la_ == 4:
+                localctx = IEC61131ParserParser.AssignFbAccessContext(self, localctx)
                 self.enterOuterAlt(localctx, 4)
                 self.state = 392
                 self.fb_access()

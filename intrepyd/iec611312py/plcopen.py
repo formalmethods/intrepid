@@ -39,7 +39,8 @@ def parsePous(root):
 
 def parseFunctionBlock(functionBlock):
     inputVars, outputVars = parseFbInterface(functionBlock)
-    body = parseFbBody(functionBlock)
+    name2var = {var.name: var for var in inputVars + outputVars}
+    body = parseFbBody(functionBlock, name2var)
     return FunctionBlock(functionBlock.get('name'), inputVars, outputVars, None, body)
 
 def parseFbInterface(functionBlock):
@@ -52,7 +53,7 @@ def parseFbInterface(functionBlock):
             outputVars = [parseVar(var, Variable.OUTPUT) for var in outVars.iter('variable')]
     return inputVars, outputVars
 
-def parseFbBody(functionBlock):
+def parseFbBody(functionBlock, name2var):
     code = None
     for body in functionBlock.iter('body'):
         for st in body.iter('ST'):
@@ -63,9 +64,9 @@ def parseFbBody(functionBlock):
     stream = CommonTokenStream(lexer)
     parser = IEC61131ParserParser(stream)
     tree = parser.body()
-    ast_builder = ASTBuilder()
+    ast_builder = ASTBuilder(name2var)
     ast_builder.visit(tree)
-    return ast_builder.body
+    return ast_builder.statements
     
 def parseVar(var, kind):
     dtName = var[0][0].tag
@@ -76,6 +77,6 @@ def parseVar(var, kind):
 def computeDataKind(dtName):
     intPattern = re.compile('[SDL]?U?INT')
     realPattern = re.compile('L?REAL')
-    if intPattern.match(dtName) or realPattern.match(dtName):
+    if dtName == 'BOOL' or intPattern.match(dtName) or realPattern.match(dtName):
         return 'PRIMITIVE'
     raise RuntimeError('Unsupported variable type ' + dtName)

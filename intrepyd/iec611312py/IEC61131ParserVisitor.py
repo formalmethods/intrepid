@@ -230,8 +230,23 @@ class IEC61131ParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by IEC61131ParserParser#assign_stmt.
-    def visitAssign_stmt(self, ctx):
+    # Visit a parse tree produced by IEC61131ParserParser#assignVariable.
+    def visitAssignVariable(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by IEC61131ParserParser#assignArrayCell.
+    def visitAssignArrayCell(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by IEC61131ParserParser#assignBitAccess.
+    def visitAssignBitAccess(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by IEC61131ParserParser#assignFbAccess.
+    def visitAssignFbAccess(self, ctx):
         return self.visitChildren(ctx)
 
 

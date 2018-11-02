@@ -8,7 +8,7 @@ https://opensource.org/licenses/BSD-3-Clause.
 Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
   Date: 01/11/2018
 
-This module implements infrastructure to store datatypes
+This module implements infrastructure to store statements
 """
 
 from intrepyd.visitable import Visitable

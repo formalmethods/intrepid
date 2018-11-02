@@ -135,10 +135,10 @@ stmt             : assign_stmt ';'
                  | repeat_stmt ';'
                  ;
 
-assign_stmt      : variable_name ':=' expression
-                 | array_access ':=' expression
-                 | variable_bit_access ':=' expression
-                 | fb_access ':=' expression
+assign_stmt      : variable_name ':=' expression          # assignVariable
+                 | array_access ':=' expression           # assignArrayCell
+                 | variable_bit_access ':=' expression    # assignBitAccess
+                 | fb_access ':=' expression              # assignFbAccess
                  ;
 
 if_stmt          : IF ifexpr=bool_expression THEN ifstmt=stmt_block

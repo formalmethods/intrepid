@@ -11,9 +11,8 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 This module implements a printer for the parsed AST
 """
 
-from lustre2py.visitor import Visitor
-from lustre2py.instruction import Equation, Property
-from lustre2py.node import Node
+from intrepyd.iec611312py.statement import Assignment
+from intrepyd.iec611312py.expression import VariableOcc, Expression
 
 class AstPrinter(Visitor):
     """

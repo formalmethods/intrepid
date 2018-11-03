@@ -20,7 +20,6 @@ from intrepyd.iec611312py.astbuilder import ASTBuilder
 from intrepyd.iec611312py.IEC61131ParserLexer import IEC61131ParserLexer
 from intrepyd.iec611312py.IEC61131ParserParser import IEC61131ParserParser
 from intrepyd.iec611312py.astbuilder import ASTBuilder
-# from intrepyd.iec611312py.ast import Ast
 import re
 
 def parsePlcOpenFile(infile):
@@ -31,11 +30,13 @@ def parsePlcOpenFile(infile):
     return parsePous(root)
 
 def parsePous(root):
+    parsedPous = []
     for pou in root.iter('pou'):
         if pou.get('pouType') == 'functionBlock':
-            parseFunctionBlock(pou)
+            parsedPous.append(parseFunctionBlock(pou))
         else:
             raise RuntimeError('Unsupported pou type ' + pou.pouType)
+    return parsedPous 
 
 def parseFunctionBlock(functionBlock):
     inputVars, outputVars = parseFbInterface(functionBlock)

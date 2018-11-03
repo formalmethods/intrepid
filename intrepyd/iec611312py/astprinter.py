@@ -17,16 +17,22 @@ from intrepyd.iec611312py.expression import VariableOcc, Expression
 
 class AstPrinter(Visitor):
     """
-    Visitor for printing AST on stdout
+    Visitor for printing AST on a string
     """
     def __init__(self):
-        pass
+        self._result = ''
+
+    @property
+    def result(self):
+        return self._result
 
     def _visit_assignment(self, obj):
-        pass
+        obj.lhs.accept(self)
+        self._result += ' := '
+        obj.rhs.accept(self)
 
     def _visit_expression(self, obj):
         pass
 
     def _visit_variable_occ(self, obj):
-        pass
+        self._result += obj.var.name

@@ -12,14 +12,15 @@ This module implements infrastructure to store datatypes
 """
 
 from intrepyd.visitable import Visitable
+import re
 
 class Datatype(Visitable):
     """
     Stores a datatype
     """
-    def __init__(self, name, kind):
+    def __init__(self, name):
         self._name = name
-        self._kind = kind
+        self._kind = Datatype._computeDataKind(name)
 
     @property
     def name(self):
@@ -27,6 +28,14 @@ class Datatype(Visitable):
         Getter
         """
         return self._name
+
+    @staticmethod
+    def _computeDataKind(dtName):
+        intPattern = re.compile('U?[SDL]?INT')
+        realPattern = re.compile('L?REAL')
+        if dtName == 'BOOL' or intPattern.match(dtName) or realPattern.match(dtName):
+            return Datatype.PRIMITIVE
+        raise RuntimeError('Unsupported variable type ' + dtName)
 
     PRIMITIVE = 'PRIMITIVE'
     FBLOCK = 'FBLOCK'

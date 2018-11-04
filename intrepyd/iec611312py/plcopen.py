@@ -13,11 +13,10 @@ This module implements the main parsing routine of PLCOPEN files
 
 from antlr4 import CommonTokenStream, InputStream
 from xml.etree import ElementTree
-from parseST import parseST
 from functionblock import FunctionBlock
+from parsest import parseST
 from variable import Variable
 from datatype import Datatype
-import re
 
 def parsePlcOpenFile(infile):
     """
@@ -62,13 +61,5 @@ def parsePouBody(pou, name2var):
     
 def parseVar(var, kind):
     dtName = var[0][0].tag
-    dtKind = computeDataKind(dtName)
-    datatype = Datatype(dtName, dtKind)
+    datatype = Datatype(dtName)
     return Variable(var.get('name'), datatype, kind)
-
-def computeDataKind(dtName):
-    intPattern = re.compile('[SDL]?U?INT')
-    realPattern = re.compile('L?REAL')
-    if dtName == 'BOOL' or intPattern.match(dtName) or realPattern.match(dtName):
-        return 'PRIMITIVE'
-    raise RuntimeError('Unsupported variable type ' + dtName)

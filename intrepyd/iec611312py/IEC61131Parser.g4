@@ -194,6 +194,7 @@ leaf_expression  : variable_name
                  | array_access
                  | bool_literal
                  | fb_access
+                 | constant
                  ;
 
 /*****************************************************************************************************************

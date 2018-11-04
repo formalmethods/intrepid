@@ -31,4 +31,5 @@ class Variable(Visitable):
 
     INPUT = 'INPUT'
     OUTPUT = 'OUTPUT'
+    LOCAL = 'LOCAL'
     TEMP = 'TEMP'

@@ -15,14 +15,14 @@ from intrepyd.iec611312py.variable import Variable
 from intrepyd.iec611312py.datatype import Datatype
 from intrepyd.iec611312py.stmtprinter import StmtPrinter
 
-boolType = Datatype('BOOL', 'PRIMITIVE')
-intType = Datatype('INT', 'PRIMITIVE')
+boolType = Datatype('BOOL')
+intType = Datatype('INT')
+usintType = Datatype('USINT')
 
 class TestST(unittest.TestCase):
     def _run_tests(self, programs, name2var):
         for prog in programs:
             statements = parseST(prog[0], name2var)
-            self.assertEquals(1, len(statements))
             printer = StmtPrinter()
             printer.processStatements(statements)
             actual = printer.result
@@ -31,10 +31,10 @@ class TestST(unittest.TestCase):
 
     def test_st_bool(self):
         name2var = {
-            'In1' : Variable('In1', boolType, 'INPUT'),
-            'In2' : Variable('In2', boolType, 'INPUT'),
-            'In3' : Variable('In3', boolType, 'INPUT'),
-            'Out1' : Variable('Out1', boolType, 'OUTPUT')
+            'In1' : Variable('In1', boolType, Variable.INPUT),
+            'In2' : Variable('In2', boolType, Variable.INPUT),
+            'In3' : Variable('In3', boolType, Variable.INPUT),
+            'Out1' : Variable('Out1', boolType, Variable.OUTPUT)
         }
         programs = [
             ['Out1 := In1 AND In2;',          'Out1 := (In1 AND In2);\n'],
@@ -48,10 +48,10 @@ class TestST(unittest.TestCase):
 
     def test_st_int(self):
         name2var = {
-            'In1' : Variable('In1', intType, 'INPUT'),
-            'In2' : Variable('In2', intType, 'INPUT'),
-            'In3' : Variable('In3', intType, 'INPUT'),
-            'Out1' : Variable('Out1', intType, 'OUTPUT')
+            'In1' : Variable('In1', intType, Variable.INPUT),
+            'In2' : Variable('In2', intType, Variable.INPUT),
+            'In3' : Variable('In3', intType, Variable.INPUT),
+            'Out1' : Variable('Out1', intType, Variable.OUTPUT)
         }
         programs = [
             ['Out1 := In1 + In2;',         'Out1 := (In1 + In2);\n'],
@@ -62,11 +62,11 @@ class TestST(unittest.TestCase):
 
     def test_st_mixed(self):
         name2var = {
-            'In1' : Variable('In1', intType, 'INPUT'),
-            'In2' : Variable('In2', intType, 'INPUT'),
-            'In3' : Variable('In3', boolType, 'INPUT'),
-            'Out1' : Variable('Out1', boolType, 'OUTPUT'),
-            'Out2' : Variable('Out2', intType, 'OUTPUT'),
+            'In1' : Variable('In1', intType, Variable.INPUT),
+            'In2' : Variable('In2', intType, Variable.INPUT),
+            'In3' : Variable('In3', boolType, Variable.INPUT),
+            'Out1' : Variable('Out1', boolType, Variable.OUTPUT),
+            'Out2' : Variable('Out2', intType, Variable.OUTPUT)
         }
         programs = [
             ['Out1 := In1 < In2;',              'Out1 := (In1 < In2);\n'],
@@ -74,5 +74,27 @@ class TestST(unittest.TestCase):
             ['Out1 := (In1 > In2) AND In3;',    'Out1 := ((In1 > In2) AND In3);\n'],
             ['Out1 := INT_TO_BOOL(In1 + In2);', 'Out1 := INT_TO_BOOL((In1 + In2));\n'],
             ['Out2 := BOOL_TO_INT(In3) + In1;', 'Out2 := (BOOL_TO_INT(In3) + In1);\n'],
+        ]
+        self._run_tests(programs, name2var)
+
+    def test_st_if(self):
+        name2var = {
+            'is_IsAirInLine' : Variable('is_IsAirInLine', usintType, Variable.LOCAL),
+            'rtb_Config_Timer' : Variable('rtb_Config_Timer', usintType, Variable.LOCAL),
+            'b_s' : Variable('b_s', usintType, Variable.LOCAL),
+        }
+        programs = [
+            ["""
+             IF is_IsAirInLine = 2 THEN 
+                 b_s := 6;
+                 rtb_Config_Timer := 3;
+             END_IF;
+             """,
+             """
+             IF is_IsAirInLine = 2 THEN 
+                 b_s := 6;
+                 rtb_Config_Timer := 3;
+             END_IF;
+             """]
         ]
         self._run_tests(programs, name2var)

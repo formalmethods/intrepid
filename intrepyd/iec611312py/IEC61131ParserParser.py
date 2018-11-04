@@ -7,7 +7,7 @@ from io import StringIO
 def serializedATN():
     with StringIO() as buf:
         buf.write(u"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3")
-        buf.write(u"\u0112\u0292\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6")
+        buf.write(u"\u0112\u0293\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6")
         buf.write(u"\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4")
         buf.write(u"\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t")
         buf.write(u"\22\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27")
@@ -60,17 +60,17 @@ def serializedATN():
         buf.write(u",\7,\u0217\n,\f,\16,\u021a\13,\3-\3-\3-\3-\3-\3-\3-\3")
         buf.write(u"-\3-\3-\3-\3-\3-\3-\3-\3-\3-\3-\3-\3-\3-\3-\3-\5-\u0233")
         buf.write(u"\n-\3-\3-\3-\3-\3-\3-\7-\u023b\n-\f-\16-\u023e\13-\3")
-        buf.write(u".\3.\3.\3.\5.\u0244\n.\3/\3/\3/\5/\u0249\n/\3\60\3\60")
-        buf.write(u"\5\60\u024d\n\60\3\61\3\61\5\61\u0251\n\61\3\61\3\61")
-        buf.write(u"\3\61\3\61\5\61\u0257\n\61\3\62\3\62\5\62\u025b\n\62")
-        buf.write(u"\3\62\7\62\u025e\n\62\f\62\16\62\u0261\13\62\3\63\5\63")
-        buf.write(u"\u0264\n\63\3\63\3\63\3\64\3\64\3\64\5\64\u026b\n\64")
-        buf.write(u"\3\64\3\64\3\64\3\64\3\64\5\64\u0272\n\64\3\65\3\65\5")
-        buf.write(u"\65\u0276\n\65\3\65\3\65\3\66\3\66\3\67\3\67\38\38\3")
-        buf.write(u"8\38\38\39\39\59\u0285\n9\39\39\39\3:\3:\3:\3:\3;\3;")
-        buf.write(u"\3<\3<\3<\2\5(VX=\2\4\6\b\n\f\16\20\22\24\26\30\32\34")
-        buf.write(u"\36 \"$&(*,.\60\62\64\668:<>@BDFHJLNPRTVXZ\\^`bdfhjl")
-        buf.write(u"nprtv\2\26\6\2{|\u00d8\u00d8\u00da\u00db\u00ec\u00ec")
+        buf.write(u".\3.\3.\3.\3.\5.\u0245\n.\3/\3/\3/\5/\u024a\n/\3\60\3")
+        buf.write(u"\60\5\60\u024e\n\60\3\61\3\61\5\61\u0252\n\61\3\61\3")
+        buf.write(u"\61\3\61\3\61\5\61\u0258\n\61\3\62\3\62\5\62\u025c\n")
+        buf.write(u"\62\3\62\7\62\u025f\n\62\f\62\16\62\u0262\13\62\3\63")
+        buf.write(u"\5\63\u0265\n\63\3\63\3\63\3\64\3\64\3\64\5\64\u026c")
+        buf.write(u"\n\64\3\64\3\64\3\64\3\64\3\64\5\64\u0273\n\64\3\65\3")
+        buf.write(u"\65\5\65\u0277\n\65\3\65\3\65\3\66\3\66\3\67\3\67\38")
+        buf.write(u"\38\38\38\38\39\39\59\u0286\n9\39\39\39\3:\3:\3:\3:\3")
+        buf.write(u";\3;\3<\3<\3<\2\5(VX=\2\4\6\b\n\f\16\20\22\24\26\30\32")
+        buf.write(u"\34\36 \"$&(*,.\60\62\64\668:<>@BDFHJLNPRTVXZ\\^`bdf")
+        buf.write(u"hjlnprtv\2\26\6\2{|\u00d8\u00d8\u00da\u00db\u00ec\u00ec")
         buf.write(u"\4\2ccww\4\2JJww\n\2aa\u008b\u008b\u008d\u008e\u00a1")
         buf.write(u"\u00a1\u00a5\u00a6\u00a9\u00a9\u00b0\u00b2\u00c4\u00c4")
         buf.write(u"\3\2yz\6\2{|\u00ba\u00ba\u00d8\u00db\u00ec\u00ee\5\2")
@@ -83,7 +83,7 @@ def serializedATN():
         buf.write(u"\u00c4\4\2\u008a\u008a\u00a8\u00a8\4\2jjxx\3\2\37\65")
         buf.write(u"\f\2pp\u0081\u0083\u0099\u009c\u00bb\u00c2\u00c5\u00c7")
         buf.write(u"\u00cf\u00d0\u00d2\u00d4\u00dc\u00eb\u0100\u0106\u0108")
-        buf.write(u"\u0108\u02c2\2\u008d\3\2\2\2\4\u008f\3\2\2\2\6\u009b")
+        buf.write(u"\u0108\u02c4\2\u008d\3\2\2\2\4\u008f\3\2\2\2\6\u009b")
         buf.write(u"\3\2\2\2\b\u009e\3\2\2\2\n\u00cc\3\2\2\2\f\u00d3\3\2")
         buf.write(u"\2\2\16\u00f0\3\2\2\2\20\u00f2\3\2\2\2\22\u00f5\3\2\2")
         buf.write(u"\2\24\u0107\3\2\2\2\26\u0111\3\2\2\2\30\u0113\3\2\2\2")
@@ -96,11 +96,11 @@ def serializedATN():
         buf.write(u"B\u01bb\3\2\2\2D\u01bf\3\2\2\2F\u01cc\3\2\2\2H\u01d3")
         buf.write(u"\3\2\2\2J\u01d5\3\2\2\2L\u01e2\3\2\2\2N\u01e4\3\2\2\2")
         buf.write(u"P\u01eb\3\2\2\2R\u01f1\3\2\2\2T\u01fe\3\2\2\2V\u0211")
-        buf.write(u"\3\2\2\2X\u0232\3\2\2\2Z\u0243\3\2\2\2\\\u0248\3\2\2")
-        buf.write(u"\2^\u024c\3\2\2\2`\u0250\3\2\2\2b\u0258\3\2\2\2d\u0263")
-        buf.write(u"\3\2\2\2f\u026a\3\2\2\2h\u0275\3\2\2\2j\u0279\3\2\2\2")
-        buf.write(u"l\u027b\3\2\2\2n\u027d\3\2\2\2p\u0284\3\2\2\2r\u0289")
-        buf.write(u"\3\2\2\2t\u028d\3\2\2\2v\u028f\3\2\2\2xy\7k\2\2y{\7\u010a")
+        buf.write(u"\3\2\2\2X\u0232\3\2\2\2Z\u0244\3\2\2\2\\\u0249\3\2\2")
+        buf.write(u"\2^\u024d\3\2\2\2`\u0251\3\2\2\2b\u0259\3\2\2\2d\u0264")
+        buf.write(u"\3\2\2\2f\u026b\3\2\2\2h\u0276\3\2\2\2j\u027a\3\2\2\2")
+        buf.write(u"l\u027c\3\2\2\2n\u027e\3\2\2\2p\u0285\3\2\2\2r\u028a")
+        buf.write(u"\3\2\2\2t\u028e\3\2\2\2v\u0290\3\2\2\2xy\7k\2\2y{\7\u010a")
         buf.write(u"\2\2z|\5\b\5\2{z\3\2\2\2{|\3\2\2\2|~\3\2\2\2}\177\5\6")
         buf.write(u"\4\2~}\3\2\2\2~\177\3\2\2\2\177\u0080\3\2\2\2\u0080\u008e")
         buf.write(u"\7E\2\2\u0081\u0084\7:\2\2\u0082\u0085\7\u010a\2\2\u0083")
@@ -300,50 +300,51 @@ def serializedATN():
         buf.write(u"\2\u0239\u023b\5X-\n\u023a\u0234\3\2\2\2\u023a\u0237")
         buf.write(u"\3\2\2\2\u023b\u023e\3\2\2\2\u023c\u023a\3\2\2\2\u023c")
         buf.write(u"\u023d\3\2\2\2\u023dY\3\2\2\2\u023e\u023c\3\2\2\2\u023f")
-        buf.write(u"\u0244\5l\67\2\u0240\u0244\5n8\2\u0241\u0244\5h\65\2")
-        buf.write(u"\u0242\u0244\5p9\2\u0243\u023f\3\2\2\2\u0243\u0240\3")
-        buf.write(u"\2\2\2\u0243\u0241\3\2\2\2\u0243\u0242\3\2\2\2\u0244")
-        buf.write(u"[\3\2\2\2\u0245\u0249\5^\60\2\u0246\u0249\5j\66\2\u0247")
-        buf.write(u"\u0249\5h\65\2\u0248\u0245\3\2\2\2\u0248\u0246\3\2\2")
-        buf.write(u"\2\u0248\u0247\3\2\2\2\u0249]\3\2\2\2\u024a\u024d\5`")
-        buf.write(u"\61\2\u024b\u024d\5f\64\2\u024c\u024a\3\2\2\2\u024c\u024b")
-        buf.write(u"\3\2\2\2\u024d_\3\2\2\2\u024e\u024f\t\21\2\2\u024f\u0251")
-        buf.write(u"\7\31\2\2\u0250\u024e\3\2\2\2\u0250\u0251\3\2\2\2\u0251")
-        buf.write(u"\u0256\3\2\2\2\u0252\u0257\5d\63\2\u0253\u0257\7\u010d")
-        buf.write(u"\2\2\u0254\u0257\7\u010e\2\2\u0255\u0257\7\u010f\2\2")
-        buf.write(u"\u0256\u0252\3\2\2\2\u0256\u0253\3\2\2\2\u0256\u0254")
-        buf.write(u"\3\2\2\2\u0256\u0255\3\2\2\2\u0257a\3\2\2\2\u0258\u025f")
-        buf.write(u"\7\u010c\2\2\u0259\u025b\7\32\2\2\u025a\u0259\3\2\2\2")
-        buf.write(u"\u025a\u025b\3\2\2\2\u025b\u025c\3\2\2\2\u025c\u025e")
-        buf.write(u"\7\u010c\2\2\u025d\u025a\3\2\2\2\u025e\u0261\3\2\2\2")
-        buf.write(u"\u025f\u025d\3\2\2\2\u025f\u0260\3\2\2\2\u0260c\3\2\2")
-        buf.write(u"\2\u0261\u025f\3\2\2\2\u0262\u0264\t\20\2\2\u0263\u0262")
-        buf.write(u"\3\2\2\2\u0263\u0264\3\2\2\2\u0264\u0265\3\2\2\2\u0265")
-        buf.write(u"\u0266\5b\62\2\u0266e\3\2\2\2\u0267\u026b\7\u00a1\2\2")
-        buf.write(u"\u0268\u0269\7\u0090\2\2\u0269\u026b\7\31\2\2\u026a\u0267")
-        buf.write(u"\3\2\2\2\u026a\u0268\3\2\2\2\u026a\u026b\3\2\2\2\u026b")
-        buf.write(u"\u026c\3\2\2\2\u026c\u026d\5d\63\2\u026d\u026e\7\r\2")
-        buf.write(u"\2\u026e\u0271\5b\62\2\u026f\u0270\7\33\2\2\u0270\u0272")
-        buf.write(u"\5d\63\2\u0271\u026f\3\2\2\2\u0271\u0272\3\2\2\2\u0272")
-        buf.write(u"g\3\2\2\2\u0273\u0274\7\u00a9\2\2\u0274\u0276\7\31\2")
-        buf.write(u"\2\u0275\u0273\3\2\2\2\u0275\u0276\3\2\2\2\u0276\u0277")
-        buf.write(u"\3\2\2\2\u0277\u0278\t\22\2\2\u0278i\3\2\2\2\u0279\u027a")
-        buf.write(u"\t\23\2\2\u027ak\3\2\2\2\u027b\u027c\7\u010a\2\2\u027c")
-        buf.write(u"m\3\2\2\2\u027d\u027e\5l\67\2\u027e\u027f\7\6\2\2\u027f")
-        buf.write(u"\u0280\5X-\2\u0280\u0281\7\b\2\2\u0281o\3\2\2\2\u0282")
-        buf.write(u"\u0285\5l\67\2\u0283\u0285\5n8\2\u0284\u0282\3\2\2\2")
-        buf.write(u"\u0284\u0283\3\2\2\2\u0285\u0286\3\2\2\2\u0286\u0287")
-        buf.write(u"\7\r\2\2\u0287\u0288\5l\67\2\u0288q\3\2\2\2\u0289\u028a")
-        buf.write(u"\5l\67\2\u028a\u028b\7\r\2\2\u028b\u028c\5b\62\2\u028c")
-        buf.write(u"s\3\2\2\2\u028d\u028e\t\24\2\2\u028eu\3\2\2\2\u028f\u0290")
-        buf.write(u"\t\25\2\2\u0290w\3\2\2\2G{~\u0084\u0087\u008a\u008d\u0094")
+        buf.write(u"\u0245\5l\67\2\u0240\u0245\5n8\2\u0241\u0245\5h\65\2")
+        buf.write(u"\u0242\u0245\5p9\2\u0243\u0245\5\\/\2\u0244\u023f\3\2")
+        buf.write(u"\2\2\u0244\u0240\3\2\2\2\u0244\u0241\3\2\2\2\u0244\u0242")
+        buf.write(u"\3\2\2\2\u0244\u0243\3\2\2\2\u0245[\3\2\2\2\u0246\u024a")
+        buf.write(u"\5^\60\2\u0247\u024a\5j\66\2\u0248\u024a\5h\65\2\u0249")
+        buf.write(u"\u0246\3\2\2\2\u0249\u0247\3\2\2\2\u0249\u0248\3\2\2")
+        buf.write(u"\2\u024a]\3\2\2\2\u024b\u024e\5`\61\2\u024c\u024e\5f")
+        buf.write(u"\64\2\u024d\u024b\3\2\2\2\u024d\u024c\3\2\2\2\u024e_")
+        buf.write(u"\3\2\2\2\u024f\u0250\t\21\2\2\u0250\u0252\7\31\2\2\u0251")
+        buf.write(u"\u024f\3\2\2\2\u0251\u0252\3\2\2\2\u0252\u0257\3\2\2")
+        buf.write(u"\2\u0253\u0258\5d\63\2\u0254\u0258\7\u010d\2\2\u0255")
+        buf.write(u"\u0258\7\u010e\2\2\u0256\u0258\7\u010f\2\2\u0257\u0253")
+        buf.write(u"\3\2\2\2\u0257\u0254\3\2\2\2\u0257\u0255\3\2\2\2\u0257")
+        buf.write(u"\u0256\3\2\2\2\u0258a\3\2\2\2\u0259\u0260\7\u010c\2\2")
+        buf.write(u"\u025a\u025c\7\32\2\2\u025b\u025a\3\2\2\2\u025b\u025c")
+        buf.write(u"\3\2\2\2\u025c\u025d\3\2\2\2\u025d\u025f\7\u010c\2\2")
+        buf.write(u"\u025e\u025b\3\2\2\2\u025f\u0262\3\2\2\2\u0260\u025e")
+        buf.write(u"\3\2\2\2\u0260\u0261\3\2\2\2\u0261c\3\2\2\2\u0262\u0260")
+        buf.write(u"\3\2\2\2\u0263\u0265\t\20\2\2\u0264\u0263\3\2\2\2\u0264")
+        buf.write(u"\u0265\3\2\2\2\u0265\u0266\3\2\2\2\u0266\u0267\5b\62")
+        buf.write(u"\2\u0267e\3\2\2\2\u0268\u026c\7\u00a1\2\2\u0269\u026a")
+        buf.write(u"\7\u0090\2\2\u026a\u026c\7\31\2\2\u026b\u0268\3\2\2\2")
+        buf.write(u"\u026b\u0269\3\2\2\2\u026b\u026c\3\2\2\2\u026c\u026d")
+        buf.write(u"\3\2\2\2\u026d\u026e\5d\63\2\u026e\u026f\7\r\2\2\u026f")
+        buf.write(u"\u0272\5b\62\2\u0270\u0271\7\33\2\2\u0271\u0273\5d\63")
+        buf.write(u"\2\u0272\u0270\3\2\2\2\u0272\u0273\3\2\2\2\u0273g\3\2")
+        buf.write(u"\2\2\u0274\u0275\7\u00a9\2\2\u0275\u0277\7\31\2\2\u0276")
+        buf.write(u"\u0274\3\2\2\2\u0276\u0277\3\2\2\2\u0277\u0278\3\2\2")
+        buf.write(u"\2\u0278\u0279\t\22\2\2\u0279i\3\2\2\2\u027a\u027b\t")
+        buf.write(u"\23\2\2\u027bk\3\2\2\2\u027c\u027d\7\u010a\2\2\u027d")
+        buf.write(u"m\3\2\2\2\u027e\u027f\5l\67\2\u027f\u0280\7\6\2\2\u0280")
+        buf.write(u"\u0281\5X-\2\u0281\u0282\7\b\2\2\u0282o\3\2\2\2\u0283")
+        buf.write(u"\u0286\5l\67\2\u0284\u0286\5n8\2\u0285\u0283\3\2\2\2")
+        buf.write(u"\u0285\u0284\3\2\2\2\u0286\u0287\3\2\2\2\u0287\u0288")
+        buf.write(u"\7\r\2\2\u0288\u0289\5l\67\2\u0289q\3\2\2\2\u028a\u028b")
+        buf.write(u"\5l\67\2\u028b\u028c\7\r\2\2\u028c\u028d\5b\62\2\u028d")
+        buf.write(u"s\3\2\2\2\u028e\u028f\t\24\2\2\u028fu\3\2\2\2\u0290\u0291")
+        buf.write(u"\t\25\2\2\u0291w\3\2\2\2G{~\u0084\u0087\u008a\u008d\u0094")
         buf.write(u"\u0099\u009b\u00a0\u00a4\u00ab\u00b2\u00b9\u00c0\u00c7")
         buf.write(u"\u00cc\u00d3\u00d7\u00da\u00e2\u00e5\u00ea\u00f0\u00f9")
         buf.write(u"\u0107\u0111\u0127\u012c\u0133\u013a\u013f\u0144\u014d")
         buf.write(u"\u0154\u015e\u0162\u0166\u017c\u018e\u0197\u019e\u01a9")
         buf.write(u"\u01b2\u01b9\u01c4\u01cc\u01d3\u01dd\u01e9\u01f5\u01fe")
-        buf.write(u"\u0211\u0218\u0232\u023a\u023c\u0243\u0248\u024c\u0250")
-        buf.write(u"\u0256\u025a\u025f\u0263\u026a\u0271\u0275\u0284")
+        buf.write(u"\u0211\u0218\u0232\u023a\u023c\u0244\u0249\u024d\u0251")
+        buf.write(u"\u0257\u025b\u0260\u0264\u026b\u0272\u0276\u0285")
         return buf.getvalue()
 
 
@@ -3769,7 +3770,7 @@ class IEC61131ParserParser ( Parser ):
                 self.state = 439 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << IEC61131ParserParser.T__6) | (1 << IEC61131ParserParser.T__20) | (1 << IEC61131ParserParser.T__21) | (1 << IEC61131ParserParser.DINT_TO_UDINT) | (1 << IEC61131ParserParser.UDINT_TO_DINT) | (1 << IEC61131ParserParser.UINT_TO_USINT) | (1 << IEC61131ParserParser.USINT_TO_BYTE) | (1 << IEC61131ParserParser.BYTE_TO_USINT) | (1 << IEC61131ParserParser.USINT_TO_UINT) | (1 << IEC61131ParserParser.BYTE_TO_WORD) | (1 << IEC61131ParserParser.BYTE_TO_UINT) | (1 << IEC61131ParserParser.WORD_TO_BYTE) | (1 << IEC61131ParserParser.WORD_TO_UINT) | (1 << IEC61131ParserParser.REAL_TO_UINT) | (1 << IEC61131ParserParser.INT_TO_USINT) | (1 << IEC61131ParserParser.UINT_TO_BOOL) | (1 << IEC61131ParserParser.UINT_TO_WORD) | (1 << IEC61131ParserParser.UINT_TO_REAL) | (1 << IEC61131ParserParser.WORD_TO_INT) | (1 << IEC61131ParserParser.REAL_TO_INT) | (1 << IEC61131ParserParser.INT_TO_BOOL) | (1 << IEC61131ParserParser.BOOL_TO_INT) | (1 << IEC61131ParserParser.INT_TO_WORD) | (1 << IEC61131ParserParser.INT_TO_REAL) | (1 << IEC61131ParserParser.INT_TO_UINT) | (1 << IEC61131ParserParser.UINT_TO_INT))) != 0) or ((((_la - 110)) & ~0x3f) == 0 and ((1 << (_la - 110)) & ((1 << (IEC61131ParserParser.REPLACE - 110)) | (1 << (IEC61131ParserParser.INSERT - 110)) | (1 << (IEC61131ParserParser.DELETE - 110)) | (1 << (IEC61131ParserParser.CONCAT - 110)) | (1 << (IEC61131ParserParser.FALSE - 110)) | (1 << (IEC61131ParserParser.RIGHT - 110)) | (1 << (IEC61131ParserParser.LIMIT - 110)) | (1 << (IEC61131ParserParser.TRUNC - 110)) | (1 << (IEC61131ParserParser.ATAN2 - 110)) | (1 << (IEC61131ParserParser.TRUE - 110)) | (1 << (IEC61131ParserParser.BOOL - 110)))) != 0) or ((((_la - 185)) & ~0x3f) == 0 and ((1 << (_la - 185)) & ((1 << (IEC61131ParserParser.SQRT - 185)) | (1 << (IEC61131ParserParser.ASIN - 185)) | (1 << (IEC61131ParserParser.ACOS - 185)) | (1 << (IEC61131ParserParser.ATAN - 185)) | (1 << (IEC61131ParserParser.EXPT - 185)) | (1 << (IEC61131ParserParser.MOVE - 185)) | (1 << (IEC61131ParserParser.LEFT - 185)) | (1 << (IEC61131ParserParser.FIND - 185)) | (1 << (IEC61131ParserParser.NOT - 185)) | (1 << (IEC61131ParserParser.MUL - 185)) | (1 << (IEC61131ParserParser.ADD - 185)) | (1 << (IEC61131ParserParser.AND - 185)) | (1 << (IEC61131ParserParser.XOR - 185)) | (1 << (IEC61131ParserParser.SUB - 185)) | (1 << (IEC61131ParserParser.MOD - 185)) | (1 << (IEC61131ParserParser.DIV - 185)) | (1 << (IEC61131ParserParser.ABS - 185)) | (1 << (IEC61131ParserParser.LOG - 185)) | (1 << (IEC61131ParserParser.EXP - 185)) | (1 << (IEC61131ParserParser.SIN - 185)) | (1 << (IEC61131ParserParser.COS - 185)) | (1 << (IEC61131ParserParser.TAN - 185)) | (1 << (IEC61131ParserParser.SHL - 185)) | (1 << (IEC61131ParserParser.SHR - 185)) | (1 << (IEC61131ParserParser.ROL - 185)) | (1 << (IEC61131ParserParser.ROR - 185)) | (1 << (IEC61131ParserParser.SEL - 185)) | (1 << (IEC61131ParserParser.MAX - 185)) | (1 << (IEC61131ParserParser.MIN - 185)) | (1 << (IEC61131ParserParser.MUX - 185)) | (1 << (IEC61131ParserParser.LEN - 185)) | (1 << (IEC61131ParserParser.MID - 185)))) != 0) or ((((_la - 254)) & ~0x3f) == 0 and ((1 << (_la - 254)) & ((1 << (IEC61131ParserParser.OR - 254)) | (1 << (IEC61131ParserParser.GT - 254)) | (1 << (IEC61131ParserParser.GE - 254)) | (1 << (IEC61131ParserParser.EQ - 254)) | (1 << (IEC61131ParserParser.LT - 254)) | (1 << (IEC61131ParserParser.LE - 254)) | (1 << (IEC61131ParserParser.NE - 254)) | (1 << (IEC61131ParserParser.LN - 254)) | (1 << (IEC61131ParserParser.IDENTIFIER - 254)) | (1 << (IEC61131ParserParser.DIGITS - 254)))) != 0)):
+                if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << IEC61131ParserParser.T__6) | (1 << IEC61131ParserParser.T__20) | (1 << IEC61131ParserParser.T__21) | (1 << IEC61131ParserParser.DINT_TO_UDINT) | (1 << IEC61131ParserParser.UDINT_TO_DINT) | (1 << IEC61131ParserParser.UINT_TO_USINT) | (1 << IEC61131ParserParser.USINT_TO_BYTE) | (1 << IEC61131ParserParser.BYTE_TO_USINT) | (1 << IEC61131ParserParser.USINT_TO_UINT) | (1 << IEC61131ParserParser.BYTE_TO_WORD) | (1 << IEC61131ParserParser.BYTE_TO_UINT) | (1 << IEC61131ParserParser.WORD_TO_BYTE) | (1 << IEC61131ParserParser.WORD_TO_UINT) | (1 << IEC61131ParserParser.REAL_TO_UINT) | (1 << IEC61131ParserParser.INT_TO_USINT) | (1 << IEC61131ParserParser.UINT_TO_BOOL) | (1 << IEC61131ParserParser.UINT_TO_WORD) | (1 << IEC61131ParserParser.UINT_TO_REAL) | (1 << IEC61131ParserParser.WORD_TO_INT) | (1 << IEC61131ParserParser.REAL_TO_INT) | (1 << IEC61131ParserParser.INT_TO_BOOL) | (1 << IEC61131ParserParser.BOOL_TO_INT) | (1 << IEC61131ParserParser.INT_TO_WORD) | (1 << IEC61131ParserParser.INT_TO_REAL) | (1 << IEC61131ParserParser.INT_TO_UINT) | (1 << IEC61131ParserParser.UINT_TO_INT))) != 0) or ((((_la - 104)) & ~0x3f) == 0 and ((1 << (_la - 104)) & ((1 << (IEC61131ParserParser.TIME_MS - 104)) | (1 << (IEC61131ParserParser.REPLACE - 104)) | (1 << (IEC61131ParserParser.TIME_S - 104)) | (1 << (IEC61131ParserParser.INSERT - 104)) | (1 << (IEC61131ParserParser.DELETE - 104)) | (1 << (IEC61131ParserParser.CONCAT - 104)) | (1 << (IEC61131ParserParser.FALSE - 104)) | (1 << (IEC61131ParserParser.LREAL - 104)) | (1 << (IEC61131ParserParser.RIGHT - 104)) | (1 << (IEC61131ParserParser.LIMIT - 104)) | (1 << (IEC61131ParserParser.TRUNC - 104)) | (1 << (IEC61131ParserParser.ATAN2 - 104)) | (1 << (IEC61131ParserParser.REAL - 104)) | (1 << (IEC61131ParserParser.TRUE - 104)) | (1 << (IEC61131ParserParser.BOOL - 104)))) != 0) or ((((_la - 175)) & ~0x3f) == 0 and ((1 << (_la - 175)) & ((1 << (IEC61131ParserParser.SINT - 175)) | (1 << (IEC61131ParserParser.DINT - 175)) | (1 << (IEC61131ParserParser.SQRT - 175)) | (1 << (IEC61131ParserParser.ASIN - 175)) | (1 << (IEC61131ParserParser.ACOS - 175)) | (1 << (IEC61131ParserParser.ATAN - 175)) | (1 << (IEC61131ParserParser.EXPT - 175)) | (1 << (IEC61131ParserParser.MOVE - 175)) | (1 << (IEC61131ParserParser.LEFT - 175)) | (1 << (IEC61131ParserParser.FIND - 175)) | (1 << (IEC61131ParserParser.INT - 175)) | (1 << (IEC61131ParserParser.NOT - 175)) | (1 << (IEC61131ParserParser.MUL - 175)) | (1 << (IEC61131ParserParser.ADD - 175)) | (1 << (IEC61131ParserParser.AND - 175)) | (1 << (IEC61131ParserParser.XOR - 175)) | (1 << (IEC61131ParserParser.SUB - 175)) | (1 << (IEC61131ParserParser.MOD - 175)) | (1 << (IEC61131ParserParser.DIV - 175)) | (1 << (IEC61131ParserParser.ABS - 175)) | (1 << (IEC61131ParserParser.LOG - 175)) | (1 << (IEC61131ParserParser.EXP - 175)) | (1 << (IEC61131ParserParser.SIN - 175)) | (1 << (IEC61131ParserParser.COS - 175)) | (1 << (IEC61131ParserParser.TAN - 175)) | (1 << (IEC61131ParserParser.SHL - 175)) | (1 << (IEC61131ParserParser.SHR - 175)) | (1 << (IEC61131ParserParser.ROL - 175)) | (1 << (IEC61131ParserParser.ROR - 175)) | (1 << (IEC61131ParserParser.SEL - 175)) | (1 << (IEC61131ParserParser.MAX - 175)) | (1 << (IEC61131ParserParser.MIN - 175)) | (1 << (IEC61131ParserParser.MUX - 175)) | (1 << (IEC61131ParserParser.LEN - 175)) | (1 << (IEC61131ParserParser.MID - 175)))) != 0) or ((((_la - 254)) & ~0x3f) == 0 and ((1 << (_la - 254)) & ((1 << (IEC61131ParserParser.OR - 254)) | (1 << (IEC61131ParserParser.GT - 254)) | (1 << (IEC61131ParserParser.GE - 254)) | (1 << (IEC61131ParserParser.EQ - 254)) | (1 << (IEC61131ParserParser.LT - 254)) | (1 << (IEC61131ParserParser.LE - 254)) | (1 << (IEC61131ParserParser.NE - 254)) | (1 << (IEC61131ParserParser.LN - 254)) | (1 << (IEC61131ParserParser.IDENTIFIER - 254)) | (1 << (IEC61131ParserParser.DIGITS - 254)) | (1 << (IEC61131ParserParser.BINARY_INT - 254)) | (1 << (IEC61131ParserParser.OCTAL_INT - 254)) | (1 << (IEC61131ParserParser.HEX_INT - 254)))) != 0)):
                     break
 
         except RecognitionException as re:
@@ -4942,6 +4943,10 @@ class IEC61131ParserParser ( Parser ):
             return self.getTypedRuleContext(IEC61131ParserParser.Fb_accessContext,0)
 
 
+        def constant(self):
+            return self.getTypedRuleContext(IEC61131ParserParser.ConstantContext,0)
+
+
         def getRuleIndex(self):
             return IEC61131ParserParser.RULE_leaf_expression
 
@@ -4959,7 +4964,7 @@ class IEC61131ParserParser ( Parser ):
         localctx = IEC61131ParserParser.Leaf_expressionContext(self, self._ctx, self.state)
         self.enterRule(localctx, 88, self.RULE_leaf_expression)
         try:
-            self.state = 577
+            self.state = 578
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,57,self._ctx)
             if la_ == 1:
@@ -4984,6 +4989,12 @@ class IEC61131ParserParser ( Parser ):
                 self.enterOuterAlt(localctx, 4)
                 self.state = 576
                 self.fb_access()
+                pass
+
+            elif la_ == 5:
+                self.enterOuterAlt(localctx, 5)
+                self.state = 577
+                self.constant()
                 pass
 
 
@@ -5030,22 +5041,22 @@ class IEC61131ParserParser ( Parser ):
         localctx = IEC61131ParserParser.ConstantContext(self, self._ctx, self.state)
         self.enterRule(localctx, 90, self.RULE_constant)
         try:
-            self.state = 582
+            self.state = 583
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [IEC61131ParserParser.T__20, IEC61131ParserParser.T__21, IEC61131ParserParser.LREAL, IEC61131ParserParser.REAL, IEC61131ParserParser.SINT, IEC61131ParserParser.DINT, IEC61131ParserParser.INT, IEC61131ParserParser.DIGITS, IEC61131ParserParser.BINARY_INT, IEC61131ParserParser.OCTAL_INT, IEC61131ParserParser.HEX_INT]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 579
+                self.state = 580
                 self.numeric_literal()
                 pass
             elif token in [IEC61131ParserParser.TIME_MS, IEC61131ParserParser.TIME_S]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 580
+                self.state = 581
                 self.time_literal()
                 pass
             elif token in [IEC61131ParserParser.FALSE, IEC61131ParserParser.TRUE, IEC61131ParserParser.BOOL]:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 581
+                self.state = 582
                 self.bool_literal()
                 pass
             else:
@@ -5090,18 +5101,18 @@ class IEC61131ParserParser ( Parser ):
         localctx = IEC61131ParserParser.Numeric_literalContext(self, self._ctx, self.state)
         self.enterRule(localctx, 92, self.RULE_numeric_literal)
         try:
-            self.state = 586
+            self.state = 587
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,59,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 584
+                self.state = 585
                 self.int_literal()
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 585
+                self.state = 586
                 self.real_literal()
                 pass
 
@@ -5161,38 +5172,38 @@ class IEC61131ParserParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 590
+            self.state = 591
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if ((((_la - 175)) & ~0x3f) == 0 and ((1 << (_la - 175)) & ((1 << (IEC61131ParserParser.SINT - 175)) | (1 << (IEC61131ParserParser.DINT - 175)) | (1 << (IEC61131ParserParser.INT - 175)))) != 0):
-                self.state = 588
+                self.state = 589
                 _la = self._input.LA(1)
                 if not(((((_la - 175)) & ~0x3f) == 0 and ((1 << (_la - 175)) & ((1 << (IEC61131ParserParser.SINT - 175)) | (1 << (IEC61131ParserParser.DINT - 175)) | (1 << (IEC61131ParserParser.INT - 175)))) != 0)):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
                     self.consume()
-                self.state = 589
+                self.state = 590
                 self.match(IEC61131ParserParser.T__22)
 
 
-            self.state = 596
+            self.state = 597
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [IEC61131ParserParser.T__20, IEC61131ParserParser.T__21, IEC61131ParserParser.DIGITS]:
-                self.state = 592
+                self.state = 593
                 self.signed_int()
                 pass
             elif token in [IEC61131ParserParser.BINARY_INT]:
-                self.state = 593
+                self.state = 594
                 self.match(IEC61131ParserParser.BINARY_INT)
                 pass
             elif token in [IEC61131ParserParser.OCTAL_INT]:
-                self.state = 594
+                self.state = 595
                 self.match(IEC61131ParserParser.OCTAL_INT)
                 pass
             elif token in [IEC61131ParserParser.HEX_INT]:
-                self.state = 595
+                self.state = 596
                 self.match(IEC61131ParserParser.HEX_INT)
                 pass
             else:
@@ -5237,24 +5248,24 @@ class IEC61131ParserParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 598
+            self.state = 599
             self.match(IEC61131ParserParser.DIGITS)
-            self.state = 605
+            self.state = 606
             self._errHandler.sync(self)
             _alt = self._interp.adaptivePredict(self._input,63,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt==1:
-                    self.state = 600
+                    self.state = 601
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
                     if _la==IEC61131ParserParser.T__23:
-                        self.state = 599
+                        self.state = 600
                         self.match(IEC61131ParserParser.T__23)
 
 
-                    self.state = 602
+                    self.state = 603
                     self.match(IEC61131ParserParser.DIGITS) 
-                self.state = 607
+                self.state = 608
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,63,self._ctx)
 
@@ -5296,11 +5307,11 @@ class IEC61131ParserParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 609
+            self.state = 610
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==IEC61131ParserParser.T__20 or _la==IEC61131ParserParser.T__21:
-                self.state = 608
+                self.state = 609
                 localctx.op = self._input.LT(1)
                 _la = self._input.LA(1)
                 if not(_la==IEC61131ParserParser.T__20 or _la==IEC61131ParserParser.T__21):
@@ -5310,7 +5321,7 @@ class IEC61131ParserParser ( Parser ):
                     self.consume()
 
 
-            self.state = 611
+            self.state = 612
             self.uns_int()
         except RecognitionException as re:
             localctx.exception = re
@@ -5361,36 +5372,36 @@ class IEC61131ParserParser ( Parser ):
         self.enterRule(localctx, 100, self.RULE_real_literal)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 616
+            self.state = 617
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [IEC61131ParserParser.REAL]:
-                self.state = 613
+                self.state = 614
                 self.match(IEC61131ParserParser.REAL)
                 pass
             elif token in [IEC61131ParserParser.LREAL]:
-                self.state = 614
-                self.match(IEC61131ParserParser.LREAL)
                 self.state = 615
+                self.match(IEC61131ParserParser.LREAL)
+                self.state = 616
                 self.match(IEC61131ParserParser.T__22)
                 pass
             elif token in [IEC61131ParserParser.T__20, IEC61131ParserParser.T__21, IEC61131ParserParser.DIGITS]:
                 pass
             else:
                 raise NoViableAltException(self)
-            self.state = 618
-            self.signed_int()
             self.state = 619
-            self.match(IEC61131ParserParser.T__10)
+            self.signed_int()
             self.state = 620
+            self.match(IEC61131ParserParser.T__10)
+            self.state = 621
             self.uns_int()
-            self.state = 623
+            self.state = 624
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,66,self._ctx)
             if la_ == 1:
-                self.state = 621
-                self.match(IEC61131ParserParser.T__24)
                 self.state = 622
+                self.match(IEC61131ParserParser.T__24)
+                self.state = 623
                 self.signed_int()
 
 
@@ -5436,17 +5447,17 @@ class IEC61131ParserParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 627
+            self.state = 628
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==IEC61131ParserParser.BOOL:
-                self.state = 625
-                self.match(IEC61131ParserParser.BOOL)
                 self.state = 626
+                self.match(IEC61131ParserParser.BOOL)
+                self.state = 627
                 self.match(IEC61131ParserParser.T__22)
 
 
-            self.state = 629
+            self.state = 630
             _la = self._input.LA(1)
             if not(_la==IEC61131ParserParser.FALSE or _la==IEC61131ParserParser.TRUE):
                 self._errHandler.recoverInline(self)
@@ -5492,7 +5503,7 @@ class IEC61131ParserParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 631
+            self.state = 632
             _la = self._input.LA(1)
             if not(_la==IEC61131ParserParser.TIME_MS or _la==IEC61131ParserParser.TIME_S):
                 self._errHandler.recoverInline(self)
@@ -5534,7 +5545,7 @@ class IEC61131ParserParser ( Parser ):
         self.enterRule(localctx, 106, self.RULE_variable_name)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 633
+            self.state = 634
             self.match(IEC61131ParserParser.IDENTIFIER)
         except RecognitionException as re:
             localctx.exception = re
@@ -5576,13 +5587,13 @@ class IEC61131ParserParser ( Parser ):
         self.enterRule(localctx, 108, self.RULE_array_access)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 635
-            self.variable_name()
             self.state = 636
-            self.match(IEC61131ParserParser.T__3)
+            self.variable_name()
             self.state = 637
-            self.term_expression(0)
+            self.match(IEC61131ParserParser.T__3)
             self.state = 638
+            self.term_expression(0)
+            self.state = 639
             self.match(IEC61131ParserParser.T__5)
         except RecognitionException as re:
             localctx.exception = re
@@ -5627,23 +5638,23 @@ class IEC61131ParserParser ( Parser ):
         self.enterRule(localctx, 110, self.RULE_fb_access)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 642
+            self.state = 643
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,68,self._ctx)
             if la_ == 1:
-                self.state = 640
+                self.state = 641
                 self.variable_name()
                 pass
 
             elif la_ == 2:
-                self.state = 641
+                self.state = 642
                 self.array_access()
                 pass
 
 
-            self.state = 644
-            self.match(IEC61131ParserParser.T__10)
             self.state = 645
+            self.match(IEC61131ParserParser.T__10)
+            self.state = 646
             self.variable_name()
         except RecognitionException as re:
             localctx.exception = re
@@ -5685,11 +5696,11 @@ class IEC61131ParserParser ( Parser ):
         self.enterRule(localctx, 112, self.RULE_variable_bit_access)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 647
-            self.variable_name()
             self.state = 648
-            self.match(IEC61131ParserParser.T__10)
+            self.variable_name()
             self.state = 649
+            self.match(IEC61131ParserParser.T__10)
+            self.state = 650
             self.uns_int()
         except RecognitionException as re:
             localctx.exception = re
@@ -5793,7 +5804,7 @@ class IEC61131ParserParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 651
+            self.state = 652
             _la = self._input.LA(1)
             if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << IEC61131ParserParser.DINT_TO_UDINT) | (1 << IEC61131ParserParser.UDINT_TO_DINT) | (1 << IEC61131ParserParser.UINT_TO_USINT) | (1 << IEC61131ParserParser.USINT_TO_BYTE) | (1 << IEC61131ParserParser.BYTE_TO_USINT) | (1 << IEC61131ParserParser.USINT_TO_UINT) | (1 << IEC61131ParserParser.BYTE_TO_WORD) | (1 << IEC61131ParserParser.BYTE_TO_UINT) | (1 << IEC61131ParserParser.WORD_TO_BYTE) | (1 << IEC61131ParserParser.WORD_TO_UINT) | (1 << IEC61131ParserParser.REAL_TO_UINT) | (1 << IEC61131ParserParser.INT_TO_USINT) | (1 << IEC61131ParserParser.UINT_TO_BOOL) | (1 << IEC61131ParserParser.UINT_TO_WORD) | (1 << IEC61131ParserParser.UINT_TO_REAL) | (1 << IEC61131ParserParser.WORD_TO_INT) | (1 << IEC61131ParserParser.REAL_TO_INT) | (1 << IEC61131ParserParser.INT_TO_BOOL) | (1 << IEC61131ParserParser.BOOL_TO_INT) | (1 << IEC61131ParserParser.INT_TO_WORD) | (1 << IEC61131ParserParser.INT_TO_REAL) | (1 << IEC61131ParserParser.INT_TO_UINT) | (1 << IEC61131ParserParser.UINT_TO_INT))) != 0)):
                 self._errHandler.recoverInline(self)
@@ -5977,7 +5988,7 @@ class IEC61131ParserParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 653
+            self.state = 654
             _la = self._input.LA(1)
             if not(((((_la - 110)) & ~0x3f) == 0 and ((1 << (_la - 110)) & ((1 << (IEC61131ParserParser.REPLACE - 110)) | (1 << (IEC61131ParserParser.INSERT - 110)) | (1 << (IEC61131ParserParser.DELETE - 110)) | (1 << (IEC61131ParserParser.CONCAT - 110)) | (1 << (IEC61131ParserParser.RIGHT - 110)) | (1 << (IEC61131ParserParser.LIMIT - 110)) | (1 << (IEC61131ParserParser.TRUNC - 110)) | (1 << (IEC61131ParserParser.ATAN2 - 110)))) != 0) or ((((_la - 185)) & ~0x3f) == 0 and ((1 << (_la - 185)) & ((1 << (IEC61131ParserParser.SQRT - 185)) | (1 << (IEC61131ParserParser.ASIN - 185)) | (1 << (IEC61131ParserParser.ACOS - 185)) | (1 << (IEC61131ParserParser.ATAN - 185)) | (1 << (IEC61131ParserParser.EXPT - 185)) | (1 << (IEC61131ParserParser.MOVE - 185)) | (1 << (IEC61131ParserParser.LEFT - 185)) | (1 << (IEC61131ParserParser.FIND - 185)) | (1 << (IEC61131ParserParser.NOT - 185)) | (1 << (IEC61131ParserParser.MUL - 185)) | (1 << (IEC61131ParserParser.ADD - 185)) | (1 << (IEC61131ParserParser.AND - 185)) | (1 << (IEC61131ParserParser.XOR - 185)) | (1 << (IEC61131ParserParser.SUB - 185)) | (1 << (IEC61131ParserParser.MOD - 185)) | (1 << (IEC61131ParserParser.DIV - 185)) | (1 << (IEC61131ParserParser.ABS - 185)) | (1 << (IEC61131ParserParser.LOG - 185)) | (1 << (IEC61131ParserParser.EXP - 185)) | (1 << (IEC61131ParserParser.SIN - 185)) | (1 << (IEC61131ParserParser.COS - 185)) | (1 << (IEC61131ParserParser.TAN - 185)) | (1 << (IEC61131ParserParser.SHL - 185)) | (1 << (IEC61131ParserParser.SHR - 185)) | (1 << (IEC61131ParserParser.ROL - 185)) | (1 << (IEC61131ParserParser.ROR - 185)) | (1 << (IEC61131ParserParser.SEL - 185)) | (1 << (IEC61131ParserParser.MAX - 185)) | (1 << (IEC61131ParserParser.MIN - 185)) | (1 << (IEC61131ParserParser.MUX - 185)) | (1 << (IEC61131ParserParser.LEN - 185)) | (1 << (IEC61131ParserParser.MID - 185)))) != 0) or ((((_la - 254)) & ~0x3f) == 0 and ((1 << (_la - 254)) & ((1 << (IEC61131ParserParser.OR - 254)) | (1 << (IEC61131ParserParser.GT - 254)) | (1 << (IEC61131ParserParser.GE - 254)) | (1 << (IEC61131ParserParser.EQ - 254)) | (1 << (IEC61131ParserParser.LT - 254)) | (1 << (IEC61131ParserParser.LE - 254)) | (1 << (IEC61131ParserParser.NE - 254)) | (1 << (IEC61131ParserParser.LN - 254)))) != 0)):
                 self._errHandler.recoverInline(self)

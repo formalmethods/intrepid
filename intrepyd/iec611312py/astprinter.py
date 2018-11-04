@@ -30,9 +30,16 @@ class AstPrinter(Visitor):
         obj.lhs.accept(self)
         self._result += ' := '
         obj.rhs.accept(self)
+        self._result += '\n'
 
-    def _visit_expression(self, obj):
-        pass
+    def _visit_expression(self, expression):
+        sep = ''
+        for arg in expression.arguments:
+            if sep == '':
+                sep = expression.operator
+            else:
+                self._result += ' ' + sep + ' '
+            arg.accept(self)
 
-    def _visit_variable_occ(self, obj):
-        self._result += obj.var.name
+    def _visit_variable_occ(self, variableOcc):
+        self._result += variableOcc.var.name

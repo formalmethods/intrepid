@@ -430,11 +430,6 @@ class IEC61131ParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by IEC61131ParserParser#skipped_keywords.
-    def visitSkipped_keywords(self, ctx):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by IEC61131ParserParser#array_access.
     def visitArray_access(self, ctx):
         return self.visitChildren(ctx)

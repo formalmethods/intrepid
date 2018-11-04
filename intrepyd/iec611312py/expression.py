@@ -31,7 +31,14 @@ class Expression(Visitable):
     """
     Base class for expressions
     """
-    def __init__(self, operator, arguments, datatype):
+    def __init__(self, operator, arguments):
         self._operator = operator
         self._arguments = arguments
-        self._datatype = datatype
+
+    @property
+    def operator(self):
+        return self._operator
+    
+    @property
+    def arguments(self):
+        return self._arguments

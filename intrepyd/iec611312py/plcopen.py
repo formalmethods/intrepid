@@ -13,13 +13,10 @@ This module implements the main parsing routine of PLCOPEN files
 
 from antlr4 import CommonTokenStream, InputStream
 from xml.etree import ElementTree
-from intrepyd.iec611312py.functionblock import FunctionBlock
-from intrepyd.iec611312py.datatype import Datatype
-from intrepyd.iec611312py.variable import Variable
-from intrepyd.iec611312py.astbuilder import ASTBuilder
-from intrepyd.iec611312py.IEC61131ParserLexer import IEC61131ParserLexer
-from intrepyd.iec611312py.IEC61131ParserParser import IEC61131ParserParser
-from intrepyd.iec611312py.astbuilder import ASTBuilder
+from parseST import parseST
+from functionblock import FunctionBlock
+from variable import Variable
+from datatype import Datatype
 import re
 
 def parsePlcOpenFile(infile):
@@ -41,7 +38,7 @@ def parsePous(root):
 def parseFunctionBlock(functionBlock):
     inputVars, outputVars = parseFbInterface(functionBlock)
     name2var = {var.name: var for var in inputVars + outputVars}
-    body = parseFbBody(functionBlock, name2var)
+    body = parsePouBody(functionBlock, name2var)
     return FunctionBlock(functionBlock.get('name'), inputVars, outputVars, None, body)
 
 def parseFbInterface(functionBlock):
@@ -54,20 +51,14 @@ def parseFbInterface(functionBlock):
             outputVars = [parseVar(var, Variable.OUTPUT) for var in outVars.iter('variable')]
     return inputVars, outputVars
 
-def parseFbBody(functionBlock, name2var):
+def parsePouBody(pou, name2var):
     code = None
-    for body in functionBlock.iter('body'):
+    for body in pou.iter('body'):
         for st in body.iter('ST'):
             code = st[0].text
     if code is None:
         raise RuntimeError('Could not read FunctionBlock body')
-    lexer = IEC61131ParserLexer(InputStream(code))
-    stream = CommonTokenStream(lexer)
-    parser = IEC61131ParserParser(stream)
-    tree = parser.body()
-    ast_builder = ASTBuilder(name2var)
-    ast_builder.visit(tree)
-    return ast_builder.statements
+    return parseST(code, name2var)
     
 def parseVar(var, kind):
     dtName = var[0][0].tag

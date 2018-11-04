@@ -29,21 +29,24 @@ class ASTBuilder(IEC61131ParserVisitor):
         return self._statements
 
     def visitAssignVariable(self, ctx):
-        print 'Assign'
-        var = ctx.getChild(0).getText()
-        if not var in self._name2var:
-            raise RuntimeError('Undeclared variable ' + var)
-        lhs = VariableOcc(self._name2var[var])
+        lhs = ctx.getChild(0).accept(self)
         rhs = ctx.getChild(2).accept(self)
         self._statements.append(Assignment(lhs, rhs))
 
     def visitExpression(self, ctx):
-        print 'Expression'
         return ctx.getChild(0).accept(self)
 
     def visitBinaryBoolExpression(self, ctx):
-        print 'BinaryBool'
         operator = ctx.op.text
         arguments = [ctx.getChild(0).accept(self), ctx.getChild(2).accept(self)]
-        datatype = 'BOOL'
-        return Expression(operator, arguments, datatype)
+        return Expression(operator, arguments)
+    
+    def visitZeroaryBoolExpression(self, ctx):
+        return ctx.getChild(0).accept(self)
+    
+    def visitVariable_name(self, ctx):
+        var = ctx.getText()
+        if not var in self._name2var:
+            raise RuntimeError('Undeclared variable ' + var)
+        return VariableOcc(self._name2var[var])
+

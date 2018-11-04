@@ -216,9 +216,7 @@ time_literal     : TIME_MS | TIME_S ;
  * MISC SECTION
  ****************************************************************************************************************/
 
-variable_name    : IDENTIFIER | skipped_keywords ;
-
-skipped_keywords : IN | PT | PV | CU | CLK;
+variable_name    : IDENTIFIER;
 
 array_access     : variable_name '[' term_expression ']' ;
 

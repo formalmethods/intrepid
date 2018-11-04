@@ -26,11 +26,16 @@ class AstPrinter(Visitor):
     def result(self):
         return self._result
 
+    def processStatements(self, statements):
+        for statement in statements:
+            statement.accept(self)
+            self._result += '\n'
+
     def _visit_assignment(self, obj):
         obj.lhs.accept(self)
         self._result += ' := '
         obj.rhs.accept(self)
-        self._result += '\n'
+        self._result += ';'
 
     def _visit_expression(self, expression):
         sep = ''

@@ -15,10 +15,9 @@ from intrepyd.iec611312py.IEC61131ParserVisitor import IEC61131ParserVisitor
 from intrepyd.iec611312py.statement import Assignment
 from intrepyd.iec611312py.expression import VariableOcc, Expression
 
-class ASTBuilder(IEC61131ParserVisitor):
+class STMTBuilder(IEC61131ParserVisitor):
     """
-    Vistor that builds the internal AST for the
-    IEC program
+    Vistor that builds statements from the IEC program
     """
     def __init__(self, name2var):
         self._statements = []
@@ -40,13 +39,22 @@ class ASTBuilder(IEC61131ParserVisitor):
         operator = ctx.op.text
         arguments = [ctx.getChild(0).accept(self), ctx.getChild(2).accept(self)]
         return Expression(operator, arguments)
+
+    def visitUnaryBoolExpression(self, ctx):
+        operator = ctx.getChild(0).getText()
+        return Expression(operator, [ctx.getChild(1).accept(self)])
     
     def visitZeroaryBoolExpression(self, ctx):
         return ctx.getChild(0).accept(self)
+
+    def visitParBoolExpression(self, ctx):
+        return ctx.subexpr.accept(self)
+
+    def visitParTermExpression(self, ctx):
+        return ctx.subexpr.accept(self)
     
     def visitVariable_name(self, ctx):
         var = ctx.getText()
         if not var in self._name2var:
             raise RuntimeError('Undeclared variable ' + var)
         return VariableOcc(self._name2var[var])
-

@@ -13,7 +13,7 @@ import unittest
 from intrepyd.iec611312py.parsest import parseST
 from intrepyd.iec611312py.variable import Variable
 from intrepyd.iec611312py.datatype import Datatype
-from intrepyd.iec611312py.astprinter import AstPrinter
+from intrepyd.iec611312py.stmtprinter import StmtPrinter
 
 boolType = Datatype('BOOL', 'PRIMITIVE')
 
@@ -24,15 +24,20 @@ name2var = {
 }
 
 programs = [
-    'Out1 := In1 AND In2;\n'
+    ['Out1 := In1 AND In2;',   'Out1 := In1 AND In2;\n'],
+    ['Out1 := In1 OR In2;',    'Out1 := In1 OR In2;\n'],
+    ['Out1 := In1 XOR In2;',   'Out1 := In1 XOR In2;\n'],
+    ['Out1 := NOT In1;',       'Out1 := NOT In1;\n'],
+    ['Out1 := (In1 AND In2);', 'Out1 := In1 AND In2;\n'],
 ]
 
 class TestST(unittest.TestCase):
     def test_st_01(self):
-        for expected in programs:
-            statements = parseST(expected, name2var)
+        for prog in programs:
+            statements = parseST(prog[0], name2var)
             self.assertEquals(1, len(statements))
-            astPrinter = AstPrinter()
-            astPrinter.processStatements(statements)
-            actual = astPrinter.result
+            printer = StmtPrinter()
+            printer.processStatements(statements)
+            actual = printer.result
+            expected = prog[1]
             self.assertEquals(expected, actual)

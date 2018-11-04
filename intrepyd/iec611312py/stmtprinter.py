@@ -15,9 +15,9 @@ from intrepyd.iec611312py.visitor import Visitor
 from intrepyd.iec611312py.statement import Assignment
 from intrepyd.iec611312py.expression import VariableOcc, Expression
 
-class AstPrinter(Visitor):
+class StmtPrinter(Visitor):
     """
-    Visitor for printing AST on a string
+    Visitor for printing Statements on a string
     """
     def __init__(self):
         self._result = ''
@@ -38,6 +38,10 @@ class AstPrinter(Visitor):
         self._result += ';'
 
     def _visit_expression(self, expression):
+        if len(expression.arguments) == 1:
+            self._result += expression.operator + ' '
+            expression.arguments[0].accept(self)
+            return
         sep = ''
         for arg in expression.arguments:
             if sep == '':

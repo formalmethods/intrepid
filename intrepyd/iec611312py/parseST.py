@@ -12,7 +12,7 @@ This module implements the main parsing routine of PLCOPEN files
 """
 
 from antlr4 import CommonTokenStream, InputStream
-from intrepyd.iec611312py.astbuilder import ASTBuilder
+from intrepyd.iec611312py.stmtbuilder import STMTBuilder
 from intrepyd.iec611312py.IEC61131ParserLexer import IEC61131ParserLexer
 from intrepyd.iec611312py.IEC61131ParserParser import IEC61131ParserParser
 
@@ -21,6 +21,6 @@ def parseST(code, name2var):
     stream = CommonTokenStream(lexer)
     parser = IEC61131ParserParser(stream)
     tree = parser.body()
-    ast_builder = ASTBuilder(name2var)
-    ast_builder.visit(tree)
-    return ast_builder.statements
+    stmtBuilder = STMTBuilder(name2var)
+    stmtBuilder.visit(tree)
+    return stmtBuilder.statements

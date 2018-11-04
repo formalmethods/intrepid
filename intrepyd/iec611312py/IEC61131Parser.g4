@@ -176,26 +176,24 @@ bool_expression  : bool_expression op=( AND | OR | XOR ) bool_expression        
                    term_expression                                                            # binaryBoolExpression
                  | NOT bool_expression                                                        # unaryBoolExpression
                  | conversion_function '(' term_expression ')'                                # callBoolExpression
-                 | variable_name                                                              # zeroaryBoolExpression
-                 | array_access                                                               # zeroaryBoolExpression
-                 | bool_literal                                                               # zeroaryBoolExpression
-                 | fb_access                                                                  # zeroaryBoolExpression
+                 | leaf_expression                                                            # leafBoolExpression
                  | '(' subexpr=bool_expression ')'                                            # parBoolExpression
                  ;
 
 term_expression  : term_expression op=( '*' | '/' | MOD ) term_expression                     # binaryTermExpression
                  | term_expression op=( '+' | '-' ) term_expression                           # binaryTermExpression
                  | '-' term_expression                                                        # unaryTermExpression
-                 | conversion_function '(' term_expression ')'                                # callTermExpression
                  | conversion_function '(' bool_expression ')'                                # callTermExpression
                  | std_func_name '(' bool_expression ')'                                      # callTermExpression
                  | std_func_name '(' term_expression ')'                                      # callTermExpression
-                 | variable_name                                                              # zeroaryTermExpression
-                 | array_access                                                               # zeroaryTermExpression
-                 | numeric_literal                                                            # zeroaryTermExpression
-                 | time_literal                                                               # zeroaryTermExpression
-                 | fb_access                                                                  # zeroaryTermExpression
+                 | leaf_expression                                                            # leafTermExpression
                  | '(' subexpr=term_expression ')'                                            # parTermExpression
+                 ;
+        
+leaf_expression  : variable_name
+                 | array_access
+                 | bool_literal
+                 | fb_access
                  ;
 
 /*****************************************************************************************************************
@@ -226,8 +224,8 @@ variable_bit_access : variable_name '.' uns_int ;
 
 conversion_function : UINT_TO_WORD | UINT_TO_BOOL | UINT_TO_USINT
                     | UINT_TO_INT | UINT_TO_REAL | DINT_TO_UDINT
-                    | INT_TO_REAL | INT_TO_UINT | INT_TO_USINT
-                    | INT_TO_WORD | REAL_TO_INT | REAL_TO_UINT
+                    | INT_TO_REAL | INT_TO_UINT | INT_TO_USINT | INT_TO_BOOL
+                    | INT_TO_WORD | REAL_TO_INT | REAL_TO_UINT | BOOL_TO_INT
                     | WORD_TO_UINT | WORD_TO_BYTE | WORD_TO_INT
                     | USINT_TO_UINT | USINT_TO_BYTE | BYTE_TO_WORD
                     | BYTE_TO_UINT | BYTE_TO_USINT | UDINT_TO_DINT

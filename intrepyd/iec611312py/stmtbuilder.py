@@ -36,15 +36,18 @@ class STMTBuilder(IEC61131ParserVisitor):
         return ctx.getChild(0).accept(self)
 
     def visitBinaryBoolExpression(self, ctx):
-        operator = ctx.op.text
-        arguments = [ctx.getChild(0).accept(self), ctx.getChild(2).accept(self)]
-        return Expression(operator, arguments)
+        return self._binaryExpressionHelper(ctx)
+
+    def visitBinaryTermExpression(self, ctx):
+        return self._binaryExpressionHelper(ctx)
 
     def visitUnaryBoolExpression(self, ctx):
-        operator = ctx.getChild(0).getText()
-        return Expression(operator, [ctx.getChild(1).accept(self)])
+        return self._unaryExpressionHelper(ctx)
+
+    def visitUnaryTermExpression(self, ctx):
+        return self._unaryExpressionHelper(ctx)
     
-    def visitZeroaryBoolExpression(self, ctx):
+    def visitLeafBoolExpression(self, ctx):
         return ctx.getChild(0).accept(self)
 
     def visitParBoolExpression(self, ctx):
@@ -58,3 +61,23 @@ class STMTBuilder(IEC61131ParserVisitor):
         if not var in self._name2var:
             raise RuntimeError('Undeclared variable ' + var)
         return VariableOcc(self._name2var[var])
+
+    def visitCallBoolExpression(self, ctx):
+        return self._callExpressionHelper(ctx)
+
+    def visitCallTermExpression(self, ctx):
+        return self._callExpressionHelper(ctx)
+
+    def _binaryExpressionHelper(self, ctx):
+        operator = ctx.op.text
+        arguments = [ctx.getChild(0).accept(self), ctx.getChild(2).accept(self)]
+        return Expression(operator, arguments)
+
+    def _unaryExpressionHelper(self, ctx):
+        operator = ctx.getChild(0).getText()
+        return Expression(operator, [ctx.getChild(1).accept(self)])
+
+    def _callExpressionHelper(self, ctx):
+        operator = ctx.getChild(0).getText()
+        arguments = [ctx.getChild(2).accept(self)]
+        return Expression(operator, arguments)

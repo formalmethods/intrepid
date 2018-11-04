@@ -38,17 +38,19 @@ class StmtPrinter(Visitor):
         self._result += ';'
 
     def _visit_expression(self, expression):
-        if len(expression.arguments) == 1:
-            self._result += expression.operator + ' '
+        args = expression.arguments
+        nargs = len(args)
+        if nargs == 1:
+            self._result += expression.operator + '('
             expression.arguments[0].accept(self)
+            self._result += ')'
             return
-        sep = ''
-        for arg in expression.arguments:
-            if sep == '':
-                sep = expression.operator
-            else:
-                self._result += ' ' + sep + ' '
-            arg.accept(self)
+        elif nargs == 2:
+            self._result += '('
+            args[0].accept(self)
+            self._result += ' ' + expression.operator + ' '
+            args[1].accept(self)
+            self._result += ')'
 
     def _visit_variable_occ(self, variableOcc):
         self._result += variableOcc.var.name

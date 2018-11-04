@@ -335,11 +335,6 @@ class IEC61131ParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by IEC61131ParserParser#zeroaryBoolExpression.
-    def visitZeroaryBoolExpression(self, ctx):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by IEC61131ParserParser#unaryBoolExpression.
     def visitUnaryBoolExpression(self, ctx):
         return self.visitChildren(ctx)
@@ -355,6 +350,11 @@ class IEC61131ParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by IEC61131ParserParser#leafBoolExpression.
+    def visitLeafBoolExpression(self, ctx):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by IEC61131ParserParser#callBoolExpression.
     def visitCallBoolExpression(self, ctx):
         return self.visitChildren(ctx)
@@ -365,8 +365,8 @@ class IEC61131ParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by IEC61131ParserParser#zeroaryTermExpression.
-    def visitZeroaryTermExpression(self, ctx):
+    # Visit a parse tree produced by IEC61131ParserParser#leafTermExpression.
+    def visitLeafTermExpression(self, ctx):
         return self.visitChildren(ctx)
 
 
@@ -382,6 +382,11 @@ class IEC61131ParserVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by IEC61131ParserParser#parTermExpression.
     def visitParTermExpression(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by IEC61131ParserParser#leaf_expression.
+    def visitLeaf_expression(self, ctx):
         return self.visitChildren(ctx)
 
 

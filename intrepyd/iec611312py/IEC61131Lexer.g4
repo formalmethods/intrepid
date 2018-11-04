@@ -61,6 +61,8 @@ UINT_TO_WORD            : U I N T '_' T O '_' W O R D;
 UINT_TO_REAL            : U I N T '_' T O '_' R E A L;
 WORD_TO_INT             : W O R D '_' T O '_' I N T;
 REAL_TO_INT             : R E A L '_' T O '_' I N T;
+INT_TO_BOOL             : I N T '_' T O '_' B O O L;
+BOOL_TO_INT             : B O O L '_' T O '_' I N T;
 INT_TO_WORD             : I N T '_' T O '_' W O R D;
 INT_TO_REAL             : I N T '_' T O '_' R E A L;
 INT_TO_UINT             : I N T '_' T O '_' U I N T;

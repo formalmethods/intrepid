@@ -12,6 +12,7 @@ This module implements infrastructure to store statements
 """
 
 from intrepyd.visitable import Visitable
+from expression import TRUE
 
 class Assignment(Visitable):
     """
@@ -34,3 +35,32 @@ class Assignment(Visitable):
         Getter
         """
         return self._rhs
+
+class IfThenElse(Visitable):
+    """
+    Stores an if-then-else
+    """
+    def __init__(self, conditions, statements):
+        self._conditions = conditions
+        self._statements = statements
+        if len(self._conditions) == len(self._statements):
+            return
+        if len(self._conditions) == len(self._statements) - 1:
+            # chain with final else
+            self._conditions.append(TRUE)
+            return
+        raise RuntimeError('Wrong number of conditions in if')
+
+    @property
+    def conditions(self):
+        """
+        Getter
+        """
+        return self._conditions
+
+    @property
+    def statements(self):
+        """
+        Getter
+        """
+        return self._statements

@@ -27,6 +27,20 @@ class VariableOcc(Visitable):
         """
         return self._var
 
+class ConstantOcc(Visitable):
+    """
+    Stores a constant occurrence
+    """
+    def __init__(self, cst):
+        self._cst = cst
+
+    @property
+    def cst(self):
+        """
+        Getter
+        """
+        return self._cst
+
 class Expression(Visitable):
     """
     Base class for expressions
@@ -42,3 +56,6 @@ class Expression(Visitable):
     @property
     def arguments(self):
         return self._arguments
+
+TRUE = ConstantOcc('TRUE')
+FALSE = ConstantOcc('FALSE')

@@ -25,7 +25,9 @@ pou_decl         : PROGRAM IDENTIFIER variable_blocks? body? END_PROGRAM        
 
 fb_std_names     : R_TRIG | F_TRIG | TON | TOF | TP | CTU ;
 
-body             : instruction+ | st_stmt+ ;
+body             : instruction+                                                               # bodyIL
+                 | st_stmt+                                                                   # bodyST
+                 ;                             
 
 /*****************************************************************************************************************
  * VARIABLE DECLARATION SECTION
@@ -125,9 +127,7 @@ il_call_arg      : param1=variable_name? ':=' param2=il_expr? ;
  * ST SECTION
  ****************************************************************************************************************/
 
-st_stmt          : stmt ;
-
-stmt             : assign_stmt ';'
+st_stmt          : assign_stmt ';'
                  | if_stmt ';'
                  | case_stmt ';'
                  | while_stmt ';'
@@ -142,16 +142,16 @@ assign_stmt      : variable_name ':=' expression          # assignVariable
                  ;
 
 if_stmt          : IF ifexpr=bool_expression THEN ifstmt=stmt_block
-                   elsifstmt=elsif_stmt_list 
+                   ( elsifstmt=elsif_stmt_list )?
                    ( ELSE elsestmt=stmt_block )? 
                    END_IF
                  ;
 
-elsif_stmt_list  : elsif_stmt* ;
+elsif_stmt_list  : elsif_stmt+ ;
 
 elsif_stmt       : ELSIF expr=bool_expression THEN stmtblock=stmt_block ;
 
-stmt_block       : stmt* ;
+stmt_block       : st_stmt* ;
 
 case_stmt        : CASE expr=expression OF casesel=case_selections ( ELSE elsestmt=stmt_block )? END_CASE;
 case_selections  : case_selection+ ;
@@ -161,11 +161,11 @@ case_list_elem   : start=signed_int '..' to=signed_int                          
                  | expression                                                                 # caseExpression
                  ;
 iteration_stmt   : for_stmt | while_stmt | repeat_stmt | EXIT | CONTINUE;
-for_stmt         : FOR control_variable ':=' for_list DO stmt* END_FOR;
+for_stmt         : FOR control_variable ':=' for_list DO st_stmt* END_FOR;
 control_variable : IDENTIFIER;
 for_list         : expression TO expression ( BY expression )?;
 while_stmt       : WHILE expr=expression DO stmtblock=stmt_block END_WHILE;
-repeat_stmt      : REPEAT stmt* UNTIL expression END_REPEAT;
+repeat_stmt      : REPEAT st_stmt* UNTIL expression END_REPEAT;
 
 expression       : bool_expression
                  | term_expression

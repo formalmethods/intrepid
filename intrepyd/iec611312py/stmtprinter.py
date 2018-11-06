@@ -37,6 +37,9 @@ class StmtPrinter(Visitor):
         obj.rhs.accept(self)
         self._result += ';'
 
+    def _visit_ifthenelse(self, obj):
+        self._result += 'IF '
+
     def _visit_expression(self, expression):
         args = expression.arguments
         nargs = len(args)
@@ -54,3 +57,6 @@ class StmtPrinter(Visitor):
 
     def _visit_variable_occ(self, variableOcc):
         self._result += variableOcc.var.name
+
+    def _visit_constant_occ(self, constantOcc):
+        self._result += constantOcc.cst

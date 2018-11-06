@@ -11,8 +11,8 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 This module implements a generic vistor infrastructure
 """
 
-from intrepyd.iec611312py.statement import Assignment
-from intrepyd.iec611312py.expression import VariableOcc, Expression
+from intrepyd.iec611312py.statement import Assignment, IfThenElse
+from intrepyd.iec611312py.expression import VariableOcc, ConstantOcc, Expression
 
 class Visitor(object):
     """
@@ -24,15 +24,25 @@ class Visitor(object):
         """
         if isinstance(obj, Assignment):
             return self._visit_assignment(obj)
+        elif isinstance(obj, IfThenElse):
+            return self._visit_ifthenelse(obj)
         elif isinstance(obj, Expression):
             return self._visit_expression(obj)
         elif isinstance(obj, VariableOcc):
             return self._visit_variable_occ(obj)
+        elif isinstance(obj, ConstantOcc):
+            return self._visit_constant_occ(obj)
         raise TypeError('Type not found')
 
     def _visit_assignment(self, obj):
         """
         Visits Assignment
+        """
+        raise NotImplementedError
+
+    def _visit_ifthenelse(self, obj):
+        """
+        Visits if-then-else
         """
         raise NotImplementedError
 
@@ -45,5 +55,11 @@ class Visitor(object):
     def _visit_variable_occ(self, obj):
         """
         Visits Variable occurrence
+        """
+        raise NotImplementedError
+
+    def _visit_constant_occ(self, obj):
+        """
+        Visits Constant occurrence
         """
         raise NotImplementedError

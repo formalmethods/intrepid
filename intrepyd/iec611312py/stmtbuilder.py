@@ -12,8 +12,8 @@ This module implements the main parsing routine of IEC61131 text
 """
 
 from intrepyd.iec611312py.IEC61131ParserVisitor import IEC61131ParserVisitor
-from intrepyd.iec611312py.statement import Assignment
-from intrepyd.iec611312py.expression import VariableOcc, Expression
+from intrepyd.iec611312py.statement import Assignment, IfThenElse
+from intrepyd.iec611312py.expression import VariableOcc, ConstantOcc, Expression
 
 class STMTBuilder(IEC61131ParserVisitor):
     """
@@ -27,10 +27,23 @@ class STMTBuilder(IEC61131ParserVisitor):
     def statements(self):
         return self._statements
 
+    def visitBodyST(self, ctx):
+        print '############## body'
+        self._statements = [ctx.getChild(i).accept(self) for i in range(ctx.getChildCount())]
+
+    def visitSt_stmt(self, ctx):
+        print '############## st stmt'
+        return ctx.getChild(0).accept(self)
+
+    def visit_stmt(self, ctx):
+        print '############## stmt'
+        return ctx.getChild(0).accept(self)
+
     def visitAssignVariable(self, ctx):
+        print '############## visit assign'
         lhs = ctx.getChild(0).accept(self)
         rhs = ctx.getChild(2).accept(self)
-        self._statements.append(Assignment(lhs, rhs))
+        return Assignment(lhs, rhs)
 
     def visitExpression(self, ctx):
         return ctx.getChild(0).accept(self)
@@ -62,11 +75,23 @@ class STMTBuilder(IEC61131ParserVisitor):
             raise RuntimeError('Undeclared variable ' + var)
         return VariableOcc(self._name2var[var])
 
+    def visitConstant(self, ctx):
+        cst = ctx.getText()
+        return ConstantOcc(cst)
+
     def visitCallBoolExpression(self, ctx):
         return self._callExpressionHelper(ctx)
 
     def visitCallTermExpression(self, ctx):
         return self._callExpressionHelper(ctx)
+
+    def visitIf_stmt(self, ctx):
+        print '############## visit if'
+        conditions = []
+        statements = []
+        conditions.append(ctx.ifexpr.accept(self))
+        statements.append(ctx.ifstmt.accept(self))
+        return IfThenElse(conditions, statements)
 
     def _binaryExpressionHelper(self, ctx):
         operator = ctx.op.text
@@ -81,3 +106,6 @@ class STMTBuilder(IEC61131ParserVisitor):
         operator = ctx.getChild(0).getText()
         arguments = [ctx.getChild(2).accept(self)]
         return Expression(operator, arguments)
+
+
+

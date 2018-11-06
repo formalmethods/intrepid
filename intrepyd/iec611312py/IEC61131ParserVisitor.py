@@ -20,8 +20,13 @@ class IEC61131ParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by IEC61131ParserParser#body.
-    def visitBody(self, ctx):
+    # Visit a parse tree produced by IEC61131ParserParser#bodyIL.
+    def visitBodyIL(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by IEC61131ParserParser#bodyST.
+    def visitBodyST(self, ctx):
         return self.visitChildren(ctx)
 
 
@@ -222,11 +227,6 @@ class IEC61131ParserVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by IEC61131ParserParser#st_stmt.
     def visitSt_stmt(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by IEC61131ParserParser#stmt.
-    def visitStmt(self, ctx):
         return self.visitChildren(ctx)
 
 

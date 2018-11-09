@@ -28,19 +28,18 @@ class STMTBuilder(IEC61131ParserVisitor):
         return self._statements
 
     def visitBodyST(self, ctx):
-        print '############## body'
-        self._statements = [ctx.getChild(i).accept(self) for i in range(ctx.getChildCount())]
+        self._statements = ctx.getChild(0).accept(self)
+
+    def visitStmt_block(self, ctx):
+        return [ctx.getChild(i).accept(self) for i in range(ctx.getChildCount())]
 
     def visitSt_stmt(self, ctx):
-        print '############## st stmt'
         return ctx.getChild(0).accept(self)
 
     def visit_stmt(self, ctx):
-        print '############## stmt'
         return ctx.getChild(0).accept(self)
 
     def visitAssignVariable(self, ctx):
-        print '############## visit assign'
         lhs = ctx.getChild(0).accept(self)
         rhs = ctx.getChild(2).accept(self)
         return Assignment(lhs, rhs)
@@ -86,7 +85,6 @@ class STMTBuilder(IEC61131ParserVisitor):
         return self._callExpressionHelper(ctx)
 
     def visitIf_stmt(self, ctx):
-        print '############## visit if'
         conditions = []
         statements = []
         conditions.append(ctx.ifexpr.accept(self))
@@ -106,6 +104,3 @@ class STMTBuilder(IEC61131ParserVisitor):
         operator = ctx.getChild(0).getText()
         arguments = [ctx.getChild(2).accept(self)]
         return Expression(operator, arguments)
-
-
-

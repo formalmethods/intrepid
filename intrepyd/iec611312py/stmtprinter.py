@@ -21,6 +21,7 @@ class StmtPrinter(Visitor):
     """
     def __init__(self):
         self._result = ''
+        self._indent = 0
 
     @property
     def result(self):
@@ -29,7 +30,6 @@ class StmtPrinter(Visitor):
     def processStatements(self, statements):
         for statement in statements:
             statement.accept(self)
-            self._result += '\n'
 
     def _visit_assignment(self, obj):
         obj.lhs.accept(self)
@@ -38,7 +38,22 @@ class StmtPrinter(Visitor):
         self._result += ';'
 
     def _visit_ifthenelse(self, obj):
-        self._result += 'IF '
+        first = True
+        if len(obj.conditions) != len(obj.stmt_blocks):
+            raise RuntimeError('Wrong number of conditions and statements')
+        for i in range(len(obj.conditions)):
+            if first:
+                self._result += 'IF '
+                first = False
+            else:
+                self._result += 'ELIF '
+            obj.conditions[i].accept(self)
+            self._result += ' THEN '
+            for statements in obj.stmt_blocks:
+                for i in range(len(statements)):
+                    statements[i].accept(self)
+                    self._result += ' '
+        self._result += 'END_IF;'
 
     def _visit_expression(self, expression):
         args = expression.arguments

@@ -26,7 +26,7 @@ pou_decl         : PROGRAM IDENTIFIER variable_blocks? body? END_PROGRAM        
 fb_std_names     : R_TRIG | F_TRIG | TON | TOF | TP | CTU ;
 
 body             : instruction+                                                               # bodyIL
-                 | st_stmt+                                                                   # bodyST
+                 | stmt_block                                                                 # bodyST
                  ;                             
 
 /*****************************************************************************************************************
@@ -151,7 +151,7 @@ elsif_stmt_list  : elsif_stmt+ ;
 
 elsif_stmt       : ELSIF expr=bool_expression THEN stmtblock=stmt_block ;
 
-stmt_block       : st_stmt* ;
+stmt_block       : st_stmt+ ;
 
 case_stmt        : CASE expr=expression OF casesel=case_selections ( ELSE elsestmt=stmt_block )? END_CASE;
 case_selections  : case_selection+ ;

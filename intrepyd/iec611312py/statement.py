@@ -40,12 +40,12 @@ class IfThenElse(Visitable):
     """
     Stores an if-then-else
     """
-    def __init__(self, conditions, statements):
+    def __init__(self, conditions, stmt_blocks):
         self._conditions = conditions
-        self._statements = statements
-        if len(self._conditions) == len(self._statements):
+        self._stmt_blocks = stmt_blocks
+        if len(self._conditions) == len(self._stmt_blocks):
             return
-        if len(self._conditions) == len(self._statements) - 1:
+        if len(self._conditions) == len(self._stmt_blocks) - 1:
             # chain with final else
             self._conditions.append(TRUE)
             return
@@ -59,8 +59,8 @@ class IfThenElse(Visitable):
         return self._conditions
 
     @property
-    def statements(self):
+    def stmt_blocks(self):
         """
         Getter
         """
-        return self._statements
+        return self._stmt_blocks

@@ -85,6 +85,6 @@ class TestST(unittest.TestCase):
         }
         programs = [
             ["IF is_IsAirInLine = 2 THEN b_s := 6; rtb_Config_Timer := 3; END_IF;",
-             "IF is_IsAirInLine = 2 THEN b_s := 6; rtb_Config_Timer := 3; END_IF;"]
+             "IF (is_IsAirInLine = 2) THEN b_s := 6; rtb_Config_Timer := 3; END_IF;"]
         ]
         self._run_tests(programs, name2var)

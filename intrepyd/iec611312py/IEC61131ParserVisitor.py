@@ -255,6 +255,26 @@ class IEC61131ParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by IEC61131ParserParser#if_simple_stmt.
+    def visitIf_simple_stmt(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by IEC61131ParserParser#if_elseif_stmt.
+    def visitIf_elseif_stmt(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by IEC61131ParserParser#if_else_stmt.
+    def visitIf_else_stmt(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by IEC61131ParserParser#if_complete_stmt.
+    def visitIf_complete_stmt(self, ctx):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by IEC61131ParserParser#elsif_stmt_list.
     def visitElsif_stmt_list(self, ctx):
         return self.visitChildren(ctx)
@@ -262,6 +282,11 @@ class IEC61131ParserVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by IEC61131ParserParser#elsif_stmt.
     def visitElsif_stmt(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by IEC61131ParserParser#else_stmt.
+    def visitElse_stmt(self, ctx):
         return self.visitChildren(ctx)
 
 

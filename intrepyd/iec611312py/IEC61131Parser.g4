@@ -141,15 +141,31 @@ assign_stmt      : variable_name ':=' expression          # assignVariable
                  | fb_access ':=' expression              # assignFbAccess
                  ;
 
-if_stmt          : IF ifexpr=bool_expression THEN ifstmt=stmt_block
-                   ( elsifstmt=elsif_stmt_list )?
-                   ( ELSE elsestmt=stmt_block )? 
+if_stmt          : if_simple_stmt | if_elseif_stmt | if_else_stmt | if_complete_stmt ;
+
+if_simple_stmt   : IF ifexpr=bool_expression THEN ifstmt=stmt_block END_IF ;
+
+if_elseif_stmt   : IF ifexpr=bool_expression THEN ifstmt=stmt_block
+                   elsifstmt=elsif_stmt_list
+                   END_IF
+                 ;
+
+if_else_stmt     : IF ifexpr=bool_expression THEN ifstmt=stmt_block
+                   elsestmt=else_stmt 
+                   END_IF
+                 ;
+
+if_complete_stmt : IF ifexpr=bool_expression THEN ifstmt=stmt_block
+                   elsifstmt=elsif_stmt_list
+                   elsestmt=else_stmt 
                    END_IF
                  ;
 
 elsif_stmt_list  : elsif_stmt+ ;
 
 elsif_stmt       : ELSIF expr=bool_expression THEN stmtblock=stmt_block ;
+
+else_stmt        : ELSE stmtblock=stmt_block ;
 
 stmt_block       : st_stmt+ ;
 

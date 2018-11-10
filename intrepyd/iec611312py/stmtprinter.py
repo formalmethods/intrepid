@@ -46,13 +46,12 @@ class StmtPrinter(Visitor):
                 self._result += 'IF '
                 first = False
             else:
-                self._result += 'ELIF '
+                self._result += 'ELSIF '
             obj.conditions[i].accept(self)
             self._result += ' THEN '
-            for statements in obj.stmt_blocks:
-                for i in range(len(statements)):
-                    statements[i].accept(self)
-                    self._result += ' '
+            for statement in obj.stmt_blocks[i]:
+                statement.accept(self)
+                self._result += ' '
         self._result += 'END_IF;'
 
     def _visit_expression(self, expression):

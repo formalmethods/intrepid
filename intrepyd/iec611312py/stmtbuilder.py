@@ -13,7 +13,7 @@ This module implements the main parsing routine of IEC61131 text
 
 from intrepyd.iec611312py.IEC61131ParserVisitor import IEC61131ParserVisitor
 from intrepyd.iec611312py.statement import Assignment, IfThenElse
-from intrepyd.iec611312py.expression import VariableOcc, ConstantOcc, Expression
+from intrepyd.iec611312py.expression import VariableOcc, ConstantOcc, Expression, TRUE
 
 class STMTBuilder(IEC61131ParserVisitor):
     """
@@ -85,11 +85,61 @@ class STMTBuilder(IEC61131ParserVisitor):
         return self._callExpressionHelper(ctx)
 
     def visitIf_stmt(self, ctx):
+        return ctx.getChild(0).accept(self)
+
+    def visitIf_simple_stmt(self, ctx):
         conditions = []
         statements = []
         conditions.append(ctx.ifexpr.accept(self))
         statements.append(ctx.ifstmt.accept(self))
         return IfThenElse(conditions, statements)
+    
+    def visitIf_elseif_stmt(self, ctx):
+        conditions = []
+        statements = []
+        conditions.append(ctx.ifexpr.accept(self))
+        statements.append(ctx.ifstmt.accept(self))
+        conds, stmts = ctx.elsifstmt.accept(self)
+        for cond in conds:
+            conditions.append(cond)
+        for stmt in stmts:
+            statements.append(stmt)
+        return IfThenElse(conditions, statements)
+    
+    def visitIf_else_stmt(self, ctx):
+        conditions = []
+        statements = []
+        conditions.append(ctx.ifexpr.accept(self))
+        statements.append(ctx.ifstmt.accept(self))
+        conditions.append(TRUE)
+        statements.append(ctx.elsestmt.accept(self))
+        return IfThenElse(conditions, statements)
+
+    def visitIf_complete_stmt(self, ctx):
+        conditions = []
+        statements = []
+        conditions.append(ctx.ifexpr.accept(self))
+        statements.append(ctx.ifstmt.accept(self))
+        conds, stmts = ctx.elsifstmt.accept(self)
+        for cond in conds:
+            conditions.append(cond)
+        for stmt in stmts:
+            statements.append(stmt)
+        conditions.append(TRUE)
+        statements.append(ctx.elsestmt.accept(self))
+        return IfThenElse(conditions, statements)
+
+    def visitElsif_stmt_list(self, ctx):
+        conditions = []
+        statements = []
+        for i in range(ctx.getChildCount()):
+            cond, stmt = ctx.getChild(i).accept(self)
+            conditions.append(cond)
+            statements.append(stmt)
+        return conditions, statements
+
+    def visitElsif_stmt(self, ctx):
+        return ctx.expr.accept(self), ctx.stmtblock.accept(self)
 
     def _binaryExpressionHelper(self, ctx):
         operator = ctx.op.text

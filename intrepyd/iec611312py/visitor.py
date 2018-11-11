@@ -11,7 +11,7 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 This module implements a generic vistor infrastructure
 """
 
-from intrepyd.iec611312py.statement import Assignment, IfThenElse
+from intrepyd.iec611312py.statement import Assignment, IfThenElse, Case
 from intrepyd.iec611312py.expression import VariableOcc, ConstantOcc, Expression
 
 class Visitor(object):
@@ -26,6 +26,8 @@ class Visitor(object):
             return self._visit_assignment(obj)
         elif isinstance(obj, IfThenElse):
             return self._visit_ifthenelse(obj)
+        elif isinstance(obj, Case):
+            return self._visit_case(obj)
         elif isinstance(obj, Expression):
             return self._visit_expression(obj)
         elif isinstance(obj, VariableOcc):
@@ -43,6 +45,12 @@ class Visitor(object):
     def _visit_ifthenelse(self, obj):
         """
         Visits if-then-else
+        """
+        raise NotImplementedError
+
+    def _visit_case(self, obj):
+        """
+        Visits case
         """
         raise NotImplementedError
 

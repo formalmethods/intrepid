@@ -57,5 +57,12 @@ class Expression(Visitable):
     def arguments(self):
         return self._arguments
 
+class Range(Visitable):
+    def __init__(self, first, last):
+        if first > last:
+            raise RuntimeError('From is greater than to in range expression')
+        self._first = first
+        self._last = last
+
 TRUE = ConstantOcc('TRUE')
 FALSE = ConstantOcc('FALSE')

@@ -64,3 +64,40 @@ class IfThenElse(Visitable):
         Getter
         """
         return self._stmt_blocks
+
+class Case(Visitable):
+    """
+    Stores a case statement
+    """
+    def __init__(self, expression, selections, stmt_blocks):
+        self._expression = expression
+        self._selections = selections
+        self._stmt_blocks = stmt_blocks
+        if len(self._selections) == len(self._stmt_blocks):
+            return
+        if len(self._selections) == len(self._stmt_blocks) - 1:
+            # chain with final else
+            self._selections.append(expression)
+            return
+        raise RuntimeError('Wrong number of conditions in case')
+
+    @property
+    def expression(self):
+        """
+        Getter
+        """
+        return self._expression
+
+    @property
+    def selections(self):
+        """
+        Getter
+        """
+        return self._selections
+
+    @property
+    def stmt_blocks(self):
+        """
+        Getter
+        """
+        return self._stmt_blocks

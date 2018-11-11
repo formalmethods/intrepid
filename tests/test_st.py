@@ -98,3 +98,13 @@ class TestST(unittest.TestCase):
              "IF (a = 1) THEN b := 2; ELSIF (a = 2) THEN b := 3; ELSIF TRUE THEN b := 4; END_IF;"]
         ]
         self._run_tests(programs, name2var)
+
+    def test_st_case(self):
+        name2var = {
+            'is_Audio': Variable('is_Audio', usintType, Variable.LOCAL)
+        }
+        programs = [
+            ["CASE is_Audio OF 1: is_Audio := 0; 2: is_Audio := 1; 3: is_Audio := 2; 4: is_Audio := 3; END_CASE;",
+             "CASE is_Audio OF 1: is_Audio := 0; 2: is_Audio := 1; 3: is_Audio := 2; 4: is_Audio := 3; END_CASE;"]
+        ]
+        self._run_tests(programs, name2var)

@@ -12,8 +12,8 @@ This module implements the main parsing routine of IEC61131 text
 """
 
 from intrepyd.iec611312py.IEC61131ParserVisitor import IEC61131ParserVisitor
-from intrepyd.iec611312py.statement import Assignment, IfThenElse
-from intrepyd.iec611312py.expression import VariableOcc, ConstantOcc, Expression, TRUE
+from intrepyd.iec611312py.statement import Assignment, IfThenElse, Case
+from intrepyd.iec611312py.expression import VariableOcc, ConstantOcc, Expression, Range, TRUE
 
 class STMTBuilder(IEC61131ParserVisitor):
     """
@@ -140,6 +140,36 @@ class STMTBuilder(IEC61131ParserVisitor):
 
     def visitElsif_stmt(self, ctx):
         return ctx.expr.accept(self), ctx.stmtblock.accept(self)
+
+    def visitCase_stmt(self, ctx):
+        expression = ctx.expr.accept(self)
+        selections, statements = ctx.casesel.accept(self)
+        if ctx.getChildCount() == 7:
+            # There is else too
+            selections.append(expression)
+            statements.append(ctx.elsestmt.accept(self))
+        return Case(expression, selections, statements)
+
+    def visitCase_selections(self, ctx):
+        selections = []
+        statements = []
+        for i in range(ctx.getChildCount()):
+            sel, stmt = ctx.getChild(i).accept(self)
+            selections.append(sel)
+            statements.append(stmt)
+        return selections, statements
+
+    def visitCase_selection(self, ctx):
+        return ctx.getChild(0).accept(self), ctx.getChild(2).accept(self)
+
+    def visitCase_list(self, ctx):
+        return [ctx.getChild(i).accept(self) for i in range(0, ctx.getChildCount(), 2)]
+
+    def visitCaseRange(self, ctx):
+        return Range(ctx.start.getText(), ctx.to.getText())
+
+    def visitCaseExpression(self, ctx):
+        return ctx.getChild(0).accept(self)
 
     def _binaryExpressionHelper(self, ctx):
         operator = ctx.op.text

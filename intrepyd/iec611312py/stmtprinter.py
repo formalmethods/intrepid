@@ -40,7 +40,7 @@ class StmtPrinter(Visitor):
     def _visit_ifthenelse(self, obj):
         first = True
         if len(obj.conditions) != len(obj.stmt_blocks):
-            raise RuntimeError('Wrong number of conditions and statements')
+            raise RuntimeError('Wrong number of conditions and statements in if then else')
         for i in range(len(obj.conditions)):
             if first:
                 self._result += 'IF '
@@ -53,6 +53,23 @@ class StmtPrinter(Visitor):
                 statement.accept(self)
                 self._result += ' '
         self._result += 'END_IF;'
+    
+    def _visit_case(self, obj):
+        selections = obj.selections
+        statements = obj.stmt_blocks
+        if len(selections) != len(statements):
+            raise RuntimeError('Wrong number of selections and statements in case')
+        self._result += 'CASE '
+        obj.expression.accept(self)
+        self._result += ' OF '
+        for i in range(len(selections)):
+            for selection in selections[i]:
+                selection.accept(self)
+            self._result += ': '
+            for statement in statements[i]:
+                statement.accept(self)
+                self._result += ' '
+        self._result += 'END_CASE;'
 
     def _visit_expression(self, expression):
         args = expression.arguments

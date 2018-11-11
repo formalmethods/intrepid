@@ -105,6 +105,8 @@ class TestST(unittest.TestCase):
         }
         programs = [
             ["CASE is_Audio OF 1: is_Audio := 0; 2: is_Audio := 1; 3: is_Audio := 2; 4: is_Audio := 3; END_CASE;",
-             "CASE is_Audio OF 1: is_Audio := 0; 2: is_Audio := 1; 3: is_Audio := 2; 4: is_Audio := 3; END_CASE;"]
+             "CASE is_Audio OF 1: is_Audio := 0; 2: is_Audio := 1; 3: is_Audio := 2; 4: is_Audio := 3; END_CASE;"],
+            ["CASE is_Audio OF 1: is_Audio := 0; 2: is_Audio := 1; ELSE is_Audio := 2; END_CASE;",
+             "CASE is_Audio OF 1: is_Audio := 0; 2: is_Audio := 1; is_Audio: is_Audio := 2; END_CASE;"]
         ]
         self._run_tests(programs, name2var)

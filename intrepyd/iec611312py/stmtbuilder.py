@@ -146,7 +146,7 @@ class STMTBuilder(IEC61131ParserVisitor):
         selections, statements = ctx.casesel.accept(self)
         if ctx.getChildCount() == 7:
             # There is else too
-            selections.append(expression)
+            selections.append([expression])
             statements.append(ctx.elsestmt.accept(self))
         return Case(expression, selections, statements)
 

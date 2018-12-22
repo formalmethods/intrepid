@@ -33,3 +33,4 @@ class Variable(Visitable):
     OUTPUT = 'OUTPUT'
     LOCAL = 'LOCAL'
     TEMP = 'TEMP'
+    FIELD = 'FIELD'

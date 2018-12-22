@@ -15,57 +15,41 @@ from intrepyd.visitable import Visitable
 import re
 
 class Datatype(Visitable):
+
+    _name2datatype = {}
+
     """
     Stores a datatype
     """
-    def __init__(self, name):
-        self._name = name
-        self._kind = Datatype._computeDataKind(name)
+    def __init__(self, dtname):
+        self._dtname = dtname
 
     @property
-    def name(self):
+    def dtname(self):
         """
         Getter
         """
-        return self._name
+        return self._dtname
 
     @staticmethod
-    def _computeDataKind(dtName):
-        intPattern = re.compile('U?[SDL]?INT')
-        realPattern = re.compile('L?REAL')
-        if dtName == 'BOOL' or intPattern.match(dtName) or realPattern.match(dtName):
-            return Datatype.PRIMITIVE
-        raise RuntimeError('Unsupported variable type ' + dtName)
+    def add(name, datatype):
+        print 'ADD', name
+        Datatype._name2datatype[name] = datatype
 
-    PRIMITIVE = 'PRIMITIVE'
-    FBLOCK = 'FBLOCK'
-    ARRAY = 'ARRAY'
-    STRUCT = 'STRUCT'
-    ENUM = 'ENUM'
-    SUBRANGE = 'SUBRANGE'
-    INSTANCE = 'INSTANCE'
+    # @staticmethod
+    # def _computeDataKind(dtName, name):
+    #     intPattern = re.compile('U?[SDL]?INT')
+    #     realPattern = re.compile('L?REAL')
+    #     if dtName == 'BOOL' or intPattern.match(dtName) or realPattern.match(dtName):
+    #         return Datatype.PRIMITIVE
+    #     return Datatype.DERIVED
 
 class Primitive(Datatype):
     """
     Stores a primitive datatype (SINT, USINT, ..., REAL, ...)
     """
-    def __init__(self, name):
-        Datatype.__init__(self, name, Datatype.PRIMITIVE)
-
-class Instance(Datatype):
-    """
-    Stores a function block instance
-    """
-    def __init__(self, name, function_block):
-        Datatype.__init__(self, name, Datatype.INSTANCE)
-        self._function_block = function_block
-
-    @property
-    def function_block(self):
-        """
-        Getter
-        """
-        return self._function_block
+    def __init__(self, dtname):
+        Datatype.__init__(self, dtname)
 
 class Array(Datatype):
     """
@@ -77,7 +61,13 @@ class Struct(Datatype):
     """
     Stores a struct
     """
-    pass
+    def __init__(self, name, fields):
+        Datatype.__init__(self, name)
+        self._fields = fields
+
+    @property
+    def fields(self):
+        return self._fields
 
 class Enum(Datatype):
     """

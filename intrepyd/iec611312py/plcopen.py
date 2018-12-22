@@ -16,7 +16,7 @@ from xml.etree import ElementTree
 from functionblock import FunctionBlock
 from parsest import parseST
 from variable import Variable
-from datatype import Datatype
+from datatype import Datatype, Struct
 
 def parsePlcOpenFile(infile):
     """
@@ -26,6 +26,10 @@ def parsePlcOpenFile(infile):
     return parsePous(root)
 
 def parsePous(root):
+    for datatypes in root.iter('dataTypes'):
+        for datatype in datatypes:
+            print 'DATATYPE ATTRIB', datatype.attrib
+            parseDatatype(datatype)
     parsedPous = []
     for pou in root.iter('pou'):
         if pou.get('pouType') == 'functionBlock':
@@ -33,6 +37,17 @@ def parsePous(root):
         else:
             raise RuntimeError('Unsupported pou type ' + pou.pouType)
     return parsedPous 
+
+def parseDatatype(datatype):
+    name = datatype.get('name')
+    print 'PARSING', name
+    for basetype in datatype.iter('baseType'):
+        for struct in basetype.iter('struct'):
+            print 'PARSING STRUCT', name
+            fields = []
+            for var in struct.iter('variable'):
+                fields.append(parseVar(var, Variable.FIELD))
+            Datatype.add(name, Struct(name, fields))
 
 def parseFunctionBlock(functionBlock):
     inputVars, outputVars = parseFbInterface(functionBlock)

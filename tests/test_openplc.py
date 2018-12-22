@@ -16,3 +16,7 @@ class TestOpenPLC(unittest.TestCase):
     def test_simple_1(self):
         pous = parsePlcOpenFile('tests/openplc/simple1.xml')
         self.assertEquals(1, len(pous))
+
+    def test_datatype_1(self):
+        pous = parsePlcOpenFile('tests/openplc/datatype1.xml')
+        self.assertEquals(1, len(pous))

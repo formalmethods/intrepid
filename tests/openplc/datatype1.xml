@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+   <types>
+      <dataTypes>
+         <dataType name="GPCA_SW_Outputs">
+            <baseType>
+               <struct>
+                  <variable name="Request_Confirm_Stop">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="b_Log">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Current_System_Mode">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Actual_Infusion_Duration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Flow_Rate_Commanded">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="New_Infusion">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Lock_Timer">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Volume_Infused">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Reservoir_Volume">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Is_Audio_Disabled">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Visual_Notification_Message">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Audio_Notification_Command">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Patient_ID">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Drug_Name">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Drug_Concentration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Infusion_Total_Duration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="VTBI_Total">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Flow_Rate_Basal">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_Flow_Rate_Intermittent_Bo">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Duration_Intermittent_Bolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Interval_Intermittent_Bolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Flow_Rate_Patient_Bolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Duration_Patient_Bolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_Lockout_Period_Patient_Bo">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Max_Number_of_Patient_Bolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Flow_Rate_KVO">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Entered_Reservoir_Volume">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Configured">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Error_Message_ID">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Request_Config_Type">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="c_Request_Confirm_Infusionv">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Request_Patient_Drug_Info">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Request_Infusion_Info">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+      </dataTypes>
+      <pous>
+         <pou name="c_GPCA_SW_Logical_Architect" pouType="functionBlock">
+            <interface>
+               <inputVars>
+               </inputVars>
+               <outputVars>
+                  <variable name="GPCA_SW_OUT">
+                     <type>
+                        <derived name="GPCA_SW_Outputs"/>
+                     </type>
+                  </variable>
+               </outputVars>
+               <localVars>
+               </localVars>
+            </interface>
+            <body>
+               <ST>
+                  <xhtml xmlns="http://www.w3.org/1999/xhtml">
+<![CDATA[
+    GPCA_SW_OUT.Request_Confirm_Stop := TRUE;
+    GPCA_SW_OUT.b_Log := 0;
+    GPCA_SW_OUT.Request_Infusion_Info := FALSE;
+]]>
+</xhtml>
+               </ST>
+            </body>
+         </pou>
+      </pous>
+   </types>
+   <instances>
+      <configurations/>
+   </instances>
+</project>

@@ -44,6 +44,9 @@ class STMTBuilder(IEC61131ParserVisitor):
         rhs = ctx.getChild(2).accept(self)
         return Assignment(lhs, rhs)
 
+    def visitAssignCompositeAccess(self, ctx):
+        raise NotImplementedError
+
     def visitExpression(self, ctx):
         return ctx.getChild(0).accept(self)
 
@@ -68,11 +71,20 @@ class STMTBuilder(IEC61131ParserVisitor):
     def visitParTermExpression(self, ctx):
         return ctx.subexpr.accept(self)
     
-    def visitVariable_name(self, ctx):
-        var = ctx.getText()
+    def visitSimple_var(self, ctx):
+        var = ctx.getChild(0).getText()
         if not var in self._name2var:
             raise RuntimeError('Undeclared variable ' + var)
         return VariableOcc(self._name2var[var])
+
+    def visitComposite_access(self, ctx):
+        raise NotImplementedError
+
+    def visitArray_access(self, ctx):
+        raise NotImplementedError
+
+    def visitVariable_bit_access(self, ctx):
+        raise NotImplementedError
 
     def visitConstant(self, ctx):
         cst = ctx.getText()

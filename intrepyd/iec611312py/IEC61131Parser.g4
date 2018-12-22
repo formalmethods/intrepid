@@ -113,7 +113,7 @@ il_instruction_one : il_instruction ;
 il_expr_simple   : constant
                  | variable_name 
                  | array_access 
-                 | fb_access 
+                 | composite_access 
                  | il_expr_simple '.' uns_int
                  ;
 
@@ -135,10 +135,10 @@ st_stmt          : assign_stmt ';'
                  | repeat_stmt ';'
                  ;
 
-assign_stmt      : variable_name ':=' expression          # assignVariable
+assign_stmt      : simple_var ':=' expression             # assignVariable
                  | array_access ':=' expression           # assignArrayCell
                  | variable_bit_access ':=' expression    # assignBitAccess
-                 | fb_access ':=' expression              # assignFbAccess
+                 | composite_access ':=' expression       # assignCompositeAccess
                  ;
 
 if_stmt          : if_simple_stmt | if_elseif_stmt | if_else_stmt | if_complete_stmt ;
@@ -206,10 +206,9 @@ term_expression  : term_expression op=( '*' | '/' | MOD ) term_expression       
                  | '(' subexpr=term_expression ')'                                            # parTermExpression
                  ;
         
-leaf_expression  : variable_name
+leaf_expression  : simple_var
                  | array_access
-                 | bool_literal
-                 | fb_access
+                 | composite_access
                  | constant
                  ;
 
@@ -231,11 +230,13 @@ time_literal     : TIME_MS | TIME_S ;
  * MISC SECTION
  ****************************************************************************************************************/
 
-variable_name    : IDENTIFIER;
+variable_name       : IDENTIFIER;
 
-array_access     : variable_name '[' term_expression ']' ;
+simple_var          : variable_name;
 
-fb_access        : (variable_name | array_access) '.' variable_name ;
+array_access        : variable_name '[' term_expression ']' ;
+
+composite_access    : ((variable_name | array_access) '.')+ (variable_name | array_access) ;
 
 variable_bit_access : variable_name '.' uns_int ;
 

@@ -245,8 +245,8 @@ class IEC61131ParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by IEC61131ParserParser#assignFbAccess.
-    def visitAssignFbAccess(self, ctx):
+    # Visit a parse tree produced by IEC61131ParserParser#assignCompositeAccess.
+    def visitAssignCompositeAccess(self, ctx):
         return self.visitChildren(ctx)
 
 
@@ -460,13 +460,18 @@ class IEC61131ParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by IEC61131ParserParser#simple_var.
+    def visitSimple_var(self, ctx):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by IEC61131ParserParser#array_access.
     def visitArray_access(self, ctx):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by IEC61131ParserParser#fb_access.
-    def visitFb_access(self, ctx):
+    # Visit a parse tree produced by IEC61131ParserParser#composite_access.
+    def visitComposite_access(self, ctx):
         return self.visitChildren(ctx)
 
 

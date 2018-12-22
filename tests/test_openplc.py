@@ -13,6 +13,6 @@ import unittest
 from intrepyd.iec611312py.plcopen import parsePlcOpenFile
 
 class TestOpenPLC(unittest.TestCase):
-    def test_infusion_pump(self):
-        pous = parsePlcOpenFile('tests/openplc/GPCA_SW.xml')
+    def test_simple_1(self):
+        pous = parsePlcOpenFile('tests/openplc/simple1.xml')
         self.assertEquals(1, len(pous))

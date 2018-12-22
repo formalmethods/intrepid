@@ -28,7 +28,6 @@ def parsePlcOpenFile(infile):
 def parsePous(root):
     for datatypes in root.iter('dataTypes'):
         for datatype in datatypes:
-            print 'DATATYPE ATTRIB', datatype.attrib
             parseDatatype(datatype)
     parsedPous = []
     for pou in root.iter('pou'):
@@ -40,30 +39,31 @@ def parsePous(root):
 
 def parseDatatype(datatype):
     name = datatype.get('name')
-    print 'PARSING', name
     for basetype in datatype.iter('baseType'):
         for struct in basetype.iter('struct'):
-            print 'PARSING STRUCT', name
             fields = []
             for var in struct.iter('variable'):
                 fields.append(parseVar(var, Variable.FIELD))
             Datatype.add(name, Struct(name, fields))
 
 def parseFunctionBlock(functionBlock):
-    inputVars, outputVars = parseFbInterface(functionBlock)
-    name2var = {var.name: var for var in inputVars + outputVars}
+    inputVars, outputVars, localVars = parseFbInterface(functionBlock)
+    name2var = {var.name: var for var in inputVars + outputVars + localVars}
     body = parsePouBody(functionBlock, name2var)
-    return FunctionBlock(functionBlock.get('name'), inputVars, outputVars, None, body)
+    return FunctionBlock(functionBlock.get('name'), inputVars, outputVars, localVars, body)
 
 def parseFbInterface(functionBlock):
     inputVars = None
     outputVars = None
+    localVars = None
     for interface in functionBlock.iter('interface'):
         for inVars in interface.iter('inputVars'):
             inputVars = [parseVar(var, Variable.INPUT) for var in inVars.iter('variable')]
         for outVars in interface.iter('outputVars'):
             outputVars = [parseVar(var, Variable.OUTPUT) for var in outVars.iter('variable')]
-    return inputVars, outputVars
+        for locVars in interface.iter('localVars'):
+            localVars = [parseVar(var, Variable.LOCAL) for var in locVars.iter('variable')]
+    return inputVars, outputVars, localVars
 
 def parsePouBody(pou, name2var):
     code = None

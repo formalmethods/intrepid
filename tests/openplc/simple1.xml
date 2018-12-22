@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+   <types>
+      <pous>
+         <pou name="Func1" pouType="functionBlock">
+            <interface>
+               <inputVars>
+                  <variable name="input1">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+               </inputVars>
+               <outputVars>
+                  <variable name="output1">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+               </outputVars>
+               <localVars>
+                  <variable name="local1">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+               </localVars>
+            </interface>
+            <body>
+               <ST>
+                  <xhtml xmlns="http://www.w3.org/1999/xhtml">
+<![CDATA[
+   output1 := local1 + input1;
+]]>
+</xhtml>
+               </ST>
+            </body>
+         </pou>
+      </pous>
+   </types>
+   <instances>
+      <configurations/>
+   </instances>
+</project>

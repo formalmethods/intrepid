@@ -142,4 +142,3 @@ class TestST(unittest.TestCase):
             ['varUsint := UDINT_TO_USINT(varUdint);', 'varUsint := UDINT_TO_USINT(varUdint);'],
         ]
         self._run_tests(programs, name2var)
-

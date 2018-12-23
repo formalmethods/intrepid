@@ -1324,8 +1324,7 @@
                <ST>
                   <xhtml xmlns="http://www.w3.org/1999/xhtml">
 <![CDATA[
-    IF USINT_TO_DINT(SENSOR_IN.Flow_Rate_Monitored) < 
-        (UDINT_TO_DINT(CONST_IN.Tolerance_Max / 100) * USINT_TO_DINT(UnitDelay_2_DSTATE)) THEN 
+    IF 100 < (UDINT_TO_DINT(CONST_IN.Tolerance_Max / 100) * USINT_TO_DINT(UnitDelay_2_DSTATE)) THEN 
         overInfusion := 1;
     END_IF;
 ]]>

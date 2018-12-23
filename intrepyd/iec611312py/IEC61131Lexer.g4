@@ -44,6 +44,8 @@ IEC_COMMENT             : '(*' (IEC_COMMENT|.)*? '*)' -> channel(HIDDEN);
 C_COMMENT               : '/*' (C_COMMENT|.)*? '*/' -> channel(HIDDEN);
 LINE_COMMENT            : '//' .*? '\n' -> channel(HIDDEN);
 
+UDINT_TO_USINT          : U D I N T '_' T O '_' U S I N T;
+USINT_TO_UDINT          : U S I N T '_' T O '_' U D I N T;
 DINT_TO_UDINT           : D I N T '_' T O '_' U D I N T;
 UDINT_TO_DINT           : U D I N T '_' T O '_' D I N T;
 UINT_TO_USINT           : U I N T '_' T O '_' U S I N T;

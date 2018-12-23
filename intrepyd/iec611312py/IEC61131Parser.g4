@@ -247,7 +247,7 @@ conversion_function : UINT_TO_WORD | UINT_TO_BOOL | UINT_TO_USINT
                     | WORD_TO_UINT | WORD_TO_BYTE | WORD_TO_INT
                     | USINT_TO_UINT | USINT_TO_BYTE | BYTE_TO_WORD
                     | BYTE_TO_UINT | BYTE_TO_USINT | UDINT_TO_DINT | UINT_TO_DINT
-                    | USINT_TO_DINT | DINT_TO_USINT
+                    | USINT_TO_DINT | DINT_TO_USINT | USINT_TO_UDINT | UDINT_TO_USINT
                     ;
 
 std_func_name    : TRUNC | ABS | SQRT | LN | LOG | EXP

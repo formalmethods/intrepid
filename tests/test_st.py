@@ -20,6 +20,7 @@ intType = Primitive('INT')
 usintType = Primitive('USINT')
 uintType = Primitive('UINT')
 dintType = Primitive('DINT')
+udintType = Primitive('UDINT')
 
 class TestST(unittest.TestCase):
     def _run_tests(self, programs, name2var):
@@ -132,11 +133,13 @@ class TestST(unittest.TestCase):
             'varDint': Variable('varDint', dintType, Variable.LOCAL),
             'varUint': Variable('varUint', uintType, Variable.LOCAL),
             'varUsint': Variable('varUsint', usintType, Variable.LOCAL),
+            'varUdint': Variable('varUdint', udintType, Variable.LOCAL),
         }
         programs = [
             ['varUint := DINT_TO_UINT(varDint);', 'varUint := DINT_TO_UINT(varDint);'],
             ['varDint := UINT_TO_DINT(varUint);', 'varDint := UINT_TO_DINT(varUint);'],
             ['varDint := USINT_TO_DINT(varUsint);', 'varDint := USINT_TO_DINT(varUsint);'],
+            ['varUsint := UDINT_TO_USINT(varUdint);', 'varUsint := UDINT_TO_USINT(varUdint);'],
         ]
         self._run_tests(programs, name2var)
 

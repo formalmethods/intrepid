@@ -1,0 +1,1352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+   <types>
+      <dataTypes>
+         <dataType name="GPCA_SW_Outputs">
+            <baseType>
+               <struct>
+                  <variable name="Request_Confirm_Stop">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="b_Log">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Current_System_Mode">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Actual_Infusion_Duration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Flow_Rate_Commanded">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="New_Infusion">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Lock_Timer">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Volume_Infused">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Reservoir_Volume">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Is_Audio_Disabled">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Visual_Notification_Message">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Audio_Notification_Command">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Patient_ID">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Drug_Name">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Drug_Concentration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Infusion_Total_Duration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="VTBI_Total">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Flow_Rate_Basal">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_Flow_Rate_Intermittent_Bo">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Duration_Intermittent_Bolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Interval_Intermittent_Bolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Flow_Rate_Patient_Bolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Duration_Patient_Bolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_Lockout_Period_Patient_Bo">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Max_Number_of_Patient_Bolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Flow_Rate_KVO">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Entered_Reservoir_Volume">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Configured">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Error_Message_ID">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Request_Config_Type">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="c_Request_Confirm_Infusionv">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Request_Patient_Drug_Info">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Request_Infusion_Info">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="Patient_Inputs">
+            <baseType>
+               <struct>
+                  <variable name="Patient_Bolus_Request">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="Prescription_Inputs">
+            <baseType>
+               <struct>
+                  <variable name="Patient_ID">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Drug_Name">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Drug_Concentration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="VTBI_Total">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Total_Duration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Flow_Rate_Basal">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_Flow_Rate_Intermittent_Bo">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Duration_Intermittent_Bolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Interval_Intermittent_Bolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Flow_Rate_Patient_Bolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Duration_Patient_Bolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_Lockout_Period_Patient_Bo">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Max_Number_of_Patient_Bolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Entered_Reservoir_Volume">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="Drug_Database_Inputs">
+            <baseType>
+               <struct>
+                  <variable name="Drug_Name">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Drug_Concentration_High">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Drug_Concentration_Low">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="VTBI_High">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="VTBI_Low">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Interval_Patient_Bolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Number_Max_Patient_Bolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Flow_Rate_KVO">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Flow_Rate_High">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Flow_Rate_Low">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="Operator_Commands">
+            <baseType>
+               <struct>
+                  <variable name="System_Start">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="System_Stop">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Infusion_Initiate">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Infusion_Inhibit">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Infusion_Cancel">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Data_Config">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Next">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Back">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Cancel">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Keyboard">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Disable_Audio">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Notification_Cancel">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Configuration_Type">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Confirm_Stop">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="Device_Configuration_Inputs">
+            <baseType>
+               <struct>
+                  <variable name="Audio_Enable_Duration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Audio_Level">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Config_Warning_Duration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Empty_Reservoir">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Low_Reservoir">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Max_Config_Duration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Max_Duration_Over_Infusion">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Max_Duration_Under_Infusion">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Max_Paused_Duration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Max_Idle_Duration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Tolerance_Max">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Tolerance_Min">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Log_Interval">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="System_Test_Interval">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Max_Display_Duration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Max_Confirm_Stop_Duration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="Device_Sensor_Inputs">
+            <baseType>
+               <struct>
+                  <variable name="Flow_Rate_Monitored">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Flow_Rate_Not_Stable">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Air_In_Line">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Occlusion">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Door_Open">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Temprature_Out_Of_Range">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Air_Pressure_Out_Of_Range">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Humidity_Out_Of_Range">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Battery_Depleted">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Battery_Low">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Battery_Unable_To_Charge">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Supply_Voltage_Out_Of_Range">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="CPU_Error">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="RTC_Error">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Watchdog_Interrupt_Detected">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Memory_Corrupted">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Pump_Too_Hot">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Pump_Overheated">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Pump_Primed">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Post_Successful">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+      </dataTypes>
+      <pous>
+         <pou name="c_GPCA_SW_Logical_Architect" pouType="functionBlock">
+            <interface>
+               <inputVars>
+                  <variable name="ssMethodType">
+                     <type>
+                        <SINT/>
+                     </type>
+                  </variable>
+                  <variable name="SENSOR_IN">
+                     <type>
+                        <derived name="Device_Sensor_Inputs"/>
+                     </type>
+                  </variable>
+                  <variable name="CONST_IN">
+                     <type>
+                        <derived name="Device_Configuration_Inputs"/>
+                     </type>
+                  </variable>
+                  <variable name="OP_CMD_IN">
+                     <type>
+                        <derived name="Operator_Commands"/>
+                     </type>
+                  </variable>
+                  <variable name="DB_IN">
+                     <type>
+                        <derived name="Drug_Database_Inputs"/>
+                     </type>
+                  </variable>
+                  <variable name="PRES_IN">
+                     <type>
+                        <derived name="Prescription_Inputs"/>
+                     </type>
+                  </variable>
+                  <variable name="PATIENT_IN">
+                     <type>
+                        <derived name="Patient_Inputs"/>
+                     </type>
+                  </variable>
+               </inputVars>
+               <outputVars>
+                  <variable name="GPCA_SW_OUT">
+                     <type>
+                        <derived name="GPCA_SW_Outputs"/>
+                     </type>
+                  </variable>
+               </outputVars>
+               <localVars>
+                  <variable name="b_s">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="overInfusion">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="rtb_ifthen4">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="rtb_LOGGING_OUT_Log">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="rtb_Total_Volume_Infused">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="rtb_Reservoir_Volume_l">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="rtb_TLM_MODE_OUT_System_On">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="rtb_Total_Volume_Infused2">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="rtb_System_Monitor_Failed">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="rtb_Logging_Failed">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="rtb_ifthen">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="rtb_ifthen6">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="rtb_Config_Timer">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_TLM_MODE_OUT_Request_Conf">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="c_IM_OUT_Actual_Infusion_Du">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="IM_OUT_New_Infusion">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="IM_OUT_Lock_Timer">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="ALARM_OUT_Is_Audio_Disabled">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_ALARM_OUT_Visual_Notifica">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_ALARM_OUT_Audio_Notificat">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="CONFIG_OUT_Patient_ID">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="CONFIG_OUT_Drug_Name">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_CONFIG_OUT_Drug_Concentra">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="CONFIG_OUT_Total_Duration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="CONFIG_OUT_VTBI_Total">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="CONFIG_OUT_Flow_Rate_Basal">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_CONFIG_OUT_Flow_Rate_Inte">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_CONFIG_OUT_Duration_Inter">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_CONFIG_OUT_Interval_Inter">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_CONFIG_OUT_Flow_Rate_Pati">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_CONFIG_OUT_Duration_Patie">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_CONFIG_OUT_Lockout_Period">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_CONFIG_OUT_Max_Number_ofv">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="CONFIG_OUT_Flow_Rate_KVO">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_CONFIG_OUT_Entered_Reserv">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="CONFIG_OUT_Configured">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="CONFIG_OUT_Error_Message_ID">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_CONFIG_OUT_Request_Config">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="CONFIG_OUT_Request_Confirmv">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="CONFIG_OUT_Request_Patientv">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="c_CONFIG_OUT_Request_Infusi">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="UnitDelay2_1_DSTATE">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="UnitDelay3_2_DSTATE">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="UnitDelay1_24_DSTATE">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_is_active_c2_GPCA_SW_Logi">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_Confirm_Stop">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_is_c2_GPCA_SW_Logical_Arc">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="confirmStopTimer">
+                     <type>
+                        <UINT/>
+                     </type>
+                  </variable>
+                  <variable name="TLM_MODE_OUT_Log_Message_ID">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_is_active_c1_GPCA_SW_Logi">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_is_c1_GPCA_SW_Logical_Arc">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_CancelAlarm">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_IsEmptyReservoir">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_IsHardwareError">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_IsEnviromentalError">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_IsOverInfusionFlowRate">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_IsOverInfusionVTBI">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_IsAirInLine">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_IsOcclusion">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_IsDoor_Open">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_IsLowReservoir">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_IsUnderInfusion">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_IsFlowRateNotStable">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_IsIdleTimeExceeded">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="idletimer">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_IsPausedTimeExceeded">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="pausedtimer">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_IsConfigTimeWarning">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_IsBatteryError">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_IsPumpHot">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_IsLoggingFailed">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_IsSystemMonitorFailed">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="currentAlarm">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_Visual">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_Audio">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="audioTimer">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="cancelAlarm">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="ALARM_OUT_Log_Message_ID">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="overInfusionTimer">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="underInfusionTimer">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_is_active_c3_GPCA_SW_Logi">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_is_c3_GPCA_SW_Logical_Arc">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_Configuration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="CONFIG_OUT_Config_Timer">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="New_Configuration">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="CONFIG_OUT_Reservoir_Volume">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_Prescription_Config">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Selected_Configuration_Type">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_PatientID">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_DrugName">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_DrugConcentration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_VTBI_total">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_Duration_total">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_FlowRate_basal">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_FlowRate_sbolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_FlowRate_pbolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_FlowRate_kvo">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_Duration_sbolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_Duration_pbolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_LockOutPeriod_pbolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_NumberMax_pbolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_Interval_sbolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_EnteredReservoirVolume">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_Patient_Drug_info">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="validate">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_Infusion_info">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="CONFIG_OUT_Log_Message_ID">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="value">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_is_active_c4_GPCA_SW_Logi">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_is_c4_GPCA_SW_Logical_Arc">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_Infusion_Manager">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="inPatientBolus">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="number_pbolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="sbolus_timer">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="pbolus_timer">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="sbolusInter_timer">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_THERAPY">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_Alarm_Paused">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_Manual_Paused">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_Arbiter_f">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_BASAL">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_PATIENT">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_INTERMITTENT">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="sbolus_req">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="is_Arbiter">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_is_active_c6_GPCA_SW_Logi">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_is_c6_GPCA_SW_Logical_Arc">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="LOGGING_OUT_Logging_Failed">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="IM_OUT_Log_Message_ID">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_is_active_c5_GPCA_SW_Logi">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_is_c5_GPCA_SW_Logical_Arc">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="SYS_MON_OUT_System_Monitorv">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="UnitDelay_2_DSTATE">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="UnitDelay_3_DSTATE">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="UnitDelay1_16_DSTATE">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="UnitDelay_DSTATE">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="UnitDelay_4_DSTATE">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+               </localVars>
+            </interface>
+            <body>
+               <ST>
+                  <xhtml xmlns="http://www.w3.org/1999/xhtml">
+<![CDATA[
+        IF rtb_ifthen6 THEN 
+            (* Transition: '<S9>:4062' *)
+
+            IF SENSOR_IN.Flow_Rate_Monitored > DB_IN.Flow_Rate_High THEN 
+                (* Transition: '<S9>:4063' *)
+                overInfusion := 1;
+            ELSIF USINT_TO_DINT(SENSOR_IN.Flow_Rate_Monitored) > (((100 + USINT_TO_DINT(CONST_IN.Tolerance_Max)) / 100) * USINT_TO_DINT(UnitDelay_2_DSTATE)) THEN 
+                (* Transition: '<S9>:4064' *)
+                overInfusion := 1;
+            ELSIF USINT_TO_DINT(SENSOR_IN.Flow_Rate_Monitored) > (((100 + USINT_TO_DINT(CONST_IN.Tolerance_Min)) / 100) * USINT_TO_DINT(UnitDelay_2_DSTATE)) THEN 
+                (* Transition: '<S9>:4065' *)
+                overInfusion := 2;
+            END_IF;
+
+        END_IF;
+]]>
+</xhtml>
+               </ST>
+            </body>
+         </pou>
+      </pous>
+   </types>
+   <instances>
+      <configurations/>
+   </instances>
+</project>

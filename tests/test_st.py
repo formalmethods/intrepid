@@ -18,6 +18,8 @@ from intrepyd.iec611312py.stmtprinter import StmtPrinter
 boolType = Primitive('BOOL')
 intType = Primitive('INT')
 usintType = Primitive('USINT')
+uintType = Primitive('UINT')
+dintType = Primitive('DINT')
 
 class TestST(unittest.TestCase):
     def _run_tests(self, programs, name2var):
@@ -122,6 +124,19 @@ class TestST(unittest.TestCase):
              "CASE is_Audio OF 1: is_Audio := 0; 2: is_Audio := 1; 3: is_Audio := 2; 4: is_Audio := 3; END_CASE;"],
             ["CASE is_Audio OF 1: is_Audio := 0; 2: is_Audio := 1; ELSE is_Audio := 2; END_CASE;",
              "CASE is_Audio OF 1: is_Audio := 0; 2: is_Audio := 1; is_Audio: is_Audio := 2; END_CASE;"]
+        ]
+        self._run_tests(programs, name2var)
+
+    def test_st_conversions(self):
+        name2var = {
+            'varDint': Variable('varDint', dintType, Variable.LOCAL),
+            'varUint': Variable('varUint', uintType, Variable.LOCAL),
+            'varUsint': Variable('varUsint', usintType, Variable.LOCAL),
+        }
+        programs = [
+            ['varUint := DINT_TO_UINT(varDint);', 'varUint := DINT_TO_UINT(varDint);'],
+            ['varDint := UINT_TO_DINT(varUint);', 'varDint := UINT_TO_DINT(varUint);'],
+            ['varDint := USINT_TO_DINT(varUsint);', 'varDint := USINT_TO_DINT(varUsint);'],
         ]
         self._run_tests(programs, name2var)
 

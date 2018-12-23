@@ -241,12 +241,13 @@ composite_access    : ((variable_name | array_access) '.')+ (variable_name | arr
 variable_bit_access : variable_name '.' uns_int ;
 
 conversion_function : UINT_TO_WORD | UINT_TO_BOOL | UINT_TO_USINT
-                    | UINT_TO_INT | UINT_TO_REAL | DINT_TO_UDINT
+                    | UINT_TO_INT | UINT_TO_REAL | DINT_TO_UDINT | DINT_TO_UINT
                     | INT_TO_REAL | INT_TO_UINT | INT_TO_USINT | INT_TO_BOOL
                     | INT_TO_WORD | REAL_TO_INT | REAL_TO_UINT | BOOL_TO_INT
                     | WORD_TO_UINT | WORD_TO_BYTE | WORD_TO_INT
                     | USINT_TO_UINT | USINT_TO_BYTE | BYTE_TO_WORD
-                    | BYTE_TO_UINT | BYTE_TO_USINT | UDINT_TO_DINT
+                    | BYTE_TO_UINT | BYTE_TO_USINT | UDINT_TO_DINT | UINT_TO_DINT
+                    | USINT_TO_DINT | DINT_TO_USINT
                     ;
 
 std_func_name    : TRUNC | ABS | SQRT | LN | LOG | EXP

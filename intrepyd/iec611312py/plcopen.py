@@ -53,9 +53,9 @@ def parseFunctionBlock(functionBlock):
     return FunctionBlock(functionBlock.get('name'), inputVars, outputVars, localVars, body)
 
 def parseFbInterface(functionBlock):
-    inputVars = None
-    outputVars = None
-    localVars = None
+    inputVars = []
+    outputVars = []
+    localVars = []
     for interface in functionBlock.iter('interface'):
         for inVars in interface.iter('inputVars'):
             inputVars = [parseVar(var, Variable.INPUT) for var in inVars.iter('variable')]

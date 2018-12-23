@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+   <types>
+      <dataTypes>
+      </dataTypes>
+      <pous>
+         <pou name="c_GPCA_SW_Logical_Architect" pouType="functionBlock">
+            <interface>
+               <inputVars>
+                  <variable name="c_is_active_c2_GPCA_SW_Logi">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_is_c2_GPCA_SW_Logical_Arc">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+               </inputVars>
+            </interface>
+            <body>
+               <ST>
+                  <xhtml xmlns="http://www.w3.org/1999/xhtml">
+<![CDATA[
+    IF c_is_active_c2_GPCA_SW_Logi = 0 THEN 
+        c_is_active_c2_GPCA_SW_Logi := 1;
+
+    ELSIF c_is_c2_GPCA_SW_Logical_Arc = 1 THEN 
+        c_is_active_c2_GPCA_SW_Logi := 2;
+
+    ELSE 
+        c_is_active_c2_GPCA_SW_Logi := 3;
+
+    END_IF;
+]]>
+</xhtml>
+               </ST>
+            </body>
+         </pou>
+      </pous>
+   </types>
+   <instances>
+      <configurations/>
+   </instances>
+</project>

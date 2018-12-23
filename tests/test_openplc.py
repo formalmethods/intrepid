@@ -20,3 +20,15 @@ class TestOpenPLC(unittest.TestCase):
     def test_datatype_1(self):
         pous = parsePlcOpenFile('tests/openplc/datatype1.xml')
         self.assertEquals(1, len(pous))
+
+    def test_if_1(self):
+        pous = parsePlcOpenFile('tests/openplc/if1.xml')
+        self.assertEquals(1, len(pous))
+
+    def test_if_2(self):
+        pous = parsePlcOpenFile('tests/openplc/if2.xml')
+        self.assertEquals(1, len(pous))
+
+    # def test_infusion_pump(self):
+    #     pous = parsePlcOpenFile('tests/openplc/GPCA_SW_Functional_subst.xml')
+    #     self.assertEquals(1, len(pous))

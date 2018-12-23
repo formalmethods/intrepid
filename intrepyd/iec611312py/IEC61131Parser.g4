@@ -200,6 +200,7 @@ term_expression  : term_expression op=( '*' | '/' | MOD ) term_expression       
                  | term_expression op=( '+' | '-' ) term_expression                           # binaryTermExpression
                  | '-' term_expression                                                        # unaryTermExpression
                  | conversion_function '(' bool_expression ')'                                # callTermExpression
+                 | conversion_function '(' term_expression ')'                                # callTermExpression
                  | std_func_name '(' bool_expression ')'                                      # callTermExpression
                  | std_func_name '(' term_expression ')'                                      # callTermExpression
                  | leaf_expression                                                            # leafTermExpression

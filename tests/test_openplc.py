@@ -37,6 +37,7 @@ class TestOpenPLC(unittest.TestCase):
         pous = parsePlcOpenFile('tests/openplc/if4.xml')
         self.assertEquals(1, len(pous))
 
+    # It is slow, as expected
     # def test_infusion_pump(self):
     #     pous = parsePlcOpenFile('tests/openplc/GPCA_SW_Functional_subst.xml')
     #     self.assertEquals(1, len(pous))

@@ -1324,7 +1324,7 @@
                <ST>
                   <xhtml xmlns="http://www.w3.org/1999/xhtml">
 <![CDATA[
-    IF 100 < (UDINT_TO_DINT(CONST_IN.Tolerance_Max / 100) * USINT_TO_DINT(UnitDelay_2_DSTATE)) THEN 
+    IF 100 < (UDINT_TO_DINT(CONST_IN.Tolerance_Max / 100) * UnitDelay_2_DSTATE) THEN 
         overInfusion := 1;
     END_IF;
 ]]>

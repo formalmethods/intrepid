@@ -14,6 +14,7 @@ This module implements the main parsing routine of IEC61131 text
 from intrepyd.iec611312py.IEC61131ParserVisitor import IEC61131ParserVisitor
 from intrepyd.iec611312py.statement import Assignment, IfThenElse, Case
 from intrepyd.iec611312py.expression import VariableOcc, ConstantOcc, Expression, Range, TRUE
+from intrepyd.iec611312py.variable import Variable
 
 class STMTBuilder(IEC61131ParserVisitor):
     """
@@ -45,7 +46,9 @@ class STMTBuilder(IEC61131ParserVisitor):
         return Assignment(lhs, rhs)
 
     def visitAssignCompositeAccess(self, ctx):
-        raise NotImplementedError
+        lhs = ctx.getChild(0).accept(self)
+        rhs = ctx.getChild(2).accept(self)
+        return Assignment(lhs, rhs)
 
     def visitExpression(self, ctx):
         return ctx.getChild(0).accept(self)
@@ -78,7 +81,14 @@ class STMTBuilder(IEC61131ParserVisitor):
         return VariableOcc(self._name2var[var])
 
     def visitComposite_access(self, ctx):
-        raise NotImplementedError
+        base = ctx.getChild(0).getText()
+        # TODO: we only check types for non-nested structures
+        if not base in self._name2var:
+            raise RuntimeError('Undeclared variable ' + base)
+        var = ctx.getText()
+        if not var in self._name2var:
+            self._name2var[var] = Variable(var, None, Variable.FIELD)
+        return VariableOcc(self._name2var[var])
 
     def visitArray_access(self, ctx):
         raise NotImplementedError

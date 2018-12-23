@@ -33,7 +33,6 @@ class Datatype(Visitable):
 
     @staticmethod
     def add(name, datatype):
-        print 'ADD', name
         Datatype._name2datatype[name] = datatype
 
     # @staticmethod

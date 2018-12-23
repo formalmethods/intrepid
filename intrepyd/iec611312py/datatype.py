@@ -35,13 +35,9 @@ class Datatype(Visitable):
     def add(name, datatype):
         Datatype._name2datatype[name] = datatype
 
-    # @staticmethod
-    # def _computeDataKind(dtName, name):
-    #     intPattern = re.compile('U?[SDL]?INT')
-    #     realPattern = re.compile('L?REAL')
-    #     if dtName == 'BOOL' or intPattern.match(dtName) or realPattern.match(dtName):
-    #         return Datatype.PRIMITIVE
-    #     return Datatype.DERIVED
+    @staticmethod
+    def get(name):
+        return Datatype._name2datatype[name]
 
 class Primitive(Datatype):
     """

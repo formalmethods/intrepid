@@ -12,12 +12,12 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 import unittest
 from intrepyd.iec611312py.parsest import parseST
 from intrepyd.iec611312py.variable import Variable
-from intrepyd.iec611312py.datatype import Datatype
+from intrepyd.iec611312py.datatype import Primitive, Struct
 from intrepyd.iec611312py.stmtprinter import StmtPrinter
 
-boolType = Datatype('BOOL')
-intType = Datatype('INT')
-usintType = Datatype('USINT')
+boolType = Primitive('BOOL')
+intType = Primitive('INT')
+usintType = Primitive('USINT')
 
 class TestST(unittest.TestCase):
     def _run_tests(self, programs, name2var):
@@ -77,6 +77,20 @@ class TestST(unittest.TestCase):
         ]
         self._run_tests(programs, name2var)
 
+    def test_st_struct(self):
+        myStruct = Struct('MyStruct', {
+            'a': Primitive('INT'),
+            'b': Primitive('BOOL')
+        })
+        name2var = {
+            'myInst' : Variable('MyStruct', myStruct, Variable.LOCAL)
+        }
+        programs = [
+            ['myInst.a := 0;',    'myInst.a := 0;'],
+            ['myInst.b := TRUE;', 'myInst.b := TRUE;']
+        ]
+        self._run_tests(programs, name2var)
+
     def test_st_if(self):
         name2var = {
             'is_IsAirInLine' : Variable('is_IsAirInLine', usintType, Variable.LOCAL),
@@ -110,3 +124,4 @@ class TestST(unittest.TestCase):
              "CASE is_Audio OF 1: is_Audio := 0; 2: is_Audio := 1; is_Audio: is_Audio := 2; END_CASE;"]
         ]
         self._run_tests(programs, name2var)
+

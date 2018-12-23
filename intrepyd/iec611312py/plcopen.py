@@ -41,9 +41,9 @@ def parseDatatype(datatype):
     name = datatype.get('name')
     for basetype in datatype.iter('baseType'):
         for struct in basetype.iter('struct'):
-            fields = []
+            fields = {}
             for var in struct.iter('variable'):
-                fields.append(parseVar(var, Variable.FIELD))
+                fields[var] = parseVar(var, Variable.FIELD)
             Datatype.add(name, Struct(name, fields))
 
 def parseFunctionBlock(functionBlock):

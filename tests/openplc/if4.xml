@@ -1324,27 +1324,16 @@
                <ST>
                   <xhtml xmlns="http://www.w3.org/1999/xhtml">
 <![CDATA[
-    IF c_is_active_c1_GPCA_SW_Logi = 0 THEN 
-        c_is_active_c1_GPCA_SW_Logi := 1;
+    IF rtb_ifthen6 THEN 
 
-        IF rtb_TLM_MODE_OUT_System_On THEN 
-
-            IF rtb_ifthen6 THEN 
-
-                IF SENSOR_IN.Flow_Rate_Monitored < DB_IN.Flow_Rate_Low THEN 
-                    overInfusion := 1;
-                ELSIF USINT_TO_DINT(SENSOR_IN.Flow_Rate_Monitored) < (USINT_TO_DINT(UnitDelay_2_DSTATE) - (UDINT_TO_DINT(USINT_TO_UDINT(CONST_IN.Tolerance_Max) / 100) * USINT_TO_DINT(UnitDelay_2_DSTATE))) THEN 
-                    overInfusion := 1;
-                ELSIF USINT_TO_DINT(SENSOR_IN.Flow_Rate_Monitored) < (USINT_TO_DINT(UnitDelay_2_DSTATE) - (UDINT_TO_DINT(USINT_TO_UDINT(CONST_IN.Tolerance_Min) / 100) * USINT_TO_DINT(UnitDelay_2_DSTATE))) THEN 
-                    overInfusion := 2;
-                END_IF;
-
-            END_IF;
-
-        ELSE 
-            c_is_c1_GPCA_SW_Logical_Arc := 2;
-            rtb_Config_Timer := 0;
+        IF SENSOR_IN.Flow_Rate_Monitored < DB_IN.Flow_Rate_Low THEN 
+            overInfusion := 1;
+        ELSIF USINT_TO_DINT(SENSOR_IN.Flow_Rate_Monitored) < (USINT_TO_DINT(UnitDelay_2_DSTATE) - (UDINT_TO_DINT(USINT_TO_UDINT(CONST_IN.Tolerance_Max) / 100) * USINT_TO_DINT(UnitDelay_2_DSTATE))) THEN 
+            overInfusion := 1;
+        ELSIF USINT_TO_DINT(SENSOR_IN.Flow_Rate_Monitored) < (USINT_TO_DINT(UnitDelay_2_DSTATE) - (UDINT_TO_DINT(USINT_TO_UDINT(CONST_IN.Tolerance_Min) / 100) * USINT_TO_DINT(UnitDelay_2_DSTATE))) THEN 
+            overInfusion := 2;
         END_IF;
+
     END_IF;
 ]]>
 </xhtml>

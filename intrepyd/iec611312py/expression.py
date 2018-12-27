@@ -64,5 +64,27 @@ class Range(Visitable):
         self._first = first
         self._last = last
 
+class Ite(Visitable):
+    """
+    Term If-then-else. This construct does not exist in ST language. It is used
+    as intermediate step before translating into intrepyd
+    """
+    def __init__(self, condition, then_term, else_term):
+        self._condition = condition
+        self._then_term = then_term
+        self._else_term = else_term
+
+    @property
+    def condition(self):
+        return self._condition
+
+    @property
+    def then_term(self):
+        return self._then_term
+
+    @property
+    def else_term(self):
+        return self._else_term
+
 TRUE = ConstantOcc('TRUE')
 FALSE = ConstantOcc('FALSE')

@@ -13,12 +13,17 @@ This module implements a flattener for ST terms
 
 from intrepyd.iec611312py.expression import Expression, Ite
 from intrepyd.iec611312py.statement import IfThenElse, Case, Assignment
+from intrepyd.iec611312py.summarizer import summarizeStmtBlock
+from intrepyd.iec611312py.expression import VariableOcc
+from intrepyd.iec611312py.stmtprinter import StmtPrinter
 
 def flattenStmtBlock(block):
     rewritten_stmt_block = []
     for instr in block:
-        rewritten_stmt_block.append(flattenInstruction(instr))
-    return rewritten_stmt_block
+        flattened_instruction = flattenInstruction(instr)
+        for flat_instr in flattened_instruction:
+            rewritten_stmt_block.append(flat_instr)
+    return summarizeStmtBlock(rewritten_stmt_block)
 
 def flattenCase(instruction):
     if not isinstance(instruction, Case):
@@ -30,7 +35,7 @@ def collectLhss(blocks):
     for block in blocks:
         for instruction in block:
             if not isinstance(instruction, Assignment):
-                raise RuntimeError('Expected Assignment, got ' + type(instruction))
+                raise RuntimeError('Expected Assignment, got ' + str(type(instruction)))
             seen.add(instruction.lhs)
     return seen
 
@@ -42,13 +47,32 @@ def flattenIfThenElse(instruction):
     for block in instruction.stmt_blocks:
         rewritten_stmt_blocks.append(flattenStmtBlock(block))
     lhs_set = collectLhss(rewritten_stmt_blocks)
+    ites = []
+    for lhs in lhs_set:
+        ites.append(Assignment(lhs, buildIte(lhs, conditions, rewritten_stmt_blocks)))
+    printer = StmtPrinter()
+    printer.processStatements(ites)
+    return ites   
+
+def buildIte(var, conditions, rewritten_stmt_blocks):
+    result = var
+    length = len(conditions)
+    for i in range(length - 1, -1, -1):
+        result = Ite(conditions[i], findRhsFor(var, rewritten_stmt_blocks[i]), result)
+    return result
+
+def findRhsFor(var, block):
+    for assignment in block:
+        if var == assignment.lhs:
+            return assignment.rhs
+    return var
 
 def flattenInstruction(instruction):
     if isinstance(instruction, Assignment):
-        return instruction
+        return [instruction]
     elif isinstance(instruction, Case):
         return flattenCase(instruction)
     elif isinstance(instruction, IfThenElse):
         return flattenIfThenElse(instruction)
-    raise RuntimeError('Unexpected instruction type ' + type(instruction))
+    raise RuntimeError('Unexpected instruction type ' + str(type(instruction)))
 

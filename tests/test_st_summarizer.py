@@ -13,7 +13,7 @@ import unittest
 from intrepyd.iec611312py.parsest import parseST
 from intrepyd.iec611312py.variable import Variable
 from intrepyd.iec611312py.stmtprinter import StmtPrinter
-from intrepyd.iec611312py.summarizer import summarizeBlock
+from intrepyd.iec611312py.summarizer import summarizeStmtBlock
 from intrepyd.iec611312py.datatype import Primitive, Struct
 from intrepyd.iec611312py.expression import VariableOcc, Ite
 from intrepyd.iec611312py.statement import Assignment
@@ -26,13 +26,12 @@ class TestSTSummarizer(unittest.TestCase):
         self._run_test_helper(statements, expected)
 
     def _run_test_helper(self, statements, expected):
-        summary = summarizeBlock(statements)
+        summary = summarizeStmtBlock(statements)
         actual = {}
-        for key, value in summary.iteritems():
-            value_printer = StmtPrinter()
-            value.accept(value_printer)
-            value_str = value_printer.result
-            actual[key.name] = value_str
+        for assignment in summary:
+            printer = StmtPrinter()
+            assignment.rhs.accept(printer)
+            actual[assignment.lhs.var.name] = printer.result
         self.assertEqual(expected, actual)
 
     def test_1(self):

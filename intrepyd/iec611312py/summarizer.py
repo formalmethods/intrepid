@@ -13,6 +13,16 @@ This module implements a summarizer for ST assignments
 
 from intrepyd.iec611312py.expression import Expression, VariableOcc, ConstantOcc, Ite
 from intrepyd.iec611312py.statement import Assignment
+from collections import OrderedDict
+
+def summarizeStmtBlock(block):
+    summary = OrderedDict()
+    for assignment in block:
+        if not isinstance(assignment, Assignment):
+            raise RuntimeError('A non-assignment instruction was detected ' + str(type(assignment)))
+        newRhs = substitute(assignment.rhs, summary)
+        summary[assignment.lhs.var] = newRhs
+    return [Assignment(VariableOcc(lhs), rhs) for lhs, rhs in summary.iteritems()]
 
 def substituteInTerm(var, expression, term):
     if isinstance(term, Expression):
@@ -38,12 +48,3 @@ def substitute(rhs, summary):
     for key, value in summary.iteritems():
         result = substituteInTerm(key, value, result)
     return result
-
-def summarizeBlock(block):
-    summary = {}
-    for assignment in block:
-        if not isinstance(assignment, Assignment):
-            raise RuntimeError('A non-assignment instruction was detected ' + str(type(assignment)))
-        newRhs = substitute(assignment.rhs, summary)
-        summary[assignment.lhs.var] = newRhs
-    return summary

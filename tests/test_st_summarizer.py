@@ -124,3 +124,31 @@ class TestSTSummarizer(unittest.TestCase):
             'f': 'ite(ite(b, c, d), ite(b, c, d), ite(b, c, d))',
         }
         self._run_test_helper(statements, expected)
+
+    def test_6(self):
+        name2var = {
+            'a' : Variable('a', boolType, Variable.LOCAL),
+            'b' : Variable('b', boolType, Variable.LOCAL),
+            'c' : Variable('c', boolType, Variable.LOCAL)
+        }
+        program = """
+        a := a AND b;
+        """
+        expected = {
+            'a': '(a AND b)'
+        }
+        self._run_test(program, name2var, expected)
+
+    def test_7(self):
+        name2var = {
+            'a' : VariableOcc(Variable('a', boolType, Variable.LOCAL)),
+            'b' : VariableOcc(Variable('b', boolType, Variable.LOCAL)),
+            'c' : VariableOcc(Variable('c', boolType, Variable.LOCAL)),
+        }
+        statements = [
+            Assignment(name2var['a'], Ite(name2var['b'], name2var['a'], name2var['c']))
+        ]
+        expected = {
+            'a': 'ite(b, a, c)',
+        }
+        self._run_test_helper(statements, expected)

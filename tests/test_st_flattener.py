@@ -73,3 +73,59 @@ class TestSTFlattener(unittest.TestCase):
             'b := ite(a, c, b);'
         )
         self._run_tests(program, name2var)
+
+    def test_if_2(self):
+        name2var = {
+            'a' : Variable('a', boolType, Variable.LOCAL),
+            'b' : Variable('b', boolType, Variable.LOCAL),
+            'c' : Variable('c', boolType, Variable.LOCAL),
+            'd' : Variable('d', boolType, Variable.LOCAL),
+        }
+        program = (
+            """
+            IF a THEN
+                b := c;
+            ELSE
+                b := d;
+            END_IF;
+            """,
+            'b := ite(a, c, ite(TRUE, d, b));'
+        )
+        self._run_tests(program, name2var)
+
+    def test_if_3(self):
+        name2var = {
+            'a' : Variable('a', boolType, Variable.LOCAL),
+            'b' : Variable('b', boolType, Variable.LOCAL),
+            'c' : Variable('c', boolType, Variable.LOCAL),
+            'd' : Variable('d', boolType, Variable.LOCAL),
+        }
+        program = (
+            """
+            IF a THEN
+                b := c;
+            ELSE
+                d := c;
+            END_IF;
+            """,
+            'b := ite(a, c, ite(TRUE, b, b));d := ite(a, d, ite(TRUE, c, d));'
+        )
+        self._run_tests(program, name2var)
+
+    def test_if_4(self):
+        name2var = {
+            'a' : Variable('a', boolType, Variable.LOCAL),
+            'b' : Variable('b', boolType, Variable.LOCAL),
+            'c' : Variable('c', boolType, Variable.LOCAL),
+        }
+        program = (
+            """
+            IF a THEN
+                IF b THEN
+                    b := c;
+                END_IF;
+            END_IF;
+            """,
+            'b := ite(a, ite(b, c, b), b);'
+        )
+        self._run_tests(program, name2var)

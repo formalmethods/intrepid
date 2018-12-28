@@ -23,6 +23,11 @@ def flattenStmtBlock(block):
         flattened_instruction = flattenInstruction(instr)
         for flat_instr in flattened_instruction:
             rewritten_stmt_block.append(flat_instr)
+
+    # printer = StmtPrinter()
+    # printer.processStatements(rewritten_stmt_block)
+    # print 'RSB:', printer.result
+
     return summarizeStmtBlock(rewritten_stmt_block)
 
 def flattenCase(instruction):
@@ -32,12 +37,15 @@ def flattenCase(instruction):
 
 def collectLhss(blocks):
     seen = set()
+    lhss = []
     for block in blocks:
         for instruction in block:
             if not isinstance(instruction, Assignment):
                 raise RuntimeError('Expected Assignment, got ' + str(type(instruction)))
-            seen.add(instruction.lhs)
-    return seen
+            if not instruction.lhs.var in seen:
+                seen.add(instruction.lhs.var)
+                lhss.append(instruction.lhs.var)
+    return lhss
 
 def flattenIfThenElse(instruction):
     if not isinstance(instruction, IfThenElse):
@@ -46,26 +54,34 @@ def flattenIfThenElse(instruction):
     rewritten_stmt_blocks = []
     for block in instruction.stmt_blocks:
         rewritten_stmt_blocks.append(flattenStmtBlock(block))
-    lhs_set = collectLhss(rewritten_stmt_blocks)
+    lhss = collectLhss(rewritten_stmt_blocks)
     ites = []
-    for lhs in lhs_set:
-        ites.append(Assignment(lhs, buildIte(lhs, conditions, rewritten_stmt_blocks)))
-    printer = StmtPrinter()
-    printer.processStatements(ites)
+    for lhs in lhss:
+        lhsOcc = VariableOcc(lhs)
+        ites.append(Assignment(lhsOcc, buildIte(lhsOcc, conditions, rewritten_stmt_blocks)))
     return ites   
 
-def buildIte(var, conditions, rewritten_stmt_blocks):
-    result = var
+def buildIte(varOcc, conditions, rewritten_stmt_blocks):
+    # print 'BUILDING ITE'
+    # for rsb in rewritten_stmt_blocks:
+    #     printer = StmtPrinter()
+    #     printer.processStatements(rsb)
+    #     print 'RSB:', printer.result
+    result = varOcc
     length = len(conditions)
+    # print 'LENGTH:', length
     for i in range(length - 1, -1, -1):
-        result = Ite(conditions[i], findRhsFor(var, rewritten_stmt_blocks[i]), result)
+        result = Ite(conditions[i], findRhsFor(varOcc, rewritten_stmt_blocks[i]), result)
+        # printer = StmtPrinter()
+        # printer.processStatements([result])
+        # print 'CURRENT ITE:', printer.result
     return result
 
-def findRhsFor(var, block):
+def findRhsFor(varOcc, block):
     for assignment in block:
-        if var == assignment.lhs:
+        if varOcc.var == assignment.lhs.var:
             return assignment.rhs
-    return var
+    return varOcc
 
 def flattenInstruction(instruction):
     if isinstance(instruction, Assignment):
@@ -75,4 +91,3 @@ def flattenInstruction(instruction):
     elif isinstance(instruction, IfThenElse):
         return flattenIfThenElse(instruction)
     raise RuntimeError('Unexpected instruction type ' + str(type(instruction)))
-

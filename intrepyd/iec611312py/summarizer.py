@@ -28,7 +28,7 @@ def substituteInTerm(var, expression, term):
     elif isinstance(term, ConstantOcc):
         return term
     elif isinstance(term, VariableOcc):
-        if var.var == term.var:
+        if var == term.var:
             return expression
         return term
     raise NotImplementedError('Term not handled ' + type(term))
@@ -45,5 +45,5 @@ def summarizeBlock(block):
         if not isinstance(assignment, Assignment):
             raise RuntimeError('A non-assignment instruction was detected ' + str(type(assignment)))
         newRhs = substitute(assignment.rhs, summary)
-        summary[assignment.lhs] = newRhs
+        summary[assignment.lhs.var] = newRhs
     return summary

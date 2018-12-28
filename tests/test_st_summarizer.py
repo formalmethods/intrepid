@@ -15,30 +15,27 @@ from intrepyd.iec611312py.variable import Variable
 from intrepyd.iec611312py.stmtprinter import StmtPrinter
 from intrepyd.iec611312py.summarizer import summarizeBlock
 from intrepyd.iec611312py.datatype import Primitive, Struct
+from intrepyd.iec611312py.expression import VariableOcc, Ite
+from intrepyd.iec611312py.statement import Assignment
 
 boolType = Primitive('BOOL')
-intType = Primitive('INT')
-usintType = Primitive('USINT')
-uintType = Primitive('UINT')
-dintType = Primitive('DINT')
-udintType = Primitive('UDINT')
 
 class TestSTSummarizer(unittest.TestCase):
     def _run_test(self, program, name2var, expected):
         statements = parseST(program, name2var)
+        self._run_test_helper(statements, expected)
+
+    def _run_test_helper(self, statements, expected):
         summary = summarizeBlock(statements)
         actual = {}
         for key, value in summary.iteritems():
-            key_printer = StmtPrinter()
-            key.accept(key_printer)
-            key_str = key_printer.result
             value_printer = StmtPrinter()
             value.accept(value_printer)
             value_str = value_printer.result
-            actual[key_str] = value_str
+            actual[key.name] = value_str
         self.assertEqual(expected, actual)
 
-    def test_bool_1(self):
+    def test_1(self):
         name2var = {
             'a' : Variable('a', boolType, Variable.LOCAL),
             'b' : Variable('b', boolType, Variable.LOCAL),
@@ -56,4 +53,75 @@ class TestSTSummarizer(unittest.TestCase):
         }
         self._run_test(program, name2var, expected)
 
+    def test_2(self):
+        name2var = {
+            'a' : Variable('a', boolType, Variable.LOCAL),
+            'b' : Variable('b', boolType, Variable.LOCAL),
+            'c' : Variable('c', boolType, Variable.LOCAL)
+        }
+        program = """
+        a := TRUE;
+        b := FALSE;
+        a := b;
+        c := (a AND b);
+        """
+        expected = {
+            'a': 'FALSE',
+            'b': 'FALSE',
+            'c': '(FALSE AND FALSE)'
+        }
+        self._run_test(program, name2var, expected)
 
+    def test_3(self):
+        name2var = {
+            'a' : Variable('a', boolType, Variable.LOCAL),
+            'b' : Variable('b', boolType, Variable.LOCAL),
+            'c' : Variable('c', boolType, Variable.LOCAL)
+        }
+        program = """
+        a := b;
+        c := a;
+        """
+        expected = {
+            'a': 'b',
+            'c': 'b',
+        }
+        self._run_test(program, name2var, expected)
+
+    def test_4(self):
+        name2var = {
+            'a' : Variable('a', boolType, Variable.LOCAL),
+            'b' : Variable('b', boolType, Variable.LOCAL),
+            'c' : Variable('c', boolType, Variable.LOCAL)
+        }
+        program = """
+        a := b AND FALSE;
+        c := a;
+        a := c AND TRUE;
+        """
+        expected = {
+            'a': '((b AND FALSE) AND TRUE)',
+            'c': '(b AND FALSE)',
+        }
+        self._run_test(program, name2var, expected)
+
+    def test_5(self):
+        name2var = {
+            'a' : VariableOcc(Variable('a', boolType, Variable.LOCAL)),
+            'b' : VariableOcc(Variable('b', boolType, Variable.LOCAL)),
+            'c' : VariableOcc(Variable('c', boolType, Variable.LOCAL)),
+            'd' : VariableOcc(Variable('d', boolType, Variable.LOCAL)),
+            'e' : VariableOcc(Variable('e', boolType, Variable.LOCAL)),
+            'f' : VariableOcc(Variable('f', boolType, Variable.LOCAL))
+        }
+        statements = [
+            Assignment(name2var['a'], Ite(name2var['b'], name2var['c'], name2var['d'])),
+            Assignment(name2var['e'], name2var['a']),
+            Assignment(name2var['f'], Ite(name2var['a'], name2var['a'], name2var['a'])),
+        ]
+        expected = {
+            'a': 'ite(b, c, d)',
+            'e': 'ite(b, c, d)',
+            'f': 'ite(ite(b, c, d), ite(b, c, d), ite(b, c, d))',
+        }
+        self._run_test_helper(statements, expected)

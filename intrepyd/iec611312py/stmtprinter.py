@@ -86,6 +86,15 @@ class StmtPrinter(Visitor):
             args[1].accept(self)
             self._result += ')'
 
+    def _visit_ite(self, ite):
+        self._result += 'ite('
+        ite.condition.accept(self)
+        self._result += ', '
+        ite.then_term.accept(self)
+        self._result += ', '
+        ite.else_term.accept(self)
+        self._result += ')'
+
     def _visit_variable_occ(self, variableOcc):
         self._result += variableOcc.var.name
 

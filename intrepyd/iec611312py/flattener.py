@@ -14,7 +14,7 @@ This module implements a flattener for ST terms
 from intrepyd.iec611312py.expression import Expression, Ite
 from intrepyd.iec611312py.statement import IfThenElse, Case, Assignment
 from intrepyd.iec611312py.summarizer import summarizeStmtBlock
-from intrepyd.iec611312py.expression import VariableOcc
+from intrepyd.iec611312py.expression import VariableOcc, TRUE
 from intrepyd.iec611312py.stmtprinter import StmtPrinter
 
 def flattenStmtBlock(block):
@@ -71,7 +71,11 @@ def buildIte(varOcc, conditions, rewritten_stmt_blocks):
     length = len(conditions)
     # print 'LENGTH:', length
     for i in range(length - 1, -1, -1):
-        result = Ite(conditions[i], findRhsFor(varOcc, rewritten_stmt_blocks[i]), result)
+        rhs = findRhsFor(varOcc, rewritten_stmt_blocks[i])
+        if conditions[i] == TRUE:
+            result = rhs
+        else:
+            result = Ite(conditions[i], rhs, result)
         # printer = StmtPrinter()
         # printer.processStatements([result])
         # print 'CURRENT ITE:', printer.result

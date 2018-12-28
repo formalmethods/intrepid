@@ -89,7 +89,7 @@ class TestSTFlattener(unittest.TestCase):
                 b := d;
             END_IF;
             """,
-            'b := ite(a, c, ite(TRUE, d, b));'
+            'b := ite(a, c, d);'
         )
         self._run_tests(program, name2var)
 
@@ -108,7 +108,7 @@ class TestSTFlattener(unittest.TestCase):
                 d := c;
             END_IF;
             """,
-            'b := ite(a, c, ite(TRUE, b, b));d := ite(a, d, ite(TRUE, c, d));'
+            'b := ite(a, c, b);d := ite(a, d, c);'
         )
         self._run_tests(program, name2var)
 
@@ -127,5 +127,24 @@ class TestSTFlattener(unittest.TestCase):
             END_IF;
             """,
             'b := ite(a, ite(b, c, b), b);'
+        )
+        self._run_tests(program, name2var)
+
+    def test_if_5(self):
+        name2var = {
+            'a' : Variable('a', boolType, Variable.LOCAL),
+            'b' : Variable('b', boolType, Variable.LOCAL),
+            'c' : Variable('c', boolType, Variable.LOCAL),
+            'd' : Variable('d', boolType, Variable.LOCAL),
+        }
+        program = (
+            """
+            IF a THEN
+                b := c;
+            ELSE
+                c := b;
+            END_IF;
+            """,
+            ''
         )
         self._run_tests(program, name2var)

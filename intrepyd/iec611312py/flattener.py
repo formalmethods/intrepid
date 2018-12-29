@@ -23,29 +23,28 @@ def flattenStmtBlock(block):
         flattened_instruction = flattenInstruction(instr)
         for flat_instr in flattened_instruction:
             rewritten_stmt_block.append(flat_instr)
-
-    # printer = StmtPrinter()
-    # printer.processStatements(rewritten_stmt_block)
-    # print 'RSB:', printer.result
-
     return summarizeStmtBlock(rewritten_stmt_block)
 
 def flattenCase(instruction):
     if not isinstance(instruction, Case):
         raise RuntimeError('Instruction is not of type Case')
-    raise NotImplementedError
-
-def collectLhss(blocks):
-    seen = set()
-    lhss = []
-    for block in blocks:
-        for instruction in block:
-            if not isinstance(instruction, Assignment):
-                raise RuntimeError('Expected Assignment, got ' + str(type(instruction)))
-            if not instruction.lhs.var in seen:
-                seen.add(instruction.lhs.var)
-                lhss.append(instruction.lhs.var)
-    return lhss
+    expression = instruction.expression
+    rewritten_stmt_blocks = []
+    for block in instruction.stmt_blocks:
+        rewritten_stmt_blocks.append(flattenStmtBlock(block))
+    lhss = collectLhss(rewritten_stmt_blocks)
+    ites = []
+    conditions = []
+    for selection in instruction.selections:
+        if len(selection) == 1:
+            conditions.append(Expression('=', [expression, selection[0]]))
+        else:
+            cond_or = [Expression('=', [expression, sel]) for sel in selection]
+            conditions.append(Expression('OR', cond_or))
+    for lhs in lhss:
+        lhsOcc = VariableOcc(lhs)
+        ites.append(Assignment(lhsOcc, buildIte(lhsOcc, conditions, rewritten_stmt_blocks)))
+    return ites   
 
 def flattenIfThenElse(instruction):
     if not isinstance(instruction, IfThenElse):
@@ -61,32 +60,6 @@ def flattenIfThenElse(instruction):
         ites.append(Assignment(lhsOcc, buildIte(lhsOcc, conditions, rewritten_stmt_blocks)))
     return ites   
 
-def buildIte(varOcc, conditions, rewritten_stmt_blocks):
-    # print 'BUILDING ITE'
-    # for rsb in rewritten_stmt_blocks:
-    #     printer = StmtPrinter()
-    #     printer.processStatements(rsb)
-    #     print 'RSB:', printer.result
-    result = varOcc
-    length = len(conditions)
-    # print 'LENGTH:', length
-    for i in range(length - 1, -1, -1):
-        rhs = findRhsFor(varOcc, rewritten_stmt_blocks[i])
-        if conditions[i] == TRUE:
-            result = rhs
-        else:
-            result = Ite(conditions[i], rhs, result)
-        # printer = StmtPrinter()
-        # printer.processStatements([result])
-        # print 'CURRENT ITE:', printer.result
-    return result
-
-def findRhsFor(varOcc, block):
-    for assignment in block:
-        if varOcc.var == assignment.lhs.var:
-            return assignment.rhs
-    return varOcc
-
 def flattenInstruction(instruction):
     if isinstance(instruction, Assignment):
         return [instruction]
@@ -95,3 +68,32 @@ def flattenInstruction(instruction):
     elif isinstance(instruction, IfThenElse):
         return flattenIfThenElse(instruction)
     raise RuntimeError('Unexpected instruction type ' + str(type(instruction)))
+
+def buildIte(varOcc, conditions, rewritten_stmt_blocks):
+    result = varOcc
+    length = len(conditions)
+    for i in range(length - 1, -1, -1):
+        rhs = findRhsFor(varOcc, rewritten_stmt_blocks[i])
+        if conditions[i] == TRUE:
+            result = rhs
+        else:
+            result = Ite(conditions[i], rhs, result)
+    return result
+
+def findRhsFor(varOcc, block):
+    for assignment in block:
+        if varOcc.var == assignment.lhs.var:
+            return assignment.rhs
+    return varOcc
+
+def collectLhss(blocks):
+    seen = set()
+    lhss = []
+    for block in blocks:
+        for instruction in block:
+            if not isinstance(instruction, Assignment):
+                raise RuntimeError('Expected Assignment, got ' + str(type(instruction)))
+            if not instruction.lhs.var in seen:
+                seen.add(instruction.lhs.var)
+                lhss.append(instruction.lhs.var)
+    return lhss

@@ -19,6 +19,7 @@ from intrepyd.iec611312py.statement import Assignment
 from intrepyd.iec611312py.datatype import Primitive, Struct
 
 boolType = Primitive('BOOL')
+intType = Primitive('INT')
 
 class TestSTFlattener(unittest.TestCase):
     def _run_tests(self, program, name2var):
@@ -135,7 +136,7 @@ class TestSTFlattener(unittest.TestCase):
             'a' : Variable('a', boolType, Variable.LOCAL),
             'b' : Variable('b', boolType, Variable.LOCAL),
             'c' : Variable('c', boolType, Variable.LOCAL),
-            'd' : Variable('d', boolType, Variable.LOCAL),
+            'd' : Variable('d', boolType, Variable.LOCAL)
         }
         program = (
             """
@@ -145,6 +146,26 @@ class TestSTFlattener(unittest.TestCase):
                 c := b;
             END_IF;
             """,
-            ''
+            'b := ite(a, c, b);c := ite(a, c, ite(a, c, b));'
+        )
+        self._run_tests(program, name2var)
+
+    def test_case_1(self):
+        name2var = {
+            'a' : Variable('a', intType, Variable.LOCAL),
+            'b' : Variable('b', boolType, Variable.LOCAL)
+        }
+        program = (
+            """
+            CASE a OF
+            0: 
+                b := 0;
+            1:
+                b := 1;
+            ELSE
+                b := 2;
+            END_CASE;
+            """,
+            'b := ite((a = 0), 0, ite((a = 1), 1, ite((a = a), 2, b)));'
         )
         self._run_tests(program, name2var)

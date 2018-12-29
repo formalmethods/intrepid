@@ -10,6 +10,7 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 """
 
 import unittest
+from intrepyd.iec611312py.plcopen import parsePlcOpenFile
 from intrepyd.iec611312py.parsest import parseST
 from intrepyd.iec611312py.variable import Variable
 from intrepyd.iec611312py.stmtprinter import StmtPrinter
@@ -169,3 +170,20 @@ class TestSTFlattener(unittest.TestCase):
             'b := ite((a = 0), 0, ite((a = 1), 1, ite((a = a), 2, b)));'
         )
         self._run_tests(program, name2var)
+
+    def test_integration_1(self):
+        pous = parsePlcOpenFile('tests/openplc/simple1.xml')
+        self.assertEquals(1, len(pous))
+        flattened_statements = flattenStmtBlock(pous[0].statements)
+        printer = StmtPrinter()
+        printer.processStatements(flattened_statements)
+        self.assertEqual('output1 := (local1 + input1);', printer.result)
+
+    def test_integration_2(self):
+        pous = parsePlcOpenFile('tests/openplc/if1.xml')
+        self.assertEquals(1, len(pous))
+        flattened_statements = flattenStmtBlock(pous[0].statements)
+        printer = StmtPrinter()
+        printer.processStatements(flattened_statements)
+        self.assertEqual('c_is_active_c2_GPCA_SW_Logi := ite((c_is_active_c2_GPCA_SW_Logi = 0), 1, ite((c_is_c2_GPCA_SW_Logical_Arc = 1), 2, 3));',
+                         printer.result)

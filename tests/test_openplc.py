@@ -18,7 +18,7 @@ class TestOpenPLC(unittest.TestCase):
         pous = parsePlcOpenFile('tests/openplc/simple1.xml')
         self.assertEquals(1, len(pous))
         printer = StmtPrinter()
-        printer.processStatements(pous[0].assignments)
+        printer.processStatements(pous[0].statements)
         self.assertEqual('output1 := (local1 + input1);', printer.result)
 
     def test_datatype_1(self):
@@ -41,7 +41,7 @@ class TestOpenPLC(unittest.TestCase):
         pous = parsePlcOpenFile('tests/openplc/if4.xml')
         self.assertEquals(1, len(pous))
         printer = StmtPrinter()
-        printer.processStatements(pous[0].assignments)
+        printer.processStatements(pous[0].statements)
         self.assertEqual('IF (100 < (UDINT_TO_DINT((CONST_IN.Tolerance_Max / 100)) * UnitDelay_2_DSTATE)) THEN overInfusion := 1; END_IF;',
                          printer.result)
 

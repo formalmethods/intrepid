@@ -17,12 +17,12 @@ class FunctionBlock(Datatype):
     """
     Holds function block parsed data
     """
-    def __init__(self, name, input_vars, output_vars, local_vars, assignments):
+    def __init__(self, name, input_vars, output_vars, local_vars, statements):
         Datatype.__init__(self, name)
         self._input_vars = input_vars
         self._output_vars = output_vars
         self._local_vars = local_vars
-        self._assignments = assignments
+        self._statements = statements
 
     @property
     def input_vars(self):
@@ -37,5 +37,5 @@ class FunctionBlock(Datatype):
         return self._local_vars
     
     @property
-    def assignments(self):
-        return self._assignments
+    def statements(self):
+        return self._statements

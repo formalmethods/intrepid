@@ -21,7 +21,6 @@ class StmtPrinter(Visitor):
     """
     def __init__(self):
         self._result = ''
-        self._indent = 0
 
     @property
     def result(self):

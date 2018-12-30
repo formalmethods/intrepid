@@ -1,0 +1,113 @@
+"""
+Copyright (C) 2018 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
+
+This file is distributed under the terms of the 3-clause BSD License.
+A copy of the license can be found in the root directory or at
+https://opensource.org/licenses/BSD-3-Clause.
+
+Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
+  Date: 29/10/2018
+
+This module implements the translation from flat statements into intrepyd
+"""
+
+from intrepyd.iec611312py.visitor import Visitor
+from intrepyd.iec611312py.statement import Assignment
+from intrepyd.iec611312py.expression import Ite, Expression, ConstantOcc, VariableOcc
+
+PREFIX = 'ctx.'
+
+STOP2INTREPYDUNARYOP = {
+    '-' : 'mk_minus',
+    'not' : 'mk_not'
+}
+
+STOP2INTREPYDBINARYOP = {
+    '+' : 'mk_add',
+    '-' : 'mk_sub',
+    '*' : 'mk_mul',
+    '/' : 'mk_div',
+    '=' : 'mk_eq',
+    '<>' : 'mk_neq',
+    '<' : 'mk_lt',
+    '>' : 'mk_gt',
+    '<=' : 'mk_leq',
+    '>=' : 'mk_geq',
+    'OR' : 'mk_or',
+    'AND' : 'mk_and',
+    'XOR' : 'mk_xor',
+}
+
+class FlatStmt2Intrepyd(Visitor):
+    """
+    Visitor for outputting the intrepyd equivalent of an AST
+    """
+    def __init__(self, indent, var2latch):
+        self._result = ''
+        self._indent = indent
+        self._count = 0
+        self._var2latch = var2latch
+
+    @property
+    def result(self):
+        return self._result
+
+    def processStatements(self, statements):
+        for statement in statements:
+            if not isinstance(statement, Assignment):
+                raise RuntimeError('Expected Assignment, got ' + str(type(statement)))
+            statement.accept(self)
+
+    def _indent_result(self):
+        self._result += ' ' * self._indent
+
+    def _getTmpVar(self):
+        self._count += 1
+        return '__tmp_' + str(self._count)
+
+    def _visit_assignment(self, obj):
+        name = obj.lhs.var.name
+        if not name in self._var2latch:
+            raise RuntimeError('Could not find latch for ' + name)
+        next_ = obj.rhs.accept(self)
+        latch, init = self._var2latch[name]
+        self._indent_result
+        self._result += PREFIX + 'set_latch_init_next(' +\
+                        latch + ', ' +\
+                        init + ', ' +\
+                        next_ + ')\n'
+
+    def _visit_expression(self, expression):
+        result = self._getTmpVar()
+        args = expression.arguments
+        nargs = len(args)
+        self._indent_result
+        self._result += result + ' = '
+        if nargs == 1:
+            self._result += PREFIX + STOP2INTREPYDUNARYOP[expression.operator] +\
+                            '(' + args[0].accept(self) + ')'
+        elif nargs == 2:
+            self._result += PREFIX + STOP2INTREPYDBINARYOP[expression.operator] + '(' +\
+                            args[0].accept(self) + ', ' +\
+                            args[1].accept(self) + ')'
+        self._result += '\n'
+        return result
+
+    def _visit_ite(self, ite):
+        result = self._getTmpVar()
+        self._indent_result
+        self._result += result + ' = ' +\
+                        PREFIX + 'mk_ite(' +\
+                        ite.condition.accept(self) + ', ' +\
+                        ite.then_term.accept(self) + ', ' +\
+                        ite.else_term.accept(self) + ')\n'
+        return result
+
+    def _visit_variable_occ(self, variableOcc):
+        return variableOcc.var.name
+
+    def _visit_constant_occ(self, constantOcc):
+        return constantOcc.cst.name
+
+
+

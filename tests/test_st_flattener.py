@@ -6,7 +6,7 @@ A copy of the license can be found in the root directory or at
 https://opensource.org/licenses/BSD-3-Clause.
 
 Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 04/11/2018
+  Date: 29/12/2018
 """
 
 import unittest

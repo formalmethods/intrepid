@@ -81,6 +81,7 @@ def translate(filename, outfilename):
             outfile.write(TAB + TAB +\
                           CONTEXT + '.mk_latch("' + var.name + '", ' +\
                           datatype2py(var.datatype) + ')\n')
+            # COMPUTE INIT VALUE
             var2latch[var.name] = (var.name, init)
         flatstmt2intrepyd = FlatStmt2Intrepyd(8, CONTEXT, var2latch)
         flatstmt2intrepyd.processStatements(flattened_statements)

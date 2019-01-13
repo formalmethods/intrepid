@@ -8,14 +8,14 @@ https://opensource.org/licenses/BSD-3-Clause.
 Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
   Date: 01/11/2018
 
-This module implements infrastructure to store datatypes
+This module implements infrastructure to store variables
 """
 
 from intrepyd.visitable import Visitable
 
 class Variable(Visitable):
     """
-    Stores a datatype
+    Stores a variable
     """
     def __init__(self, name, datatype, kind):
         self._name = name
@@ -28,6 +28,13 @@ class Variable(Visitable):
         Getter
         """
         return self._name
+
+    @property
+    def datatype(self):
+        """
+        Getter
+        """
+        return self._datatype
 
     INPUT = 'INPUT'
     OUTPUT = 'OUTPUT'

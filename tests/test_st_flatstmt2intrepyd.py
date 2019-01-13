@@ -25,167 +25,62 @@ FALSE = 'ctx.mk_false()'
 TRUE = 'ctx.mk_true()'
 
 class TestSTFlatStmt2Intrepyd(unittest.TestCase):
+    def normalize_string(self, string):
+        string = string.replace(' ', '')
+        string = string.replace('\n', '')
+        return string
+
     def _run_tests(self, program, name2var, var2latch, expected):
         statements = parseST(program, name2var)
         flattened_statements = flattenStmtBlock(statements)
         flatstmt2intrepyd = FlatStmt2Intrepyd(4, var2latch)
         flatstmt2intrepyd.processStatements(flattened_statements)
-        self.assertEquals(expected, flatstmt2intrepyd.result)
+        self.assertEquals(self.normalize_string(expected),
+                          self.normalize_string(flatstmt2intrepyd.result))
 
     def test_assignment_1(self):
         name2var = {
             'In1' : Variable('In1', boolType, Variable.INPUT),
             'In2' : Variable('In2', boolType, Variable.INPUT),
-            'In3' : Variable('In3', boolType, Variable.INPUT),
             'Out1' : Variable('Out1', boolType, Variable.OUTPUT)
         }
         program = 'Out1 := In1 AND In2;'
         expected = \
-"""__tmp_1 = ctx.mk_and(In1, In2)
-ctx.set_latch_init_next(out1Latch, ctx.mk_false(), __tmp_1)
-"""
-        self._run_tests(program, name2var, {'Out1': ('out1Latch', FALSE)}, expected)
+            """
+            __tmp_1 = ctx.mk_and(In1, In2)
+            Out1 = __tmp_1
+            """
+        self._run_tests(program, name2var, {}, expected)
 
-    # def test_assignment_2(self):
-    #     name2var = {
-    #         'a' : Variable('a', boolType, Variable.LOCAL),
-    #         'b' : Variable('b', boolType, Variable.LOCAL),
-    #         'c' : Variable('c', boolType, Variable.LOCAL),
-    #         'd' : Variable('d', boolType, Variable.LOCAL)
-    #     }
-    #     program = (
-    #         """
-    #         a := b;
-    #         c := d;
-    #         """,
-    #         'a := b;c := d;'
-    #     )
-    #     self._run_tests(program, name2var)
+    def test_assignment_2(self):
+        name2var = {
+            'a' : Variable('a', boolType, Variable.INPUT),
+            'b' : Variable('b', boolType, Variable.INPUT),
+            'c' : Variable('c', boolType, Variable.LOCAL),
+        }
+        program = 'c := a AND b;'
+        expected = \
+            """
+            __tmp_1 = ctx.mk_and(a, b)
+            ctx.set_latch_init_next(latch, ctx.mk_false(), __tmp_1)
+            """
+        self._run_tests(program, name2var, {'c': ('latch', FALSE)}, expected)
 
-    # def test_if_1(self):
-    #     name2var = {
-    #         'a' : Variable('a', boolType, Variable.LOCAL),
-    #         'b' : Variable('b', boolType, Variable.LOCAL),
-    #         'c' : Variable('c', boolType, Variable.LOCAL),
-    #     }
-    #     program = (
-    #         """
-    #         IF a THEN
-    #             b := c;
-    #         END_IF;
-    #         """,
-    #         'b := ite(a, c, b);'
-    #     )
-    #     self._run_tests(program, name2var)
-
-    # def test_if_2(self):
-    #     name2var = {
-    #         'a' : Variable('a', boolType, Variable.LOCAL),
-    #         'b' : Variable('b', boolType, Variable.LOCAL),
-    #         'c' : Variable('c', boolType, Variable.LOCAL),
-    #         'd' : Variable('d', boolType, Variable.LOCAL),
-    #     }
-    #     program = (
-    #         """
-    #         IF a THEN
-    #             b := c;
-    #         ELSE
-    #             b := d;
-    #         END_IF;
-    #         """,
-    #         'b := ite(a, c, d);'
-    #     )
-    #     self._run_tests(program, name2var)
-
-    # def test_if_3(self):
-    #     name2var = {
-    #         'a' : Variable('a', boolType, Variable.LOCAL),
-    #         'b' : Variable('b', boolType, Variable.LOCAL),
-    #         'c' : Variable('c', boolType, Variable.LOCAL),
-    #         'd' : Variable('d', boolType, Variable.LOCAL),
-    #     }
-    #     program = (
-    #         """
-    #         IF a THEN
-    #             b := c;
-    #         ELSE
-    #             d := c;
-    #         END_IF;
-    #         """,
-    #         'b := ite(a, c, b);d := ite(a, d, c);'
-    #     )
-    #     self._run_tests(program, name2var)
-
-    # def test_if_4(self):
-    #     name2var = {
-    #         'a' : Variable('a', boolType, Variable.LOCAL),
-    #         'b' : Variable('b', boolType, Variable.LOCAL),
-    #         'c' : Variable('c', boolType, Variable.LOCAL),
-    #     }
-    #     program = (
-    #         """
-    #         IF a THEN
-    #             IF b THEN
-    #                 b := c;
-    #             END_IF;
-    #         END_IF;
-    #         """,
-    #         'b := ite(a, ite(b, c, b), b);'
-    #     )
-    #     self._run_tests(program, name2var)
-
-    # def test_if_5(self):
-    #     name2var = {
-    #         'a' : Variable('a', boolType, Variable.LOCAL),
-    #         'b' : Variable('b', boolType, Variable.LOCAL),
-    #         'c' : Variable('c', boolType, Variable.LOCAL),
-    #         'd' : Variable('d', boolType, Variable.LOCAL)
-    #     }
-    #     program = (
-    #         """
-    #         IF a THEN
-    #             b := c;
-    #         ELSE
-    #             c := b;
-    #         END_IF;
-    #         """,
-    #         'b := ite(a, c, b);c := ite(a, c, ite(a, c, b));'
-    #     )
-    #     self._run_tests(program, name2var)
-
-    # def test_case_1(self):
-    #     name2var = {
-    #         'a' : Variable('a', intType, Variable.LOCAL),
-    #         'b' : Variable('b', boolType, Variable.LOCAL)
-    #     }
-    #     program = (
-    #         """
-    #         CASE a OF
-    #         0: 
-    #             b := 0;
-    #         1:
-    #             b := 1;
-    #         ELSE
-    #             b := 2;
-    #         END_CASE;
-    #         """,
-    #         'b := ite((a = 0), 0, ite((a = 1), 1, ite((a = a), 2, b)));'
-    #     )
-    #     self._run_tests(program, name2var)
-
-    # def test_integration_1(self):
-    #     pous = parsePlcOpenFile('tests/openplc/simple1.xml')
-    #     self.assertEquals(1, len(pous))
-    #     flattened_statements = flattenStmtBlock(pous[0].statements)
-    #     printer = StmtPrinter()
-    #     printer.processStatements(flattened_statements)
-    #     self.assertEqual('output1 := (local1 + input1);', printer.result)
-
-    # def test_integration_2(self):
-    #     pous = parsePlcOpenFile('tests/openplc/if1.xml')
-    #     self.assertEquals(1, len(pous))
-    #     flattened_statements = flattenStmtBlock(pous[0].statements)
-    #     printer = StmtPrinter()
-    #     printer.processStatements(flattened_statements)
-    #     self.assertEqual('c_is_active_c2_GPCA_SW_Logi := ite((c_is_active_c2_GPCA_SW_Logi = 0), 1, ite((c_is_c2_GPCA_SW_Logical_Arc = 1), 2, 3));',
-    #                      printer.result)
+    def test_if_1(self):
+        name2var = {
+            'a' : Variable('a', boolType, Variable.LOCAL),
+            'b' : Variable('b', boolType, Variable.LOCAL),
+            'c' : Variable('c', boolType, Variable.LOCAL),
+        }
+        program = \
+            """
+            IF a THEN
+                b := c;
+            END_IF;
+            """
+        expected = \
+            """
+            __tmp_1 = ctx.mk_ite(a,c,b)
+            b = __tmp_1
+            """
+        self._run_tests(program, name2var, {}, expected)

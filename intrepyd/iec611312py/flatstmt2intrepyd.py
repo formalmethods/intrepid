@@ -15,8 +15,6 @@ from intrepyd.iec611312py.visitor import Visitor
 from intrepyd.iec611312py.statement import Assignment
 from intrepyd.iec611312py.expression import Ite, Expression, ConstantOcc, VariableOcc
 
-PREFIX = 'ctx.'
-
 STOP2INTREPYDUNARYOP = {
     '-' : 'mk_minus',
     'not' : 'mk_not'
@@ -42,11 +40,12 @@ class FlatStmt2Intrepyd(Visitor):
     """
     Visitor for outputting the intrepyd equivalent of an AST
     """
-    def __init__(self, indent, var2latch):
+    def __init__(self, indent, context, var2latch):
         self._result = ''
         self._indent = indent
         self._count = 0
         self._var2latch = var2latch
+        self._prefix = context + '.'
 
     @property
     def result(self):
@@ -67,37 +66,46 @@ class FlatStmt2Intrepyd(Visitor):
 
     def _visit_assignment(self, obj):
         name = obj.lhs.var.name
-        if not name in self._var2latch:
-            raise RuntimeError('Could not find latch for ' + name)
         next_ = obj.rhs.accept(self)
-        latch, init = self._var2latch[name]
-        self._indent_result
-        self._result += PREFIX + 'set_latch_init_next(' +\
-                        latch + ', ' +\
-                        init + ', ' +\
-                        next_ + ')\n'
+        if name in self._var2latch:
+            latch, init = self._var2latch[name]
+            self._indent_result()
+            self._result += self._prefix + 'set_latch_init_next(' +\
+                            latch + ', ' +\
+                            init + ', ' +\
+                            next_ + ')'
+        else:
+            self._indent_result()
+            self._result += name + ' = ' + next_
+        self._result += '\n'
 
     def _visit_expression(self, expression):
         result = self._getTmpVar()
         args = expression.arguments
         nargs = len(args)
-        self._indent_result
+        self._indent_result()
         self._result += result + ' = '
         if nargs == 1:
-            self._result += PREFIX + STOP2INTREPYDUNARYOP[expression.operator] +\
+            if not expression.operator in STOP2INTREPYDUNARYOP:
+                raise RuntimeError('Could not handle unary op ' + expression.operator)
+            self._result += self._prefix + STOP2INTREPYDUNARYOP[expression.operator] +\
                             '(' + args[0].accept(self) + ')'
         elif nargs == 2:
-            self._result += PREFIX + STOP2INTREPYDBINARYOP[expression.operator] + '(' +\
+            if not expression.operator in STOP2INTREPYDBINARYOP:
+                raise RuntimeError('Could not handle binary op ' + expression.operator)
+            self._result += self._prefix + STOP2INTREPYDBINARYOP[expression.operator] + '(' +\
                             args[0].accept(self) + ', ' +\
                             args[1].accept(self) + ')'
+        else:
+            raise RuntimeError('Could not handle op ' + expression.operator)
         self._result += '\n'
         return result
 
     def _visit_ite(self, ite):
         result = self._getTmpVar()
-        self._indent_result
+        self._indent_result()
         self._result += result + ' = ' +\
-                        PREFIX + 'mk_ite(' +\
+                        self._prefix + 'mk_ite(' +\
                         ite.condition.accept(self) + ', ' +\
                         ite.then_term.accept(self) + ', ' +\
                         ite.else_term.accept(self) + ')\n'
@@ -107,7 +115,7 @@ class FlatStmt2Intrepyd(Visitor):
         return variableOcc.var.name
 
     def _visit_constant_occ(self, constantOcc):
-        return constantOcc.cst.name
+        return constantOcc.cst
 
 
 

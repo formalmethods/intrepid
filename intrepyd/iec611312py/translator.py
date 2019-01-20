@@ -39,7 +39,7 @@ def translate(filename, outfilename):
         outfile.write(TAB + TAB + FIRSTTICK + ' = ' + CONTEXT +\
                       '.mk_latch("' + FIRSTTICK + '", bool_type)\n')
         outfile.write(TAB + TAB + CONTEXT +\
-                      '.set_latch_init_next(' + FIRSTTICK + ', ctx.mk_true(), ctx.mk_false())\n')
+                      '.set_latch_init_next(' + FIRSTTICK + ', ' + CONTEXT + '.mk_true(), ' + CONTEXT + '.mk_false())\n')
         outfile.write('\n')
         outfile.write(TAB + 'def _mk_inputs(self):\n')
         for inp in pous[0].input_vars:
@@ -54,9 +54,11 @@ def translate(filename, outfilename):
         outfile.write(TAB + TAB + 'input_keys = list(inputs)\n')
         args = ''
         sep = ''
-        for inp in pous[0].input_vars:
-            args += sep + 'inputs[input_keys["' + inp.name + '"]]'
+        i = 0
+        for _ in pous[0].input_vars:
+            args += sep + 'inputs[input_keys[' + str(i) + ']]'
             sep = ', '
+            i += 1
         sep = ''
         outs = ''
         if len(pous[0].output_vars) == 0:
@@ -79,9 +81,9 @@ def translate(filename, outfilename):
         var2latch = {}
         for var in pous[0].local_vars:
             outfile.write(TAB + TAB +\
-                          CONTEXT + '.mk_latch("' + var.name + '", ' +\
+                          var.name + ' = ' + CONTEXT + '.mk_latch("' + var.name + '", ' +\
                           datatype2py(var.datatype) + ')\n')
-            # COMPUTE INIT VALUE
+            init = datatype2init(var.datatype)
             var2latch[var.name] = (var.name, init)
         flatstmt2intrepyd = FlatStmt2Intrepyd(8, CONTEXT, var2latch)
         flatstmt2intrepyd.processStatements(flattened_statements)
@@ -117,3 +119,8 @@ def datatype2py(datatype):
     elif datatype.dtname == 'LINT':
         return CONTEXT + '.mk_int64_type()'
     raise RuntimeError('Type not found ' + datatype.dtname)
+
+def datatype2init(datatype):
+    if datatype.dtname == 'BOOL':
+        return CONTEXT + '.mk_false()'
+    return CONTEXT + '.mk_number("0", ' + datatype2py(datatype) + ')'

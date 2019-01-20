@@ -16,7 +16,8 @@ import subprocess
 import os
 import importlib
 import pandas as pd
-import intrepyd.lustre2py.translator as tr
+import intrepyd.lustre2py.translator as ltr
+import intrepyd.iec611312py.translator as itr
 
 
 def translate_simulink(infilename, realtype, outmodule='encoding'):
@@ -35,7 +36,17 @@ def translate_lustre(infilename, topnode, realtype, outmodule='encoding'):
     Translates a lustre file into intrepyd syntax
     """
     outfilename = outmodule + '.py'
-    tr.translate(infilename, topnode, outfilename, realtype)
+    ltr.translate(infilename, topnode, outfilename, realtype)
+    enc = importlib.import_module(outmodule)
+    return enc
+
+
+def translate_iec61131(infilename, outmodule='encoding'):
+    """
+    Translates a ST iec61131 file into intrepyd syntax
+    """
+    outfilename = outmodule + '.py'
+    itr.translate(infilename, outfilename)
     enc = importlib.import_module(outmodule)
     return enc
 

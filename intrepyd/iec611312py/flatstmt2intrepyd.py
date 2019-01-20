@@ -45,6 +45,7 @@ class FlatStmt2Intrepyd(Visitor):
         self._indent = indent
         self._count = 0
         self._var2latch = var2latch
+        self._usedlatches = set()
         self._prefix = context + '.'
 
     @property
@@ -56,6 +57,15 @@ class FlatStmt2Intrepyd(Visitor):
             if not isinstance(statement, Assignment):
                 raise RuntimeError('Expected Assignment, got ' + str(type(statement)))
             statement.accept(self)
+        for name in self._var2latch:
+            latch, init = self._var2latch[name]
+            if latch in self._usedlatches:
+                continue
+            self._indent_result()
+            self._result += self._prefix + 'set_latch_init_next(' +\
+                            latch + ', ' +\
+                            init + ', ' +\
+                            latch + ')\n'
 
     def _indent_result(self):
         self._result += ' ' * self._indent
@@ -74,6 +84,7 @@ class FlatStmt2Intrepyd(Visitor):
                             latch + ', ' +\
                             init + ', ' +\
                             next_ + ')'
+            self._usedlatches.add(latch)
         else:
             self._indent_result()
             self._result += name + ' = ' + next_

@@ -33,7 +33,7 @@ class TestSTFlatStmt2Intrepyd(unittest.TestCase):
     def _run_tests(self, program, name2var, var2latch, expected):
         statements = parseST(program, name2var)
         flattened_statements = flattenStmtBlock(statements)
-        flatstmt2intrepyd = FlatStmt2Intrepyd(4, var2latch)
+        flatstmt2intrepyd = FlatStmt2Intrepyd(4, 'ctx', var2latch)
         flatstmt2intrepyd.processStatements(flattened_statements)
         self.assertEquals(self.normalize_string(expected),
                           self.normalize_string(flatstmt2intrepyd.result))

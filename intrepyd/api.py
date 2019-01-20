@@ -929,6 +929,33 @@ def mk_output(arg1, net):
     """
     return _api.mk_output(arg1, net)
 
+def get_bit(arg1, net, bit):
+    """
+    get_bit(Int_ctx arg1, Int_net net, unsigned int bit) -> Int_net
+
+    Parameters
+    ----------
+    arg1: Int_ctx
+    net: Int_net
+    bit: unsigned int
+
+    """
+    return _api.get_bit(arg1, net, bit)
+
+def set_bit(arg1, x, bit, y):
+    """
+    set_bit(Int_ctx arg1, Int_net x, unsigned int bit, Int_net y) -> Int_net
+
+    Parameters
+    ----------
+    arg1: Int_ctx
+    x: Int_net
+    bit: unsigned int
+    y: Int_net
+
+    """
+    return _api.set_bit(arg1, x, bit, y)
+
 def mk_assumption(arg1, net):
     """
     mk_assumption(Int_ctx arg1, Int_net net)

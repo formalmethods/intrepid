@@ -127,6 +127,3 @@ class FlatStmt2Intrepyd(Visitor):
 
     def _visit_constant_occ(self, constantOcc):
         return constantOcc.cst
-
-
-

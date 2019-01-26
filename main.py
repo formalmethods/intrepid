@@ -1,16 +1,18 @@
 import intrepyd as ip
 from intrepyd.engine import EngineResult
-import time
 from intrepyd.tools import translate_iec61131
+import time
 
 def main():
-    # translate('tests/openplc/simple1.xml', 'encoding.py')
     startTime = time.time()
-    enc = translate_iec61131('tests/openplc/simple1.xml')
-    ctx = ip.Context()
-    circ = enc.mk_instance(ctx, 'Simple1')
-    circ.mk_circuit()
+    enc = translate_iec61131('tests/openplc/simple2.xml')
+    # enc = translate_iec61131('tests/openplc/GPCA_SW_Functional_subst_redux.xml')
+
+    # ctx = ip.Context()
+    # circ = enc.mk_instance(ctx, 'Simple1')
+    # circ.mk_circuit()
     prsTime = time.time() - startTime
+
     # bmc = ctx.mk_bmc()
     # bmc.add_target(negProp)
     # result = bmc.reach_targets()

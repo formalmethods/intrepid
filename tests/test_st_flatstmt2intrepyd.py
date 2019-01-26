@@ -84,3 +84,25 @@ class TestSTFlatStmt2Intrepyd(unittest.TestCase):
             b = __tmp_1
             """
         self._run_tests(program, name2var, {}, expected)
+
+    def test_case_1(self):
+        name2var = {
+            'a' : Variable('a', intType, Variable.LOCAL),
+            'b' : Variable('b', boolType, Variable.LOCAL),
+            'c' : Variable('c', boolType, Variable.LOCAL),
+            'd' : Variable('d', boolType, Variable.LOCAL),
+        }
+        program = \
+            """
+            CASE a OF
+            0:
+                b := c;
+            END_CASE;
+            """
+        expected = \
+            """
+            __tmp_1 = ctx.mk_eq(a, 0)
+            __tmp_2 = ctx.mk_ite(__tmp_1,c,b)
+            b = __tmp_2
+            """
+        self._run_tests(program, name2var, {}, expected)

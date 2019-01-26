@@ -113,13 +113,13 @@ class FlatStmt2Intrepyd(Visitor):
         return result
 
     def _visit_ite(self, ite):
-        result = self._getTmpVar()
         self._indent_result()
+        i = ite.condition.accept(self)
+        t = ite.then_term.accept(self)
+        e = ite.else_term.accept(self)
+        result = self._getTmpVar()
         self._result += result + ' = ' +\
-                        self._prefix + 'mk_ite(' +\
-                        ite.condition.accept(self) + ', ' +\
-                        ite.then_term.accept(self) + ', ' +\
-                        ite.else_term.accept(self) + ')\n'
+                        self._prefix + 'mk_ite(' + i + ', ' + t + ', ' + e + ')\n'
         return result
 
     def _visit_variable_occ(self, variableOcc):

@@ -13,7 +13,22 @@ This module implements infrastructure to store expressions
 
 from intrepyd.visitable import Visitable
 
-class VariableOcc(Visitable):
+class ExpressionBase(Visitable):
+    """
+    Base class for expressions
+    """
+    def __init__(self):
+        self._datatype = None
+
+    @property 
+    def datatype(self):
+        return self._datatype
+
+    @datatype.setter
+    def datatype(self, x):
+        self._datatype = x
+
+class VariableOcc(ExpressionBase):
     """
     Stores a variable occurrence
     """
@@ -27,7 +42,7 @@ class VariableOcc(Visitable):
         """
         return self._var
 
-class ConstantOcc(Visitable):
+class ConstantOcc(ExpressionBase):
     """
     Stores a constant occurrence
     """
@@ -41,7 +56,7 @@ class ConstantOcc(Visitable):
         """
         return self._cst
 
-class Expression(Visitable):
+class Expression(ExpressionBase):
     """
     Base class for expressions
     """
@@ -57,14 +72,14 @@ class Expression(Visitable):
     def arguments(self):
         return self._arguments
 
-class Range(Visitable):
+class Range(ExpressionBase):
     def __init__(self, first, last):
         if first > last:
             raise RuntimeError('From is greater than to in range expression')
         self._first = first
         self._last = last
 
-class Ite(Visitable):
+class Ite(ExpressionBase):
     """
     Term If-then-else. This construct does not exist in ST language. It is used
     as intermediate step before translating into intrepyd

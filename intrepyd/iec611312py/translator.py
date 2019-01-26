@@ -43,10 +43,7 @@ def translate(filename, outfilename):
         outfile.write('\n')
         outfile.write(TAB + 'def _mk_inputs(self):\n')
         for inp in pous[0].input_vars:
-            outfile.write(TAB + TAB + inp.name + ' = ' + CONTEXT +\
-                          ".mk_input('" + inp.name + "', "\
-                                        + datatype2py(inp.datatype) + ')\n')
-            outfile.write(TAB + TAB + "self.inputs['" + inp.name + "'] = " + inp.name + '\n')
+            declareInput(inp, outfile)
         if len(pous[0].input_vars) == 0:
             outfile.write(TAB + TAB + 'pass\n')
         outfile.write('\n')
@@ -102,7 +99,9 @@ def translate(filename, outfilename):
         outfile.write('\n')
 
 def datatype2py(datatype):
-    if datatype.dtname == 'USINT':
+    if datatype.dtname == 'BOOL':
+        return CONTEXT + '.mk_boolean_type()'
+    elif datatype.dtname == 'USINT':
         return CONTEXT + '.mk_uint8_type()'
     elif datatype.dtname == 'UINT':
         return CONTEXT + '.mk_uint16_type()'
@@ -124,3 +123,12 @@ def datatype2init(datatype):
     if datatype.dtname == 'BOOL':
         return CONTEXT + '.mk_false()'
     return CONTEXT + '.mk_number("0", ' + datatype2py(datatype) + ')'
+
+def declareInput(inp, outfile):
+    if inp.datatype.dtname == 'derived':
+        raise NotImplementedError
+    else:
+        outfile.write(TAB + TAB + inp.name + ' = ' + CONTEXT +\
+                      ".mk_input('" + inp.name + "', "\
+                                    + datatype2py(inp.datatype) + ')\n')
+        outfile.write(TAB + TAB + "self.inputs['" + inp.name + "'] = " + inp.name + '\n')

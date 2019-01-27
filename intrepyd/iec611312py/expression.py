@@ -33,6 +33,7 @@ class VariableOcc(ExpressionBase):
     Stores a variable occurrence
     """
     def __init__(self, var):
+        ExpressionBase.__init__(self)
         self._var = var
 
     @property
@@ -47,6 +48,7 @@ class ConstantOcc(ExpressionBase):
     Stores a constant occurrence
     """
     def __init__(self, cst):
+        ExpressionBase.__init__(self)
         self._cst = cst
 
     @property
@@ -61,6 +63,7 @@ class Expression(ExpressionBase):
     Base class for expressions
     """
     def __init__(self, operator, arguments):
+        ExpressionBase.__init__(self)
         self._operator = operator
         self._arguments = arguments
 
@@ -74,6 +77,7 @@ class Expression(ExpressionBase):
 
 class Range(ExpressionBase):
     def __init__(self, first, last):
+        ExpressionBase.__init__(self)
         if first > last:
             raise RuntimeError('From is greater than to in range expression')
         self._first = first
@@ -85,6 +89,7 @@ class Ite(ExpressionBase):
     as intermediate step before translating into intrepyd
     """
     def __init__(self, condition, then_term, else_term):
+        ExpressionBase.__init__(self)
         self._condition = condition
         self._then_term = then_term
         self._else_term = else_term

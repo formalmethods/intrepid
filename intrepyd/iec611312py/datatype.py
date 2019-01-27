@@ -46,6 +46,9 @@ class Primitive(Datatype):
     def __init__(self, dtname):
         Datatype.__init__(self, dtname)
 
+    def __eq__(self, other):
+        return self.dtname == other.dtname
+
 class Array(Datatype):
     """
     Stores an array

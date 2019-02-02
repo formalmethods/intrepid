@@ -16,6 +16,7 @@ from intrepyd.iec611312py.variable import Variable
 from intrepyd.iec611312py.datatype import Primitive
 from intrepyd.iec611312py.expression import Expression
 from intrepyd.iec611312py.inferdatatype import InferDatatypeBottomUp, InferDatatypeTopDown
+from intrepyd.iec611312py.statement import Assignment
 
 boolType = Primitive('BOOL')
 intType = Primitive('INT')
@@ -43,4 +44,15 @@ class TestSTInferDatatype(unittest.TestCase):
         self.assertEqual(plus.datatype, intType)
         idtd = InferDatatypeTopDown()
         idtd.processStatements([plus])
+        self.assertEqual(cst.datatype, intType)
+
+    def test_eq_3(self):
+        a = Variable('a', intType, Variable.LOCAL)
+        var = VariableOcc(a)
+        cst = ConstantOcc('0')
+        assign = Assignment(var, cst)
+        idbu = InferDatatypeBottomUp()
+        idbu.processStatements([assign])
+        idtd = InferDatatypeTopDown()
+        idtd.processStatements([assign])
         self.assertEqual(cst.datatype, intType)

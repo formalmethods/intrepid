@@ -12,6 +12,7 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 from intrepyd.iec611312py.plcopen import parsePlcOpenFile
 from intrepyd.iec611312py.flattener import flattenStmtBlock
 from intrepyd.iec611312py.flatstmt2intrepyd import FlatStmt2Intrepyd
+from intrepyd.iec611312py.inferdatatype import InferDatatypeBottomUp, InferDatatypeTopDown
 import datetime
 
 TAB = 4 * ' '
@@ -24,6 +25,12 @@ def translate(filename, outfilename):
     """
     pous = parsePlcOpenFile(filename)
     flattened_statements = flattenStmtBlock(pous[0].statements)
+
+    idbu = InferDatatypeBottomUp()
+    idbu.processStatements(flattened_statements)
+
+    idtd = InferDatatypeTopDown()
+    idtd.processStatements(flattened_statements)
 
     with open(outfilename, 'w') as outfile:
         today = str(datetime.date.today())

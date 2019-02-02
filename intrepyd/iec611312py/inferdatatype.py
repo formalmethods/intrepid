@@ -85,6 +85,10 @@ class InferDatatypeBottomUp(Visitor):
         elif not ite.else_term.datatype is None:
             ite.datatype = ite.else_term.datatype
 
+    def _visit_assignment(self, assignment):
+        assignment.lhs.accept(self)
+        assignment.rhs.accept(self)
+
     def _visit_variable_occ(self, variableOcc):
         variableOcc.datatype = variableOcc.var.datatype
 
@@ -107,44 +111,55 @@ class InferDatatypeTopDown(Visitor):
                     if arg.datatype is None:
                         arg.datatype = expression.datatype
                     elif arg.datatype != expression.datatype:
-                        print expression.operator
                         raise RuntimeError('Expression mismatch datatype: ' + arg.datatype.dtname + ' vs ' + expression.datatype.dtname)
-            elif expression.operator in OPSCHILDRENHAVESAMETYPE:
-                commonType = None
-                for arg in expression.arguments:
-                    if not arg.datatype is None:
-                        if commonType is None:
-                            commonType = arg.datatype
-                        else:
-                           if commonType != arg.datatype:
-                               raise RuntimeError('Expression mismatch datatype')
-                for arg in expression.arguments:
-                    if arg.datatype is None:
-                        arg.datatype = commonType
-            else:
-                inputType = getConversionOperatorInputType(expression.operator)
-                if not inputType is None:
-                    if expression.arguments[0].datatype is None:
-                        expression.arguments[0].datatype = inputType
-                    elif expression.arguments[0].datatype != inputType: 
+        if expression.operator in OPSCHILDRENHAVESAMETYPE:
+            commonType = None
+            for arg in expression.arguments:
+                if not arg.datatype is None:
+                    if commonType is None:
+                        commonType = arg.datatype
+                    elif commonType != arg.datatype:
                         raise RuntimeError('Expression mismatch datatype')
+            if commonType is None:
+                raise RuntimeError('Cannot infer arguments datatypes')
+            for arg in expression.arguments:
+                if arg.datatype is None:
+                    arg.datatype = commonType
+        else:
+            inputType = getConversionOperatorInputType(expression.operator)
+            if not inputType is None:
+                if expression.arguments[0].datatype is None:
+                    expression.arguments[0].datatype = inputType
+                elif expression.arguments[0].datatype != inputType: 
+                    raise RuntimeError('Expression mismatch datatype')
         for arg in expression.arguments:
             arg.accept(self) 
 
     def _visit_ite(self, ite):
-        if (not ite.condition is None) and ite.condition != 'BOOL':
-            raise RuntimeError('Ite datatypes mismatch')
-        ite.condition.datatype = 'BOOL'
+        # Shouldn't it be either None or BOOL ?
+        if (not ite.condition.datatype is None) and ite.condition.datatype != Primitive('BOOL'):
+            ite.condition.datatype = 'BOOL'
         if not ite.datatype is None:
-            if ite.then_term is None:
-                ite.then_term = ite.datatype
-            if ite.else_term is None: 
-                ite.else_term = ite.datatype
-            if ite.then_term != ite.datatype or ite.else_term != ite.datatype:
+            if ite.then_term.datatype is None:
+                ite.then_term.datatype = ite.datatype
+            if ite.else_term.datatype is None: 
+                ite.else_term.datatype = ite.datatype
+            if ite.then_term.datatype != ite.datatype or ite.else_term.datatype != ite.datatype:
                 raise RuntimeError('Ite datatypes mismatch')
         ite.then_term.accept(self)
         ite.else_term.accept(self)
         ite.condition.accept(self)
+
+    def _visit_assignment(self, assignment):
+        if assignment.rhs.datatype is None:
+            if assignment.lhs.datatype is None:
+                raise RuntimeError('Assignment lhs has no datatype')
+            assignment.rhs.datatype = assignment.lhs.datatype
+            assignment.rhs.accept(self)
+        elif assignment.rhs.datatype != assignment.lhs.datatype:
+            raise RuntimeError('Assignment datatypes mismatch')
+        else:
+            assignment.rhs.accept(self)
 
     def _visit_variable_occ(self, variableOcc):
         pass

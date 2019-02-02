@@ -18,6 +18,7 @@ from intrepyd.iec611312py.flattener import flattenStmtBlock
 from intrepyd.iec611312py.expression import VariableOcc, Ite
 from intrepyd.iec611312py.statement import Assignment
 from intrepyd.iec611312py.datatype import Primitive, Struct
+from intrepyd.iec611312py.inferdatatype import InferDatatypeBottomUp, InferDatatypeTopDown
 
 boolType = Primitive('BOOL')
 intType = Primitive('INT')
@@ -33,6 +34,10 @@ class TestSTFlatStmt2Intrepyd(unittest.TestCase):
     def _run_tests(self, program, name2var, var2latch, expected):
         statements = parseST(program, name2var)
         flattened_statements = flattenStmtBlock(statements)
+        idbu = InferDatatypeBottomUp()
+        idbu.processStatements(flattened_statements)
+        idtd = InferDatatypeTopDown()
+        idtd.processStatements(flattened_statements)
         flatstmt2intrepyd = FlatStmt2Intrepyd(4, 'ctx', var2latch)
         flatstmt2intrepyd.processStatements(flattened_statements)
         self.assertEquals(self.normalize_string(expected),
@@ -90,8 +95,8 @@ class TestSTFlatStmt2Intrepyd(unittest.TestCase):
             'a' : Variable('a', intType, Variable.LOCAL),
             'b' : Variable('b', boolType, Variable.LOCAL),
             'c' : Variable('c', boolType, Variable.LOCAL),
-            'd' : Variable('d', boolType, Variable.LOCAL),
         }
+
         program = \
             """
             CASE a OF
@@ -101,7 +106,7 @@ class TestSTFlatStmt2Intrepyd(unittest.TestCase):
             """
         expected = \
             """
-            __tmp_1 = ctx.mk_eq(a, 0)
+            __tmp_1 = ctx.mk_eq(a, ctx.mk_number("0", ctx.mk_int16_type()))
             __tmp_2 = ctx.mk_ite(__tmp_1,c,b)
             b = __tmp_2
             """

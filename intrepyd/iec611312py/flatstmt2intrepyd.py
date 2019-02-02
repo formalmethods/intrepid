@@ -36,6 +36,17 @@ STOP2INTREPYDBINARYOP = {
     'XOR' : 'mk_xor',
 }
 
+datatype2py = {
+    'SINT' : 'int8',
+    'USINT' : 'uint8',
+    'INT' : 'int16',
+    'UINT' : 'uint16',
+    'DINT' : 'int32',
+    'UDINT' : 'uint32',
+    'LINT' : 'int64',
+    'ULINT' : 'uint64'
+}
+
 class FlatStmt2Intrepyd(Visitor):
     """
     Visitor for outputting the intrepyd equivalent of an AST
@@ -126,4 +137,9 @@ class FlatStmt2Intrepyd(Visitor):
         return variableOcc.var.name
 
     def _visit_constant_occ(self, constantOcc):
-        return constantOcc.cst
+        if constantOcc.cst == 'false':
+            return self._prefix + 'mk_false()'
+        elif constantOcc.cst == 'true':
+            return self._prefix + 'mk_true()'
+        return self._prefix + 'mk_number("' + constantOcc.cst + '", ' +\
+                                           self._prefix + 'mk_' + datatype2py[constantOcc.datatype.dtname] + '_type())'

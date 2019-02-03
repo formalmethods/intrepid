@@ -157,7 +157,10 @@ class InferDatatypeTopDown(Visitor):
             assignment.rhs.datatype = assignment.lhs.datatype
             assignment.rhs.accept(self)
         elif assignment.rhs.datatype != assignment.lhs.datatype:
-            raise RuntimeError('Assignment datatypes mismatch')
+            raise RuntimeError('Assignment datatypes mismatch: ' +\
+                               assignment.lhs.datatype.dtname +\
+                               ' vs ' +\
+                               assignment.rhs.datatype.dtname)
         else:
             assignment.rhs.accept(self)
 

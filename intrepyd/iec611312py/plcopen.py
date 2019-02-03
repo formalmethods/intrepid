@@ -16,7 +16,7 @@ from xml.etree import ElementTree
 from functionblock import FunctionBlock
 from parsest import parseST
 from variable import Variable
-from datatype import Datatype, Struct
+from datatype import Primitive, Struct, Datatype
 
 def parsePlcOpenFile(infile):
     """
@@ -76,5 +76,9 @@ def parsePouBody(pou, name2var):
     
 def parseVar(var, kind):
     dtName = var[0][0].tag
-    datatype = Datatype(dtName)
+    datatype = None
+    if Datatype.isPrimitive(dtName):
+        datatype = Primitive(dtName)
+    if datatype is None:
+        raise RuntimeError('Could not determine variable type')
     return Variable(var.get('name'), datatype, kind)

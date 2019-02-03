@@ -54,6 +54,7 @@ class FlatStmt2Intrepyd(Visitor):
     def __init__(self, indent, context, var2latch):
         self._result = ''
         self._indent = indent
+        self._current_indent = 0
         self._count = 0
         self._var2latch = var2latch
         self._usedlatches = set()
@@ -64,6 +65,7 @@ class FlatStmt2Intrepyd(Visitor):
         return self._result
 
     def processStatements(self, statements):
+        self._inc_indent()
         for statement in statements:
             if not isinstance(statement, Assignment):
                 raise RuntimeError('Expected Assignment, got ' + str(type(statement)))
@@ -79,7 +81,13 @@ class FlatStmt2Intrepyd(Visitor):
                             latch + ')\n'
 
     def _indent_result(self):
-        self._result += ' ' * self._indent
+        self._result += ' ' * self._current_indent * self._indent
+
+    def _inc_indent(self):
+        self._current_indent += 1
+
+    def _dec_indent(self):
+        self._current_indent -= 1
 
     def _getTmpVar(self):
         self._count += 1
@@ -124,11 +132,11 @@ class FlatStmt2Intrepyd(Visitor):
         return result
 
     def _visit_ite(self, ite):
-        self._indent_result()
         i = ite.condition.accept(self)
         t = ite.then_term.accept(self)
         e = ite.else_term.accept(self)
         result = self._getTmpVar()
+        self._indent_result()
         self._result += result + ' = ' +\
                         self._prefix + 'mk_ite(' + i + ', ' + t + ', ' + e + ')\n'
         return result

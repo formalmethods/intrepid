@@ -22,6 +22,7 @@ from intrepyd.iec611312py.inferdatatype import InferDatatypeBottomUp, InferDatat
 
 boolType = Primitive('BOOL')
 intType = Primitive('INT')
+usintType = Primitive('USINT')
 FALSE = 'ctx.mk_false()'
 TRUE = 'ctx.mk_true()'
 
@@ -109,5 +110,31 @@ class TestSTFlatStmt2Intrepyd(unittest.TestCase):
             __tmp_1 = ctx.mk_eq(a, ctx.mk_number("0", ctx.mk_int16_type()))
             __tmp_2 = ctx.mk_ite(__tmp_1,c,b)
             b = __tmp_2
+            """
+        self._run_tests(program, name2var, {}, expected)
+
+    def test_case_2(self):
+        name2var = {
+            'a' : Variable('a', usintType, Variable.INPUT),
+            'b' : Variable('b', usintType, Variable.LOCAL),
+            'c' : Variable('c', usintType, Variable.OUTPUT),
+        }
+
+        program = \
+            """
+            CASE a OF
+            0:
+                b := 0;
+            END_CASE;
+            c := b;
+            """
+        expected = \
+            """
+            __tmp_1 = ctx.mk_eq(a, ctx.mk_number("0",ctx.mk_uint8_type()))
+            __tmp_2 = ctx.mk_ite(__tmp_1, ctx.mk_number("0", ctx.mk_uint8_type()), b)
+            b = __tmp_2
+            __tmp_3 = ctx.mk_eq(a, ctx.mk_number("0", ctx.mk_uint8_type()))
+            __tmp_4 = ctx.mk_ite(__tmp_3, ctx.mk_number("0", ctx.mk_uint8_type()), b)
+            c = __tmp_4
             """
         self._run_tests(program, name2var, {}, expected)

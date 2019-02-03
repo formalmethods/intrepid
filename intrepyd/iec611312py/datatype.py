@@ -14,6 +14,18 @@ This module implements infrastructure to store datatypes
 from intrepyd.visitable import Visitable
 import re
 
+PRIMITIVEDATATYPES = {
+    'BOOL',
+    'INT',
+    'UINT',
+    'SINT',
+    'USINT',
+    'DINT',
+    'UDINT',
+    'REAL',
+    'LREAL',
+}
+
 class Datatype(Visitable):
 
     _name2datatype = {}
@@ -23,6 +35,12 @@ class Datatype(Visitable):
     """
     def __init__(self, dtname):
         self._dtname = dtname
+
+    def __eq__(self, other):
+        raise NotImplementedError
+
+    def __ne__(self, other):
+        raise NotImplementedError
 
     @property
     def dtname(self):
@@ -38,6 +56,10 @@ class Datatype(Visitable):
     @staticmethod
     def get(name):
         return Datatype._name2datatype[name]
+
+    @staticmethod
+    def isPrimitive(dtname):
+        return dtname in PRIMITIVEDATATYPES
 
 class Primitive(Datatype):
     """

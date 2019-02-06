@@ -24,6 +24,8 @@ def translate(filename, outfilename):
     Translates an openPLC ST file into intrepyd
     """
     pous = parsePlcOpenFile(filename)
+    name2var = {var.name: var for var in pous[0].input_vars + pous[0].local_vars}
+
     flattened_statements = flattenStmtBlock(pous[0].statements)
 
     idbu = InferDatatypeBottomUp()
@@ -50,7 +52,7 @@ def translate(filename, outfilename):
         outfile.write('\n')
         outfile.write(TAB + 'def _mk_inputs(self):\n')
         for inp in pous[0].input_vars:
-            declareInput(inp, outfile)
+            declareInput(inp, outfile, name2var)
         if len(pous[0].input_vars) == 0:
             outfile.write(TAB + TAB + 'pass\n')
         outfile.write('\n')
@@ -84,11 +86,7 @@ def translate(filename, outfilename):
         outfile.write(TAB + 'def ' + pous[0].dtname + '(self, ' + args + '):\n')
         var2latch = {}
         for var in pous[0].local_vars:
-            outfile.write(TAB + TAB +\
-                          var.name + ' = ' + CONTEXT + '.mk_latch("' + var.name + '", ' +\
-                          datatype2py(var.datatype) + ')\n')
-            init = datatype2init(var.datatype)
-            var2latch[var.name] = (var.name, init)
+            declareLocal(var, outfile, var2latch, name2var)
         flatstmt2intrepyd = FlatStmt2Intrepyd(8, CONTEXT, var2latch)
         flatstmt2intrepyd.processStatements(flattened_statements)
         outfile.write(flatstmt2intrepyd.result)
@@ -124,18 +122,57 @@ def datatype2py(datatype):
         return CONTEXT + '.mk_int32_type()'
     elif datatype.dtname == 'LINT':
         return CONTEXT + '.mk_int64_type()'
-    raise RuntimeError('Type not found ' + datatype.dtname)
+    return None
 
 def datatype2init(datatype):
     if datatype.dtname == 'BOOL':
         return CONTEXT + '.mk_false()'
     return CONTEXT + '.mk_number("0", ' + datatype2py(datatype) + ')'
 
-def declareInput(inp, outfile):
-    if inp.datatype.dtname == 'derived':
-        raise NotImplementedError
+def declareInputHelper(name, datatype, outfile):
+    saneName = sanitizeName(name)
+    datatypepy = datatype2py(datatype)
+    if datatypepy is None:
+        raise RuntimeError('Datatype for ' + datatype.dtname + ' is None')
+    outfile.write(TAB + TAB + saneName + ' = ' + CONTEXT +\
+                  ".mk_input('" + name + "', "\
+                                + datatypepy + ')\n')
+    outfile.write(TAB + TAB + "self.inputs['" + name + "'] = " + saneName + '\n')
+
+def declareInput(inp, outfile, name2var):
+    datatypepy = datatype2py(inp.datatype)
+    if datatypepy is None:
+        var = name2var[inp.name]
+        if var is None:
+            raise RuntimeError('Could not find datatype for ' + inp.name)
+        print var
+        for fieldName, fieldVar in var.datatype.fields.iteritems():
+            declareInputHelper(var.name + '.' + fieldName, fieldVar.datatype, outfile)
     else:
-        outfile.write(TAB + TAB + inp.name + ' = ' + CONTEXT +\
-                      ".mk_input('" + inp.name + "', "\
-                                    + datatype2py(inp.datatype) + ')\n')
-        outfile.write(TAB + TAB + "self.inputs['" + inp.name + "'] = " + inp.name + '\n')
+        declareInputHelper(inp.name, inp.datatype, outfile)
+
+def declareLocalHelper(name, datatype, outfile, var2latch):
+    saneName = sanitizeName(name)
+    datatypepy = datatype2py(datatype)
+    if datatypepy is None:
+        raise RuntimeError('Datatype for ' + datatype.dtname + ' is None')
+    outfile.write(TAB + TAB +\
+                  saneName + ' = ' + CONTEXT + '.mk_latch("' + name + '", ' +\
+                  datatypepy + ')\n')
+    init = datatype2init(datatype)
+    var2latch[name] = (saneName, init)
+
+def declareLocal(var, outfile, var2latch, name2var):
+    datatypepy = datatype2py(var.datatype)
+    if datatypepy is None:
+        var = name2var[var.name]
+        if var is None:
+            raise RuntimeError('Could not find datatype for ' + var.name)
+        print var
+        for fieldName, fieldVar in var.datatype.fields.iteritems():
+            declareInputHelper(var.name + '.' + fieldName, fieldVar.datatype, outfile)
+    else:
+        declareLocalHelper(var.name, var.datatype, outfile, var2latch)
+
+def sanitizeName(name):
+    return name.replace('.', '_')

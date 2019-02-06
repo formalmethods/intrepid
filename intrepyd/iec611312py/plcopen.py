@@ -43,7 +43,7 @@ def parseDatatype(datatype):
         for struct in basetype.iter('struct'):
             fields = {}
             for var in struct.iter('variable'):
-                fields[var] = parseVar(var, Variable.FIELD)
+                fields[var.get('name')] = parseVar(var, Variable.FIELD)
             Datatype.add(name, Struct(name, fields))
 
 def parseFunctionBlock(functionBlock):
@@ -79,6 +79,9 @@ def parseVar(var, kind):
     datatype = None
     if Datatype.isPrimitive(dtName):
         datatype = Primitive(dtName)
+    if dtName == 'derived':
+        name = var[0][0].get('name')
+        datatype = Datatype.get(name)
     if datatype is None:
         raise RuntimeError('Could not determine variable type')
     return Variable(var.get('name'), datatype, kind)

@@ -16,6 +16,16 @@ from intrepyd.iec611312py.statement import Assignment, IfThenElse, Case
 from intrepyd.iec611312py.expression import VariableOcc, ConstantOcc, Expression, Range, TRUE
 from intrepyd.iec611312py.variable import Variable
 
+def computeCompositeDatatype(var, name2var):
+    tokens = var.split('.')
+    if len(tokens) != 2:
+        raise RuntimeError('Cannot handle nested structures')
+    baseType = name2var[tokens[0]]
+    for name, variable in baseType.datatype.fields.iteritems():
+        if name == tokens[1]:
+            return variable.datatype
+    return None
+
 class STMTBuilder(IEC61131ParserVisitor):
     """
     Vistor that builds statements from the IEC program
@@ -82,12 +92,12 @@ class STMTBuilder(IEC61131ParserVisitor):
 
     def visitComposite_access(self, ctx):
         base = ctx.getChild(0).getText()
-        # TODO: we only check types for non-nested structures
         if not base in self._name2var:
             raise RuntimeError('Undeclared variable ' + base)
         var = ctx.getText()
         if not var in self._name2var:
-            self._name2var[var] = Variable(var, None, Variable.FIELD)
+            datatype = computeCompositeDatatype(var, self._name2var)
+            self._name2var[var] = Variable(var, datatype, Variable.FIELD)
         return VariableOcc(self._name2var[var])
 
     def visitArray_access(self, ctx):

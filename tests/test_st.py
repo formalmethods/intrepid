@@ -82,8 +82,8 @@ class TestST(unittest.TestCase):
 
     def test_st_struct(self):
         myStruct = Struct('MyStruct', {
-            'a': Primitive('INT'),
-            'b': Primitive('BOOL')
+            'a': Variable('a', Primitive('INT'), Variable.FIELD),
+            'b': Variable('b', Primitive('BOOL'), Variable.FIELD)
         })
         name2var = {
             'myInst' : Variable('MyStruct', myStruct, Variable.LOCAL)

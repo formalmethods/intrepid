@@ -168,7 +168,6 @@ def declareLocal(var, outfile, var2latch, name2var):
         var = name2var[var.name]
         if var is None:
             raise RuntimeError('Could not find datatype for ' + var.name)
-        print var
         for fieldName, fieldVar in var.datatype.fields.iteritems():
             declareInputHelper(var.name + '.' + fieldName, fieldVar.datatype, outfile)
     else:

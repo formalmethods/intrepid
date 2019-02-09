@@ -15,33 +15,48 @@ from intrepyd.iec611312py.expression import Expression, VariableOcc, ConstantOcc
 from intrepyd.iec611312py.statement import Assignment
 from collections import OrderedDict
 
+indent = 0
+def begin(text):
+    global indent
+    print indent * ' ' + text + ' BEGIN'
+    indent += 2
+
+def end(text):
+    global indent
+    print indent * ' ' + text + ' END'
+    indent -= 2
+
 def summarizeStmtBlock(block):
     summary = OrderedDict()
     for assignment in block:
         if not isinstance(assignment, Assignment):
             raise RuntimeError('A non-assignment instruction was detected ' + str(type(assignment)))
         newRhs = substitute(assignment.rhs, summary)
+        print 'Summarized %d / %d' % (len(summary) + 1, len(block))
         summary[assignment.lhs.var] = newRhs
     return [Assignment(VariableOcc(lhs), rhs) for lhs, rhs in summary.iteritems()]
 
 def substituteInTerm(var, expression, term):
+    result = None
     if isinstance(term, Expression):
         new_arguments = []
         for argument in term.arguments:
             new_arguments.append(substituteInTerm(var, expression, argument))
-        return Expression(term.operator, new_arguments)
+        result = Expression(term.operator, new_arguments)
     elif isinstance(term, Ite):
         i = substituteInTerm(var, expression, term.condition)
         t = substituteInTerm(var, expression, term.then_term)
         e = substituteInTerm(var, expression, term.else_term)
-        return Ite(i, t, e)
+        result = Ite(i, t, e)
     elif isinstance(term, ConstantOcc):
-        return term
+        result = term
     elif isinstance(term, VariableOcc):
         if var == term.var:
-            return expression
-        return term
-    raise NotImplementedError('Term not handled ' + type(term))
+            result = expression
+        result = term
+    else:
+        raise NotImplementedError('Term not handled %s' % type(term))
+    return result
 
 def substitute(rhs, summary):
     result = rhs

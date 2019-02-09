@@ -13,11 +13,12 @@ This module implements the translation from flat statements into intrepyd
 
 from intrepyd.iec611312py.visitor import Visitor
 from intrepyd.iec611312py.statement import Assignment
-from intrepyd.iec611312py.expression import Ite, Expression, ConstantOcc, VariableOcc
+from intrepyd.iec611312py.expression import Ite, Expression, ConstantOcc, VariableOcc, TRUE, FALSE
 
 STOP2INTREPYDUNARYOP = {
     '-' : 'mk_minus',
-    'not' : 'mk_not'
+    'NOT' : 'mk_not',
+    'DINT_TO_UINT': ''
 }
 
 STOP2INTREPYDBINARYOP = {
@@ -145,9 +146,9 @@ class FlatStmt2Intrepyd(Visitor):
         return variableOcc.var.name
 
     def _visit_constant_occ(self, constantOcc):
-        if constantOcc.cst == 'false':
+        if constantOcc.cst == FALSE.cst:
             return self._prefix + 'mk_false()'
-        elif constantOcc.cst == 'true':
+        elif constantOcc.cst == TRUE.cst:
             return self._prefix + 'mk_true()'
         return self._prefix + 'mk_number("' + constantOcc.cst + '", ' +\
                                            self._prefix + 'mk_' + datatype2py[constantOcc.datatype.dtname] + '_type())'

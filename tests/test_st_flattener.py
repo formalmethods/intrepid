@@ -14,7 +14,7 @@ from intrepyd.iec611312py.plcopen import parsePlcOpenFile
 from intrepyd.iec611312py.parsest import parseST
 from intrepyd.iec611312py.variable import Variable
 from intrepyd.iec611312py.stmtprinter import StmtPrinter
-from intrepyd.iec611312py.flattener import flattenStmtBlock
+from intrepyd.iec611312py.flattener import Flattener
 from intrepyd.iec611312py.expression import VariableOcc, Ite
 from intrepyd.iec611312py.statement import Assignment
 from intrepyd.iec611312py.datatype import Primitive, Struct
@@ -25,7 +25,8 @@ intType = Primitive('INT')
 class TestSTFlattener(unittest.TestCase):
     def _run_tests(self, program, name2var):
         statements = parseST(program[0], name2var)
-        flattened_statements = flattenStmtBlock(statements)
+        flattener = Flattener()
+        flattened_statements = flattener.flattenStmtBlock(statements)
         printer = StmtPrinter()
         printer.processStatements(flattened_statements)
         actual = printer.result
@@ -147,7 +148,7 @@ class TestSTFlattener(unittest.TestCase):
                 c := b;
             END_IF;
             """,
-            'b := ite(a, c, b);c := ite(a, c, ite(a, c, b));'
+            'b := ite(a, c, b);c := ite(a, c, b___1);'
         )
         self._run_tests(program, name2var)
 
@@ -174,7 +175,8 @@ class TestSTFlattener(unittest.TestCase):
     def test_integration_1(self):
         pous = parsePlcOpenFile('tests/openplc/simple1.xml')
         self.assertEquals(1, len(pous))
-        flattened_statements = flattenStmtBlock(pous[0].statements)
+        flattener = Flattener()
+        flattened_statements = flattener.flattenStmtBlock(pous[0].statements)
         printer = StmtPrinter()
         printer.processStatements(flattened_statements)
         self.assertEqual('output1 := (local1 + input1);', printer.result)
@@ -182,7 +184,8 @@ class TestSTFlattener(unittest.TestCase):
     def test_integration_2(self):
         pous = parsePlcOpenFile('tests/openplc/if1.xml')
         self.assertEquals(1, len(pous))
-        flattened_statements = flattenStmtBlock(pous[0].statements)
+        flattener = Flattener()
+        flattened_statements = flattener.flattenStmtBlock(pous[0].statements)
         printer = StmtPrinter()
         printer.processStatements(flattened_statements)
         self.assertEqual('c_is_active_c2_GPCA_SW_Logi := ite((c_is_active_c2_GPCA_SW_Logi = 0), 1, ite((c_is_c2_GPCA_SW_Logical_Arc = 1), 2, 3));',

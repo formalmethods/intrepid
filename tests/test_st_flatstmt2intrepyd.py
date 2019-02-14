@@ -14,11 +14,12 @@ from intrepyd.iec611312py.plcopen import parsePlcOpenFile
 from intrepyd.iec611312py.parsest import parseST
 from intrepyd.iec611312py.variable import Variable
 from intrepyd.iec611312py.flatstmt2intrepyd import FlatStmt2Intrepyd
-from intrepyd.iec611312py.flattener import flattenStmtBlock
+from intrepyd.iec611312py.flattener import Flattener
 from intrepyd.iec611312py.expression import VariableOcc, Ite
 from intrepyd.iec611312py.statement import Assignment
 from intrepyd.iec611312py.datatype import Primitive, Struct
 from intrepyd.iec611312py.inferdatatype import InferDatatypeBottomUp, InferDatatypeTopDown
+from intrepyd.iec611312py.stmtprinter import StmtPrinter
 
 boolType = Primitive('BOOL')
 intType = Primitive('INT')
@@ -32,16 +33,26 @@ class TestSTFlatStmt2Intrepyd(unittest.TestCase):
         string = string.replace('\n', '')
         return string
 
-    def _run_tests(self, program, name2var, var2latch, expected):
+    def _run_tests(self, program, name2var, var2latch, expected, expected_extra_assignments = ''):
         statements = parseST(program, name2var)
-        flattened_statements = flattenStmtBlock(statements)
+        flattener = Flattener()
+        flattened_statements = flattener.flattenStmtBlock(statements)
+        assignments = flattener.assignments
         idbu = InferDatatypeBottomUp()
         idbu.processStatements(flattened_statements)
+        idbu.processStatements(assignments)
         idtd = InferDatatypeTopDown()
         idtd.processStatements(flattened_statements)
+        idtd.processStatements(assignments)
         flatstmt2intrepyd = FlatStmt2Intrepyd(4, 'ctx', var2latch)
         flatstmt2intrepyd.processStatements(flattened_statements)
         self.assertEquals(self.normalize_string(expected),
+                          self.normalize_string(flatstmt2intrepyd.result))
+        flatstmt2intrepyd = FlatStmt2Intrepyd(4, 'ctx', var2latch)
+        flatstmt2intrepyd.processStatements(assignments, False)
+        printer = StmtPrinter()
+        printer.processStatements(assignments)
+        self.assertEquals(self.normalize_string(expected_extra_assignments),
                           self.normalize_string(flatstmt2intrepyd.result))
 
     def test_assignment_1(self):
@@ -133,8 +144,10 @@ class TestSTFlatStmt2Intrepyd(unittest.TestCase):
             __tmp_1 = ctx.mk_eq(a, ctx.mk_number("0",ctx.mk_uint8_type()))
             __tmp_2 = ctx.mk_ite(__tmp_1, ctx.mk_number("0", ctx.mk_uint8_type()), b)
             b = __tmp_2
-            __tmp_3 = ctx.mk_eq(a, ctx.mk_number("0", ctx.mk_uint8_type()))
-            __tmp_4 = ctx.mk_ite(__tmp_3, ctx.mk_number("0", ctx.mk_uint8_type()), b)
-            c = __tmp_4
+            c = b___1
             """
-        self._run_tests(program, name2var, {}, expected)
+        expected_extra_assignments = \
+            """
+            b___1 = __tmp_2
+            """
+        self._run_tests(program, name2var, {}, expected, expected_extra_assignments)

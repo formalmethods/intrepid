@@ -65,12 +65,14 @@ class FlatStmt2Intrepyd(Visitor):
     def result(self):
         return self._result
 
-    def processStatements(self, statements):
+    def processStatements(self, statements, process_latches = True):
         self._inc_indent()
         for statement in statements:
             if not isinstance(statement, Assignment):
                 raise RuntimeError('Expected Assignment, got ' + str(type(statement)))
             statement.accept(self)
+        if not process_latches:
+            return
         for name in self._var2latch:
             latch, init = self._var2latch[name]
             if latch in self._usedlatches:

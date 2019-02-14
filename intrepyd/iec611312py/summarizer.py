@@ -30,33 +30,32 @@ class Summarizer(object):
         self._count += 1
         return VariableOcc(Variable(var.name + '___' + str(self._count), var.datatype, Variable.TEMP))
 
-    def summarizeStmtBlock(block, assignments):
+    def summarizeStmtBlock(self, block):
         summary = OrderedDict()
         for assignment in block:
             if not isinstance(assignment, Assignment):
                 raise RuntimeError('A non-assignment instruction was detected ' + str(type(assignment)))
-            newRhs = substitute(assignment.rhs, summary, assignments)
-            print 'Summarized %d / %d' % (len(summary) + 1, len(block))
+            newRhs = self.substitute(assignment.rhs, summary)
             summary[assignment.lhs.var] = newRhs
         return [Assignment(VariableOcc(lhs), rhs) for lhs, rhs in summary.iteritems()]
 
-    def substituteInTerm(var, expression, term, assignments):
+    def substituteInTerm(self, var, expression, term):
         result = None
         if isinstance(term, Expression):
             new_arguments = []
             for argument in term.arguments:
-                new_arguments.append(substituteInTerm(var, expression, argument))
+                new_arguments.append(self.substituteInTerm(var, expression, argument))
             result = Expression(term.operator, new_arguments)
         elif isinstance(term, Ite):
-            i = substituteInTerm(var, expression, term.condition)
-            t = substituteInTerm(var, expression, term.then_term)
-            e = substituteInTerm(var, expression, term.else_term)
+            i = self.substituteInTerm(var, expression, term.condition)
+            t = self.substituteInTerm(var, expression, term.then_term)
+            e = self.substituteInTerm(var, expression, term.else_term)
             result = Ite(i, t, e)
         elif isinstance(term, ConstantOcc):
             result = term
         elif isinstance(term, VariableOcc):
             if var == term.var:
-                result = getTmpVarFromVar(var)
+                result = self.getTmpVarFromVar(var)
                 self._assignments.append(Assignment(result, expression))
             else:
                 result = term
@@ -64,8 +63,8 @@ class Summarizer(object):
             raise NotImplementedError('Term not handled %s' % type(term))
         return result
 
-    def substitute(rhs, summary, assignments):
+    def substitute(self, rhs, summary):
         result = rhs
         for key, value in summary.iteritems():
-            result = substituteInTerm(key, value, result, assignments)
+            result = self.substituteInTerm(key, value, result)
         return result

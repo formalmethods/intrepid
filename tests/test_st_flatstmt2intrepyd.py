@@ -33,26 +33,17 @@ class TestSTFlatStmt2Intrepyd(unittest.TestCase):
         string = string.replace('\n', '')
         return string
 
-    def _run_tests(self, program, name2var, var2latch, expected, expected_extra_assignments = ''):
+    def _run_tests(self, program, name2var, var2latch, expected):
         statements = parseST(program, name2var)
         flattener = Flattener()
         flattened_statements = flattener.flattenStmtBlock(statements)
-        assignments = flattener.assignments
         idbu = InferDatatypeBottomUp()
         idbu.processStatements(flattened_statements)
-        idbu.processStatements(assignments)
         idtd = InferDatatypeTopDown()
         idtd.processStatements(flattened_statements)
-        idtd.processStatements(assignments)
         flatstmt2intrepyd = FlatStmt2Intrepyd(4, 'ctx', var2latch)
         flatstmt2intrepyd.processStatements(flattened_statements)
         self.assertEquals(self.normalize_string(expected),
-                          self.normalize_string(flatstmt2intrepyd.result))
-        flatstmt2intrepyd = FlatStmt2Intrepyd(4, 'ctx', var2latch)
-        flatstmt2intrepyd.processStatements(assignments, False)
-        printer = StmtPrinter()
-        printer.processStatements(assignments)
-        self.assertEquals(self.normalize_string(expected_extra_assignments),
                           self.normalize_string(flatstmt2intrepyd.result))
 
     def test_assignment_1(self):
@@ -125,6 +116,7 @@ class TestSTFlatStmt2Intrepyd(unittest.TestCase):
         self._run_tests(program, name2var, {}, expected)
 
     def test_case_2(self):
+
         name2var = {
             'a' : Variable('a', usintType, Variable.INPUT),
             'b' : Variable('b', usintType, Variable.LOCAL),
@@ -141,13 +133,12 @@ class TestSTFlatStmt2Intrepyd(unittest.TestCase):
             """
         expected = \
             """
-            __tmp_1 = ctx.mk_eq(a, ctx.mk_number("0",ctx.mk_uint8_type()))
-            __tmp_2 = ctx.mk_ite(__tmp_1, ctx.mk_number("0", ctx.mk_uint8_type()), b)
-            b = __tmp_2
+            __tmp_1 = ctx.mk_eq(a,ctx.mk_number("0",ctx.mk_uint8_type()))
+            __tmp_2 = ctx.mk_ite(__tmp_1,ctx.mk_number("0",ctx.mk_uint8_type()),b)
+            b___1 = __tmp_2
+            __tmp_3 = ctx.mk_eq(a,ctx.mk_number("0",ctx.mk_uint8_type()))
+            __tmp_4 = ctx.mk_ite(__tmp_3,ctx.mk_number("0",ctx.mk_uint8_type()),b)
+            b = __tmp_4
             c = b___1
             """
-        expected_extra_assignments = \
-            """
-            b___1 = __tmp_2
-            """
-        self._run_tests(program, name2var, {}, expected, expected_extra_assignments)
+        self._run_tests(program, name2var, {}, expected)

@@ -148,7 +148,7 @@ class TestSTFlattener(unittest.TestCase):
                 c := b;
             END_IF;
             """,
-            'b := ite(a, c, b);c := ite(a, c, b___1);'
+            'b___1 := ite(a, c, b);b := ite(a, c, b);c := ite(a, c, b___1);'
         )
         self._run_tests(program, name2var)
 

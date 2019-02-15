@@ -15,17 +15,18 @@ from intrepyd.iec611312py.expression import Expression, Ite
 from intrepyd.iec611312py.statement import IfThenElse, Case, Assignment
 from intrepyd.iec611312py.summarizer import Summarizer
 from intrepyd.iec611312py.expression import VariableOcc, TRUE
-from intrepyd.iec611312py.stmtprinter import StmtPrinter
 
 class Flattener(object):
     def __init__(self):
         self._summarizer = Summarizer()
 
-    @property
-    def assignments(self):
-        return self._summarizer.assignments
-
     def flattenStmtBlock(self, block):
+        rewritten_stmt_block = self.flattenStmtBlockImpl(block)
+        normal_assignments = self._summarizer.summarizeStmtBlock(rewritten_stmt_block)
+        extra_assignments = self._summarizer._assignments
+        return extra_assignments + normal_assignments
+
+    def flattenStmtBlockImpl(self, block):
         rewritten_stmt_block = []
         for instr in block:
             flattened_instruction = self.flattenInstruction(instr)
@@ -39,7 +40,7 @@ class Flattener(object):
         expression = instruction.expression
         rewritten_stmt_blocks = []
         for block in instruction.stmt_blocks:
-            rewritten_stmt_blocks.append(self.flattenStmtBlock(block))
+            rewritten_stmt_blocks.append(self.flattenStmtBlockImpl(block))
         lhss = collectLhss(rewritten_stmt_blocks)
         ites = []
         conditions = []
@@ -60,7 +61,7 @@ class Flattener(object):
         conditions = instruction.conditions
         rewritten_stmt_blocks = []
         for block in instruction.stmt_blocks:
-            rewritten_stmt_blocks.append(self.flattenStmtBlock(block))
+            rewritten_stmt_blocks.append(self.flattenStmtBlockImpl(block))
         lhss = collectLhss(rewritten_stmt_blocks)
         ites = []
         for lhs in lhss:

@@ -10,7 +10,7 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 """
 
 from intrepyd.iec611312py.plcopen import parsePlcOpenFile
-from intrepyd.iec611312py.flattener import flattenStmtBlock
+from intrepyd.iec611312py.flattener import Flattener
 from intrepyd.iec611312py.flatstmt2intrepyd import FlatStmt2Intrepyd
 from intrepyd.iec611312py.inferdatatype import InferDatatypeBottomUp, InferDatatypeTopDown
 import datetime
@@ -29,7 +29,8 @@ def translate(filename, outfilename):
     name2var = {var.name: var for var in pous[0].input_vars + pous[0].local_vars}
 
     print 'Flattening'
-    flattened_statements = flattenStmtBlock(pous[0].statements)
+    flattener = Flattener()
+    flattened_statements = flattener.flattenStmtBlock(pous[0].statements)
     print '... done'
 
     print 'Inferring datatypes bottom up'

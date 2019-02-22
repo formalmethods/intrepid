@@ -13,61 +13,70 @@ This module implements a flattener for ST terms
 
 from intrepyd.iec611312py.expression import Expression, Ite
 from intrepyd.iec611312py.statement import IfThenElse, Case, Assignment
-from intrepyd.iec611312py.summarizer import summarizeStmtBlock
+from intrepyd.iec611312py.summarizer import Summarizer
 from intrepyd.iec611312py.expression import VariableOcc, TRUE
-from intrepyd.iec611312py.stmtprinter import StmtPrinter
 
-def flattenStmtBlock(block):
-    rewritten_stmt_block = []
-    for instr in block:
-        flattened_instruction = flattenInstruction(instr)
-        for flat_instr in flattened_instruction:
-            rewritten_stmt_block.append(flat_instr)
-    return summarizeStmtBlock(rewritten_stmt_block)
+class Flattener(object):
+    def __init__(self):
+        self._summarizer = Summarizer()
 
-def flattenCase(instruction):
-    if not isinstance(instruction, Case):
-        raise RuntimeError('Instruction is not of type Case')
-    expression = instruction.expression
-    rewritten_stmt_blocks = []
-    for block in instruction.stmt_blocks:
-        rewritten_stmt_blocks.append(flattenStmtBlock(block))
-    lhss = collectLhss(rewritten_stmt_blocks)
-    ites = []
-    conditions = []
-    for selection in instruction.selections:
-        if len(selection) == 1:
-            conditions.append(Expression('=', [expression, selection[0]]))
-        else:
-            cond_or = [Expression('=', [expression, sel]) for sel in selection]
-            conditions.append(Expression('OR', cond_or))
-    for lhs in lhss:
-        lhsOcc = VariableOcc(lhs)
-        ites.append(Assignment(lhsOcc, buildIte(lhsOcc, conditions, rewritten_stmt_blocks)))
-    return ites   
+    def flattenStmtBlock(self, block):
+        rewritten_stmt_block = self.flattenStmtBlockImpl(block)
+        normal_assignments = self._summarizer.summarizeStmtBlock(rewritten_stmt_block)
+        extra_assignments = self._summarizer._assignments
+        return extra_assignments + normal_assignments
 
-def flattenIfThenElse(instruction):
-    if not isinstance(instruction, IfThenElse):
-        raise RuntimeError('Instruction is not of type IfThenElse')
-    conditions = instruction.conditions
-    rewritten_stmt_blocks = []
-    for block in instruction.stmt_blocks:
-        rewritten_stmt_blocks.append(flattenStmtBlock(block))
-    lhss = collectLhss(rewritten_stmt_blocks)
-    ites = []
-    for lhs in lhss:
-        lhsOcc = VariableOcc(lhs)
-        ites.append(Assignment(lhsOcc, buildIte(lhsOcc, conditions, rewritten_stmt_blocks)))
-    return ites   
+    def flattenStmtBlockImpl(self, block):
+        rewritten_stmt_block = []
+        for instr in block:
+            flattened_instruction = self.flattenInstruction(instr)
+            for flat_instr in flattened_instruction:
+                rewritten_stmt_block.append(flat_instr)
+        return self._summarizer.summarizeStmtBlock(rewritten_stmt_block)
 
-def flattenInstruction(instruction):
-    if isinstance(instruction, Assignment):
-        return [instruction]
-    elif isinstance(instruction, Case):
-        return flattenCase(instruction)
-    elif isinstance(instruction, IfThenElse):
-        return flattenIfThenElse(instruction)
-    raise RuntimeError('Unexpected instruction type ' + str(type(instruction)))
+    def flattenCase(self, instruction):
+        if not isinstance(instruction, Case):
+            raise RuntimeError('Instruction is not of type Case')
+        expression = instruction.expression
+        rewritten_stmt_blocks = []
+        for block in instruction.stmt_blocks:
+            rewritten_stmt_blocks.append(self.flattenStmtBlockImpl(block))
+        lhss = collectLhss(rewritten_stmt_blocks)
+        ites = []
+        conditions = []
+        for selection in instruction.selections:
+            if len(selection) == 1:
+                conditions.append(Expression('=', [expression, selection[0]]))
+            else:
+                cond_or = [Expression('=', [expression, sel]) for sel in selection]
+                conditions.append(Expression('OR', cond_or))
+        for lhs in lhss:
+            lhsOcc = VariableOcc(lhs)
+            ites.append(Assignment(lhsOcc, buildIte(lhsOcc, conditions, rewritten_stmt_blocks)))
+        return ites   
+
+    def flattenIfThenElse(self, instruction):
+        if not isinstance(instruction, IfThenElse):
+            raise RuntimeError('Instruction is not of type IfThenElse')
+        conditions = instruction.conditions
+        rewritten_stmt_blocks = []
+        for block in instruction.stmt_blocks:
+            rewritten_stmt_blocks.append(self.flattenStmtBlockImpl(block))
+        lhss = collectLhss(rewritten_stmt_blocks)
+        ites = []
+        for lhs in lhss:
+            lhsOcc = VariableOcc(lhs)
+            ites.append(Assignment(lhsOcc, buildIte(lhsOcc, conditions, rewritten_stmt_blocks)))
+        return ites   
+
+    def flattenInstruction(self, instruction):
+        if isinstance(instruction, Assignment):
+            return [instruction]
+        elif isinstance(instruction, Case):
+            return self.flattenCase(instruction)
+        elif isinstance(instruction, IfThenElse):
+            return self.flattenIfThenElse(instruction)
+        raise RuntimeError('Unexpected instruction type ' + str(type(instruction)))
 
 def buildIte(varOcc, conditions, rewritten_stmt_blocks):
     result = varOcc

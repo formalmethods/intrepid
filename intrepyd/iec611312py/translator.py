@@ -10,7 +10,7 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 """
 
 from intrepyd.iec611312py.plcopen import parsePlcOpenFile
-from intrepyd.iec611312py.flattener import flattenStmtBlock
+from intrepyd.iec611312py.flattener import Flattener
 from intrepyd.iec611312py.flatstmt2intrepyd import FlatStmt2Intrepyd
 from intrepyd.iec611312py.inferdatatype import InferDatatypeBottomUp, InferDatatypeTopDown
 import datetime
@@ -23,17 +23,27 @@ def translate(filename, outfilename):
     """
     Translates an openPLC ST file into intrepyd
     """
+    print 'Parsing'
     pous = parsePlcOpenFile(filename)
+    print '... done'
     name2var = {var.name: var for var in pous[0].input_vars + pous[0].local_vars}
 
-    flattened_statements = flattenStmtBlock(pous[0].statements)
+    print 'Flattening'
+    flattener = Flattener()
+    flattened_statements = flattener.flattenStmtBlock(pous[0].statements)
+    print '... done'
 
+    print 'Inferring datatypes bottom up'
     idbu = InferDatatypeBottomUp()
     idbu.processStatements(flattened_statements)
+    print '... done'
 
+    print 'Inferring datatypes top down'
     idtd = InferDatatypeTopDown()
     idtd.processStatements(flattened_statements)
+    print '... done'
 
+    print 'Writing encoding to file'
     with open(outfilename, 'w') as outfile:
         today = str(datetime.date.today())
         outfile.write('# Translated from ' + filename + ' using intrepyd.iec611312py on ' + today)
@@ -102,6 +112,7 @@ def translate(filename, outfilename):
         outfile.write('def mk_instance(ctx, name):\n')
         outfile.write(TAB + 'return IEC61131Circuit(ctx, name)\n')
         outfile.write('\n')
+    print '... done'
 
 def datatype2py(datatype):
     if datatype.dtname == 'BOOL':
@@ -145,7 +156,6 @@ def declareInput(inp, outfile, name2var):
         var = name2var[inp.name]
         if var is None:
             raise RuntimeError('Could not find datatype for ' + inp.name)
-        print var
         for fieldName, fieldVar in var.datatype.fields.iteritems():
             declareInputHelper(var.name + '.' + fieldName, fieldVar.datatype, outfile)
     else:

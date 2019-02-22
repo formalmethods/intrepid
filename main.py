@@ -6,7 +6,7 @@ import time
 def main():
     startTime = time.time()
     # enc = translate_iec61131('tests/openplc/simple2.xml')
-    enc = translate_iec61131('tests/openplc/GPCA_SW_Functional_redux.xml')
+    enc = translate_iec61131('tests/openplc/GPCA_SW_Functional_subst.xml')
 
     # ctx = ip.Context()
     # circ = enc.mk_instance(ctx, 'Simple1')

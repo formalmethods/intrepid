@@ -15,6 +15,11 @@ from intrepyd.iec611312py.visitor import Visitor
 from intrepyd.iec611312py.statement import Assignment
 from intrepyd.iec611312py.expression import VariableOcc, Expression
 
+def termAsString(term):
+    printer = StmtPrinter()
+    printer.visit(term)
+    return printer.result
+
 class StmtPrinter(Visitor):
     """
     Visitor for printing Statements on a string

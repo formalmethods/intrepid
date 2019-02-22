@@ -1009,6 +1009,78 @@ def mk_substitute(ctx, term, new_subterm, old_subterm):
     """
     return _api.mk_substitute(ctx, term, new_subterm, old_subterm)
 
+def mk_cast_to_int8(ctx, term):
+    """
+    mk_cast_to_int8(Int_ctx ctx, Int_net term) -> Int_net
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    term: Int_net
+
+    """
+    return _api.mk_cast_to_int8(ctx, term)
+
+def mk_cast_to_int16(ctx, term):
+    """
+    mk_cast_to_int16(Int_ctx ctx, Int_net term) -> Int_net
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    term: Int_net
+
+    """
+    return _api.mk_cast_to_int16(ctx, term)
+
+def mk_cast_to_int32(ctx, term):
+    """
+    mk_cast_to_int32(Int_ctx ctx, Int_net term) -> Int_net
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    term: Int_net
+
+    """
+    return _api.mk_cast_to_int32(ctx, term)
+
+def mk_cast_to_uint8(ctx, term):
+    """
+    mk_cast_to_uint8(Int_ctx ctx, Int_net term) -> Int_net
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    term: Int_net
+
+    """
+    return _api.mk_cast_to_uint8(ctx, term)
+
+def mk_cast_to_uint16(ctx, term):
+    """
+    mk_cast_to_uint16(Int_ctx ctx, Int_net term) -> Int_net
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    term: Int_net
+
+    """
+    return _api.mk_cast_to_uint16(ctx, term)
+
+def mk_cast_to_uint32(ctx, term):
+    """
+    mk_cast_to_uint32(Int_ctx ctx, Int_net term) -> Int_net
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    term: Int_net
+
+    """
+    return _api.mk_cast_to_uint32(ctx, term)
+
 def apitrace_dump_to_file(filename):
     """
     apitrace_dump_to_file(char const * filename)

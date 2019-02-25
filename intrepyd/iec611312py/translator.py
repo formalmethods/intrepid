@@ -14,10 +14,14 @@ from intrepyd.iec611312py.flattener import Flattener
 from intrepyd.iec611312py.flatstmt2intrepyd import FlatStmt2Intrepyd
 from intrepyd.iec611312py.inferdatatype import InferDatatypeBottomUp, InferDatatypeTopDown
 import datetime
+import sys
 
 TAB = 4 * ' '
 FIRSTTICK = 'first_tick'
 CONTEXT = 'self.context'
+
+def flush():
+    sys.stdout.flush()
 
 def translate(filename, outfilename):
     """
@@ -27,21 +31,25 @@ def translate(filename, outfilename):
     pous = parsePlcOpenFile(filename)
     print '... done'
     name2var = {var.name: var for var in pous[0].input_vars + pous[0].local_vars}
+    flush()
 
     print 'Flattening'
     flattener = Flattener()
     flattened_statements = flattener.flattenStmtBlock(pous[0].statements)
     print '... done'
+    flush()
 
     print 'Inferring datatypes bottom up'
     idbu = InferDatatypeBottomUp()
     idbu.processStatements(flattened_statements)
     print '... done'
+    flush()
 
     print 'Inferring datatypes top down'
     idtd = InferDatatypeTopDown()
     idtd.processStatements(flattened_statements)
     print '... done'
+    flush()
 
     print 'Writing encoding to file'
     with open(outfilename, 'w') as outfile:
@@ -90,23 +98,34 @@ def translate(filename, outfilename):
         outfile.write('\n')
         args = ''
         sep = ''
+        print '  Writing inputs'
         for inp in pous[0].input_vars:
             args += sep + inp.name
             sep = ', '
         outfile.write(TAB + 'def ' + pous[0].dtname + '(self, ' + args + '):\n')
+        print '  ... done'
+        flush()
         var2latch = {}
+        print '  Writing latches'
         for var in pous[0].local_vars:
             declareLocal(var, outfile, var2latch, name2var)
-        flatstmt2intrepyd = FlatStmt2Intrepyd(8, CONTEXT, var2latch)
+        print '  ... done'
+        flush()
+        print '  Writing statements'
+        flatstmt2intrepyd = FlatStmt2Intrepyd(8, CONTEXT, var2latch, outfile)
         flatstmt2intrepyd.processStatements(flattened_statements)
-        outfile.write(flatstmt2intrepyd.result)
+        print '  ... done'
+        flush()
         sep = ''
         outs = ''
         if len(pous[0].output_vars) == 0:
             raise RuntimeError('Pou has no outputs')
+        print '  Writing outputs'
         for out in pous[0].output_vars:
             outs += sep + out.name
             sep = ', '
+        print '  ... done'
+        flush()
         outfile.write(TAB + TAB + 'return ' + outs)
         outfile.write('\n\n')
         outfile.write('def mk_instance(ctx, name):\n')

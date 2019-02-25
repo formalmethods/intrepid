@@ -5,12 +5,11 @@ import time
 
 def main():
     startTime = time.time()
-    # enc = translate_iec61131('tests/openplc/simple2.xml')
     enc = translate_iec61131('tests/openplc/GPCA_SW_Functional_subst.xml')
 
-    # ctx = ip.Context()
-    # circ = enc.mk_instance(ctx, 'Simple1')
-    # circ.mk_circuit()
+    ctx = ip.Context()
+    circ = enc.mk_instance(ctx, 'GPCA 1')
+    circ.mk_circuit()
     prsTime = time.time() - startTime
 
     # bmc = ctx.mk_bmc()

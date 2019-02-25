@@ -180,6 +180,24 @@ class Context(object):
     def mk_assumption(self, net):
         ip.api.mk_assumption(self.ctx, net)
 
+    def mk_cast_to_int8(self, net):
+        ip.api.mk_cast_to_int8(self.ctx, net)
+
+    def mk_cast_to_int16(self, net):
+        ip.api.mk_cast_to_int16(self.ctx, net)
+
+    def mk_cast_to_int32(self, net):
+        ip.api.mk_cast_to_int32(self.ctx, net)
+
+    def mk_cast_to_uint8(self, net):
+        ip.api.mk_cast_to_uint8(self.ctx, net)
+
+    def mk_cast_to_uint16(self, net):
+        ip.api.mk_cast_to_uint16(self.ctx, net)
+
+    def mk_cast_to_uint32(self, net):
+        ip.api.mk_cast_to_uint32(self.ctx, net)
+
     def mk_bmc(self):
         return ip.engine.Bmc(self.ctx)
 

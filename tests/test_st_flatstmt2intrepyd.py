@@ -20,6 +20,7 @@ from intrepyd.iec611312py.statement import Assignment
 from intrepyd.iec611312py.datatype import Primitive, Struct
 from intrepyd.iec611312py.inferdatatype import InferDatatypeBottomUp, InferDatatypeTopDown
 from intrepyd.iec611312py.stmtprinter import StmtPrinter
+import StringIO
 
 boolType = Primitive('BOOL')
 intType = Primitive('INT')
@@ -41,10 +42,11 @@ class TestSTFlatStmt2Intrepyd(unittest.TestCase):
         idbu.processStatements(flattened_statements)
         idtd = InferDatatypeTopDown()
         idtd.processStatements(flattened_statements)
-        flatstmt2intrepyd = FlatStmt2Intrepyd(4, 'ctx', var2latch)
+        stringio = StringIO.StringIO()
+        flatstmt2intrepyd = FlatStmt2Intrepyd(4, 'ctx', var2latch, stringio)
         flatstmt2intrepyd.processStatements(flattened_statements)
         self.assertEquals(self.normalize_string(expected),
-                          self.normalize_string(flatstmt2intrepyd.result))
+                          self.normalize_string(stringio.getvalue()))
 
     def test_assignment_1(self):
         name2var = {

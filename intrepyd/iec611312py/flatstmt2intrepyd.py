@@ -69,10 +69,7 @@ class FlatStmt2Intrepyd(Visitor):
 
     def processStatements(self, statements, process_latches = True):
         self._inc_indent()
-        i = 1
         for statement in statements:
-            print '    . processing statement %d of %d' % (i, len(statements))
-            i += 1
             sys.stdout.flush()
             if not isinstance(statement, Assignment):
                 raise RuntimeError('Expected Assignment, got ' + str(type(statement)))

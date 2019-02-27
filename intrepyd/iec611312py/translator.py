@@ -13,6 +13,8 @@ from intrepyd.iec611312py.plcopen import parsePlcOpenFile
 from intrepyd.iec611312py.flattener import Flattener
 from intrepyd.iec611312py.flatstmt2intrepyd import FlatStmt2Intrepyd
 from intrepyd.iec611312py.inferdatatype import InferDatatypeBottomUp, InferDatatypeTopDown
+from intrepyd.iec611312py.datatype import Datatype
+from utils import sanitizeName
 import datetime
 import sys
 
@@ -76,40 +78,75 @@ def translate(filename, outfilename):
         outfile.write('\n')
         outfile.write(TAB + 'def _mk_naked_circuit_impl(self, inputs):\n')
         outfile.write(TAB + TAB + 'input_keys = list(inputs)\n')
+        #
+        # Prepare input keys that are actual arguments of main function
+        #
         args = ''
         sep = ''
         i = 0
-        for _ in pous[0].input_vars:
-            args += sep + 'inputs[input_keys[' + str(i) + ']]'
-            sep = ', '
-            i += 1
+        for var in pous[0].input_vars:
+            if not Datatype.isPrimitive(var.datatype.dtname):
+                for _, _ in var.datatype.fields.iteritems():
+                    args += sep + 'inputs[input_keys[' + str(i) + ']]'
+                    sep = ', '
+                    i += 1
+            else:
+                args += sep + 'inputs[input_keys[' + str(i) + ']]'
+                sep = ', '
+                i += 1
+        #
+        # Prepare the outputs
+        #
         sep = ''
         outs = ''
         if len(pous[0].output_vars) == 0:
             raise RuntimeError('Pou has no outputs')
         for out in pous[0].output_vars:
-            outs += sep + out.name
-            sep = ', '
+            if not Datatype.isPrimitive(out.datatype.dtname):
+                for name, _ in out.datatype.fields.iteritems():
+                    outs += sep + sanitizeName(out.name + '.' + name)
+                    sep = ', '
+            else:
+                outs += sep + out.name
+                sep = ', '
+        #
+        # Calls the main function
+        #
         outfile.write(TAB + TAB + outs + ' = self.' + pous[0].dtname + '(' + args + ')\n')
         outfile.write(TAB + TAB + 'outputs = collections.OrderedDict()\n')
+        #
+        # Inserts the outputs into the dictionary
+        #
         for out in pous[0].output_vars:
-            outfile.write(TAB + TAB + "outputs['" + out.name + "'] = " + out.name + "\n")
+            if not Datatype.isPrimitive(out.datatype.dtname):
+                for name, _ in out.datatype.fields.iteritems():
+                    qualifiedName = out.name + '.' + name
+                    outfile.write(TAB + TAB + "outputs['" + qualifiedName + "'] = " + sanitizeName(qualifiedName) + "\n")
+            else:
+                outfile.write(TAB + TAB + "outputs['" + out.name + "'] = " + out.name + "\n")
         outfile.write(TAB + TAB + 'return outputs\n')
         outfile.write('\n')
+        #
+        # Prepare the formal arguments of the main function
+        #
         args = ''
         sep = ''
-        print '  Writing inputs'
-        for inp in pous[0].input_vars:
-            args += sep + inp.name
-            sep = ', '
+        for var in pous[0].input_vars:
+            if not Datatype.isPrimitive(var.datatype.dtname):
+                for name, _ in var.datatype.fields.iteritems():
+                    args += sep + sanitizeName(var.name + '.' + name) 
+                    sep = ', '
+            else:
+                args += sep + var.name
+                sep = ', '
+        #
+        # Declaration of main function
+        #
         outfile.write(TAB + 'def ' + pous[0].dtname + '(self, ' + args + '):\n')
-        print '  ... done'
         flush()
         var2latch = {}
-        print '  Writing latches'
         for var in pous[0].local_vars:
             declareLocal(var, outfile, var2latch, name2var)
-        print '  ... done'
         flush()
         print '  Writing statements'
         flatstmt2intrepyd = FlatStmt2Intrepyd(8, CONTEXT, var2latch, outfile)
@@ -122,8 +159,14 @@ def translate(filename, outfilename):
             raise RuntimeError('Pou has no outputs')
         print '  Writing outputs'
         for out in pous[0].output_vars:
-            outs += sep + out.name
-            sep = ', '
+            if not Datatype.isPrimitive(out.datatype.dtname):
+                for name, _ in out.datatype.fields.iteritems():
+                    qualifiedName = out.name + '.' + name
+                    outs += sep + sanitizeName(qualifiedName)
+                    sep = ', '
+            else:
+                outs += sep + out.name
+                sep = ', '
         print '  ... done'
         flush()
         outfile.write(TAB + TAB + 'return ' + outs)
@@ -201,6 +244,3 @@ def declareLocal(var, outfile, var2latch, name2var):
             declareInputHelper(var.name + '.' + fieldName, fieldVar.datatype, outfile)
     else:
         declareLocalHelper(var.name, var.datatype, outfile, var2latch)
-
-def sanitizeName(name):
-    return name.replace('.', '_')

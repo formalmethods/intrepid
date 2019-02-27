@@ -14,6 +14,7 @@ This module implements the translation from flat statements into intrepyd
 from intrepyd.iec611312py.visitor import Visitor
 from intrepyd.iec611312py.statement import Assignment
 from intrepyd.iec611312py.expression import Ite, Expression, ConstantOcc, VariableOcc, TRUE, FALSE
+from utils import sanitizeName
 import sys
 
 STOP2INTREPYDUNARYOP = {
@@ -112,7 +113,7 @@ class FlatStmt2Intrepyd(Visitor):
             self._usedlatches.add(latch)
         else:
             self._indent_result()
-            self._outfile.write(name + ' = ' + next_)
+            self._outfile.write(sanitizeName(name) + ' = ' + next_)
         self._outfile.write('\n')
 
     def _visit_expression(self, expression):

@@ -156,7 +156,7 @@ class FlatStmt2Intrepyd(Visitor):
         return result
 
     def _visit_variable_occ(self, variableOcc):
-        return variableOcc.var.name
+        return sanitizeName(variableOcc.var.name)
 
     def _visit_constant_occ(self, constantOcc):
         if constantOcc.cst == FALSE.cst:

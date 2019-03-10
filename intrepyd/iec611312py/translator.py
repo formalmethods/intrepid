@@ -22,8 +22,10 @@ TAB = 4 * ' '
 FIRSTTICK = 'first_tick'
 CONTEXT = 'self.context'
 
+
 def flush():
     sys.stdout.flush()
+
 
 def translate(filename, outfilename):
     """
@@ -32,7 +34,8 @@ def translate(filename, outfilename):
     print 'Parsing'
     pous = parsePlcOpenFile(filename)
     print '... done'
-    name2var = {var.name: var for var in pous[0].input_vars + pous[0].local_vars}
+    name2var = {
+        var.name: var for var in pous[0].input_vars + pous[0].local_vars + pous[0].output_vars}
     flush()
 
     print 'Flattening'
@@ -56,18 +59,21 @@ def translate(filename, outfilename):
     print 'Writing encoding to file'
     with open(outfilename, 'w') as outfile:
         today = str(datetime.date.today())
-        outfile.write('# Translated from ' + filename + ' using intrepyd.iec611312py on ' + today)
+        outfile.write('# Translated from ' + filename +
+                      ' using intrepyd.iec611312py on ' + today)
         outfile.write('\n\n')
         outfile.write('import intrepyd as ip\n')
         outfile.write('import intrepyd.circuit\n')
         outfile.write('import collections\n\n')
         outfile.write('class IEC61131Circuit(ip.circuit.Circuit):\n')
         outfile.write(TAB + 'def __init__(self, ctx, name):\n')
-        outfile.write(TAB + TAB + 'ip.circuit.Circuit.__init__(self, ctx, name)\n')
-        outfile.write(TAB + TAB + 'bool_type = ' + CONTEXT + '.mk_boolean_type()\n')
-        outfile.write(TAB + TAB + FIRSTTICK + ' = ' + CONTEXT +\
+        outfile.write(
+            TAB + TAB + 'ip.circuit.Circuit.__init__(self, ctx, name)\n')
+        outfile.write(TAB + TAB + 'bool_type = ' +
+                      CONTEXT + '.mk_boolean_type()\n')
+        outfile.write(TAB + TAB + FIRSTTICK + ' = ' + CONTEXT +
                       '.mk_latch("' + FIRSTTICK + '", bool_type)\n')
-        outfile.write(TAB + TAB + CONTEXT +\
+        outfile.write(TAB + TAB + CONTEXT +
                       '.set_latch_init_next(' + FIRSTTICK + ', ' + CONTEXT + '.mk_true(), ' + CONTEXT + '.mk_false())\n')
         outfile.write('\n')
         outfile.write(TAB + 'def _mk_inputs(self):\n')
@@ -112,7 +118,8 @@ def translate(filename, outfilename):
         #
         # Calls the main function
         #
-        outfile.write(TAB + TAB + outs + ' = self.' + pous[0].dtname + '(' + args + ')\n')
+        outfile.write(TAB + TAB + outs + ' = self.' +
+                      pous[0].dtname + '(' + args + ')\n')
         outfile.write(TAB + TAB + 'outputs = collections.OrderedDict()\n')
         #
         # Inserts the outputs into the dictionary
@@ -121,9 +128,11 @@ def translate(filename, outfilename):
             if not Datatype.isPrimitive(out.datatype.dtname):
                 for name, _ in out.datatype.fields.iteritems():
                     qualifiedName = out.name + '.' + name
-                    outfile.write(TAB + TAB + "outputs['" + qualifiedName + "'] = " + sanitizeName(qualifiedName) + "\n")
+                    outfile.write(
+                        TAB + TAB + "outputs['" + qualifiedName + "'] = " + sanitizeName(qualifiedName) + "\n")
             else:
-                outfile.write(TAB + TAB + "outputs['" + out.name + "'] = " + out.name + "\n")
+                outfile.write(
+                    TAB + TAB + "outputs['" + out.name + "'] = " + out.name + "\n")
         outfile.write(TAB + TAB + 'return outputs\n')
         outfile.write('\n')
         #
@@ -134,7 +143,7 @@ def translate(filename, outfilename):
         for var in pous[0].input_vars:
             if not Datatype.isPrimitive(var.datatype.dtname):
                 for name, _ in var.datatype.fields.iteritems():
-                    args += sep + sanitizeName(var.name + '.' + name) 
+                    args += sep + sanitizeName(var.name + '.' + name)
                     sep = ', '
             else:
                 args += sep + var.name
@@ -142,10 +151,13 @@ def translate(filename, outfilename):
         #
         # Declaration of main function
         #
-        outfile.write(TAB + 'def ' + pous[0].dtname + '(self, ' + args + '):\n')
+        outfile.write(
+            TAB + 'def ' + pous[0].dtname + '(self, ' + args + '):\n')
         flush()
         var2latch = {}
         for var in pous[0].local_vars:
+            declareLocal(var, outfile, var2latch, name2var)
+        for var in pous[0].output_vars:
             declareLocal(var, outfile, var2latch, name2var)
         flush()
         print '  Writing statements'
@@ -176,6 +188,7 @@ def translate(filename, outfilename):
         outfile.write('\n')
     print '... done'
 
+
 def datatype2py(datatype):
     if datatype.dtname == 'BOOL':
         return CONTEXT + '.mk_boolean_type()'
@@ -197,50 +210,58 @@ def datatype2py(datatype):
         return CONTEXT + '.mk_int64_type()'
     return None
 
+
 def datatype2init(datatype):
     if datatype.dtname == 'BOOL':
         return CONTEXT + '.mk_false()'
     return CONTEXT + '.mk_number("0", ' + datatype2py(datatype) + ')'
+
 
 def declareInputHelper(name, datatype, outfile):
     saneName = sanitizeName(name)
     datatypepy = datatype2py(datatype)
     if datatypepy is None:
         raise RuntimeError('Datatype for ' + datatype.dtname + ' is None')
-    outfile.write(TAB + TAB + saneName + ' = ' + CONTEXT +\
-                  ".mk_input('" + name + "', "\
+    outfile.write(TAB + TAB + saneName + ' = ' + CONTEXT +
+                  ".mk_input('" + name + "', "
                                 + datatypepy + ')\n')
-    outfile.write(TAB + TAB + "self.inputs['" + name + "'] = " + saneName + '\n')
+    outfile.write(
+        TAB + TAB + "self.inputs['" + name + "'] = " + saneName + '\n')
+
 
 def declareInput(inp, outfile, name2var):
     datatypepy = datatype2py(inp.datatype)
     if datatypepy is None:
-        var = name2var[inp.name]
-        if var is None:
+        if not inp.name in name2var:
             raise RuntimeError('Could not find datatype for ' + inp.name)
+        var = name2var[inp.name]
         for fieldName, fieldVar in var.datatype.fields.iteritems():
-            declareInputHelper(var.name + '.' + fieldName, fieldVar.datatype, outfile)
+            declareInputHelper(var.name + '.' + fieldName,
+                               fieldVar.datatype, outfile)
     else:
         declareInputHelper(inp.name, inp.datatype, outfile)
+
 
 def declareLocalHelper(name, datatype, outfile, var2latch):
     saneName = sanitizeName(name)
     datatypepy = datatype2py(datatype)
     if datatypepy is None:
         raise RuntimeError('Datatype for ' + datatype.dtname + ' is None')
-    outfile.write(TAB + TAB +\
-                  saneName + ' = ' + CONTEXT + '.mk_latch("' + name + '", ' +\
+    outfile.write(TAB + TAB +
+                  saneName + ' = ' + CONTEXT + '.mk_latch("' + name + '", ' +
                   datatypepy + ')\n')
     init = datatype2init(datatype)
     var2latch[name] = (saneName, init)
 
+
 def declareLocal(var, outfile, var2latch, name2var):
     datatypepy = datatype2py(var.datatype)
     if datatypepy is None:
-        var = name2var[var.name]
-        if var is None:
+        if not var.name in name2var:
             raise RuntimeError('Could not find datatype for ' + var.name)
+        var = name2var[var.name]
         for fieldName, fieldVar in var.datatype.fields.iteritems():
-            declareInputHelper(var.name + '.' + fieldName, fieldVar.datatype, outfile)
+            declareLocalHelper(var.name + '.' + fieldName,
+                               fieldVar.datatype, outfile, var2latch)
     else:
         declareLocalHelper(var.name, var.datatype, outfile, var2latch)

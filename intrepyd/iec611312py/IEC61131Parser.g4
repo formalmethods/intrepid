@@ -201,9 +201,13 @@ term_expression  : term_expression op=( '*' | '/' | MOD ) term_expression       
                  | '-' term_expression                                                        # unaryTermExpression
                  | conversion_function '(' (bool_expression | term_expression) ')'            # callTermExpression
                  | std_func_name '(' (bool_expression | term_expression) ')'                  # callTermExpression
+                 | custom_func_name '(' (func_param_init ','?)* ')'                           # customCallExpression
                  | leaf_expression                                                            # leafTermExpression
                  | '(' subexpr=term_expression ')'                                            # parTermExpression
                  ;
+
+func_param_init : variable_name ':=' (bool_expression | term_expression)
+                ;
         
 leaf_expression  : simple_var
                  | array_access
@@ -230,6 +234,8 @@ time_literal     : TIME_MS | TIME_S ;
  ****************************************************************************************************************/
 
 variable_name       : IDENTIFIER;
+
+custom_func_name    : IDENTIFIER;
 
 simple_var          : variable_name;
 

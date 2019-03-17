@@ -106,5 +106,39 @@ class Ite(ExpressionBase):
     def else_term(self):
         return self._else_term
 
+class FunctionOcc(ExpressionBase):
+    """
+    A function call occurrence
+    """
+    def __init__(self, name, param_inits):
+        ExpressionBase.__init__(self)
+        self._name = name
+        self._param_inits = param_inits
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def param_inits(self):
+        return self._param_inits
+
+class ParamInit(ExpressionBase):
+    """
+    Holds a parameter initialization for function calls
+    """
+    def __init__(self, lhs, rhs):
+        ExpressionBase.__init__(self)
+        self._lhs = lhs
+        self._rhs = rhs
+    
+    @property
+    def lhs(self):
+        return self._lhs
+    
+    @property
+    def rhs(self):
+        return self._rhs
+
 TRUE = ConstantOcc('TRUE')
 FALSE = ConstantOcc('FALSE')

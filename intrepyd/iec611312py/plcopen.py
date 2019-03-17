@@ -14,6 +14,7 @@ This module implements the main parsing routine of PLCOPEN files
 from antlr4 import CommonTokenStream, InputStream
 from xml.etree import ElementTree
 from functionblock import FunctionBlock
+from function import Function
 from parsest import parseST
 from variable import Variable
 from datatype import Primitive, Struct, Datatype
@@ -31,10 +32,13 @@ def parsePous(root):
             parseDatatype(datatype)
     parsedPous = []
     for pou in root.iter('pou'):
-        if pou.get('pouType') == 'functionBlock':
+        poutype = pou.get('pouType')
+        if poutype == 'functionBlock':
             parsedPous.append(parseFunctionBlock(pou))
+        elif poutype == 'function':
+            parsedPous.append(parseFunction(pou))
         else:
-            raise RuntimeError('Unsupported pou type ' + pou.pouType)
+            raise RuntimeError('Unsupported pou type ' + poutype)
     return parsedPous 
 
 def parseDatatype(datatype):
@@ -47,16 +51,26 @@ def parseDatatype(datatype):
             Datatype.add(name, Struct(name, fields))
 
 def parseFunctionBlock(functionBlock):
-    inputVars, outputVars, localVars = parseFbInterface(functionBlock)
+    inputVars, outputVars, localVars = parseInterface(functionBlock)
     name2var = {var.name: var for var in inputVars + outputVars + localVars}
     body = parsePouBody(functionBlock, name2var)
     return FunctionBlock(functionBlock.get('name'), inputVars, outputVars, localVars, body)
 
-def parseFbInterface(functionBlock):
+def parseFunction(function):
+    inputVars, outputVars, localVars = parseInterface(function)
+    name = function.get('name')
+    returnType = parseFunctionReturnType(function)
+    Datatype.add(name, returnType)
+    outputVars.append(Variable(name, returnType, Variable.OUTPUT))
+    name2var = {var.name: var for var in inputVars + outputVars + localVars}
+    body = parsePouBody(function, name2var)
+    return Function(name, inputVars, outputVars, localVars, body)
+
+def parseInterface(pou):
     inputVars = []
     outputVars = []
     localVars = []
-    for interface in functionBlock.iter('interface'):
+    for interface in pou.iter('interface'):
         for inVars in interface.iter('inputVars'):
             inputVars = [parseVar(var, Variable.INPUT) for var in inVars.iter('variable')]
         for outVars in interface.iter('outputVars'):
@@ -71,8 +85,22 @@ def parsePouBody(pou, name2var):
         for st in body.iter('ST'):
             code = st[0].text
     if code is None:
-        raise RuntimeError('Could not read FunctionBlock body')
+        raise RuntimeError('Could not read Pou body ' + pou.dtname)
     return parseST(code, name2var)
+
+def parseFunctionReturnType(pou):
+    dtName = None 
+    datatype = None
+    for returnType in pou.iter('returnType'):
+        dtName = returnType[0].tag
+    if dtName is None:
+        raise RuntimeError('Could not read Function type')
+    if Datatype.isPrimitive(dtName):
+        datatype = Primitive(dtName)
+    if dtName == 'derived':
+        name = returnType[0].get('name')
+        datatype = Datatype.get(name)
+    return datatype
     
 def parseVar(var, kind):
     dtName = var[0][0].tag

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+   <fileHeader companyName="The Mathworks, Inc." companyURL="www.mathworks.com" contentDescription="" creationDateTime="2019-03-15T21:48:14" productName="Simulink PLC Coder" productRelease="(R2018b)" productVersion="2.6"/>
+   <types>
+      <dataTypes/>
+      <pous>
+         <pou name="Subsystem" pouType="functionBlock">
+            <interface>
+               <inputVars>
+                  <variable name="In1">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In2">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+               </inputVars>
+               <outputVars>
+                  <variable name="Highest_Level_Alarm">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+               </outputVars>
+               <localVars/>
+            </interface>
+            <body>
+               <ST>
+                  <xhtml xmlns="http://www.w3.org/1999/xhtml">
+<![CDATA[
+
+    Highest_Level_Alarm := Step_Scaling_Factor(inputVal1 := In1, inputVal2 := In2);
+
+]]>
+</xhtml>
+               </ST>
+            </body>
+         </pou>
+         <pou name="Step_Scaling_Factor" pouType="function">
+            <interface>
+               <returnType>
+                  <USINT/>
+               </returnType>
+               <inputVars>
+                  <variable name="inputVal1">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="inputVal2">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+               </inputVars>
+               <localVars/>
+            </interface>
+            <body>
+               <ST>
+                  <xhtml xmlns="http://www.w3.org/1999/xhtml">
+<![CDATA[
+(* Graphical Function 'Step_Scaling_Factor': '<S2>:4782' *)
+(* Transition: '<S2>:4776' *)
+Step_Scaling_Factor := inputVal1 + inputVal2;
+]]>
+</xhtml>
+               </ST>
+            </body>
+         </pou>
+      </pous>
+   </types>
+   <instances>
+      <configurations/>
+   </instances>
+</project>

@@ -13,7 +13,7 @@ This module implements type inference for expressions
 
 from intrepyd.iec611312py.visitor import Visitor
 from intrepyd.iec611312py.expression import Expression, ConstantOcc, VariableOcc, Ite
-from intrepyd.iec611312py.datatype import Primitive
+from intrepyd.iec611312py.datatype import Primitive, Datatype
 import re
 
 boolType = Primitive('BOOL')
@@ -95,6 +95,9 @@ class InferDatatypeBottomUp(Visitor):
     def _visit_constant_occ(self, constantOcc):
         pass
 
+    def _visit_function_occ(self, functionOcc):
+        functionOcc.datatype = Datatype.get(functionOcc.name)
+
 
 class InferDatatypeTopDown(Visitor):
     """
@@ -168,5 +171,8 @@ class InferDatatypeTopDown(Visitor):
         pass
 
     def _visit_constant_occ(self, constantOcc):
+        pass
+
+    def _visit_function_occ(self, functionOcc):
         pass
 

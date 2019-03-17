@@ -165,3 +165,14 @@ class FlatStmt2Intrepyd(Visitor):
             return self._prefix + 'mk_true()'
         return self._prefix + 'mk_number("' + constantOcc.cst + '", ' +\
                                            self._prefix + 'mk_' + datatype2py[constantOcc.datatype.dtname] + '_type())'
+
+    def _visit_function_occ(self, functionOcc):
+        params = ''
+        sep = ''
+        for param_init in functionOcc.param_inits:
+            params += sep + param_init.lhs + ' = ' + param_init.rhs
+            sep = ', '
+        result = self._getTmpVar()
+        self._indent_result()
+        self._outfile.write(result + ' = self.' + functionOcc.name + '(' + params + ')\n')
+        return result

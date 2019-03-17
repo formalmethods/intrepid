@@ -410,6 +410,16 @@ class IEC61131ParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by IEC61131ParserParser#customCallExpression.
+    def visitCustomCallExpression(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by IEC61131ParserParser#func_param_init.
+    def visitFunc_param_init(self, ctx):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by IEC61131ParserParser#leaf_expression.
     def visitLeaf_expression(self, ctx):
         return self.visitChildren(ctx)
@@ -457,6 +467,11 @@ class IEC61131ParserVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by IEC61131ParserParser#variable_name.
     def visitVariable_name(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by IEC61131ParserParser#custom_func_name.
+    def visitCustom_func_name(self, ctx):
         return self.visitChildren(ctx)
 
 

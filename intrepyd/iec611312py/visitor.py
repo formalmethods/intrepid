@@ -12,7 +12,7 @@ This module implements a generic vistor infrastructure
 """
 
 from intrepyd.iec611312py.statement import Assignment, IfThenElse, Case
-from intrepyd.iec611312py.expression import VariableOcc, ConstantOcc, Expression, Ite
+from intrepyd.iec611312py.expression import VariableOcc, ConstantOcc, Expression, Ite, FunctionOcc, ParamInit
 
 class Visitor(object):
     """
@@ -36,6 +36,10 @@ class Visitor(object):
             return self._visit_constant_occ(obj)
         elif isinstance(obj, Ite):
             return self._visit_ite(obj)
+        elif isinstance(obj, FunctionOcc):
+            return self._visit_function_occ(obj)
+        elif isinstance(obj, ParamInit):
+            return self._visit_param_init(obj)
         raise TypeError('Type not found ' + str(type(obj)))
 
     def _visit_assignment(self, obj):
@@ -77,5 +81,17 @@ class Visitor(object):
     def _visit_constant_occ(self, obj):
         """
         Visits Constant occurrence
+        """
+        raise NotImplementedError
+
+    def _visit_function_occ(self, obj):
+        """
+        Visits Function call occurrence
+        """
+        raise NotImplementedError
+
+    def _visit_param_init(self, obj):
+        """
+        Visits Param init occurrence
         """
         raise NotImplementedError

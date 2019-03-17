@@ -13,7 +13,7 @@ This module implements the main parsing routine of IEC61131 text
 
 from intrepyd.iec611312py.IEC61131ParserVisitor import IEC61131ParserVisitor
 from intrepyd.iec611312py.statement import Assignment, IfThenElse, Case
-from intrepyd.iec611312py.expression import VariableOcc, ConstantOcc, Expression, Range, TRUE
+from intrepyd.iec611312py.expression import VariableOcc, ConstantOcc, Expression, Range, FunctionOcc, ParamInit, TRUE
 from intrepyd.iec611312py.variable import Variable
 
 def computeCompositeDatatype(var, name2var):
@@ -115,6 +115,16 @@ class STMTBuilder(IEC61131ParserVisitor):
 
     def visitCallTermExpression(self, ctx):
         return self._callExpressionHelper(ctx)
+
+    def visitCustomCallExpression(self, ctx):
+        paramInits = []
+        if ctx.getChildCount() > 2:
+            for i in range(2, ctx.getChildCount(), 2):
+                paramInits.append(ctx.getChild(i).accept(self))
+        return FunctionOcc(ctx.getChild(0).getText(), paramInits)
+
+    def visitFunc_param_init(self, ctx):
+        return ParamInit(ctx.getChild(0).getText(), ctx.getChild(2).getText())
 
     def visitIf_stmt(self, ctx):
         return ctx.getChild(0).accept(self)

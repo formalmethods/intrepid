@@ -30,13 +30,19 @@ def parsePous(root):
     for datatypes in root.iter('dataTypes'):
         for datatype in datatypes:
             parseDatatype(datatype)
+    pou2inputs = {}
+    for pou in root.iter('pou'):
+        poutype = pou.get('pouType')
+        if poutype == 'function':
+            inputVars, _, _ = parseInterface(pou)
+            pou2inputs[pou.get('name')] = inputVars
     parsedPous = []
     for pou in root.iter('pou'):
         poutype = pou.get('pouType')
         if poutype == 'functionBlock':
-            parsedPous.append(parseFunctionBlock(pou))
+            parsedPous.append(parseFunctionBlock(pou, pou2inputs))
         elif poutype == 'function':
-            parsedPous.append(parseFunction(pou))
+            parsedPous.append(parseFunction(pou, pou2inputs))
         else:
             raise RuntimeError('Unsupported pou type ' + poutype)
     return parsedPous 
@@ -50,20 +56,20 @@ def parseDatatype(datatype):
                 fields[var.get('name')] = parseVar(var, Variable.FIELD)
             Datatype.add(name, Struct(name, fields))
 
-def parseFunctionBlock(functionBlock):
+def parseFunctionBlock(functionBlock, pou2inputs):
     inputVars, outputVars, localVars = parseInterface(functionBlock)
     name2var = {var.name: var for var in inputVars + outputVars + localVars}
-    body = parsePouBody(functionBlock, name2var)
+    body = parsePouBody(functionBlock, name2var, pou2inputs)
     return FunctionBlock(functionBlock.get('name'), inputVars, outputVars, localVars, body)
 
-def parseFunction(function):
+def parseFunction(function, pou2inputs):
     inputVars, outputVars, localVars = parseInterface(function)
     name = function.get('name')
     returnType = parseFunctionReturnType(function)
     Datatype.add(name, returnType)
     outputVars.append(Variable(name, returnType, Variable.OUTPUT))
     name2var = {var.name: var for var in inputVars + outputVars + localVars}
-    body = parsePouBody(function, name2var)
+    body = parsePouBody(function, name2var, pou2inputs)
     return Function(name, inputVars, outputVars, localVars, body)
 
 def parseInterface(pou):
@@ -79,14 +85,14 @@ def parseInterface(pou):
             localVars = [parseVar(var, Variable.LOCAL) for var in locVars.iter('variable')]
     return inputVars, outputVars, localVars
 
-def parsePouBody(pou, name2var):
+def parsePouBody(pou, name2var, pou2inputs):
     code = None
     for body in pou.iter('body'):
         for st in body.iter('ST'):
             code = st[0].text
     if code is None:
         raise RuntimeError('Could not read Pou body ' + pou.dtname)
-    return parseST(code, name2var)
+    return parseST(code, name2var, pou2inputs)
 
 def parseFunctionReturnType(pou):
     dtName = None 

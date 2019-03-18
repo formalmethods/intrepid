@@ -38,12 +38,14 @@ def translate(filename, outfilename):
     outfile = open(outfilename, 'w')
     top_level = True
     for pou in pous:
-        name2var = {var.name: var for var in pou.input_vars + pou.local_vars + pou.output_vars}
+        name2var = {var.name: var for var in pou.input_vars +
+                    pou.local_vars + pou.output_vars}
         if top_level:
             dumpHeader(pou, name2var, filename, outfile)
         translatePou(pou, name2var, outfile)
         top_level = False
     dumpFooter(outfile)
+
 
 def translatePou(pou, name2var, outfile):
     print 'Translating POU', pou.dtname
@@ -88,8 +90,8 @@ def translatePou(pou, name2var, outfile):
     var2latch = {}
     for var in pou.local_vars:
         declareLocal(var, outfile, var2latch, name2var)
-    for var in pou.output_vars:
-        declareLocal(var, outfile, var2latch, name2var)
+    # for var in pou.output_vars:
+    #     declareLocal(var, outfile, var2latch, name2var)
     flush()
     print '  Writing statements'
     flatstmt2intrepyd = FlatStmt2Intrepyd(8, CONTEXT, var2latch, outfile)
@@ -114,6 +116,7 @@ def translatePou(pou, name2var, outfile):
     flush()
     outfile.write(TAB + TAB + 'return ' + outs)
     outfile.write('\n\n')
+
 
 def dumpHeader(pou, name2var, filename, outfile):
     today = str(datetime.date.today())
@@ -194,10 +197,12 @@ def dumpHeader(pou, name2var, filename, outfile):
     outfile.write(TAB + TAB + 'return outputs\n')
     outfile.write('\n')
 
+
 def dumpFooter(outfile):
     outfile.write('def mk_instance(ctx, name):\n')
     outfile.write(TAB + 'return IEC61131Circuit(ctx, name)\n')
     outfile.write('\n')
+
 
 def datatype2py(datatype):
     if datatype.dtname == 'BOOL':
@@ -218,6 +223,10 @@ def datatype2py(datatype):
         return CONTEXT + '.mk_int32_type()'
     elif datatype.dtname == 'LINT':
         return CONTEXT + '.mk_int64_type()'
+    elif datatype.dtname == 'REAL':
+        return CONTEXT + '.mk_float32_type()'
+    elif datatype.dtname == 'LREAL':
+        return CONTEXT + '.mk_float64_type()'
     return None
 
 

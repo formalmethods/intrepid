@@ -327,20 +327,20 @@ def serializedATN():
         buf.write(u"\n\u0268\u0262\3\2\2\2\u0268\u0265\3\2\2\2\u0269\u026c")
         buf.write(u"\3\2\2\2\u026a\u0268\3\2\2\2\u026a\u026b\3\2\2\2\u026b")
         buf.write(u"a\3\2\2\2\u026c\u026a\3\2\2\2\u026d\u026e\5v<\2\u026e")
-        buf.write(u"\u0271\7\5\2\2\u026f\u0272\5^\60\2\u0270\u0272\5`\61")
-        buf.write(u"\2\u0271\u026f\3\2\2\2\u0271\u0270\3\2\2\2\u0272c\3\2")
-        buf.write(u"\2\2\u0273\u0278\5z>\2\u0274\u0278\5|?\2\u0275\u0278")
-        buf.write(u"\5~@\2\u0276\u0278\5f\64\2\u0277\u0273\3\2\2\2\u0277")
-        buf.write(u"\u0274\3\2\2\2\u0277\u0275\3\2\2\2\u0277\u0276\3\2\2")
-        buf.write(u"\2\u0278e\3\2\2\2\u0279\u027d\5h\65\2\u027a\u027d\5t")
-        buf.write(u";\2\u027b\u027d\5r:\2\u027c\u0279\3\2\2\2\u027c\u027a")
-        buf.write(u"\3\2\2\2\u027c\u027b\3\2\2\2\u027dg\3\2\2\2\u027e\u0281")
-        buf.write(u"\5j\66\2\u027f\u0281\5p9\2\u0280\u027e\3\2\2\2\u0280")
-        buf.write(u"\u027f\3\2\2\2\u0281i\3\2\2\2\u0282\u0283\t\21\2\2\u0283")
-        buf.write(u"\u0285\7\31\2\2\u0284\u0282\3\2\2\2\u0284\u0285\3\2\2")
-        buf.write(u"\2\u0285\u028a\3\2\2\2\u0286\u028b\5n8\2\u0287\u028b")
-        buf.write(u"\7\u0113\2\2\u0288\u028b\7\u0114\2\2\u0289\u028b\7\u0115")
-        buf.write(u"\2\2\u028a\u0286\3\2\2\2\u028a\u0287\3\2\2\2\u028a\u0288")
+        buf.write(u"\u0271\7\5\2\2\u026f\u0272\5v<\2\u0270\u0272\5f\64\2")
+        buf.write(u"\u0271\u026f\3\2\2\2\u0271\u0270\3\2\2\2\u0272c\3\2\2")
+        buf.write(u"\2\u0273\u0278\5z>\2\u0274\u0278\5|?\2\u0275\u0278\5")
+        buf.write(u"~@\2\u0276\u0278\5f\64\2\u0277\u0273\3\2\2\2\u0277\u0274")
+        buf.write(u"\3\2\2\2\u0277\u0275\3\2\2\2\u0277\u0276\3\2\2\2\u0278")
+        buf.write(u"e\3\2\2\2\u0279\u027d\5h\65\2\u027a\u027d\5t;\2\u027b")
+        buf.write(u"\u027d\5r:\2\u027c\u0279\3\2\2\2\u027c\u027a\3\2\2\2")
+        buf.write(u"\u027c\u027b\3\2\2\2\u027dg\3\2\2\2\u027e\u0281\5j\66")
+        buf.write(u"\2\u027f\u0281\5p9\2\u0280\u027e\3\2\2\2\u0280\u027f")
+        buf.write(u"\3\2\2\2\u0281i\3\2\2\2\u0282\u0283\t\21\2\2\u0283\u0285")
+        buf.write(u"\7\31\2\2\u0284\u0282\3\2\2\2\u0284\u0285\3\2\2\2\u0285")
+        buf.write(u"\u028a\3\2\2\2\u0286\u028b\5n8\2\u0287\u028b\7\u0113")
+        buf.write(u"\2\2\u0288\u028b\7\u0114\2\2\u0289\u028b\7\u0115\2\2")
+        buf.write(u"\u028a\u0286\3\2\2\2\u028a\u0287\3\2\2\2\u028a\u0288")
         buf.write(u"\3\2\2\2\u028a\u0289\3\2\2\2\u028bk\3\2\2\2\u028c\u0293")
         buf.write(u"\7\u0112\2\2\u028d\u028f\7\32\2\2\u028e\u028d\3\2\2\2")
         buf.write(u"\u028e\u028f\3\2\2\2\u028f\u0290\3\2\2\2\u0290\u0292")
@@ -5327,16 +5327,15 @@ class IEC61131ParserParser ( Parser ):
             super(IEC61131ParserParser.Func_param_initContext, self).__init__(parent, invokingState)
             self.parser = parser
 
-        def variable_name(self):
-            return self.getTypedRuleContext(IEC61131ParserParser.Variable_nameContext,0)
+        def variable_name(self, i=None):
+            if i is None:
+                return self.getTypedRuleContexts(IEC61131ParserParser.Variable_nameContext)
+            else:
+                return self.getTypedRuleContext(IEC61131ParserParser.Variable_nameContext,i)
 
 
-        def bool_expression(self):
-            return self.getTypedRuleContext(IEC61131ParserParser.Bool_expressionContext,0)
-
-
-        def term_expression(self):
-            return self.getTypedRuleContext(IEC61131ParserParser.Term_expressionContext,0)
+        def constant(self):
+            return self.getTypedRuleContext(IEC61131ParserParser.ConstantContext,0)
 
 
         def getRuleIndex(self):
@@ -5363,17 +5362,17 @@ class IEC61131ParserParser ( Parser ):
             self.match(IEC61131ParserParser.T__2)
             self.state = 623
             self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,60,self._ctx)
-            if la_ == 1:
+            token = self._input.LA(1)
+            if token in [IEC61131ParserParser.IDENTIFIER]:
                 self.state = 621
-                self.bool_expression(0)
+                self.variable_name()
                 pass
-
-            elif la_ == 2:
+            elif token in [IEC61131ParserParser.T__20, IEC61131ParserParser.T__21, IEC61131ParserParser.TIME_MS, IEC61131ParserParser.TIME_S, IEC61131ParserParser.FALSE, IEC61131ParserParser.LREAL, IEC61131ParserParser.REAL, IEC61131ParserParser.TRUE, IEC61131ParserParser.BOOL, IEC61131ParserParser.SINT, IEC61131ParserParser.DINT, IEC61131ParserParser.INT, IEC61131ParserParser.DIGITS, IEC61131ParserParser.BINARY_INT, IEC61131ParserParser.OCTAL_INT, IEC61131ParserParser.HEX_INT]:
                 self.state = 622
-                self.term_expression(0)
+                self.constant()
                 pass
-
+            else:
+                raise NoViableAltException(self)
 
         except RecognitionException as re:
             localctx.exception = re

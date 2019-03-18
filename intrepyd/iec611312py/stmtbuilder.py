@@ -15,6 +15,9 @@ from intrepyd.iec611312py.IEC61131ParserVisitor import IEC61131ParserVisitor
 from intrepyd.iec611312py.statement import Assignment, IfThenElse, Case
 from intrepyd.iec611312py.expression import VariableOcc, ConstantOcc, Expression, Range, FunctionOcc, ParamInit, TRUE
 from intrepyd.iec611312py.variable import Variable
+import re
+
+number = re.compile(r'[0-9]+\.?[0-9]*')
 
 def computeCompositeDatatype(var, name2var):
     tokens = var.split('.')
@@ -30,9 +33,10 @@ class STMTBuilder(IEC61131ParserVisitor):
     """
     Vistor that builds statements from the IEC program
     """
-    def __init__(self, name2var):
+    def __init__(self, name2var, pou2inputs):
         self._statements = []
         self._name2var = name2var
+        self._pou2inputs = pou2inputs
 
     @property
     def statements(self):
@@ -117,14 +121,27 @@ class STMTBuilder(IEC61131ParserVisitor):
         return self._callExpressionHelper(ctx)
 
     def visitCustomCallExpression(self, ctx):
+        pouName = ctx.getChild(0).getText()
+        if not pouName in self._pou2inputs:
+            raise('Could not find pou ' + pouName)
+        inputs = self._pou2inputs[pouName]
         paramInits = []
+        param = 0
         if ctx.getChildCount() > 2:
             for i in range(2, ctx.getChildCount(), 2):
-                paramInits.append(ctx.getChild(i).accept(self))
+                paramInit = ctx.getChild(i).accept(self)
+                paramInits.append(paramInit)
+                paramInit.rhs.datatype = inputs[param].datatype
+                param += 1
         return FunctionOcc(ctx.getChild(0).getText(), paramInits)
 
     def visitFunc_param_init(self, ctx):
-        return ParamInit(ctx.getChild(0).getText(), ctx.getChild(2).getText())
+        param = ctx.getChild(0).getText()
+        value = ctx.getChild(2).getText()
+        match = re.search(number, value)
+        if match:
+            return ParamInit(param, ConstantOcc(value))
+        return ParamInit(param, VariableOcc(value))
 
     def visitIf_stmt(self, ctx):
         return ctx.getChild(0).accept(self)

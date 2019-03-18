@@ -11,7 +11,7 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 This module implements a summarizer for ST assignments
 """
 
-from intrepyd.iec611312py.expression import Expression, VariableOcc, ConstantOcc, Ite
+from intrepyd.iec611312py.expression import Expression, VariableOcc, ConstantOcc, FunctionOcc, Ite
 from intrepyd.iec611312py.statement import Assignment
 from intrepyd.iec611312py.variable import Variable
 from collections import OrderedDict
@@ -59,6 +59,8 @@ class Summarizer(object):
                 self._assignments.append(Assignment(result, expression))
             else:
                 result = term
+        elif isinstance(term, FunctionOcc):
+            result = term
         else:
             raise NotImplementedError('Term not handled %s' % type(term))
         return result

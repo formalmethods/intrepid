@@ -52,7 +52,9 @@ datatype2py = {
     'DINT' : 'int32',
     'UDINT' : 'uint32',
     'LINT' : 'int64',
-    'ULINT' : 'uint64'
+    'ULINT' : 'uint64',
+    'REAL' : 'float32',
+    'LREAL' : 'float64'
 }
 
 class FlatStmt2Intrepyd(Visitor):
@@ -170,7 +172,7 @@ class FlatStmt2Intrepyd(Visitor):
         params = ''
         sep = ''
         for param_init in functionOcc.param_inits:
-            params += sep + param_init.lhs + ' = ' + param_init.rhs
+            params += sep + param_init.lhs + ' = ' + param_init.rhs.accept(self)
             sep = ', '
         result = self._getTmpVar()
         self._indent_result()

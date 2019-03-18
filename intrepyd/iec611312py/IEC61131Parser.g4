@@ -206,7 +206,7 @@ term_expression  : term_expression op=( '*' | '/' | MOD ) term_expression       
                  | '(' subexpr=term_expression ')'                                            # parTermExpression
                  ;
 
-func_param_init : variable_name ':=' (bool_expression | term_expression)
+func_param_init : variable_name ':=' (variable_name | constant)
                 ;
         
 leaf_expression  : simple_var

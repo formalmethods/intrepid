@@ -15,9 +15,12 @@ from intrepyd.iec611312py.IEC61131ParserVisitor import IEC61131ParserVisitor
 from intrepyd.iec611312py.statement import Assignment, IfThenElse, Case
 from intrepyd.iec611312py.expression import VariableOcc, ConstantOcc, Expression, Range, FunctionOcc, ParamInit, TRUE
 from intrepyd.iec611312py.variable import Variable
-import re
 
-number = re.compile(r'[0-9]+\.?[0-9]*')
+def isNumber(text):
+    for i in range(len(text)):
+        if not text[i].isdigit() and text[i] != '.':
+            return False
+    return True
 
 def computeCompositeDatatype(var, name2var):
     tokens = var.split('.')
@@ -138,10 +141,9 @@ class STMTBuilder(IEC61131ParserVisitor):
     def visitFunc_param_init(self, ctx):
         param = ctx.getChild(0).getText()
         value = ctx.getChild(2).getText()
-        match = re.search(number, value)
-        if match:
-            return ParamInit(param, ConstantOcc(value))
-        return ParamInit(param, VariableOcc(value))
+        if isNumber(value):
+            return ParamInit(param, ConstantOcc(value)) # type will be set by caller
+        return ParamInit(param, VariableOcc(Variable(value, None, Variable.TEMP))) # type will be set by caller
 
     def visitIf_stmt(self, ctx):
         return ctx.getChild(0).accept(self)

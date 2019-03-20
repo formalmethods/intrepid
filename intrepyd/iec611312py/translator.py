@@ -90,8 +90,8 @@ def translatePou(pou, name2var, outfile):
     var2latch = {}
     for var in pou.local_vars:
         declareLocal(var, outfile, var2latch, name2var)
-    # for var in pou.output_vars:
-    #     declareLocal(var, outfile, var2latch, name2var)
+    for var in pou.output_vars:
+        declareOutput(var, outfile, name2var)
     flush()
     print '  Writing statements'
     flatstmt2intrepyd = FlatStmt2Intrepyd(8, CONTEXT, var2latch, outfile)
@@ -259,6 +259,27 @@ def declareInput(inp, outfile, name2var):
                                fieldVar.datatype, outfile)
     else:
         declareInputHelper(inp.name, inp.datatype, outfile)
+
+
+def declareOutput(out, outfile, name2var):
+    datatypepy = datatype2py(out.datatype)
+    if datatypepy is None:
+        if not out.name in name2var:
+            raise RuntimeError('Could not find datatype for ' + out.name)
+        var = name2var[out.name]
+        for fieldName, fieldVar in var.datatype.fields.iteritems():
+            declareOutputHelper(var.name + '.' + fieldName,
+                                fieldVar.datatype, outfile)
+    else:
+        declareOutputHelper(out.name, out.datatype, outfile)
+
+
+def declareOutputHelper(name, datatype, outfile):
+    saneName = sanitizeName(name)
+    datatypepy = datatype2py(datatype)
+    if datatypepy is None:
+        raise RuntimeError('Datatype for ' + datatype.dtname + ' is None')
+    outfile.write(TAB + TAB + saneName + ' = ' + datatype2init(datatype) + '\n')
 
 
 def declareLocalHelper(name, datatype, outfile, var2latch):

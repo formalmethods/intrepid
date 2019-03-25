@@ -25,7 +25,7 @@ udintType = Primitive('UDINT')
 class TestST(unittest.TestCase):
     def _run_tests(self, programs, name2var):
         for prog in programs:
-            statements = parseST(prog[0], name2var)
+            statements = parseST(prog[0], name2var, {})
             printer = StmtPrinter()
             printer.processStatements(statements)
             actual = printer.result

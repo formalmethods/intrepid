@@ -22,7 +22,7 @@ boolType = Primitive('BOOL')
 
 class TestSTSummarizer(unittest.TestCase):
     def _run_test(self, program, name2var, expected_assignments, expected_extra_assignments):
-        statements = parseST(program, name2var)
+        statements = parseST(program, name2var, {})
         self._run_test_helper(statements, expected_assignments, expected_extra_assignments)
 
     def _run_test_helper(self, statements, expected_assignments, expected_extra_assignments):

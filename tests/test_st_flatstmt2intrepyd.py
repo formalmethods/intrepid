@@ -35,7 +35,7 @@ class TestSTFlatStmt2Intrepyd(unittest.TestCase):
         return string
 
     def _run_tests(self, program, name2var, var2latch, expected):
-        statements = parseST(program, name2var)
+        statements = parseST(program, name2var, {})
         flattener = Flattener()
         flattened_statements = flattener.flattenStmtBlock(statements)
         idbu = InferDatatypeBottomUp()

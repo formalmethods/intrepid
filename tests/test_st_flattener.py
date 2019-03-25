@@ -24,7 +24,7 @@ intType = Primitive('INT')
 
 class TestSTFlattener(unittest.TestCase):
     def _run_tests(self, program, name2var):
-        statements = parseST(program[0], name2var)
+        statements = parseST(program[0], name2var, {})
         flattener = Flattener()
         flattened_statements = flattener.flattenStmtBlock(statements)
         printer = StmtPrinter()

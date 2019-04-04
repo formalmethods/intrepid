@@ -1,0 +1,1406 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project><!--(*
+ *
+ * File: GPCA_CONFIG.xml
+ *
+ * IEC 61131-3 Structured Text (ST) code generated for subsystem "GPCA_CONFIG/Subsystem"
+ *
+ * Model name                      : GPCA_CONFIG
+ * Model version                   : 1.20
+ * Model creator                   : bourbouh
+ * Model last modified by          : bourbouh
+ * Model last modified on          : Sun Oct 16 14:35:41 2016
+ * Model sample time               : 0.2s
+ * Subsystem name                  : GPCA_CONFIG/Subsystem
+ * Subsystem sample time           : 0.2s
+ * Simulink PLC Coder version      : 2.6 (R2018b) 24-May-2018
+ * ST code generated on            : Fri Mar 15 22:07:40 2019
+ *
+ * Target IDE selection            : PLCopen XML
+ * Test Bench included             : No
+ *
+ *)
+-->
+   <fileHeader companyName="The Mathworks, Inc." companyURL="www.mathworks.com" contentDescription="" creationDateTime="2019-03-15T22:07:40" productName="Simulink PLC Coder" productRelease="(R2018b)" productVersion="2.6"/>
+   <contentHeader name="GPCA_CONFIG">
+      <coordinateInfo>
+         <fbd>
+            <scaling x="0" y="0"/>
+         </fbd>
+         <ld>
+            <scaling x="0" y="0"/>
+         </ld>
+         <sfc>
+            <scaling x="0" y="0"/>
+         </sfc>
+      </coordinateInfo>
+   </contentHeader>
+   <types>
+      <dataTypes/>
+      <pous>
+         <pou name="Subsystem" pouType="functionBlock">
+            <interface>
+               <inputVars>
+                  <variable name="ssMethodType">
+                     <type>
+                        <SINT/>
+                     </type>
+                  </variable>
+                  <variable name="Sys_on">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="In2">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In3">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In4">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In5">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In6">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In7">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In8">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In9">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In10">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In11">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In12">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In13">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In14">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In15">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In16">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="In17">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="In18">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="In19">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="In20">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="Config_Type">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In22">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In23">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In24">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In25">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In26">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In27">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In28">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In29">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In30">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In31">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="In32">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="In33">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="In34">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+               </inputVars>
+               <outputVars>
+                  <variable name="out1">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="out2">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="out3">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="out4">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="out5">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="out6">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="out7">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="out8">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="out9">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="out10">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="out11">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="out12">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="out13">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="flow_rate_kvo">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="out15">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="out16">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="out17">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="out18">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Config_Type_out">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="out20">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="out21">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="out22">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="out23">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="out24">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="out25">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+               </outputVars>
+               <localVars>
+                  <variable name="t_EnteredReservoirVolume">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="Selected_Configuration_Type">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="New_Configuration">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="value">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="validate">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_VTBI_total">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_PatientID">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_NumberMax_pbolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_LockOutPeriod_pbolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_Interval_sbolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_FlowRate_sbolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_FlowRate_pbolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_FlowRate_kvo">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_FlowRate_basal">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_Duration_total">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_Duration_sbolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_Duration_pbolus">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_DrugName">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_DrugConcentration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_c2_Subsystem">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_active_c2_Subsystem">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_Patient_Drug_info">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_Infusion_info">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_Prescription_Config">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="is_Configuration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+               </localVars>
+            </interface>
+            <body>
+               <ST>
+                  <xhtml xmlns="http://www.w3.org/1999/xhtml">
+<![CDATA[
+
+CASE ssMethodType OF
+    0: 
+        (* SystemInitialize for Chart: '<S1>/Config  Sub-System' incorporates:
+         *  Outport: '<Root>/Config_Type_out'
+         *  Outport: '<Root>/flow_rate_kvo'
+         *  Outport: '<Root>/out1'
+         *  Outport: '<Root>/out10'
+         *  Outport: '<Root>/out11'
+         *  Outport: '<Root>/out12'
+         *  Outport: '<Root>/out13'
+         *  Outport: '<Root>/out15'
+         *  Outport: '<Root>/out16'
+         *  Outport: '<Root>/out17'
+         *  Outport: '<Root>/out18'
+         *  Outport: '<Root>/out2'
+         *  Outport: '<Root>/out20'
+         *  Outport: '<Root>/out21'
+         *  Outport: '<Root>/out22'
+         *  Outport: '<Root>/out23'
+         *  Outport: '<Root>/out24'
+         *  Outport: '<Root>/out25'
+         *  Outport: '<Root>/out3'
+         *  Outport: '<Root>/out4'
+         *  Outport: '<Root>/out5'
+         *  Outport: '<Root>/out6'
+         *  Outport: '<Root>/out7'
+         *  Outport: '<Root>/out8'
+         *  Outport: '<Root>/out9' *)
+        is_Configuration := 0;
+        is_Prescription_Config := 0;
+        is_Infusion_info := 0;
+        is_Patient_Drug_info := 0;
+        is_active_c2_Subsystem := 0;
+        is_c2_Subsystem := 0;
+        t_DrugConcentration := 0;
+        t_DrugName := 0;
+        t_Duration_pbolus := 0;
+        t_Duration_sbolus := 0;
+        t_Duration_total := 0;
+        t_FlowRate_basal := 0;
+        t_FlowRate_kvo := 0;
+        t_FlowRate_pbolus := 0;
+        t_FlowRate_sbolus := 0;
+        t_Interval_sbolus := 0;
+        t_LockOutPeriod_pbolus := 0;
+        t_NumberMax_pbolus := 0;
+        t_PatientID := 0;
+        t_EnteredReservoirVolume := 0;
+        t_VTBI_total := 0;
+        validate := 0;
+        value := 0;
+        New_Configuration := FALSE;
+        Selected_Configuration_Type := 0;
+        out1 := 0;
+        out2 := 0;
+        out3 := 0;
+        out4 := 0;
+        out5 := 0;
+        out6 := 0;
+        out7 := 0;
+        out8 := 0;
+        out9 := 0;
+        out10 := 0;
+        out11 := 0;
+        out12 := 0;
+        out13 := 0;
+        flow_rate_kvo := 0;
+        out15 := 0;
+        out16 := 0;
+        out17 := 0;
+        out18 := 0;
+        Config_Type_out := FALSE;
+        out20 := FALSE;
+        out21 := FALSE;
+        out22 := FALSE;
+        out23 := 0;
+        out24 := 0.0;
+        out25 := 0;
+    1: 
+        (* Chart: '<S1>/Config  Sub-System' incorporates:
+         *  Outport: '<Root>/Config_Type_out'
+         *  Outport: '<Root>/flow_rate_kvo'
+         *  Outport: '<Root>/out1'
+         *  Outport: '<Root>/out10'
+         *  Outport: '<Root>/out11'
+         *  Outport: '<Root>/out12'
+         *  Outport: '<Root>/out13'
+         *  Outport: '<Root>/out15'
+         *  Outport: '<Root>/out16'
+         *  Outport: '<Root>/out17'
+         *  Outport: '<Root>/out18'
+         *  Outport: '<Root>/out2'
+         *  Outport: '<Root>/out20'
+         *  Outport: '<Root>/out21'
+         *  Outport: '<Root>/out22'
+         *  Outport: '<Root>/out23'
+         *  Outport: '<Root>/out24'
+         *  Outport: '<Root>/out25'
+         *  Outport: '<Root>/out3'
+         *  Outport: '<Root>/out4'
+         *  Outport: '<Root>/out5'
+         *  Outport: '<Root>/out6'
+         *  Outport: '<Root>/out7'
+         *  Outport: '<Root>/out8'
+         *  Outport: '<Root>/out9' *)
+        (* Gateway: Subsystem/Config  Sub-System *)
+        (* During: Subsystem/Config  Sub-System *)
+
+        IF is_active_c2_Subsystem = 0 THEN 
+            (* Entry: Subsystem/Config  Sub-System *)
+            is_active_c2_Subsystem := 1;
+            (* Entry Internal: Subsystem/Config  Sub-System *)
+
+            IF Sys_on THEN 
+                (* Transition: '<S2>:4535' *)
+                is_c2_Subsystem := 1;
+                (* Entry Internal 'Configuration': '<S2>:4440' *)
+                (* Transition: '<S2>:4441' *)
+                is_Configuration := 1;
+                (* Entry 'MAIN': '<S2>:4518' *)
+                out25 := 1;
+                out24 := 0.0;
+                (* Graphical Function 'setReservoirVolume': '<S2>:4596' *)
+                (* Graphical Function 'checkIfPrescriptionAvailable': '<S2>:4573' *)
+                (* Transition: '<S2>:4584' *)
+
+                IF  NOT New_Configuration THEN 
+                    (* Transition: '<S2>:4603' *)
+                    out16 := In34;
+                    (* Transition: '<S2>:4581' *)
+
+                    IF (((((out1 > 0) AND (out2 > 0)) AND (out3 > 0)) AND (out5 > 0)) AND (out4 > 0)) AND (out6 > 0) THEN 
+                        (* Transition: '<S2>:4575' *)
+                        out17 := 3;
+                    ELSE 
+                        (* Transition: '<S2>:4582' *)
+                        out17 := 0;
+                    END_IF;
+
+                ELSE 
+                    (* Transition: '<S2>:4586' *)
+                    New_Configuration := FALSE;
+                END_IF;
+
+            ELSE 
+                (* Transition: '<S2>:4534' *)
+                is_c2_Subsystem := 2;
+            END_IF;
+
+        ELSE 
+
+            CASE is_c2_Subsystem OF
+                1: 
+                    (* During 'Configuration': '<S2>:4440' *)
+
+                    IF  NOT Sys_on THEN 
+                        (* Transition: '<S2>:4531' *)
+                        (* Exit Internal 'Configuration': '<S2>:4440' *)
+
+                        CASE is_Configuration OF
+                            1: 
+                                (* Exit 'MAIN': '<S2>:4518' *)
+                                out25 := 1;
+                                out24 := 0.0;
+                                (* Graphical Function 'setReservoirVolume': '<S2>:4596' *)
+                                (* Graphical Function 'checkIfPrescriptionAvailable': '<S2>:4573' *)
+                                (* Transition: '<S2>:4584' *)
+
+                                IF  NOT New_Configuration THEN 
+                                    (* Transition: '<S2>:4603' *)
+                                    out16 := In34;
+                                    (* Transition: '<S2>:4581' *)
+
+                                    IF (((((out1 > 0) AND (out2 > 0)) AND (out3 > 0)) AND (out5 > 0)) AND (out4 > 0)) AND (out6 > 0) THEN 
+                                        (* Transition: '<S2>:4575' *)
+                                        out17 := 3;
+                                    ELSE 
+                                        (* Transition: '<S2>:4582' *)
+                                        out17 := 0;
+                                    END_IF;
+
+                                ELSE 
+                                    (* Transition: '<S2>:4586' *)
+                                    New_Configuration := FALSE;
+                                END_IF;
+
+                                is_Configuration := 0;
+                            2: 
+                                (* Exit Internal 'Prescription_Config': '<S2>:4445' *)
+
+                                CASE is_Prescription_Config OF
+                                    2: 
+                                        (* Exit Internal 'Infusion_info': '<S2>:4487' *)
+                                        is_Infusion_info := 0;
+                                        (* Exit 'Infusion_info': '<S2>:4487' *)
+                                        out25 := 4;
+                                        is_Prescription_Config := 0;
+                                    3: 
+                                        (* Exit Internal 'Patient_Drug_info': '<S2>:4456' *)
+                                        is_Patient_Drug_info := 0;
+                                        (* Exit 'Patient_Drug_info': '<S2>:4456' *)
+                                        out25 := 3;
+                                        is_Prescription_Config := 0;
+                                    ELSE
+                                        is_Prescription_Config := 0;
+                                END_CASE;
+
+                                (* Exit 'Prescription_Config': '<S2>:4445' *)
+                                out24 := out24 + 1.0;
+                                is_Configuration := 0;
+                        END_CASE;
+
+                        is_c2_Subsystem := 2;
+                    ELSE 
+
+                        CASE is_Configuration OF
+                            1: 
+                                (* During 'MAIN': '<S2>:4518' *)
+
+                                IF In17 OR (In16 AND (out17 = 0)) THEN 
+                                    (* Transition: '<S2>:4442' *)
+                                    (* Exit 'MAIN': '<S2>:4518' *)
+                                    (* Graphical Function 'setReservoirVolume': '<S2>:4596' *)
+                                    (* Graphical Function 'checkIfPrescriptionAvailable': '<S2>:4573' *)
+                                    (* Transition: '<S2>:4584' *)
+
+                                    IF  NOT New_Configuration THEN 
+                                        (* Transition: '<S2>:4581' *)
+
+                                        IF (((((out1 > 0) AND (out2 > 0)) AND (out3 > 0)) AND (out5 > 0)) AND (out4 > 0)) AND (out6 > 0) THEN 
+                                            (* Transition: '<S2>:4575' *)
+                                            out17 := 3;
+                                        ELSE 
+                                            (* Transition: '<S2>:4582' *)
+                                            out17 := 0;
+                                        END_IF;
+
+                                    ELSE 
+                                        (* Transition: '<S2>:4586' *)
+                                        New_Configuration := FALSE;
+                                    END_IF;
+
+                                    is_Configuration := 2;
+                                    (* Entry 'Prescription_Config': '<S2>:4445' *)
+                                    out24 := 1.0;
+                                    out16 := In34;
+                                    out25 := 2;
+                                    (* Graphical Function 'checkIfPrescriptionAvailable': '<S2>:4573' *)
+                                    (* Transition: '<S2>:4584' *)
+
+                                    IF  NOT New_Configuration THEN 
+                                        (* Transition: '<S2>:4581' *)
+
+                                        IF (((((out1 > 0) AND (out2 > 0)) AND (out3 > 0)) AND (out5 > 0)) AND (out4 > 0)) AND (out6 > 0) THEN 
+                                            (* Transition: '<S2>:4575' *)
+                                            out17 := 3;
+                                        ELSE 
+                                            (* Transition: '<S2>:4582' *)
+                                            out17 := 0;
+                                        END_IF;
+
+                                    ELSE 
+                                        (* Transition: '<S2>:4586' *)
+                                        New_Configuration := FALSE;
+                                    END_IF;
+
+                                    (* Entry Internal 'Prescription_Config': '<S2>:4445' *)
+                                    (* Transition: '<S2>:4449' *)
+                                    is_Prescription_Config := 4;
+                                    (* Entry 'SelectType': '<S2>:4486' *)
+                                    Config_Type_out := TRUE;
+                                ELSE 
+                                    out25 := 1;
+                                    out24 := 0.0;
+                                    (* Graphical Function 'setReservoirVolume': '<S2>:4596' *)
+                                    (* Graphical Function 'checkIfPrescriptionAvailable': '<S2>:4573' *)
+                                    (* Transition: '<S2>:4584' *)
+
+                                    IF  NOT New_Configuration THEN 
+                                        (* Transition: '<S2>:4603' *)
+                                        out16 := In34;
+                                        (* Transition: '<S2>:4581' *)
+
+                                        IF (((((out1 > 0) AND (out2 > 0)) AND (out3 > 0)) AND (out5 > 0)) AND (out4 > 0)) AND (out6 > 0) THEN 
+                                            (* Transition: '<S2>:4575' *)
+                                            out17 := 3;
+                                        ELSE 
+                                            (* Transition: '<S2>:4582' *)
+                                            out17 := 0;
+                                        END_IF;
+
+                                    ELSE 
+                                        (* Transition: '<S2>:4586' *)
+                                        New_Configuration := FALSE;
+                                    END_IF;
+
+                                END_IF;
+
+                            ELSE
+                                (* During 'Prescription_Config': '<S2>:4445' *)
+
+                                IF (out24 > Step_Scaling_Factor(inputVal := In32, b_step_size := 1.0)) OR In20 THEN 
+                                    (* Transition: '<S2>:4443' *)
+                                    (* Graphical Function 'cancelConfigValues': '<S2>:4522' *)
+                                    (* Transition: '<S2>:4524' *)
+                                    t_PatientID := 0;
+                                    t_DrugName := 0;
+                                    t_DrugConcentration := 0;
+                                    t_EnteredReservoirVolume := 0;
+                                    t_VTBI_total := 0;
+                                    t_Duration_total := 0;
+                                    t_FlowRate_basal := 0;
+                                    t_FlowRate_sbolus := 0;
+                                    t_FlowRate_pbolus := 0;
+                                    t_FlowRate_kvo := 0;
+                                    t_Duration_sbolus := 0;
+                                    t_Duration_pbolus := 0;
+                                    t_LockOutPeriod_pbolus := 0;
+                                    t_NumberMax_pbolus := 0;
+                                    t_Interval_sbolus := 0;
+                                    (* Graphical Function 'writeLog': '<S2>:4537' *)
+                                    (* Transition: '<S2>:4539' *)
+                                    out23 := 2;
+                                    (* Exit Internal 'Prescription_Config': '<S2>:4445' *)
+
+                                    CASE is_Prescription_Config OF
+                                        2: 
+                                            (* Exit Internal 'Infusion_info': '<S2>:4487' *)
+                                            is_Infusion_info := 0;
+                                            (* Exit 'Infusion_info': '<S2>:4487' *)
+                                            is_Prescription_Config := 0;
+                                        3: 
+                                            (* Exit Internal 'Patient_Drug_info': '<S2>:4456' *)
+                                            is_Patient_Drug_info := 0;
+                                            (* Exit 'Patient_Drug_info': '<S2>:4456' *)
+                                            is_Prescription_Config := 0;
+                                        ELSE
+                                            is_Prescription_Config := 0;
+                                    END_CASE;
+
+                                    (* Exit 'Prescription_Config': '<S2>:4445' *)
+                                    is_Configuration := 1;
+                                    (* Entry 'MAIN': '<S2>:4518' *)
+                                    out25 := 1;
+                                    out24 := 0.0;
+                                    (* Graphical Function 'setReservoirVolume': '<S2>:4596' *)
+                                    (* Graphical Function 'checkIfPrescriptionAvailable': '<S2>:4573' *)
+                                    (* Transition: '<S2>:4584' *)
+
+                                    IF  NOT New_Configuration THEN 
+                                        (* Transition: '<S2>:4603' *)
+                                        out16 := In34;
+                                        (* Transition: '<S2>:4581' *)
+
+                                        IF (((((out1 > 0) AND (out2 > 0)) AND (out3 > 0)) AND (out5 > 0)) AND (out4 > 0)) AND (out6 > 0) THEN 
+                                            (* Transition: '<S2>:4575' *)
+                                            out17 := 3;
+                                        ELSE 
+                                            (* Transition: '<S2>:4582' *)
+                                            out17 := 0;
+                                        END_IF;
+
+                                    ELSE 
+                                        (* Transition: '<S2>:4586' *)
+                                        New_Configuration := FALSE;
+                                    END_IF;
+
+                                ELSE 
+                                    out24 := out24 + 1.0;
+                                    out16 := In34;
+                                    (* Graphical Function 'checkIfPrescriptionAvailable': '<S2>:4573' *)
+                                    (* Transition: '<S2>:4584' *)
+
+                                    IF  NOT New_Configuration THEN 
+                                        (* Transition: '<S2>:4581' *)
+
+                                        IF (((((out1 > 0) AND (out2 > 0)) AND (out3 > 0)) AND (out5 > 0)) AND (out4 > 0)) AND (out6 > 0) THEN 
+                                            (* Transition: '<S2>:4575' *)
+                                            out17 := 3;
+                                        ELSE 
+                                            (* Transition: '<S2>:4582' *)
+                                            out17 := 0;
+                                        END_IF;
+
+                                    ELSE 
+                                        (* Transition: '<S2>:4586' *)
+                                        New_Configuration := FALSE;
+                                    END_IF;
+
+
+                                    CASE is_Prescription_Config OF
+                                        1: 
+                                            (* During 'ConfirmInfusionInitation': '<S2>:4517' *)
+
+                                            IF In16 THEN 
+                                                (* Transition: '<S2>:4444' *)
+                                                out20 := FALSE;
+                                                (* Graphical Function 'saveConfigValues': '<S2>:4519' *)
+                                                (* Transition: '<S2>:4521' *)
+                                                out1 := t_PatientID;
+                                                out2 := t_DrugName;
+                                                out3 := t_DrugConcentration;
+                                                out15 := t_EnteredReservoirVolume;
+                                                out5 := t_VTBI_total;
+                                                out4 := t_Duration_total;
+                                                out6 := t_FlowRate_basal;
+                                                out7 := t_FlowRate_sbolus;
+                                                out10 := t_FlowRate_pbolus;
+                                                flow_rate_kvo := t_FlowRate_kvo;
+                                                out8 := t_Duration_sbolus;
+                                                out11 := t_Duration_pbolus;
+                                                out12 := t_LockOutPeriod_pbolus;
+                                                out13 := t_NumberMax_pbolus;
+                                                out9 := t_Interval_sbolus;
+                                                out16 := t_EnteredReservoirVolume;
+                                                out17 := Selected_Configuration_Type;
+                                                New_Configuration := TRUE;
+                                                (* cancelConfigValues();
+                                                comment it because it is in the same level
+                                                Try to call cancelConfigValues every time you call the current function *)
+                                                (* Graphical Function 'writeLog': '<S2>:4537' *)
+                                                (* Transition: '<S2>:4539' *)
+                                                (* Graphical Function 'cancelConfigValues': '<S2>:4522' *)
+                                                (* Transition: '<S2>:4524' *)
+                                                t_PatientID := 0;
+                                                t_DrugName := 0;
+                                                t_DrugConcentration := 0;
+                                                t_EnteredReservoirVolume := 0;
+                                                t_VTBI_total := 0;
+                                                t_Duration_total := 0;
+                                                t_FlowRate_basal := 0;
+                                                t_FlowRate_sbolus := 0;
+                                                t_FlowRate_pbolus := 0;
+                                                t_FlowRate_kvo := 0;
+                                                t_Duration_sbolus := 0;
+                                                t_Duration_pbolus := 0;
+                                                t_LockOutPeriod_pbolus := 0;
+                                                t_NumberMax_pbolus := 0;
+                                                t_Interval_sbolus := 0;
+                                                (* Graphical Function 'writeLog': '<S2>:4537' *)
+                                                (* Transition: '<S2>:4539' *)
+                                                out23 := 2;
+                                                is_Prescription_Config := 0;
+                                                (* Exit 'Prescription_Config': '<S2>:4445' *)
+                                                is_Configuration := 1;
+                                                (* Entry 'MAIN': '<S2>:4518' *)
+                                                out25 := 1;
+                                                out24 := 0.0;
+                                                (* Graphical Function 'setReservoirVolume': '<S2>:4596' *)
+                                                (* Graphical Function 'checkIfPrescriptionAvailable': '<S2>:4573' *)
+                                                (* Transition: '<S2>:4584' *)
+
+                                                IF  NOT New_Configuration THEN 
+                                                    (* Transition: '<S2>:4603' *)
+                                                    out16 := In34;
+                                                    (* Transition: '<S2>:4581' *)
+
+                                                    IF (((((out1 > 0) AND (out2 > 0)) AND (out3 > 0)) AND (out5 > 0)) AND (out4 > 0)) AND (out6 > 0) THEN 
+                                                        (* Transition: '<S2>:4575' *)
+                                                        out17 := 3;
+                                                    ELSE 
+                                                        (* Transition: '<S2>:4582' *)
+                                                        out17 := 0;
+                                                    END_IF;
+
+                                                ELSE 
+                                                    (* Transition: '<S2>:4586' *)
+                                                    New_Configuration := FALSE;
+                                                END_IF;
+
+                                            ELSE 
+                                                out20 := TRUE;
+                                            END_IF;
+
+                                        2: 
+                                            (* During 'Infusion_info': '<S2>:4487' *)
+
+                                            IF In19 AND ( NOT In33) THEN 
+                                                (* Transition: '<S2>:4450' *)
+                                                (* Exit Internal 'Infusion_info': '<S2>:4487' *)
+                                                is_Infusion_info := 0;
+                                                (* Exit 'Infusion_info': '<S2>:4487' *)
+                                                is_Prescription_Config := 3;
+                                                (* Entry 'Patient_Drug_info': '<S2>:4456' *)
+                                                out25 := 3;
+                                                (* Entry Internal 'Patient_Drug_info': '<S2>:4456' *)
+                                                (* Transition: '<S2>:4459' *)
+                                                is_Patient_Drug_info := 2;
+                                                (* Entry 'DisplayParam': '<S2>:4466' *)
+                                                out21 := TRUE;
+                                                validate := 0;
+                                            ELSE 
+                                                out25 := 4;
+
+                                                CASE is_Infusion_info OF
+                                                    1: 
+                                                        (* During 'GetInfusionParam': '<S2>:4495' *)
+
+                                                        IF In18 THEN 
+                                                            (* Transition: '<S2>:4491' *)
+                                                            is_Infusion_info := 3;
+                                                            (* Entry 'ValidateInfusionParam': '<S2>:4496' *)
+                                                            (* Graphical Function 'checkInfusionParam': '<S2>:4498' *)
+                                                            (* Transition: '<S2>:4508' *)
+                                                            validate := 1;
+
+                                                            IF (t_VTBI_total > In25) OR (t_VTBI_total < In26) THEN 
+                                                                (* Transition: '<S2>:4509' *)
+                                                                validate := 0;
+                                                            ELSIF (t_FlowRate_basal < In28) OR (t_FlowRate_basal > In27) THEN 
+                                                                (* Transition: '<S2>:4510' *)
+                                                                validate := 0;
+                                                            ELSIF (t_FlowRate_sbolus < In28) OR (t_FlowRate_sbolus > In27) THEN 
+                                                                (* Transition: '<S2>:4511' *)
+                                                                validate := 0;
+                                                            ELSIF (t_FlowRate_pbolus < In28) OR (t_FlowRate_pbolus > In27) THEN 
+                                                                (* Transition: '<S2>:4512' *)
+                                                                validate := 0;
+                                                            ELSIF t_Duration_sbolus > t_Interval_sbolus THEN 
+                                                                (* Transition: '<S2>:4513' *)
+                                                                validate := 0;
+                                                            ELSIF t_NumberMax_pbolus > In29 THEN 
+                                                                (* Transition: '<S2>:4515' *)
+                                                                validate := 0;
+                                                            ELSIF (t_FlowRate_pbolus < t_FlowRate_basal) OR (t_FlowRate_sbolus < t_FlowRate_basal) THEN 
+                                                                (* Transition: '<S2>:4514' *)
+                                                                validate := 0;
+                                                            END_IF;
+
+                                                        END_IF;
+
+                                                    2: 
+                                                        (* During 'RequestInfusionParam': '<S2>:4494' *)
+
+                                                        IF In18 THEN 
+                                                            (* Transition: '<S2>:4488' *)
+                                                            is_Infusion_info := 1;
+                                                            (* Entry 'GetInfusionParam': '<S2>:4495' *)
+                                                            t_VTBI_total := In6;
+                                                            t_Duration_total := In5;
+                                                            t_FlowRate_basal := In7;
+                                                            t_FlowRate_sbolus := In8;
+                                                            t_FlowRate_pbolus := In11;
+                                                            t_Duration_sbolus := In9;
+                                                            t_Duration_pbolus := In12;
+                                                            t_LockOutPeriod_pbolus := In13;
+                                                            t_NumberMax_pbolus := In14;
+                                                            t_Interval_sbolus := In10;
+                                                            t_FlowRate_kvo := In30;
+                                                            out22 := FALSE;
+                                                        END_IF;
+
+                                                    ELSE
+                                                        (* During 'ValidateInfusionParam': '<S2>:4496' *)
+
+                                                        CASE validate OF
+                                                            0: 
+                                                                (* Transition: '<S2>:4492' *)
+                                                                is_Infusion_info := 2;
+                                                                (* Entry 'RequestInfusionParam': '<S2>:4494' *)
+                                                                out22 := TRUE;
+                                                                validate := 0;
+                                                            1: 
+                                                                (* Transition: '<S2>:4493' *)
+                                                                is_Infusion_info := 0;
+                                                                (* Exit 'Infusion_info': '<S2>:4487' *)
+                                                                is_Prescription_Config := 1;
+                                                                (* Entry 'ConfirmInfusionInitation': '<S2>:4517' *)
+                                                                out20 := TRUE;
+                                                            ELSE
+                                                                (* Graphical Function 'checkInfusionParam': '<S2>:4498' *)
+                                                                (* Transition: '<S2>:4508' *)
+                                                                validate := 1;
+
+                                                                IF (t_VTBI_total > In25) OR (t_VTBI_total < In26) THEN 
+                                                                    (* Transition: '<S2>:4509' *)
+                                                                    validate := 0;
+                                                                ELSIF (t_FlowRate_basal < In28) OR (t_FlowRate_basal > In27) THEN 
+                                                                    (* Transition: '<S2>:4510' *)
+                                                                    validate := 0;
+                                                                ELSIF (t_FlowRate_sbolus < In28) OR (t_FlowRate_sbolus > In27) THEN 
+                                                                    (* Transition: '<S2>:4511' *)
+                                                                    validate := 0;
+                                                                ELSIF (t_FlowRate_pbolus < In28) OR (t_FlowRate_pbolus > In27) THEN 
+                                                                    (* Transition: '<S2>:4512' *)
+                                                                    validate := 0;
+                                                                ELSIF t_Duration_sbolus > t_Interval_sbolus THEN 
+                                                                    (* Transition: '<S2>:4513' *)
+                                                                    validate := 0;
+                                                                ELSIF t_NumberMax_pbolus > In29 THEN 
+                                                                    (* Transition: '<S2>:4515' *)
+                                                                    validate := 0;
+                                                                ELSIF (t_FlowRate_pbolus < t_FlowRate_basal) OR (t_FlowRate_sbolus < t_FlowRate_basal) THEN 
+                                                                    (* Transition: '<S2>:4514' *)
+                                                                    validate := 0;
+                                                                END_IF;
+
+                                                        END_CASE;
+
+                                                END_CASE;
+
+                                            END_IF;
+
+                                        3: 
+                                            (* During 'Patient_Drug_info': '<S2>:4456' *)
+                                            out25 := 3;
+
+                                            CASE is_Patient_Drug_info OF
+                                                1: 
+                                                    out18 := 5;
+                                                    (* During 'DisplayErrorMessage': '<S2>:4468' *)
+                                                    (* Transition: '<S2>:4460' *)
+                                                    is_Patient_Drug_info := 2;
+                                                    (* Entry 'DisplayParam': '<S2>:4466' *)
+                                                    out21 := TRUE;
+                                                    validate := 0;
+                                                2: 
+                                                    (* During 'DisplayParam': '<S2>:4466' *)
+
+                                                    IF In18 THEN 
+                                                        (* Transition: '<S2>:4457' *)
+                                                        is_Patient_Drug_info := 4;
+                                                        (* Entry 'GetParam': '<S2>:4467' *)
+                                                        t_PatientID := In2;
+                                                        t_DrugName := In3;
+                                                        t_DrugConcentration := In4;
+                                                        t_EnteredReservoirVolume := In15;
+                                                        out21 := FALSE;
+                                                    END_IF;
+
+                                                3: 
+                                                    (* During 'GetDrugSafeValues': '<S2>:4469' *)
+
+                                                    CASE value OF
+                                                        1: 
+                                                            (* Transition: '<S2>:4464' *)
+                                                            is_Patient_Drug_info := 5;
+                                                            (* Entry 'ValidateParam': '<S2>:4470' *)
+                                                            validate := checkPatient_DrugParam(t_DrugConcentration := t_DrugConcentration, c_DB_IN_Drug_Concentrationv := In24, d_DB_IN_Drug_Concentrationv := In23, t_EnteredReservoirVolume := t_EnteredReservoirVolume, CONST_IN_Empty_Reservoir := In31);
+                                                            out21 := FALSE;
+                                                            value := 0;
+                                                        0: 
+                                                            (* Transition: '<S2>:4462' *)
+                                                            is_Patient_Drug_info := 1;
+                                                            (* Entry 'DisplayErrorMessage': '<S2>:4468' *)
+                                                            out18 := 5;
+                                                        ELSE
+                                                            value := CheckDrugName(z := t_DrugName, DB_IN_Drug_Name := In22);
+                                                    END_CASE;
+
+                                                4: 
+                                                    (* During 'GetParam': '<S2>:4467' *)
+
+                                                    IF In18 THEN 
+                                                        (* Transition: '<S2>:4458' *)
+                                                        is_Patient_Drug_info := 3;
+                                                        (* Entry 'GetDrugSafeValues': '<S2>:4469' *)
+                                                        out2 := t_DrugName;
+                                                        value := CheckDrugName(z := t_DrugName, DB_IN_Drug_Name := In22);
+                                                    END_IF;
+
+                                                ELSE
+                                                    (* During 'ValidateParam': '<S2>:4470' *)
+
+                                                    CASE validate OF
+                                                        0: 
+                                                            (* Transition: '<S2>:4463' *)
+                                                            is_Patient_Drug_info := 1;
+                                                            (* Entry 'DisplayErrorMessage': '<S2>:4468' *)
+                                                            out18 := 5;
+                                                        1: 
+                                                            (* Transition: '<S2>:4465' *)
+                                                            is_Patient_Drug_info := 0;
+                                                            (* Exit 'Patient_Drug_info': '<S2>:4456' *)
+                                                            is_Prescription_Config := 2;
+                                                            (* Entry 'Infusion_info': '<S2>:4487' *)
+                                                            out25 := 4;
+                                                            (* Entry Internal 'Infusion_info': '<S2>:4487' *)
+                                                            (* Transition: '<S2>:4489' *)
+                                                            is_Infusion_info := 2;
+                                                            (* Entry 'RequestInfusionParam': '<S2>:4494' *)
+                                                            out22 := TRUE;
+                                                            validate := 0;
+                                                        ELSE
+                                                            validate := checkPatient_DrugParam(t_DrugConcentration := t_DrugConcentration, c_DB_IN_Drug_Concentrationv := In24, d_DB_IN_Drug_Concentrationv := In23, t_EnteredReservoirVolume := t_EnteredReservoirVolume, CONST_IN_Empty_Reservoir := In31);
+                                                            out21 := FALSE;
+                                                            value := 0;
+                                                    END_CASE;
+
+                                            END_CASE;
+
+                                        ELSE
+                                            (* During 'SelectType': '<S2>:4486' *)
+
+                                            IF Config_Type > 0 THEN 
+                                                (* Transition: '<S2>:4451' *)
+                                                Config_Type_out := FALSE;
+                                                Selected_Configuration_Type := Config_Type;
+                                                (* Graphical Function 'copyCurrentValuesToTemp': '<S2>:4592' *)
+                                                (* Transition: '<S2>:4594' *)
+                                                t_PatientID := out1;
+                                                t_DrugName := out2;
+                                                t_DrugConcentration := out3;
+                                                t_VTBI_total := out5;
+                                                t_Duration_total := out4;
+                                                t_FlowRate_basal := out6;
+                                                t_FlowRate_sbolus := out7;
+                                                t_FlowRate_pbolus := out10;
+                                                t_FlowRate_kvo := flow_rate_kvo;
+                                                t_Duration_sbolus := out8;
+                                                t_Duration_pbolus := out11;
+                                                t_LockOutPeriod_pbolus := out12;
+                                                t_NumberMax_pbolus := out13;
+                                                t_Interval_sbolus := out9;
+                                                t_EnteredReservoirVolume := out15;
+
+                                                IF In33 THEN 
+                                                    (* Transition: '<S2>:4452' *)
+                                                    is_Prescription_Config := 2;
+                                                    (* Entry 'Infusion_info': '<S2>:4487' *)
+                                                    out25 := 4;
+                                                    (* Entry Internal 'Infusion_info': '<S2>:4487' *)
+                                                    (* Transition: '<S2>:4489' *)
+                                                    is_Infusion_info := 2;
+                                                    (* Entry 'RequestInfusionParam': '<S2>:4494' *)
+                                                    out22 := TRUE;
+                                                    validate := 0;
+                                                ELSE 
+                                                    (* Transition: '<S2>:4447' *)
+                                                    is_Prescription_Config := 3;
+                                                    (* Entry 'Patient_Drug_info': '<S2>:4456' *)
+                                                    out25 := 3;
+                                                    (* Entry Internal 'Patient_Drug_info': '<S2>:4456' *)
+                                                    (* Transition: '<S2>:4459' *)
+                                                    is_Patient_Drug_info := 2;
+                                                    (* Entry 'DisplayParam': '<S2>:4466' *)
+                                                    out21 := TRUE;
+                                                    validate := 0;
+                                                END_IF;
+
+                                            END_IF;
+
+                                    END_CASE;
+
+                                END_IF;
+
+                        END_CASE;
+
+                    END_IF;
+
+                ELSE
+                    (* During 'NOT_ON': '<S2>:4532' *)
+
+                    IF Sys_on THEN 
+                        (* Transition: '<S2>:4533' *)
+                        is_c2_Subsystem := 1;
+                        (* Entry Internal 'Configuration': '<S2>:4440' *)
+                        (* Transition: '<S2>:4441' *)
+                        is_Configuration := 1;
+                        (* Entry 'MAIN': '<S2>:4518' *)
+                        out25 := 1;
+                        out24 := 0.0;
+                        (* Graphical Function 'setReservoirVolume': '<S2>:4596' *)
+                        (* Graphical Function 'checkIfPrescriptionAvailable': '<S2>:4573' *)
+                        (* Transition: '<S2>:4584' *)
+
+                        IF  NOT New_Configuration THEN 
+                            (* Transition: '<S2>:4603' *)
+                            out16 := In34;
+                            (* Transition: '<S2>:4581' *)
+
+                            IF (((((out1 > 0) AND (out2 > 0)) AND (out3 > 0)) AND (out5 > 0)) AND (out4 > 0)) AND (out6 > 0) THEN 
+                                (* Transition: '<S2>:4575' *)
+                                out17 := 3;
+                            ELSE 
+                                (* Transition: '<S2>:4582' *)
+                                out17 := 0;
+                            END_IF;
+
+                        ELSE 
+                            (* Transition: '<S2>:4586' *)
+                            New_Configuration := FALSE;
+                        END_IF;
+
+                    END_IF;
+
+            END_CASE;
+
+        END_IF;
+
+        (* End of Chart: '<S1>/Config  Sub-System' *)
+END_CASE;
+
+]]>
+</xhtml>
+               </ST>
+            </body>
+         </pou>
+         <pou name="checkPatient_DrugParam" pouType="function">
+            <interface>
+               <returnType>
+                  <USINT/>
+               </returnType>
+               <inputVars>
+                  <variable name="t_DrugConcentration">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_DB_IN_Drug_Concentrationv">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="d_DB_IN_Drug_Concentrationv">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="t_EnteredReservoirVolume">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="CONST_IN_Empty_Reservoir">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+               </inputVars>
+               <localVars/>
+            </interface>
+            <body>
+               <ST>
+                  <xhtml xmlns="http://www.w3.org/1999/xhtml">
+<![CDATA[
+(* Graphical Function 'checkPatient_DrugParam': '<S2>:4472' *)
+(* Transition: '<S2>:4476' *)
+checkPatient_DrugParam := 1;
+
+IF (t_DrugConcentration < c_DB_IN_Drug_Concentrationv) OR (t_DrugConcentration > d_DB_IN_Drug_Concentrationv) THEN 
+    (* Transition: '<S2>:4477' *)
+    checkPatient_DrugParam := 0;
+ELSIF t_EnteredReservoirVolume < CONST_IN_Empty_Reservoir THEN 
+    (* Transition: '<S2>:4478' *)
+    checkPatient_DrugParam := 0;
+END_IF;
+
+]]>
+</xhtml>
+               </ST>
+            </body>
+         </pou>
+         <pou name="Step_Scaling_Factor" pouType="function">
+            <interface>
+               <returnType>
+                  <LREAL/>
+               </returnType>
+               <inputVars>
+                  <variable name="inputVal">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="b_step_size">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+               </inputVars>
+               <localVars/>
+            </interface>
+            <body>
+               <ST>
+                  <xhtml xmlns="http://www.w3.org/1999/xhtml">
+<![CDATA[
+(* Graphical Function 'Step_Scaling_Factor': '<S2>:4565' *)
+(* Transition: '<S2>:4566' *)
+Step_Scaling_Factor := inputVal / b_step_size;
+]]>
+</xhtml>
+               </ST>
+            </body>
+         </pou>
+         <pou name="CheckDrugName" pouType="function">
+            <interface>
+               <returnType>
+                  <USINT/>
+               </returnType>
+               <inputVars>
+                  <variable name="z">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+                  <variable name="DB_IN_Drug_Name">
+                     <type>
+                        <USINT/>
+                     </type>
+                  </variable>
+               </inputVars>
+               <localVars/>
+            </interface>
+            <body>
+               <ST>
+                  <xhtml xmlns="http://www.w3.org/1999/xhtml">
+<![CDATA[
+(* Graphical Function 'CheckDrugName': '<S2>:4481' *)
+(* Transition: '<S2>:4484' *)
+CheckDrugName := 1;
+
+IF z <> DB_IN_Drug_Name THEN 
+    (* Transition: '<S2>:4485' *)
+    CheckDrugName := 0;
+END_IF;
+
+]]>
+</xhtml>
+               </ST>
+            </body>
+         </pou>
+      </pous>
+   </types>
+   <instances>
+      <configurations/>
+   </instances>
+</project>

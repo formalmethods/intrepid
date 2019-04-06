@@ -92,10 +92,9 @@ def main():
 
     properties = mk_properties(ctx, circ.inputs, circ.outputs)
     bmc = ctx.mk_bmc()
-    # for prop in properties:
-    #     bmc.add_target(ctx.mk_not(prop, 'prop_' + ctx.net2name[prop]))
-    bmc.add_target(ctx.mk_not(properties[4], 'prop_' + ctx.net2name[properties[4]]))
-    targetsToSolve = 1  # len(properties)
+    for prop in properties:
+        bmc.add_target(ctx.mk_not(prop, 'prop_' + ctx.net2name[prop]))
+    targetsToSolve = len(properties)
     depth = 0
     while depth < 10:
         print 'Current depth: %d' % depth

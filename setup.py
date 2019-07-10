@@ -7,7 +7,7 @@ import platform
 import sys
 from setuptools import setup, find_packages
 
-VERSION = '0.6.4'
+VERSION = '0.8.0'
 
 system_str = platform.system()
 bits, _ = platform.architecture()
@@ -16,21 +16,19 @@ if bits != "64bit":
     print 'Error: only 64bits architectures are supported. For other OSes please write to roberto.bruttomesso@gmail.com.'
     sys.exit(1)
 
-if system_str != 'Linux' and system_str != 'Windows':
-    print 'Error: only Linux and Windows OSes are officially supported. For other OSes please write to roberto.bruttomesso@gmail.com.'
-    sys.exit(1)
-
 arch_data_files = None
 if system_str == 'Linux':
-    arch_data_files = [('lib/python2.7/site-packages/intrepyd', ['simulink2py/simulink2py.jar', 'libs/linux64/libz3.so', 'libs/linux64/libintrepid_dll.so', 'libs/linux64/_api.so'])]
+    arch_data_files = [('lib/python2.7/site-packages/intrepyd', ['libs/linux64/libz3.so', 'libs/linux64/libintrepid_dll.so', 'libs/linux64/_api.so'])]
 elif system_str == 'Windows':
-    arch_data_files = [('Lib/site-packages/intrepyd', ['simulink2py/simulink2py.jar', 'libs/win64/libz3.dll', 'libs/win64/intrepid_dll.dll', 'libs/win64/_api.pyd'])]
+    arch_data_files = [('Lib/site-packages/intrepyd', ['libs/win64/libz3.dll', 'libs/win64/intrepid_dll.dll', 'libs/win64/_api.pyd'])]
+elif system_str == 'Darwin':
+    arch_data_files = [('intrepyd', ['libs/osx/libz3.dylib', 'libs/osx/libintrepid_dll.dylib', 'libs/osx/_api.so'])]
 
 long_desc = """
 ========
 Intrepyd
 ========
-Intrepyd is a python module that provides a simulator and a model checker in form of
+Intrepyd is a python module that provides a simulator and model checkers in form of
 a rich API, to allow the rapid prototyping of **formal methods** algorithms
 for the rigorous analysis of circuits, specifications, models.
 
@@ -57,9 +55,9 @@ setup(name='intrepyd',
       packages=find_packages(),
       data_files=arch_data_files,
       # Does not work for sdist!
-      package_data={'libs' : ['linux64/*.so', 'win64/*.dll', 'win64/*.pyd'], 'simulink2py' : ['simulink2py.jar']},
+      package_data={'libs' : ['linux64/*.so', 'win64/*.dll', 'win64/*.pyd', 'osx/*.so']},
       license='BSD-3-Clause',
-      platforms=['Windows', 'Linux'],
+      platforms=['Windows', 'Linux', 'Darwin'],
       long_description=long_desc
 )
 

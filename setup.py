@@ -7,7 +7,7 @@ import platform
 import sys
 from setuptools import setup, find_packages
 
-VERSION = '0.8.0'
+VERSION = '0.8.1'
 
 system_str = platform.system()
 bits, _ = platform.architecture()
@@ -18,7 +18,7 @@ if bits != "64bit":
 
 arch_data_files = None
 if system_str == 'Linux':
-    arch_data_files = [('lib/python2.7/site-packages/intrepyd', ['libs/linux64/libz3.so', 'libs/linux64/libintrepid_dll.so', 'libs/linux64/_api.so'])]
+    arch_data_files = [('intrepyd', ['libs/linux64/libz3.so', 'libs/linux64/libintrepid_dll.so', 'libs/linux64/_api.so'])]
 elif system_str == 'Windows':
     arch_data_files = [('Lib/site-packages/intrepyd', ['libs/win64/libz3.dll', 'libs/win64/intrepid_dll.dll', 'libs/win64/_api.pyd'])]
 elif system_str == 'Darwin':

@@ -20,17 +20,6 @@ import intrepyd.lustre2py.translator as ltr
 import intrepyd.iec611312py.translator as itr
 
 
-def translate_simulink(infilename, realtype, outmodule='encoding'):
-    """
-    Translates a simulink file into intrepyd syntax
-    """
-    outfilename = outmodule + '.py'
-    jar_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'simulink2py.jar')
-    subprocess.check_output(['java', '-jar', jar_path, infilename, outfilename, realtype])
-    enc = importlib.import_module(outmodule)
-    return enc
-
-
 def translate_lustre(infilename, topnode, realtype, outmodule='encoding'):
     """
     Translates a lustre file into intrepyd syntax

@@ -1,5 +1,6 @@
 import intrepyd as ip
 import intrepyd.atg
+import intrepyd.atg.mcdc
 import intrepyd.circuit
 import collections
 import pandas as pd
@@ -26,8 +27,8 @@ class CircAnd(ip.circuit.Circuit):
 if __name__ == "__main__":
     ctx = ip.Context()
     decisions = { 'O' : ['A', 'B'] }
-    tables, _ = ip.atg.compute_mcdc(ctx, CircAnd, decisions, maxDepth=10)
-    decision2dataframe = ip.atg.get_tables_as_dataframe(tables)
+    tables, _, _ = ip.atg.mcdc.compute_mcdc(ctx, CircAnd, decisions, max_depth=10)
+    decision2dataframe = ip.atg.mcdc.get_tables_as_dataframe(tables)
     if len(decision2dataframe) != 0:
         print '\nGenerated tests:'
         print decision2dataframe['O']

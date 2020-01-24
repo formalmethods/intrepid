@@ -1,12 +1,13 @@
-# Generated from IEC61131Parser.g4 by ANTLR 4.6
+# Generated from IEC61131Parser.g4 by ANTLR 4.7.2
 # encoding: utf-8
 from __future__ import print_function
 from antlr4 import *
 from io import StringIO
+import sys
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write(u"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3")
+        buf.write(u"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3")
         buf.write(u"\u0118\u02d1\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6")
         buf.write(u"\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4")
         buf.write(u"\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t")
@@ -90,7 +91,7 @@ def serializedATN():
         buf.write(u"\u00d9\u00d9\3\2\27\30\4\2\u00b7\u00b8\u00ca\u00ca\4")
         buf.write(u"\2\u0090\u0090\u00ae\u00ae\4\2pp~~\3\2\37;\f\2vv\u0087")
         buf.write(u"\u0089\u009f\u00a2\u00c1\u00c8\u00cb\u00cd\u00d5\u00d6")
-        buf.write(u"\u00d8\u00da\u00e2\u00f1\u0106\u010c\u010e\u010e\u0302")
+        buf.write(u"\u00d8\u00da\u00e2\u00f1\u0106\u010c\u010e\u010e\2\u0302")
         buf.write(u"\2\u009b\3\2\2\2\4\u009d\3\2\2\2\6\u00a5\3\2\2\2\b\u00a8")
         buf.write(u"\3\2\2\2\n\u00d6\3\2\2\2\f\u00dd\3\2\2\2\16\u00fa\3\2")
         buf.write(u"\2\2\20\u00fc\3\2\2\2\22\u00ff\3\2\2\2\24\u0111\3\2\2")
@@ -824,9 +825,9 @@ class IEC61131ParserParser ( Parser ):
     PRAGMA=277
     ErrorCharacter=278
 
-    def __init__(self, input):
-        super(IEC61131ParserParser, self).__init__(input)
-        self.checkVersion("4.6")
+    def __init__(self, input, output=sys.stdout):
+        super(IEC61131ParserParser, self).__init__(input, output=output)
+        self.checkVersion("4.7.2")
         self._interp = ParserATNSimulator(self, self.atn, self.decisionsToDFA, self.sharedContextCache)
         self._predicates = None
 
@@ -5839,7 +5840,7 @@ class IEC61131ParserParser ( Parser ):
             elif token in [IEC61131ParserParser.T__20, IEC61131ParserParser.T__21, IEC61131ParserParser.DIGITS]:
                 pass
             else:
-                raise NoViableAltException(self)
+                pass
             self.state = 670
             self.signed_int()
             self.state = 671

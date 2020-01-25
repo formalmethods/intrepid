@@ -7,7 +7,7 @@ import platform
 import sys
 from setuptools import setup, find_packages
 
-VERSION = '0.8.1'
+VERSION = '0.8.2'
 
 system_str = platform.system()
 bits, _ = platform.architecture()
@@ -52,6 +52,7 @@ setup(name='intrepyd',
       maintainer_email='roberto.bruttomesso@gmail.com',
       url='http://github.com/formalmethods/intrepyd',
       download_url='http://github.com/formalmethods/intrepyd/archive/' + VERSION + '.tar.gz',
+      install_requires=['pandas', 'antlr4-python2-runtime', 'enum'],
       packages=find_packages(),
       data_files=arch_data_files,
       # Does not work for sdist!

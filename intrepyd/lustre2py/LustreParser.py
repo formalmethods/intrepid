@@ -1,205 +1,206 @@
-# Generated from Lustre.g4 by ANTLR 4.7.2
+# Generated from Lustre.g4 by ANTLR 4.9.1
 # encoding: utf-8
-from __future__ import print_function
 from antlr4 import *
 from io import StringIO
 import sys
+if sys.version_info[1] > 5:
+	from typing import TextIO
+else:
+	from typing.io import TextIO
+
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write(u"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3")
-        buf.write(u"A\u0191\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t")
-        buf.write(u"\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r")
-        buf.write(u"\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22\4")
-        buf.write(u"\23\t\23\4\24\t\24\4\25\t\25\3\2\3\2\3\2\7\2.\n\2\f\2")
-        buf.write(u"\16\2\61\13\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3\4\3\4")
-        buf.write(u"\3\4\3\4\5\4?\n\4\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\5\5")
-        buf.write(u"I\n\5\3\5\3\5\3\5\3\5\5\5O\n\5\3\5\3\5\3\5\3\5\3\5\3")
-        buf.write(u"\5\5\5W\n\5\3\5\3\5\5\5[\n\5\3\5\3\5\5\5_\n\5\3\6\6\6")
-        buf.write(u"b\n\6\r\6\16\6c\3\7\3\7\3\7\3\7\3\7\3\7\5\7l\n\7\3\b")
-        buf.write(u"\3\b\3\b\7\bq\n\b\f\b\16\bt\13\b\3\t\3\t\3\t\7\ty\n\t")
-        buf.write(u"\f\t\16\t|\13\t\3\t\3\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\3")
-        buf.write(u"\n\3\n\3\n\3\n\3\n\7\n\u008c\n\n\f\n\16\n\u008f\13\n")
-        buf.write(u"\3\n\3\n\3\n\3\n\3\n\3\n\3\n\7\n\u0098\n\n\f\n\16\n\u009b")
-        buf.write(u"\13\n\3\n\5\n\u009e\n\n\3\13\3\13\3\13\3\13\3\13\3\13")
-        buf.write(u"\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\5\13\u00ae\n")
-        buf.write(u"\13\3\13\3\13\3\13\3\13\7\13\u00b4\n\13\f\13\16\13\u00b7")
-        buf.write(u"\13\13\3\f\5\f\u00ba\n\f\3\f\3\f\3\r\3\r\3\r\3\r\3\16")
-        buf.write(u"\3\16\3\16\3\16\7\16\u00c6\n\16\f\16\16\16\u00c9\13\16")
-        buf.write(u"\5\16\u00cb\n\16\3\16\3\16\3\17\3\17\3\17\3\17\7\17\u00d3")
-        buf.write(u"\n\17\f\17\16\17\u00d6\13\17\5\17\u00d8\n\17\3\17\3\17")
-        buf.write(u"\3\20\3\20\5\20\u00de\n\20\3\21\3\21\3\21\3\21\3\22\3")
-        buf.write(u"\22\3\22\5\22\u00e7\n\22\3\22\5\22\u00ea\n\22\3\22\3")
-        buf.write(u"\22\3\22\3\22\3\23\3\23\3\23\7\23\u00f3\n\23\f\23\16")
-        buf.write(u"\23\u00f6\13\23\3\24\3\24\3\24\5\24\u00fb\n\24\3\24\3")
-        buf.write(u"\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24")
-        buf.write(u"\3\24\7\24\u010a\n\24\f\24\16\24\u010d\13\24\5\24\u010f")
-        buf.write(u"\n\24\3\24\3\24\3\24\3\24\3\24\3\24\6\24\u0117\n\24\r")
-        buf.write(u"\24\16\24\u0118\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3")
-        buf.write(u"\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24")
-        buf.write(u"\3\24\3\24\3\24\3\24\3\24\3\24\7\24\u0133\n\24\f\24\16")
-        buf.write(u"\24\u0136\13\24\3\24\3\24\3\24\3\24\3\24\3\24\7\24\u013e")
-        buf.write(u"\n\24\f\24\16\24\u0141\13\24\3\24\3\24\3\24\3\24\3\24")
-        buf.write(u"\3\24\7\24\u0149\n\24\f\24\16\24\u014c\13\24\3\24\3\24")
-        buf.write(u"\5\24\u0150\n\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3")
-        buf.write(u"\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24")
-        buf.write(u"\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3")
-        buf.write(u"\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24")
-        buf.write(u"\3\24\3\24\3\24\3\24\7\24\u017d\n\24\f\24\16\24\u0180")
-        buf.write(u"\13\24\3\25\3\25\3\25\3\25\3\25\3\25\3\25\3\25\3\25\3")
-        buf.write(u"\25\7\25\u018c\n\25\f\25\16\25\u018f\13\25\3\25\2\5\24")
-        buf.write(u"&(\26\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(\2")
-        buf.write(u"\7\4\2\32\32!!\3\2\'*\4\2\33\33++\4\2\4\4,\60\3\2\62")
-        buf.write(u"\63\2\u01c0\2/\3\2\2\2\4\64\3\2\2\2\6:\3\2\2\2\bD\3\2")
-        buf.write(u"\2\2\na\3\2\2\2\fk\3\2\2\2\16m\3\2\2\2\20u\3\2\2\2\22")
-        buf.write(u"\u009d\3\2\2\2\24\u00ad\3\2\2\2\26\u00b9\3\2\2\2\30\u00bd")
-        buf.write(u"\3\2\2\2\32\u00c1\3\2\2\2\34\u00ce\3\2\2\2\36\u00db\3")
-        buf.write(u"\2\2\2 \u00df\3\2\2\2\"\u00e9\3\2\2\2$\u00ef\3\2\2\2")
-        buf.write(u"&\u014f\3\2\2\2(\u0181\3\2\2\2*.\5\4\3\2+.\5\6\4\2,.")
-        buf.write(u"\5\b\5\2-*\3\2\2\2-+\3\2\2\2-,\3\2\2\2.\61\3\2\2\2/-")
-        buf.write(u"\3\2\2\2/\60\3\2\2\2\60\62\3\2\2\2\61/\3\2\2\2\62\63")
-        buf.write(u"\7\2\2\3\63\3\3\2\2\2\64\65\7\3\2\2\65\66\7<\2\2\66\67")
-        buf.write(u"\7\4\2\2\678\5\22\n\289\7\5\2\29\5\3\2\2\2:;\7\6\2\2")
-        buf.write(u";>\7<\2\2<=\7\7\2\2=?\5\24\13\2><\3\2\2\2>?\3\2\2\2?")
-        buf.write(u"@\3\2\2\2@A\7\4\2\2AB\5&\24\2BC\7\5\2\2C\7\3\2\2\2DE")
-        buf.write(u"\7\b\2\2EF\7<\2\2FH\7\t\2\2GI\5\16\b\2HG\3\2\2\2HI\3")
-        buf.write(u"\2\2\2IJ\3\2\2\2JK\7\n\2\2KL\7\13\2\2LN\7\t\2\2MO\5\16")
-        buf.write(u"\b\2NM\3\2\2\2NO\3\2\2\2OP\3\2\2\2PQ\7\n\2\2QV\7\5\2")
-        buf.write(u"\2RS\7\f\2\2ST\5\16\b\2TU\7\5\2\2UW\3\2\2\2VR\3\2\2\2")
-        buf.write(u"VW\3\2\2\2WX\3\2\2\2XZ\7\r\2\2Y[\5\n\6\2ZY\3\2\2\2Z[")
-        buf.write(u"\3\2\2\2[\\\3\2\2\2\\^\7\16\2\2]_\7\5\2\2^]\3\2\2\2^")
-        buf.write(u"_\3\2\2\2_\t\3\2\2\2`b\5\f\7\2a`\3\2\2\2bc\3\2\2\2ca")
-        buf.write(u"\3\2\2\2cd\3\2\2\2d\13\3\2\2\2el\5\"\22\2fl\5\30\r\2")
-        buf.write(u"gl\5 \21\2hl\5\36\20\2il\5\32\16\2jl\5\34\17\2ke\3\2")
-        buf.write(u"\2\2kf\3\2\2\2kg\3\2\2\2kh\3\2\2\2ki\3\2\2\2kj\3\2\2")
-        buf.write(u"\2l\r\3\2\2\2mr\5\20\t\2no\7\5\2\2oq\5\20\t\2pn\3\2\2")
-        buf.write(u"\2qt\3\2\2\2rp\3\2\2\2rs\3\2\2\2s\17\3\2\2\2tr\3\2\2")
-        buf.write(u"\2uz\5(\25\2vw\7\17\2\2wy\5(\25\2xv\3\2\2\2y|\3\2\2\2")
-        buf.write(u"zx\3\2\2\2z{\3\2\2\2{}\3\2\2\2|z\3\2\2\2}~\7\7\2\2~\177")
-        buf.write(u"\5\24\13\2\177\21\3\2\2\2\u0080\u009e\5\24\13\2\u0081")
-        buf.write(u"\u0082\7\20\2\2\u0082\u0083\7\21\2\2\u0083\u0084\7<\2")
-        buf.write(u"\2\u0084\u0085\7\7\2\2\u0085\u0086\5\24\13\2\u0086\u008d")
-        buf.write(u"\3\2\2\2\u0087\u0088\7\5\2\2\u0088\u0089\7<\2\2\u0089")
-        buf.write(u"\u008a\7\7\2\2\u008a\u008c\5\24\13\2\u008b\u0087\3\2")
-        buf.write(u"\2\2\u008c\u008f\3\2\2\2\u008d\u008b\3\2\2\2\u008d\u008e")
-        buf.write(u"\3\2\2\2\u008e\u0090\3\2\2\2\u008f\u008d\3\2\2\2\u0090")
-        buf.write(u"\u0091\7\22\2\2\u0091\u009e\3\2\2\2\u0092\u0093\7\23")
-        buf.write(u"\2\2\u0093\u0094\7\21\2\2\u0094\u0099\7<\2\2\u0095\u0096")
-        buf.write(u"\7\17\2\2\u0096\u0098\7<\2\2\u0097\u0095\3\2\2\2\u0098")
-        buf.write(u"\u009b\3\2\2\2\u0099\u0097\3\2\2\2\u0099\u009a\3\2\2")
-        buf.write(u"\2\u009a\u009c\3\2\2\2\u009b\u0099\3\2\2\2\u009c\u009e")
-        buf.write(u"\7\22\2\2\u009d\u0080\3\2\2\2\u009d\u0081\3\2\2\2\u009d")
-        buf.write(u"\u0092\3\2\2\2\u009e\23\3\2\2\2\u009f\u00a0\b\13\1\2")
-        buf.write(u"\u00a0\u00ae\7\24\2\2\u00a1\u00a2\7\25\2\2\u00a2\u00a3")
-        buf.write(u"\7\26\2\2\u00a3\u00a4\5\26\f\2\u00a4\u00a5\7\17\2\2\u00a5")
-        buf.write(u"\u00a6\5\26\f\2\u00a6\u00a7\7\27\2\2\u00a7\u00a8\7\30")
-        buf.write(u"\2\2\u00a8\u00a9\7\24\2\2\u00a9\u00ae\3\2\2\2\u00aa\u00ae")
-        buf.write(u"\7\31\2\2\u00ab\u00ae\7\32\2\2\u00ac\u00ae\7<\2\2\u00ad")
-        buf.write(u"\u009f\3\2\2\2\u00ad\u00a1\3\2\2\2\u00ad\u00aa\3\2\2")
-        buf.write(u"\2\u00ad\u00ab\3\2\2\2\u00ad\u00ac\3\2\2\2\u00ae\u00b5")
-        buf.write(u"\3\2\2\2\u00af\u00b0\f\4\2\2\u00b0\u00b1\7\26\2\2\u00b1")
-        buf.write(u"\u00b2\7;\2\2\u00b2\u00b4\7\27\2\2\u00b3\u00af\3\2\2")
-        buf.write(u"\2\u00b4\u00b7\3\2\2\2\u00b5\u00b3\3\2\2\2\u00b5\u00b6")
-        buf.write(u"\3\2\2\2\u00b6\25\3\2\2\2\u00b7\u00b5\3\2\2\2\u00b8\u00ba")
-        buf.write(u"\7\33\2\2\u00b9\u00b8\3\2\2\2\u00b9\u00ba\3\2\2\2\u00ba")
-        buf.write(u"\u00bb\3\2\2\2\u00bb\u00bc\7;\2\2\u00bc\27\3\2\2\2\u00bd")
-        buf.write(u"\u00be\7\34\2\2\u00be\u00bf\5&\24\2\u00bf\u00c0\7\5\2")
-        buf.write(u"\2\u00c0\31\3\2\2\2\u00c1\u00ca\7\35\2\2\u00c2\u00c7")
-        buf.write(u"\7<\2\2\u00c3\u00c4\7\17\2\2\u00c4\u00c6\7<\2\2\u00c5")
-        buf.write(u"\u00c3\3\2\2\2\u00c6\u00c9\3\2\2\2\u00c7\u00c5\3\2\2")
-        buf.write(u"\2\u00c7\u00c8\3\2\2\2\u00c8\u00cb\3\2\2\2\u00c9\u00c7")
-        buf.write(u"\3\2\2\2\u00ca\u00c2\3\2\2\2\u00ca\u00cb\3\2\2\2\u00cb")
-        buf.write(u"\u00cc\3\2\2\2\u00cc\u00cd\7\5\2\2\u00cd\33\3\2\2\2\u00ce")
-        buf.write(u"\u00d7\7\36\2\2\u00cf\u00d4\7<\2\2\u00d0\u00d1\7\17\2")
-        buf.write(u"\2\u00d1\u00d3\7<\2\2\u00d2\u00d0\3\2\2\2\u00d3\u00d6")
-        buf.write(u"\3\2\2\2\u00d4\u00d2\3\2\2\2\u00d4\u00d5\3\2\2\2\u00d5")
-        buf.write(u"\u00d8\3\2\2\2\u00d6\u00d4\3\2\2\2\u00d7\u00cf\3\2\2")
-        buf.write(u"\2\u00d7\u00d8\3\2\2\2\u00d8\u00d9\3\2\2\2\u00d9\u00da")
-        buf.write(u"\7\5\2\2\u00da\35\3\2\2\2\u00db\u00dd\7\37\2\2\u00dc")
-        buf.write(u"\u00de\7\5\2\2\u00dd\u00dc\3\2\2\2\u00dd\u00de\3\2\2")
-        buf.write(u"\2\u00de\37\3\2\2\2\u00df\u00e0\7 \2\2\u00e0\u00e1\5")
-        buf.write(u"&\24\2\u00e1\u00e2\7\5\2\2\u00e2!\3\2\2\2\u00e3\u00ea")
-        buf.write(u"\5$\23\2\u00e4\u00e6\7\t\2\2\u00e5\u00e7\5$\23\2\u00e6")
-        buf.write(u"\u00e5\3\2\2\2\u00e6\u00e7\3\2\2\2\u00e7\u00e8\3\2\2")
-        buf.write(u"\2\u00e8\u00ea\7\n\2\2\u00e9\u00e3\3\2\2\2\u00e9\u00e4")
-        buf.write(u"\3\2\2\2\u00ea\u00eb\3\2\2\2\u00eb\u00ec\7\4\2\2\u00ec")
-        buf.write(u"\u00ed\5&\24\2\u00ed\u00ee\7\5\2\2\u00ee#\3\2\2\2\u00ef")
-        buf.write(u"\u00f4\5(\25\2\u00f0\u00f1\7\17\2\2\u00f1\u00f3\5(\25")
-        buf.write(u"\2\u00f2\u00f0\3\2\2\2\u00f3\u00f6\3\2\2\2\u00f4\u00f2")
-        buf.write(u"\3\2\2\2\u00f4\u00f5\3\2\2\2\u00f5%\3\2\2\2\u00f6\u00f4")
-        buf.write(u"\3\2\2\2\u00f7\u00f8\b\24\1\2\u00f8\u0150\7<\2\2\u00f9")
-        buf.write(u"\u00fb\7\33\2\2\u00fa\u00f9\3\2\2\2\u00fa\u00fb\3\2\2")
-        buf.write(u"\2\u00fb\u00fc\3\2\2\2\u00fc\u0150\7;\2\2\u00fd\u0150")
-        buf.write(u"\79\2\2\u00fe\u0150\7:\2\2\u00ff\u0100\t\2\2\2\u0100")
-        buf.write(u"\u0101\7\t\2\2\u0101\u0102\5&\24\2\u0102\u0103\7\n\2")
-        buf.write(u"\2\u0103\u0150\3\2\2\2\u0104\u0105\7<\2\2\u0105\u010e")
-        buf.write(u"\7\t\2\2\u0106\u010b\5&\24\2\u0107\u0108\7\17\2\2\u0108")
-        buf.write(u"\u010a\5&\24\2\u0109\u0107\3\2\2\2\u010a\u010d\3\2\2")
-        buf.write(u"\2\u010b\u0109\3\2\2\2\u010b\u010c\3\2\2\2\u010c\u010f")
-        buf.write(u"\3\2\2\2\u010d\u010b\3\2\2\2\u010e\u0106\3\2\2\2\u010e")
-        buf.write(u"\u010f\3\2\2\2\u010f\u0110\3\2\2\2\u0110\u0150\7\n\2")
-        buf.write(u"\2\u0111\u0112\7\"\2\2\u0112\u0113\7\t\2\2\u0113\u0116")
-        buf.write(u"\5&\24\2\u0114\u0115\7\17\2\2\u0115\u0117\5&\24\2\u0116")
-        buf.write(u"\u0114\3\2\2\2\u0117\u0118\3\2\2\2\u0118\u0116\3\2\2")
-        buf.write(u"\2\u0118\u0119\3\2\2\2\u0119\u011a\3\2\2\2\u011a\u011b")
-        buf.write(u"\7\n\2\2\u011b\u0150\3\2\2\2\u011c\u011d\7%\2\2\u011d")
-        buf.write(u"\u0150\5&\24\20\u011e\u011f\7&\2\2\u011f\u0150\5&\24")
-        buf.write(u"\17\u0120\u0121\7\33\2\2\u0121\u0150\5&\24\16\u0122\u0123")
-        buf.write(u"\7\66\2\2\u0123\u0124\5&\24\2\u0124\u0125\7\67\2\2\u0125")
-        buf.write(u"\u0126\5&\24\2\u0126\u0127\78\2\2\u0127\u0128\5&\24\6")
-        buf.write(u"\u0128\u0150\3\2\2\2\u0129\u012a\7<\2\2\u012a\u012b\7")
-        buf.write(u"\21\2\2\u012b\u012c\7<\2\2\u012c\u012d\7\4\2\2\u012d")
-        buf.write(u"\u0134\5&\24\2\u012e\u012f\7\5\2\2\u012f\u0130\7<\2\2")
-        buf.write(u"\u0130\u0131\7\4\2\2\u0131\u0133\5&\24\2\u0132\u012e")
-        buf.write(u"\3\2\2\2\u0133\u0136\3\2\2\2\u0134\u0132\3\2\2\2\u0134")
-        buf.write(u"\u0135\3\2\2\2\u0135\u0137\3\2\2\2\u0136\u0134\3\2\2")
-        buf.write(u"\2\u0137\u0138\7\22\2\2\u0138\u0150\3\2\2\2\u0139\u013a")
-        buf.write(u"\7\26\2\2\u013a\u013f\5&\24\2\u013b\u013c\7\17\2\2\u013c")
-        buf.write(u"\u013e\5&\24\2\u013d\u013b\3\2\2\2\u013e\u0141\3\2\2")
-        buf.write(u"\2\u013f\u013d\3\2\2\2\u013f\u0140\3\2\2\2\u0140\u0142")
-        buf.write(u"\3\2\2\2\u0141\u013f\3\2\2\2\u0142\u0143\7\27\2\2\u0143")
-        buf.write(u"\u0150\3\2\2\2\u0144\u0145\7\t\2\2\u0145\u014a\5&\24")
-        buf.write(u"\2\u0146\u0147\7\17\2\2\u0147\u0149\5&\24\2\u0148\u0146")
-        buf.write(u"\3\2\2\2\u0149\u014c\3\2\2\2\u014a\u0148\3\2\2\2\u014a")
-        buf.write(u"\u014b\3\2\2\2\u014b\u014d\3\2\2\2\u014c\u014a\3\2\2")
-        buf.write(u"\2\u014d\u014e\7\n\2\2\u014e\u0150\3\2\2\2\u014f\u00f7")
-        buf.write(u"\3\2\2\2\u014f\u00fa\3\2\2\2\u014f\u00fd\3\2\2\2\u014f")
-        buf.write(u"\u00fe\3\2\2\2\u014f\u00ff\3\2\2\2\u014f\u0104\3\2\2")
-        buf.write(u"\2\u014f\u0111\3\2\2\2\u014f\u011c\3\2\2\2\u014f\u011e")
-        buf.write(u"\3\2\2\2\u014f\u0120\3\2\2\2\u014f\u0122\3\2\2\2\u014f")
-        buf.write(u"\u0129\3\2\2\2\u014f\u0139\3\2\2\2\u014f\u0144\3\2\2")
-        buf.write(u"\2\u0150\u017e\3\2\2\2\u0151\u0152\f\r\2\2\u0152\u0153")
-        buf.write(u"\t\3\2\2\u0153\u017d\5&\24\16\u0154\u0155\f\f\2\2\u0155")
-        buf.write(u"\u0156\t\4\2\2\u0156\u017d\5&\24\r\u0157\u0158\f\13\2")
-        buf.write(u"\2\u0158\u0159\t\5\2\2\u0159\u017d\5&\24\f\u015a\u015b")
-        buf.write(u"\f\n\2\2\u015b\u015c\7\61\2\2\u015c\u017d\5&\24\13\u015d")
-        buf.write(u"\u015e\f\t\2\2\u015e\u015f\t\6\2\2\u015f\u017d\5&\24")
-        buf.write(u"\n\u0160\u0161\f\b\2\2\u0161\u0162\7\64\2\2\u0162\u017d")
-        buf.write(u"\5&\24\b\u0163\u0164\f\7\2\2\u0164\u0165\7\65\2\2\u0165")
-        buf.write(u"\u017d\5&\24\7\u0166\u0167\f\24\2\2\u0167\u0168\7#\2")
-        buf.write(u"\2\u0168\u017d\7<\2\2\u0169\u016a\f\23\2\2\u016a\u016b")
-        buf.write(u"\7\21\2\2\u016b\u016c\7<\2\2\u016c\u016d\7$\2\2\u016d")
-        buf.write(u"\u016e\5&\24\2\u016e\u016f\7\22\2\2\u016f\u017d\3\2\2")
-        buf.write(u"\2\u0170\u0171\f\22\2\2\u0171\u0172\7\26\2\2\u0172\u0173")
-        buf.write(u"\5&\24\2\u0173\u0174\7\27\2\2\u0174\u017d\3\2\2\2\u0175")
-        buf.write(u"\u0176\f\21\2\2\u0176\u0177\7\26\2\2\u0177\u0178\5&\24")
-        buf.write(u"\2\u0178\u0179\7$\2\2\u0179\u017a\5&\24\2\u017a\u017b")
-        buf.write(u"\7\27\2\2\u017b\u017d\3\2\2\2\u017c\u0151\3\2\2\2\u017c")
-        buf.write(u"\u0154\3\2\2\2\u017c\u0157\3\2\2\2\u017c\u015a\3\2\2")
-        buf.write(u"\2\u017c\u015d\3\2\2\2\u017c\u0160\3\2\2\2\u017c\u0163")
-        buf.write(u"\3\2\2\2\u017c\u0166\3\2\2\2\u017c\u0169\3\2\2\2\u017c")
-        buf.write(u"\u0170\3\2\2\2\u017c\u0175\3\2\2\2\u017d\u0180\3\2\2")
-        buf.write(u"\2\u017e\u017c\3\2\2\2\u017e\u017f\3\2\2\2\u017f\'\3")
-        buf.write(u"\2\2\2\u0180\u017e\3\2\2\2\u0181\u0182\b\25\1\2\u0182")
-        buf.write(u"\u0183\7<\2\2\u0183\u018d\3\2\2\2\u0184\u0185\f\4\2\2")
-        buf.write(u"\u0185\u0186\7\26\2\2\u0186\u0187\7;\2\2\u0187\u018c")
-        buf.write(u"\7\27\2\2\u0188\u0189\f\3\2\2\u0189\u018a\7#\2\2\u018a")
-        buf.write(u"\u018c\7<\2\2\u018b\u0184\3\2\2\2\u018b\u0188\3\2\2\2")
-        buf.write(u"\u018c\u018f\3\2\2\2\u018d\u018b\3\2\2\2\u018d\u018e")
-        buf.write(u"\3\2\2\2\u018e)\3\2\2\2\u018f\u018d\3\2\2\2(-/>HNVZ^")
-        buf.write(u"ckrz\u008d\u0099\u009d\u00ad\u00b5\u00b9\u00c7\u00ca")
-        buf.write(u"\u00d4\u00d7\u00dd\u00e6\u00e9\u00f4\u00fa\u010b\u010e")
-        buf.write(u"\u0118\u0134\u013f\u014a\u014f\u017c\u017e\u018b\u018d")
+        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3A")
+        buf.write("\u0191\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
+        buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16")
+        buf.write("\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22\4\23\t\23")
+        buf.write("\4\24\t\24\4\25\t\25\3\2\3\2\3\2\7\2.\n\2\f\2\16\2\61")
+        buf.write("\13\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3\4\3\4\3\4\3\4")
+        buf.write("\5\4?\n\4\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\5\5I\n\5\3\5")
+        buf.write("\3\5\3\5\3\5\5\5O\n\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5W\n\5")
+        buf.write("\3\5\3\5\5\5[\n\5\3\5\3\5\5\5_\n\5\3\6\6\6b\n\6\r\6\16")
+        buf.write("\6c\3\7\3\7\3\7\3\7\3\7\3\7\5\7l\n\7\3\b\3\b\3\b\7\bq")
+        buf.write("\n\b\f\b\16\bt\13\b\3\t\3\t\3\t\7\ty\n\t\f\t\16\t|\13")
+        buf.write("\t\3\t\3\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n")
+        buf.write("\3\n\7\n\u008c\n\n\f\n\16\n\u008f\13\n\3\n\3\n\3\n\3\n")
+        buf.write("\3\n\3\n\3\n\7\n\u0098\n\n\f\n\16\n\u009b\13\n\3\n\5\n")
+        buf.write("\u009e\n\n\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13")
+        buf.write("\3\13\3\13\3\13\3\13\3\13\5\13\u00ae\n\13\3\13\3\13\3")
+        buf.write("\13\3\13\7\13\u00b4\n\13\f\13\16\13\u00b7\13\13\3\f\5")
+        buf.write("\f\u00ba\n\f\3\f\3\f\3\r\3\r\3\r\3\r\3\16\3\16\3\16\3")
+        buf.write("\16\7\16\u00c6\n\16\f\16\16\16\u00c9\13\16\5\16\u00cb")
+        buf.write("\n\16\3\16\3\16\3\17\3\17\3\17\3\17\7\17\u00d3\n\17\f")
+        buf.write("\17\16\17\u00d6\13\17\5\17\u00d8\n\17\3\17\3\17\3\20\3")
+        buf.write("\20\5\20\u00de\n\20\3\21\3\21\3\21\3\21\3\22\3\22\3\22")
+        buf.write("\5\22\u00e7\n\22\3\22\5\22\u00ea\n\22\3\22\3\22\3\22\3")
+        buf.write("\22\3\23\3\23\3\23\7\23\u00f3\n\23\f\23\16\23\u00f6\13")
+        buf.write("\23\3\24\3\24\3\24\5\24\u00fb\n\24\3\24\3\24\3\24\3\24")
+        buf.write("\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\7\24\u010a")
+        buf.write("\n\24\f\24\16\24\u010d\13\24\5\24\u010f\n\24\3\24\3\24")
+        buf.write("\3\24\3\24\3\24\3\24\6\24\u0117\n\24\r\24\16\24\u0118")
+        buf.write("\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24")
+        buf.write("\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24")
+        buf.write("\3\24\3\24\7\24\u0133\n\24\f\24\16\24\u0136\13\24\3\24")
+        buf.write("\3\24\3\24\3\24\3\24\3\24\7\24\u013e\n\24\f\24\16\24\u0141")
+        buf.write("\13\24\3\24\3\24\3\24\3\24\3\24\3\24\7\24\u0149\n\24\f")
+        buf.write("\24\16\24\u014c\13\24\3\24\3\24\5\24\u0150\n\24\3\24\3")
+        buf.write("\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24")
+        buf.write("\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24")
+        buf.write("\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24")
+        buf.write("\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\7\24\u017d")
+        buf.write("\n\24\f\24\16\24\u0180\13\24\3\25\3\25\3\25\3\25\3\25")
+        buf.write("\3\25\3\25\3\25\3\25\3\25\7\25\u018c\n\25\f\25\16\25\u018f")
+        buf.write("\13\25\3\25\2\5\24&(\26\2\4\6\b\n\f\16\20\22\24\26\30")
+        buf.write("\32\34\36 \"$&(\2\7\4\2\32\32!!\3\2\'*\4\2\33\33++\4\2")
+        buf.write("\4\4,\60\3\2\62\63\2\u01c0\2/\3\2\2\2\4\64\3\2\2\2\6:")
+        buf.write("\3\2\2\2\bD\3\2\2\2\na\3\2\2\2\fk\3\2\2\2\16m\3\2\2\2")
+        buf.write("\20u\3\2\2\2\22\u009d\3\2\2\2\24\u00ad\3\2\2\2\26\u00b9")
+        buf.write("\3\2\2\2\30\u00bd\3\2\2\2\32\u00c1\3\2\2\2\34\u00ce\3")
+        buf.write("\2\2\2\36\u00db\3\2\2\2 \u00df\3\2\2\2\"\u00e9\3\2\2\2")
+        buf.write("$\u00ef\3\2\2\2&\u014f\3\2\2\2(\u0181\3\2\2\2*.\5\4\3")
+        buf.write("\2+.\5\6\4\2,.\5\b\5\2-*\3\2\2\2-+\3\2\2\2-,\3\2\2\2.")
+        buf.write("\61\3\2\2\2/-\3\2\2\2/\60\3\2\2\2\60\62\3\2\2\2\61/\3")
+        buf.write("\2\2\2\62\63\7\2\2\3\63\3\3\2\2\2\64\65\7\3\2\2\65\66")
+        buf.write("\7<\2\2\66\67\7\4\2\2\678\5\22\n\289\7\5\2\29\5\3\2\2")
+        buf.write("\2:;\7\6\2\2;>\7<\2\2<=\7\7\2\2=?\5\24\13\2><\3\2\2\2")
+        buf.write(">?\3\2\2\2?@\3\2\2\2@A\7\4\2\2AB\5&\24\2BC\7\5\2\2C\7")
+        buf.write("\3\2\2\2DE\7\b\2\2EF\7<\2\2FH\7\t\2\2GI\5\16\b\2HG\3\2")
+        buf.write("\2\2HI\3\2\2\2IJ\3\2\2\2JK\7\n\2\2KL\7\13\2\2LN\7\t\2")
+        buf.write("\2MO\5\16\b\2NM\3\2\2\2NO\3\2\2\2OP\3\2\2\2PQ\7\n\2\2")
+        buf.write("QV\7\5\2\2RS\7\f\2\2ST\5\16\b\2TU\7\5\2\2UW\3\2\2\2VR")
+        buf.write("\3\2\2\2VW\3\2\2\2WX\3\2\2\2XZ\7\r\2\2Y[\5\n\6\2ZY\3\2")
+        buf.write("\2\2Z[\3\2\2\2[\\\3\2\2\2\\^\7\16\2\2]_\7\5\2\2^]\3\2")
+        buf.write("\2\2^_\3\2\2\2_\t\3\2\2\2`b\5\f\7\2a`\3\2\2\2bc\3\2\2")
+        buf.write("\2ca\3\2\2\2cd\3\2\2\2d\13\3\2\2\2el\5\"\22\2fl\5\30\r")
+        buf.write("\2gl\5 \21\2hl\5\36\20\2il\5\32\16\2jl\5\34\17\2ke\3\2")
+        buf.write("\2\2kf\3\2\2\2kg\3\2\2\2kh\3\2\2\2ki\3\2\2\2kj\3\2\2\2")
+        buf.write("l\r\3\2\2\2mr\5\20\t\2no\7\5\2\2oq\5\20\t\2pn\3\2\2\2")
+        buf.write("qt\3\2\2\2rp\3\2\2\2rs\3\2\2\2s\17\3\2\2\2tr\3\2\2\2u")
+        buf.write("z\5(\25\2vw\7\17\2\2wy\5(\25\2xv\3\2\2\2y|\3\2\2\2zx\3")
+        buf.write("\2\2\2z{\3\2\2\2{}\3\2\2\2|z\3\2\2\2}~\7\7\2\2~\177\5")
+        buf.write("\24\13\2\177\21\3\2\2\2\u0080\u009e\5\24\13\2\u0081\u0082")
+        buf.write("\7\20\2\2\u0082\u0083\7\21\2\2\u0083\u0084\7<\2\2\u0084")
+        buf.write("\u0085\7\7\2\2\u0085\u0086\5\24\13\2\u0086\u008d\3\2\2")
+        buf.write("\2\u0087\u0088\7\5\2\2\u0088\u0089\7<\2\2\u0089\u008a")
+        buf.write("\7\7\2\2\u008a\u008c\5\24\13\2\u008b\u0087\3\2\2\2\u008c")
+        buf.write("\u008f\3\2\2\2\u008d\u008b\3\2\2\2\u008d\u008e\3\2\2\2")
+        buf.write("\u008e\u0090\3\2\2\2\u008f\u008d\3\2\2\2\u0090\u0091\7")
+        buf.write("\22\2\2\u0091\u009e\3\2\2\2\u0092\u0093\7\23\2\2\u0093")
+        buf.write("\u0094\7\21\2\2\u0094\u0099\7<\2\2\u0095\u0096\7\17\2")
+        buf.write("\2\u0096\u0098\7<\2\2\u0097\u0095\3\2\2\2\u0098\u009b")
+        buf.write("\3\2\2\2\u0099\u0097\3\2\2\2\u0099\u009a\3\2\2\2\u009a")
+        buf.write("\u009c\3\2\2\2\u009b\u0099\3\2\2\2\u009c\u009e\7\22\2")
+        buf.write("\2\u009d\u0080\3\2\2\2\u009d\u0081\3\2\2\2\u009d\u0092")
+        buf.write("\3\2\2\2\u009e\23\3\2\2\2\u009f\u00a0\b\13\1\2\u00a0\u00ae")
+        buf.write("\7\24\2\2\u00a1\u00a2\7\25\2\2\u00a2\u00a3\7\26\2\2\u00a3")
+        buf.write("\u00a4\5\26\f\2\u00a4\u00a5\7\17\2\2\u00a5\u00a6\5\26")
+        buf.write("\f\2\u00a6\u00a7\7\27\2\2\u00a7\u00a8\7\30\2\2\u00a8\u00a9")
+        buf.write("\7\24\2\2\u00a9\u00ae\3\2\2\2\u00aa\u00ae\7\31\2\2\u00ab")
+        buf.write("\u00ae\7\32\2\2\u00ac\u00ae\7<\2\2\u00ad\u009f\3\2\2\2")
+        buf.write("\u00ad\u00a1\3\2\2\2\u00ad\u00aa\3\2\2\2\u00ad\u00ab\3")
+        buf.write("\2\2\2\u00ad\u00ac\3\2\2\2\u00ae\u00b5\3\2\2\2\u00af\u00b0")
+        buf.write("\f\4\2\2\u00b0\u00b1\7\26\2\2\u00b1\u00b2\7;\2\2\u00b2")
+        buf.write("\u00b4\7\27\2\2\u00b3\u00af\3\2\2\2\u00b4\u00b7\3\2\2")
+        buf.write("\2\u00b5\u00b3\3\2\2\2\u00b5\u00b6\3\2\2\2\u00b6\25\3")
+        buf.write("\2\2\2\u00b7\u00b5\3\2\2\2\u00b8\u00ba\7\33\2\2\u00b9")
+        buf.write("\u00b8\3\2\2\2\u00b9\u00ba\3\2\2\2\u00ba\u00bb\3\2\2\2")
+        buf.write("\u00bb\u00bc\7;\2\2\u00bc\27\3\2\2\2\u00bd\u00be\7\34")
+        buf.write("\2\2\u00be\u00bf\5&\24\2\u00bf\u00c0\7\5\2\2\u00c0\31")
+        buf.write("\3\2\2\2\u00c1\u00ca\7\35\2\2\u00c2\u00c7\7<\2\2\u00c3")
+        buf.write("\u00c4\7\17\2\2\u00c4\u00c6\7<\2\2\u00c5\u00c3\3\2\2\2")
+        buf.write("\u00c6\u00c9\3\2\2\2\u00c7\u00c5\3\2\2\2\u00c7\u00c8\3")
+        buf.write("\2\2\2\u00c8\u00cb\3\2\2\2\u00c9\u00c7\3\2\2\2\u00ca\u00c2")
+        buf.write("\3\2\2\2\u00ca\u00cb\3\2\2\2\u00cb\u00cc\3\2\2\2\u00cc")
+        buf.write("\u00cd\7\5\2\2\u00cd\33\3\2\2\2\u00ce\u00d7\7\36\2\2\u00cf")
+        buf.write("\u00d4\7<\2\2\u00d0\u00d1\7\17\2\2\u00d1\u00d3\7<\2\2")
+        buf.write("\u00d2\u00d0\3\2\2\2\u00d3\u00d6\3\2\2\2\u00d4\u00d2\3")
+        buf.write("\2\2\2\u00d4\u00d5\3\2\2\2\u00d5\u00d8\3\2\2\2\u00d6\u00d4")
+        buf.write("\3\2\2\2\u00d7\u00cf\3\2\2\2\u00d7\u00d8\3\2\2\2\u00d8")
+        buf.write("\u00d9\3\2\2\2\u00d9\u00da\7\5\2\2\u00da\35\3\2\2\2\u00db")
+        buf.write("\u00dd\7\37\2\2\u00dc\u00de\7\5\2\2\u00dd\u00dc\3\2\2")
+        buf.write("\2\u00dd\u00de\3\2\2\2\u00de\37\3\2\2\2\u00df\u00e0\7")
+        buf.write(" \2\2\u00e0\u00e1\5&\24\2\u00e1\u00e2\7\5\2\2\u00e2!\3")
+        buf.write("\2\2\2\u00e3\u00ea\5$\23\2\u00e4\u00e6\7\t\2\2\u00e5\u00e7")
+        buf.write("\5$\23\2\u00e6\u00e5\3\2\2\2\u00e6\u00e7\3\2\2\2\u00e7")
+        buf.write("\u00e8\3\2\2\2\u00e8\u00ea\7\n\2\2\u00e9\u00e3\3\2\2\2")
+        buf.write("\u00e9\u00e4\3\2\2\2\u00ea\u00eb\3\2\2\2\u00eb\u00ec\7")
+        buf.write("\4\2\2\u00ec\u00ed\5&\24\2\u00ed\u00ee\7\5\2\2\u00ee#")
+        buf.write("\3\2\2\2\u00ef\u00f4\5(\25\2\u00f0\u00f1\7\17\2\2\u00f1")
+        buf.write("\u00f3\5(\25\2\u00f2\u00f0\3\2\2\2\u00f3\u00f6\3\2\2\2")
+        buf.write("\u00f4\u00f2\3\2\2\2\u00f4\u00f5\3\2\2\2\u00f5%\3\2\2")
+        buf.write("\2\u00f6\u00f4\3\2\2\2\u00f7\u00f8\b\24\1\2\u00f8\u0150")
+        buf.write("\7<\2\2\u00f9\u00fb\7\33\2\2\u00fa\u00f9\3\2\2\2\u00fa")
+        buf.write("\u00fb\3\2\2\2\u00fb\u00fc\3\2\2\2\u00fc\u0150\7;\2\2")
+        buf.write("\u00fd\u0150\79\2\2\u00fe\u0150\7:\2\2\u00ff\u0100\t\2")
+        buf.write("\2\2\u0100\u0101\7\t\2\2\u0101\u0102\5&\24\2\u0102\u0103")
+        buf.write("\7\n\2\2\u0103\u0150\3\2\2\2\u0104\u0105\7<\2\2\u0105")
+        buf.write("\u010e\7\t\2\2\u0106\u010b\5&\24\2\u0107\u0108\7\17\2")
+        buf.write("\2\u0108\u010a\5&\24\2\u0109\u0107\3\2\2\2\u010a\u010d")
+        buf.write("\3\2\2\2\u010b\u0109\3\2\2\2\u010b\u010c\3\2\2\2\u010c")
+        buf.write("\u010f\3\2\2\2\u010d\u010b\3\2\2\2\u010e\u0106\3\2\2\2")
+        buf.write("\u010e\u010f\3\2\2\2\u010f\u0110\3\2\2\2\u0110\u0150\7")
+        buf.write("\n\2\2\u0111\u0112\7\"\2\2\u0112\u0113\7\t\2\2\u0113\u0116")
+        buf.write("\5&\24\2\u0114\u0115\7\17\2\2\u0115\u0117\5&\24\2\u0116")
+        buf.write("\u0114\3\2\2\2\u0117\u0118\3\2\2\2\u0118\u0116\3\2\2\2")
+        buf.write("\u0118\u0119\3\2\2\2\u0119\u011a\3\2\2\2\u011a\u011b\7")
+        buf.write("\n\2\2\u011b\u0150\3\2\2\2\u011c\u011d\7%\2\2\u011d\u0150")
+        buf.write("\5&\24\20\u011e\u011f\7&\2\2\u011f\u0150\5&\24\17\u0120")
+        buf.write("\u0121\7\33\2\2\u0121\u0150\5&\24\16\u0122\u0123\7\66")
+        buf.write("\2\2\u0123\u0124\5&\24\2\u0124\u0125\7\67\2\2\u0125\u0126")
+        buf.write("\5&\24\2\u0126\u0127\78\2\2\u0127\u0128\5&\24\6\u0128")
+        buf.write("\u0150\3\2\2\2\u0129\u012a\7<\2\2\u012a\u012b\7\21\2\2")
+        buf.write("\u012b\u012c\7<\2\2\u012c\u012d\7\4\2\2\u012d\u0134\5")
+        buf.write("&\24\2\u012e\u012f\7\5\2\2\u012f\u0130\7<\2\2\u0130\u0131")
+        buf.write("\7\4\2\2\u0131\u0133\5&\24\2\u0132\u012e\3\2\2\2\u0133")
+        buf.write("\u0136\3\2\2\2\u0134\u0132\3\2\2\2\u0134\u0135\3\2\2\2")
+        buf.write("\u0135\u0137\3\2\2\2\u0136\u0134\3\2\2\2\u0137\u0138\7")
+        buf.write("\22\2\2\u0138\u0150\3\2\2\2\u0139\u013a\7\26\2\2\u013a")
+        buf.write("\u013f\5&\24\2\u013b\u013c\7\17\2\2\u013c\u013e\5&\24")
+        buf.write("\2\u013d\u013b\3\2\2\2\u013e\u0141\3\2\2\2\u013f\u013d")
+        buf.write("\3\2\2\2\u013f\u0140\3\2\2\2\u0140\u0142\3\2\2\2\u0141")
+        buf.write("\u013f\3\2\2\2\u0142\u0143\7\27\2\2\u0143\u0150\3\2\2")
+        buf.write("\2\u0144\u0145\7\t\2\2\u0145\u014a\5&\24\2\u0146\u0147")
+        buf.write("\7\17\2\2\u0147\u0149\5&\24\2\u0148\u0146\3\2\2\2\u0149")
+        buf.write("\u014c\3\2\2\2\u014a\u0148\3\2\2\2\u014a\u014b\3\2\2\2")
+        buf.write("\u014b\u014d\3\2\2\2\u014c\u014a\3\2\2\2\u014d\u014e\7")
+        buf.write("\n\2\2\u014e\u0150\3\2\2\2\u014f\u00f7\3\2\2\2\u014f\u00fa")
+        buf.write("\3\2\2\2\u014f\u00fd\3\2\2\2\u014f\u00fe\3\2\2\2\u014f")
+        buf.write("\u00ff\3\2\2\2\u014f\u0104\3\2\2\2\u014f\u0111\3\2\2\2")
+        buf.write("\u014f\u011c\3\2\2\2\u014f\u011e\3\2\2\2\u014f\u0120\3")
+        buf.write("\2\2\2\u014f\u0122\3\2\2\2\u014f\u0129\3\2\2\2\u014f\u0139")
+        buf.write("\3\2\2\2\u014f\u0144\3\2\2\2\u0150\u017e\3\2\2\2\u0151")
+        buf.write("\u0152\f\r\2\2\u0152\u0153\t\3\2\2\u0153\u017d\5&\24\16")
+        buf.write("\u0154\u0155\f\f\2\2\u0155\u0156\t\4\2\2\u0156\u017d\5")
+        buf.write("&\24\r\u0157\u0158\f\13\2\2\u0158\u0159\t\5\2\2\u0159")
+        buf.write("\u017d\5&\24\f\u015a\u015b\f\n\2\2\u015b\u015c\7\61\2")
+        buf.write("\2\u015c\u017d\5&\24\13\u015d\u015e\f\t\2\2\u015e\u015f")
+        buf.write("\t\6\2\2\u015f\u017d\5&\24\n\u0160\u0161\f\b\2\2\u0161")
+        buf.write("\u0162\7\64\2\2\u0162\u017d\5&\24\b\u0163\u0164\f\7\2")
+        buf.write("\2\u0164\u0165\7\65\2\2\u0165\u017d\5&\24\7\u0166\u0167")
+        buf.write("\f\24\2\2\u0167\u0168\7#\2\2\u0168\u017d\7<\2\2\u0169")
+        buf.write("\u016a\f\23\2\2\u016a\u016b\7\21\2\2\u016b\u016c\7<\2")
+        buf.write("\2\u016c\u016d\7$\2\2\u016d\u016e\5&\24\2\u016e\u016f")
+        buf.write("\7\22\2\2\u016f\u017d\3\2\2\2\u0170\u0171\f\22\2\2\u0171")
+        buf.write("\u0172\7\26\2\2\u0172\u0173\5&\24\2\u0173\u0174\7\27\2")
+        buf.write("\2\u0174\u017d\3\2\2\2\u0175\u0176\f\21\2\2\u0176\u0177")
+        buf.write("\7\26\2\2\u0177\u0178\5&\24\2\u0178\u0179\7$\2\2\u0179")
+        buf.write("\u017a\5&\24\2\u017a\u017b\7\27\2\2\u017b\u017d\3\2\2")
+        buf.write("\2\u017c\u0151\3\2\2\2\u017c\u0154\3\2\2\2\u017c\u0157")
+        buf.write("\3\2\2\2\u017c\u015a\3\2\2\2\u017c\u015d\3\2\2\2\u017c")
+        buf.write("\u0160\3\2\2\2\u017c\u0163\3\2\2\2\u017c\u0166\3\2\2\2")
+        buf.write("\u017c\u0169\3\2\2\2\u017c\u0170\3\2\2\2\u017c\u0175\3")
+        buf.write("\2\2\2\u017d\u0180\3\2\2\2\u017e\u017c\3\2\2\2\u017e\u017f")
+        buf.write("\3\2\2\2\u017f\'\3\2\2\2\u0180\u017e\3\2\2\2\u0181\u0182")
+        buf.write("\b\25\1\2\u0182\u0183\7<\2\2\u0183\u018d\3\2\2\2\u0184")
+        buf.write("\u0185\f\4\2\2\u0185\u0186\7\26\2\2\u0186\u0187\7;\2\2")
+        buf.write("\u0187\u018c\7\27\2\2\u0188\u0189\f\3\2\2\u0189\u018a")
+        buf.write("\7#\2\2\u018a\u018c\7<\2\2\u018b\u0184\3\2\2\2\u018b\u0188")
+        buf.write("\3\2\2\2\u018c\u018f\3\2\2\2\u018d\u018b\3\2\2\2\u018d")
+        buf.write("\u018e\3\2\2\2\u018e)\3\2\2\2\u018f\u018d\3\2\2\2(-/>")
+        buf.write("HNVZ^ckrz\u008d\u0099\u009d\u00ad\u00b5\u00b9\u00c7\u00ca")
+        buf.write("\u00d4\u00d7\u00dd\u00e6\u00e9\u00f4\u00fa\u010b\u010e")
+        buf.write("\u0118\u0134\u013f\u014a\u014f\u017c\u017e\u018b\u018d")
         return buf.getvalue()
 
 
@@ -213,34 +214,33 @@ class LustreParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ u"<INVALID>", u"'datatype'", u"'='", u"';'", u"'const'", 
-                     u"':'", u"'node'", u"'('", u"')'", u"'returns'", u"'var'", 
-                     u"'let'", u"'tel'", u"','", u"'struct'", u"'{'", u"'}'", 
-                     u"'enum'", u"'int'", u"'subrange'", u"'['", u"']'", 
-                     u"'of'", u"'bool'", u"'real'", u"'-'", u"'--%PROPERTY'", 
-                     u"'--%REALIZABLE'", u"'--%IVC'", u"'--%MAIN'", u"'assert'", 
-                     u"'floor'", u"'condact'", u"'.'", u"':='", u"'pre'", 
-                     u"'not'", u"'*'", u"'/'", u"'div'", u"'mod'", u"'+'", 
-                     u"'<'", u"'<='", u"'>'", u"'>='", u"'<>'", u"'and'", 
-                     u"'or'", u"'xor'", u"'=>'", u"'->'", u"'if'", u"'then'", 
-                     u"'else'" ]
+    literalNames = [ "<INVALID>", "'datatype'", "'='", "';'", "'const'", 
+                     "':'", "'node'", "'('", "')'", "'returns'", "'var'", 
+                     "'let'", "'tel'", "','", "'struct'", "'{'", "'}'", 
+                     "'enum'", "'int'", "'subrange'", "'['", "']'", "'of'", 
+                     "'bool'", "'real'", "'-'", "'--%PROPERTY'", "'--%REALIZABLE'", 
+                     "'--%IVC'", "'--%MAIN'", "'assert'", "'floor'", "'condact'", 
+                     "'.'", "':='", "'pre'", "'not'", "'*'", "'/'", "'div'", 
+                     "'mod'", "'+'", "'<'", "'<='", "'>'", "'>='", "'<>'", 
+                     "'and'", "'or'", "'xor'", "'=>'", "'->'", "'if'", "'then'", 
+                     "'else'" ]
 
-    symbolicNames = [ u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"REAL", 
-                      u"BOOL", u"INT", u"ID", u"WS", u"SL_COMMENT", u"ML_COMMENT", 
-                      u"C_COMMENT", u"ERROR" ]
+    symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                      "<INVALID>", "<INVALID>", "<INVALID>", "REAL", "BOOL", 
+                      "INT", "ID", "WS", "SL_COMMENT", "ML_COMMENT", "C_COMMENT", 
+                      "ERROR" ]
 
     RULE_program = 0
     RULE_datatypedef = 1
@@ -263,11 +263,10 @@ class LustreParser ( Parser ):
     RULE_expr = 18
     RULE_eID = 19
 
-    ruleNames =  [ u"program", u"datatypedef", u"constant", u"node", u"instrList", 
-                   u"instr", u"varDeclList", u"varDeclGroup", u"topLevelType", 
-                   u"datatype", u"bound", u"prop", u"realizabilityInputs", 
-                   u"ivc", u"main", u"assertion", u"equation", u"lhs", u"expr", 
-                   u"eID" ]
+    ruleNames =  [ "program", "datatypedef", "constant", "node", "instrList", 
+                   "instr", "varDeclList", "varDeclGroup", "topLevelType", 
+                   "datatype", "bound", "prop", "realizabilityInputs", "ivc", 
+                   "main", "assertion", "equation", "lhs", "expr", "eID" ]
 
     EOF = Token.EOF
     T__0=1
@@ -334,38 +333,40 @@ class LustreParser ( Parser ):
     C_COMMENT=62
     ERROR=63
 
-    def __init__(self, input, output=sys.stdout):
-        super(LustreParser, self).__init__(input, output=output)
-        self.checkVersion("4.7.2")
+    def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
+        super().__init__(input, output)
+        self.checkVersion("4.9.1")
         self._interp = ParserATNSimulator(self, self.atn, self.decisionsToDFA, self.sharedContextCache)
         self._predicates = None
 
 
 
-    class ProgramContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.ProgramContext, self).__init__(parent, invokingState)
+    class ProgramContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def EOF(self):
             return self.getToken(LustreParser.EOF, 0)
 
-        def datatypedef(self, i=None):
+        def datatypedef(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.DatatypedefContext)
             else:
                 return self.getTypedRuleContext(LustreParser.DatatypedefContext,i)
 
 
-        def constant(self, i=None):
+        def constant(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.ConstantContext)
             else:
                 return self.getTypedRuleContext(LustreParser.ConstantContext,i)
 
 
-        def node(self, i=None):
+        def node(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.NodeContext)
             else:
@@ -375,8 +376,8 @@ class LustreParser ( Parser ):
         def getRuleIndex(self):
             return LustreParser.RULE_program
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitProgram"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitProgram" ):
                 return visitor.visitProgram(self)
             else:
                 return visitor.visitChildren(self)
@@ -427,10 +428,12 @@ class LustreParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class DatatypedefContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.DatatypedefContext, self).__init__(parent, invokingState)
+    class DatatypedefContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def ID(self):
@@ -443,8 +446,8 @@ class LustreParser ( Parser ):
         def getRuleIndex(self):
             return LustreParser.RULE_datatypedef
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitDatatypedef"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDatatypedef" ):
                 return visitor.visitDatatypedef(self)
             else:
                 return visitor.visitChildren(self)
@@ -476,10 +479,12 @@ class LustreParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class ConstantContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.ConstantContext, self).__init__(parent, invokingState)
+    class ConstantContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def ID(self):
@@ -496,8 +501,8 @@ class LustreParser ( Parser ):
         def getRuleIndex(self):
             return LustreParser.RULE_constant
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitConstant"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitConstant" ):
                 return visitor.visitConstant(self)
             else:
                 return visitor.visitChildren(self)
@@ -540,10 +545,12 @@ class LustreParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class NodeContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.NodeContext, self).__init__(parent, invokingState)
+    class NodeContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
             self.inp = None # VarDeclListContext
             self.outp = None # VarDeclListContext
@@ -553,7 +560,7 @@ class LustreParser ( Parser ):
         def ID(self):
             return self.getToken(LustreParser.ID, 0)
 
-        def varDeclList(self, i=None):
+        def varDeclList(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.VarDeclListContext)
             else:
@@ -567,8 +574,8 @@ class LustreParser ( Parser ):
         def getRuleIndex(self):
             return LustreParser.RULE_node
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitNode"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNode" ):
                 return visitor.visitNode(self)
             else:
                 return visitor.visitChildren(self)
@@ -655,13 +662,15 @@ class LustreParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class InstrListContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.InstrListContext, self).__init__(parent, invokingState)
+    class InstrListContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
-        def instr(self, i=None):
+        def instr(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.InstrContext)
             else:
@@ -671,8 +680,8 @@ class LustreParser ( Parser ):
         def getRuleIndex(self):
             return LustreParser.RULE_instrList
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitInstrList"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInstrList" ):
                 return visitor.visitInstrList(self)
             else:
                 return visitor.visitChildren(self)
@@ -707,10 +716,12 @@ class LustreParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class InstrContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.InstrContext, self).__init__(parent, invokingState)
+    class InstrContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def equation(self):
@@ -740,8 +751,8 @@ class LustreParser ( Parser ):
         def getRuleIndex(self):
             return LustreParser.RULE_instr
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitInstr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInstr" ):
                 return visitor.visitInstr(self)
             else:
                 return visitor.visitChildren(self)
@@ -798,13 +809,15 @@ class LustreParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class VarDeclListContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.VarDeclListContext, self).__init__(parent, invokingState)
+    class VarDeclListContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
-        def varDeclGroup(self, i=None):
+        def varDeclGroup(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.VarDeclGroupContext)
             else:
@@ -814,8 +827,8 @@ class LustreParser ( Parser ):
         def getRuleIndex(self):
             return LustreParser.RULE_varDeclList
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitVarDeclList"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitVarDeclList" ):
                 return visitor.visitVarDeclList(self)
             else:
                 return visitor.visitChildren(self)
@@ -852,13 +865,15 @@ class LustreParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class VarDeclGroupContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.VarDeclGroupContext, self).__init__(parent, invokingState)
+    class VarDeclGroupContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
-        def eID(self, i=None):
+        def eID(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.EIDContext)
             else:
@@ -872,8 +887,8 @@ class LustreParser ( Parser ):
         def getRuleIndex(self):
             return LustreParser.RULE_varDeclGroup
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitVarDeclGroup"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitVarDeclGroup" ):
                 return visitor.visitVarDeclGroup(self)
             else:
                 return visitor.visitChildren(self)
@@ -914,10 +929,12 @@ class LustreParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class TopLevelTypeContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.TopLevelTypeContext, self).__init__(parent, invokingState)
+    class TopLevelTypeContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
 
@@ -925,31 +942,31 @@ class LustreParser ( Parser ):
             return LustreParser.RULE_topLevelType
 
      
-        def copyFrom(self, ctx):
-            super(LustreParser.TopLevelTypeContext, self).copyFrom(ctx)
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
 
 
 
     class RecordTypeContext(TopLevelTypeContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.TopLevelTypeContext)
-            super(LustreParser.RecordTypeContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.TopLevelTypeContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
-        def ID(self, i=None):
+        def ID(self, i:int=None):
             if i is None:
                 return self.getTokens(LustreParser.ID)
             else:
                 return self.getToken(LustreParser.ID, i)
-        def datatype(self, i=None):
+        def datatype(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.DatatypeContext)
             else:
                 return self.getTypedRuleContext(LustreParser.DatatypeContext,i)
 
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitRecordType"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRecordType" ):
                 return visitor.visitRecordType(self)
             else:
                 return visitor.visitChildren(self)
@@ -957,18 +974,18 @@ class LustreParser ( Parser ):
 
     class EnumTypeContext(TopLevelTypeContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.TopLevelTypeContext)
-            super(LustreParser.EnumTypeContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.TopLevelTypeContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
-        def ID(self, i=None):
+        def ID(self, i:int=None):
             if i is None:
                 return self.getTokens(LustreParser.ID)
             else:
                 return self.getToken(LustreParser.ID, i)
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitEnumType"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitEnumType" ):
                 return visitor.visitEnumType(self)
             else:
                 return visitor.visitChildren(self)
@@ -976,16 +993,16 @@ class LustreParser ( Parser ):
 
     class PlainTypeContext(TopLevelTypeContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.TopLevelTypeContext)
-            super(LustreParser.PlainTypeContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.TopLevelTypeContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
         def datatype(self):
             return self.getTypedRuleContext(LustreParser.DatatypeContext,0)
 
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitPlainType"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPlainType" ):
                 return visitor.visitPlainType(self)
             else:
                 return visitor.visitChildren(self)
@@ -1075,10 +1092,12 @@ class LustreParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class DatatypeContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.DatatypeContext, self).__init__(parent, invokingState)
+    class DatatypeContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
 
@@ -1086,14 +1105,14 @@ class LustreParser ( Parser ):
             return LustreParser.RULE_datatype
 
      
-        def copyFrom(self, ctx):
-            super(LustreParser.DatatypeContext, self).copyFrom(ctx)
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
 
 
     class ArrayTypeContext(DatatypeContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.DatatypeContext)
-            super(LustreParser.ArrayTypeContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.DatatypeContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
         def datatype(self):
@@ -1102,8 +1121,8 @@ class LustreParser ( Parser ):
         def INT(self):
             return self.getToken(LustreParser.INT, 0)
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitArrayType"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitArrayType" ):
                 return visitor.visitArrayType(self)
             else:
                 return visitor.visitChildren(self)
@@ -1111,19 +1130,19 @@ class LustreParser ( Parser ):
 
     class SubrangeTypeContext(DatatypeContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.DatatypeContext)
-            super(LustreParser.SubrangeTypeContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.DatatypeContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
-        def bound(self, i=None):
+        def bound(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.BoundContext)
             else:
                 return self.getTypedRuleContext(LustreParser.BoundContext,i)
 
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitSubrangeType"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSubrangeType" ):
                 return visitor.visitSubrangeType(self)
             else:
                 return visitor.visitChildren(self)
@@ -1131,15 +1150,15 @@ class LustreParser ( Parser ):
 
     class UserTypeContext(DatatypeContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.DatatypeContext)
-            super(LustreParser.UserTypeContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.DatatypeContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
         def ID(self):
             return self.getToken(LustreParser.ID, 0)
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitUserType"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUserType" ):
                 return visitor.visitUserType(self)
             else:
                 return visitor.visitChildren(self)
@@ -1147,20 +1166,20 @@ class LustreParser ( Parser ):
 
     class PrimitiveTypeContext(DatatypeContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.DatatypeContext)
-            super(LustreParser.PrimitiveTypeContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.DatatypeContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitPrimitiveType"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimitiveType" ):
                 return visitor.visitPrimitiveType(self)
             else:
                 return visitor.visitChildren(self)
 
 
 
-    def datatype(self, _p=0):
+    def datatype(self, _p:int=0):
         _parentctx = self._ctx
         _parentState = self.state
         localctx = LustreParser.DatatypeContext(self, self._ctx, _parentState)
@@ -1258,10 +1277,12 @@ class LustreParser ( Parser ):
             self.unrollRecursionContexts(_parentctx)
         return localctx
 
-    class BoundContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.BoundContext, self).__init__(parent, invokingState)
+    class BoundContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def INT(self):
@@ -1270,8 +1291,8 @@ class LustreParser ( Parser ):
         def getRuleIndex(self):
             return LustreParser.RULE_bound
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitBound"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBound" ):
                 return visitor.visitBound(self)
             else:
                 return visitor.visitChildren(self)
@@ -1304,10 +1325,12 @@ class LustreParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class PropContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.PropContext, self).__init__(parent, invokingState)
+    class PropContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def expr(self):
@@ -1317,8 +1340,8 @@ class LustreParser ( Parser ):
         def getRuleIndex(self):
             return LustreParser.RULE_prop
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitProp"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitProp" ):
                 return visitor.visitProp(self)
             else:
                 return visitor.visitChildren(self)
@@ -1346,13 +1369,15 @@ class LustreParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class RealizabilityInputsContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.RealizabilityInputsContext, self).__init__(parent, invokingState)
+    class RealizabilityInputsContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
-        def ID(self, i=None):
+        def ID(self, i:int=None):
             if i is None:
                 return self.getTokens(LustreParser.ID)
             else:
@@ -1361,8 +1386,8 @@ class LustreParser ( Parser ):
         def getRuleIndex(self):
             return LustreParser.RULE_realizabilityInputs
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitRealizabilityInputs"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRealizabilityInputs" ):
                 return visitor.visitRealizabilityInputs(self)
             else:
                 return visitor.visitChildren(self)
@@ -1409,13 +1434,15 @@ class LustreParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class IvcContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.IvcContext, self).__init__(parent, invokingState)
+    class IvcContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
-        def ID(self, i=None):
+        def ID(self, i:int=None):
             if i is None:
                 return self.getTokens(LustreParser.ID)
             else:
@@ -1424,8 +1451,8 @@ class LustreParser ( Parser ):
         def getRuleIndex(self):
             return LustreParser.RULE_ivc
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitIvc"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIvc" ):
                 return visitor.visitIvc(self)
             else:
                 return visitor.visitChildren(self)
@@ -1472,18 +1499,20 @@ class LustreParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class MainContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.MainContext, self).__init__(parent, invokingState)
+    class MainContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
 
         def getRuleIndex(self):
             return LustreParser.RULE_main
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitMain"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMain" ):
                 return visitor.visitMain(self)
             else:
                 return visitor.visitChildren(self)
@@ -1516,10 +1545,12 @@ class LustreParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class AssertionContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.AssertionContext, self).__init__(parent, invokingState)
+    class AssertionContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
         def expr(self):
@@ -1529,8 +1560,8 @@ class LustreParser ( Parser ):
         def getRuleIndex(self):
             return LustreParser.RULE_assertion
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitAssertion"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAssertion" ):
                 return visitor.visitAssertion(self)
             else:
                 return visitor.visitChildren(self)
@@ -1558,10 +1589,12 @@ class LustreParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class EquationContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.EquationContext, self).__init__(parent, invokingState)
+    class EquationContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
             self.pos1 = None # LhsContext
             self.pos2 = None # LhsContext
@@ -1578,8 +1611,8 @@ class LustreParser ( Parser ):
         def getRuleIndex(self):
             return LustreParser.RULE_equation
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitEquation"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitEquation" ):
                 return visitor.visitEquation(self)
             else:
                 return visitor.visitChildren(self)
@@ -1632,13 +1665,15 @@ class LustreParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class LhsContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.LhsContext, self).__init__(parent, invokingState)
+    class LhsContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
-        def eID(self, i=None):
+        def eID(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.EIDContext)
             else:
@@ -1648,8 +1683,8 @@ class LustreParser ( Parser ):
         def getRuleIndex(self):
             return LustreParser.RULE_lhs
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitLhs"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLhs" ):
                 return visitor.visitLhs(self)
             else:
                 return visitor.visitChildren(self)
@@ -1686,10 +1721,12 @@ class LustreParser ( Parser ):
             self.exitRule()
         return localctx
 
-    class ExprContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.ExprContext, self).__init__(parent, invokingState)
+    class ExprContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
 
@@ -1697,30 +1734,30 @@ class LustreParser ( Parser ):
             return LustreParser.RULE_expr
 
      
-        def copyFrom(self, ctx):
-            super(LustreParser.ExprContext, self).copyFrom(ctx)
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
 
 
     class RecordExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.RecordExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
-        def ID(self, i=None):
+        def ID(self, i:int=None):
             if i is None:
                 return self.getTokens(LustreParser.ID)
             else:
                 return self.getToken(LustreParser.ID, i)
-        def expr(self, i=None):
+        def expr(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.ExprContext)
             else:
                 return self.getTypedRuleContext(LustreParser.ExprContext,i)
 
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitRecordExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRecordExpr" ):
                 return visitor.visitRecordExpr(self)
             else:
                 return visitor.visitChildren(self)
@@ -1728,15 +1765,15 @@ class LustreParser ( Parser ):
 
     class IntExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.IntExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
         def INT(self):
             return self.getToken(LustreParser.INT, 0)
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitIntExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIntExpr" ):
                 return visitor.visitIntExpr(self)
             else:
                 return visitor.visitChildren(self)
@@ -1744,19 +1781,19 @@ class LustreParser ( Parser ):
 
     class ArrayExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.ArrayExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
-        def expr(self, i=None):
+        def expr(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.ExprContext)
             else:
                 return self.getTypedRuleContext(LustreParser.ExprContext,i)
 
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitArrayExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitArrayExpr" ):
                 return visitor.visitArrayExpr(self)
             else:
                 return visitor.visitChildren(self)
@@ -1764,8 +1801,8 @@ class LustreParser ( Parser ):
 
     class CastExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.CastExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.op = None # Token
             self.copyFrom(ctx)
 
@@ -1773,8 +1810,8 @@ class LustreParser ( Parser ):
             return self.getTypedRuleContext(LustreParser.ExprContext,0)
 
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitCastExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCastExpr" ):
                 return visitor.visitCastExpr(self)
             else:
                 return visitor.visitChildren(self)
@@ -1782,15 +1819,15 @@ class LustreParser ( Parser ):
 
     class RealExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.RealExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
         def REAL(self):
             return self.getToken(LustreParser.REAL, 0)
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitRealExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRealExpr" ):
                 return visitor.visitRealExpr(self)
             else:
                 return visitor.visitChildren(self)
@@ -1798,19 +1835,19 @@ class LustreParser ( Parser ):
 
     class IfThenElseExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.IfThenElseExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
-        def expr(self, i=None):
+        def expr(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.ExprContext)
             else:
                 return self.getTypedRuleContext(LustreParser.ExprContext,i)
 
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitIfThenElseExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIfThenElseExpr" ):
                 return visitor.visitIfThenElseExpr(self)
             else:
                 return visitor.visitChildren(self)
@@ -1818,20 +1855,20 @@ class LustreParser ( Parser ):
 
     class BinaryExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.BinaryExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.op = None # Token
             self.copyFrom(ctx)
 
-        def expr(self, i=None):
+        def expr(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.ExprContext)
             else:
                 return self.getTypedRuleContext(LustreParser.ExprContext,i)
 
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitBinaryExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBinaryExpr" ):
                 return visitor.visitBinaryExpr(self)
             else:
                 return visitor.visitChildren(self)
@@ -1839,16 +1876,16 @@ class LustreParser ( Parser ):
 
     class PreExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.PreExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
         def expr(self):
             return self.getTypedRuleContext(LustreParser.ExprContext,0)
 
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitPreExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPreExpr" ):
                 return visitor.visitPreExpr(self)
             else:
                 return visitor.visitChildren(self)
@@ -1856,20 +1893,20 @@ class LustreParser ( Parser ):
 
     class InitCurrExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.InitCurrExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.op = None # Token
             self.copyFrom(ctx)
 
-        def expr(self, i=None):
+        def expr(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.ExprContext)
             else:
                 return self.getTypedRuleContext(LustreParser.ExprContext,i)
 
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitInitCurrExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInitCurrExpr" ):
                 return visitor.visitInitCurrExpr(self)
             else:
                 return visitor.visitChildren(self)
@@ -1877,21 +1914,21 @@ class LustreParser ( Parser ):
 
     class NodeCallExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.NodeCallExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
         def ID(self):
             return self.getToken(LustreParser.ID, 0)
-        def expr(self, i=None):
+        def expr(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.ExprContext)
             else:
                 return self.getTypedRuleContext(LustreParser.ExprContext,i)
 
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitNodeCallExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNodeCallExpr" ):
                 return visitor.visitNodeCallExpr(self)
             else:
                 return visitor.visitChildren(self)
@@ -1899,8 +1936,8 @@ class LustreParser ( Parser ):
 
     class RecordAccessExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.RecordAccessExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
         def expr(self):
@@ -1909,8 +1946,8 @@ class LustreParser ( Parser ):
         def ID(self):
             return self.getToken(LustreParser.ID, 0)
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitRecordAccessExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRecordAccessExpr" ):
                 return visitor.visitRecordAccessExpr(self)
             else:
                 return visitor.visitChildren(self)
@@ -1918,16 +1955,16 @@ class LustreParser ( Parser ):
 
     class NegateExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.NegateExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
         def expr(self):
             return self.getTypedRuleContext(LustreParser.ExprContext,0)
 
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitNegateExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNegateExpr" ):
                 return visitor.visitNegateExpr(self)
             else:
                 return visitor.visitChildren(self)
@@ -1935,19 +1972,19 @@ class LustreParser ( Parser ):
 
     class CondactExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.CondactExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
-        def expr(self, i=None):
+        def expr(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.ExprContext)
             else:
                 return self.getTypedRuleContext(LustreParser.ExprContext,i)
 
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitCondactExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCondactExpr" ):
                 return visitor.visitCondactExpr(self)
             else:
                 return visitor.visitChildren(self)
@@ -1955,16 +1992,16 @@ class LustreParser ( Parser ):
 
     class NotExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.NotExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
         def expr(self):
             return self.getTypedRuleContext(LustreParser.ExprContext,0)
 
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitNotExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNotExpr" ):
                 return visitor.visitNotExpr(self)
             else:
                 return visitor.visitChildren(self)
@@ -1972,19 +2009,19 @@ class LustreParser ( Parser ):
 
     class ArrayAccessExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.ArrayAccessExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
-        def expr(self, i=None):
+        def expr(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.ExprContext)
             else:
                 return self.getTypedRuleContext(LustreParser.ExprContext,i)
 
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitArrayAccessExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitArrayAccessExpr" ):
                 return visitor.visitArrayAccessExpr(self)
             else:
                 return visitor.visitChildren(self)
@@ -1992,19 +2029,19 @@ class LustreParser ( Parser ):
 
     class ArrayUpdateExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.ArrayUpdateExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
-        def expr(self, i=None):
+        def expr(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.ExprContext)
             else:
                 return self.getTypedRuleContext(LustreParser.ExprContext,i)
 
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitArrayUpdateExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitArrayUpdateExpr" ):
                 return visitor.visitArrayUpdateExpr(self)
             else:
                 return visitor.visitChildren(self)
@@ -2012,15 +2049,15 @@ class LustreParser ( Parser ):
 
     class BoolExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.BoolExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
         def BOOL(self):
             return self.getToken(LustreParser.BOOL, 0)
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitBoolExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBoolExpr" ):
                 return visitor.visitBoolExpr(self)
             else:
                 return visitor.visitChildren(self)
@@ -2028,19 +2065,19 @@ class LustreParser ( Parser ):
 
     class TupleExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.TupleExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
-        def expr(self, i=None):
+        def expr(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.ExprContext)
             else:
                 return self.getTypedRuleContext(LustreParser.ExprContext,i)
 
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitTupleExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTupleExpr" ):
                 return visitor.visitTupleExpr(self)
             else:
                 return visitor.visitChildren(self)
@@ -2048,11 +2085,11 @@ class LustreParser ( Parser ):
 
     class RecordUpdateExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.RecordUpdateExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
-        def expr(self, i=None):
+        def expr(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(LustreParser.ExprContext)
             else:
@@ -2061,8 +2098,8 @@ class LustreParser ( Parser ):
         def ID(self):
             return self.getToken(LustreParser.ID, 0)
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitRecordUpdateExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRecordUpdateExpr" ):
                 return visitor.visitRecordUpdateExpr(self)
             else:
                 return visitor.visitChildren(self)
@@ -2070,22 +2107,22 @@ class LustreParser ( Parser ):
 
     class IdExprContext(ExprContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.ExprContext)
-            super(LustreParser.IdExprContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.ExprContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
         def ID(self):
             return self.getToken(LustreParser.ID, 0)
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitIdExpr"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIdExpr" ):
                 return visitor.visitIdExpr(self)
             else:
                 return visitor.visitChildren(self)
 
 
 
-    def expr(self, _p=0):
+    def expr(self, _p:int=0):
         _parentctx = self._ctx
         _parentState = self.state
         localctx = LustreParser.ExprContext(self, self._ctx, _parentState)
@@ -2556,10 +2593,12 @@ class LustreParser ( Parser ):
             self.unrollRecursionContexts(_parentctx)
         return localctx
 
-    class EIDContext(ParserRuleContext):
 
-        def __init__(self, parser, parent=None, invokingState=-1):
-            super(LustreParser.EIDContext, self).__init__(parent, invokingState)
+    class EIDContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
             self.parser = parser
 
 
@@ -2567,21 +2606,21 @@ class LustreParser ( Parser ):
             return LustreParser.RULE_eID
 
      
-        def copyFrom(self, ctx):
-            super(LustreParser.EIDContext, self).copyFrom(ctx)
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
 
 
     class BaseEIDContext(EIDContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.EIDContext)
-            super(LustreParser.BaseEIDContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.EIDContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
         def ID(self):
             return self.getToken(LustreParser.ID, 0)
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitBaseEID"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBaseEID" ):
                 return visitor.visitBaseEID(self)
             else:
                 return visitor.visitChildren(self)
@@ -2589,8 +2628,8 @@ class LustreParser ( Parser ):
 
     class ArrayEIDContext(EIDContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.EIDContext)
-            super(LustreParser.ArrayEIDContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.EIDContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
         def eID(self):
@@ -2599,8 +2638,8 @@ class LustreParser ( Parser ):
         def INT(self):
             return self.getToken(LustreParser.INT, 0)
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitArrayEID"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitArrayEID" ):
                 return visitor.visitArrayEID(self)
             else:
                 return visitor.visitChildren(self)
@@ -2608,8 +2647,8 @@ class LustreParser ( Parser ):
 
     class RecordEIDContext(EIDContext):
 
-        def __init__(self, parser, ctx): # actually a LustreParser.EIDContext)
-            super(LustreParser.RecordEIDContext, self).__init__(parser)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a LustreParser.EIDContext
+            super().__init__(parser)
             self.copyFrom(ctx)
 
         def eID(self):
@@ -2618,15 +2657,15 @@ class LustreParser ( Parser ):
         def ID(self):
             return self.getToken(LustreParser.ID, 0)
 
-        def accept(self, visitor):
-            if hasattr(visitor, "visitRecordEID"):
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRecordEID" ):
                 return visitor.visitRecordEID(self)
             else:
                 return visitor.visitChildren(self)
 
 
 
-    def eID(self, _p=0):
+    def eID(self, _p:int=0):
         _parentctx = self._ctx
         _parentState = self.state
         localctx = LustreParser.EIDContext(self, self._ctx, _parentState)
@@ -2696,7 +2735,7 @@ class LustreParser ( Parser ):
 
 
 
-    def sempred(self, localctx, ruleIndex, predIndex):
+    def sempred(self, localctx:RuleContext, ruleIndex:int, predIndex:int):
         if self._predicates == None:
             self._predicates = dict()
         self._predicates[9] = self.datatype_sempred
@@ -2708,12 +2747,12 @@ class LustreParser ( Parser ):
         else:
             return pred(localctx, predIndex)
 
-    def datatype_sempred(self, localctx, predIndex):
+    def datatype_sempred(self, localctx:DatatypeContext, predIndex:int):
             if predIndex == 0:
                 return self.precpred(self._ctx, 2)
          
 
-    def expr_sempred(self, localctx, predIndex):
+    def expr_sempred(self, localctx:ExprContext, predIndex:int):
             if predIndex == 1:
                 return self.precpred(self._ctx, 11)
          
@@ -2758,7 +2797,7 @@ class LustreParser ( Parser ):
                 return self.precpred(self._ctx, 15)
          
 
-    def eID_sempred(self, localctx, predIndex):
+    def eID_sempred(self, localctx:EIDContext, predIndex:int):
             if predIndex == 12:
                 return self.precpred(self._ctx, 2)
          

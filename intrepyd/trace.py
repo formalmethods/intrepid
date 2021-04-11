@@ -28,7 +28,7 @@ class Trace(object):
     @staticmethod
     def get_numeric_value(value):
         """
-        Coverts a string value (including true, false) into a corresponding float or integer.
+        Converts a string value (including true, false) into a corresponding float or integer.
         """
         if '.' in value:
             return float(value)
@@ -99,7 +99,7 @@ class Trace(object):
         """
         matrix = []
         indexes = []
-        for net, values in self.get_as_net_dictionary().iteritems():
+        for net, values in self.get_as_net_dictionary().items():
             indexes.append(net2name[net])
             matrix.append(values)
         return pd.DataFrame(matrix, index=indexes)

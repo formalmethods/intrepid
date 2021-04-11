@@ -23,31 +23,31 @@ class AstPrinter(Visitor):
 
     def _visit_node(self, node):
         assert isinstance(node, Node)
-        print '\nbegin node', node.name
+        print('\nbegin node', node.name)
         if len(node.input_decls) > 0:
-            print '\nbegin inputs'
+            print('\nbegin inputs')
             for inp in node.input_decls:
                 inp.accept(self)
-            print 'end inputs'
+            print('end inputs')
         if len(node.output_decls) > 0:
-            print '\nbegin outputs'
+            print('\nbegin outputs')
             for out in node.output_decls:
                 out.accept(self)
-            print 'end outputs'
+            print('end outputs')
         if len(node.local_decls) > 0:
-            print '\nbegin locals'
+            print('\nbegin locals')
             for loc in node.local_decls:
                 loc.accept(self)
-            print 'end locals'
-        print '\nbegin equations'
+            print('end locals')
+        print('\nbegin equations')
         for equat in node.equations:
-            print equat.accept(self)
-        print 'end equations'
+            print(equat.accept(self))
+        print('end equations')
         if node.main:
-            print '--%MAIN;'
+            print('--%MAIN;')
         for prop in node.properties:
-            print '--%PROPERTY', prop.accept(self) + ';'
-        print '\nend node', node.name
+            print('--%PROPERTY', prop.accept(self) + ';')
+        print('\nend node', node.name)
 
     def _visit_var_decl_list(self, lst):
         for grp in lst.var_decl_groups:
@@ -59,7 +59,7 @@ class AstPrinter(Visitor):
         for var in grp.variables:
             var_list += sep + var
             sep = ', '
-        print var_list, ':', grp.datatype.accept(self) + ';'
+        print(var_list, ':', grp.datatype.accept(self) + ';')
 
     def _visit_equation(self, equat):
         assert isinstance(equat, Equation)

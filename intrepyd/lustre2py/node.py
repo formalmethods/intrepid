@@ -162,7 +162,7 @@ class EquationTopology(object):
     def _compute_topological_order(self, dependencies):
         seen = {}
         topological_order = []
-        for eqnum, _ in dependencies.iteritems():
+        for eqnum, _ in dependencies.items():
             parent = {eqnum : None}
             self._compute_topological_order_rec(eqnum, dependencies,\
                                                 topological_order, seen, parent)
@@ -172,7 +172,7 @@ class EquationTopology(object):
                                        topological_order, seen, parent):
         if eqnum in seen:
             if seen[eqnum] == _GREY:
-                print 'Dependency loop:', parent
+                print('Dependency loop:', parent)
                 raise Exception('Loop in equation dependencies')
             elif seen[eqnum] == _BLACK:
                 # Already seen

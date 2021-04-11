@@ -27,7 +27,7 @@ def computeCompositeDatatype(var, name2var):
     if len(tokens) != 2:
         raise RuntimeError('Cannot handle nested structures')
     baseType = name2var[tokens[0]]
-    for name, variable in baseType.datatype.fields.iteritems():
+    for name, variable in baseType.datatype.fields.items():
         if name == tokens[1]:
             return variable.datatype
     return None

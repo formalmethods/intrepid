@@ -37,7 +37,7 @@ class Summarizer(object):
                 raise RuntimeError('A non-assignment instruction was detected ' + str(type(assignment)))
             newRhs = self.substitute(assignment.rhs, summary)
             summary[assignment.lhs.var] = newRhs
-        return [Assignment(VariableOcc(lhs), rhs) for lhs, rhs in summary.iteritems()]
+        return [Assignment(VariableOcc(lhs), rhs) for lhs, rhs in summary.items()]
 
     def substituteInTerm(self, var, expression, term):
         result = None
@@ -67,6 +67,6 @@ class Summarizer(object):
 
     def substitute(self, rhs, summary):
         result = rhs
-        for key, value in summary.iteritems():
+        for key, value in summary.items():
             result = self.substituteInTerm(key, value, result)
         return result

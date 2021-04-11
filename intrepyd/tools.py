@@ -48,14 +48,14 @@ def simulate(ctx, infile, depth, outputs):
     sim_file = os.path.basename(infile) + '.csv'
     trace = ctx.mk_trace()
     if os.path.isfile(sim_file):
-        print 'Re-simulating using input values from ' + sim_file
+        print('Re-simulating using input values from ' + sim_file)
         sim_data = pd.read_csv(sim_file, index_col=0)
         depth = trace.set_from_dataframe(sim_data, ctx.inputs)
     else:
-        print 'Simulating using default values into ' + sim_file
+        print('Simulating using default values into ' + sim_file)
         dpt = 0
         while dpt <= depth:
-            for _, net in ctx.inputs.iteritems():
+            for _, net in ctx.inputs.items():
                 trace.set_value(net, dpt, ctx.get_default_value(ctx.input2type[net]))
             dpt += 1
     simulator = ctx.mk_simulator()
@@ -64,5 +64,5 @@ def simulate(ctx, infile, depth, outputs):
     simulator.simulate(trace, depth)
     dataframe = trace.get_as_dataframe(ctx.net2name)
     dataframe.to_csv(sim_file)
-    print 'Simulation result written to ' + sim_file
-    print dataframe
+    print('Simulation result written to ' + sim_file)
+    print(dataframe)

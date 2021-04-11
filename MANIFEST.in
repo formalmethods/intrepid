@@ -3,4 +3,4 @@ graft tests/files
 graft tests/kind2-benchmarks
 include LICENSE.md
 include CREDITS.md
-include simulink2py/simulink2py.jar
+include VERSION

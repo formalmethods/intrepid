@@ -11,11 +11,8 @@ Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
 This module implements infrastructure for creating nets and engines
 """
 
-import intrepyd as ip
-import intrepyd.api
-import intrepyd.engine
-import intrepyd.simulator
-import intrepyd.trace
+from intrepyd.api import *
+from intrepyd import engine, trace, simulator
 import collections
 
 class Context(object):
@@ -23,204 +20,363 @@ class Context(object):
     An intrepyd context
     """
     def __init__(self):
-        self.ctx = ip.api.mk_ctx()
+        self.ctx = mk_ctx()
         self.inputs = collections.OrderedDict()
         self.outputs = collections.OrderedDict()
         self.latches = {}
         self.nets = {}
         self.net2name = {}
         self.input2type = {}
-        self.booleantype = ip.api.mk_boolean_type(self.ctx)
-        self.int8type = ip.api.mk_int8_type(self.ctx)
-        self.int16type = ip.api.mk_int16_type(self.ctx)
-        self.int32type = ip.api.mk_int32_type(self.ctx)
-        self.uint8type = ip.api.mk_uint8_type(self.ctx)
-        self.uint16type = ip.api.mk_uint16_type(self.ctx)
-        self.uint32type = ip.api.mk_uint32_type(self.ctx)
-        self.realtype = ip.api.mk_real_type(self.ctx)
-        self.float16type = ip.api.mk_float16_type(self.ctx)
-        self.float32type = ip.api.mk_float32_type(self.ctx)
-        self.float64type = ip.api.mk_float64_type(self.ctx)
-        self.undef = ip.api.mk_undef(self.ctx)
-        self.true = ip.api.mk_true(self.ctx)
-        self.false = ip.api.mk_false(self.ctx)
+        self.booleantype = mk_boolean_type(self.ctx)
+        self.int8type = mk_int8_type(self.ctx)
+        self.int16type = mk_int16_type(self.ctx)
+        self.int32type = mk_int32_type(self.ctx)
+        self.uint8type = mk_uint8_type(self.ctx)
+        self.uint16type = mk_uint16_type(self.ctx)
+        self.uint32type = mk_uint32_type(self.ctx)
+        self.realtype = mk_real_type(self.ctx)
+        self.float16type = mk_float16_type(self.ctx)
+        self.float32type = mk_float32_type(self.ctx)
+        self.float64type = mk_float64_type(self.ctx)
+        self.undef = mk_undef(self.ctx)
+        self.true = mk_true(self.ctx)
+        self.false = mk_false(self.ctx)
         self.namespaces = []
 
     def __del__(self):
-        ip.api.del_ctx(self.ctx)
+        del_ctx(self.ctx)
 
     def push_namespace(self, name):
-        ip.api.push_namespace(self.ctx, name)
+        """
+        Pushes a namespace
+        """
+        push_namespace(self.ctx, name)
         self.namespaces.append(name)
 
     def pop_namespace(self):
-        ip.api.pop_namespace(self.ctx)
+        """
+        Pops a namespace
+        """
+        pop_namespace(self.ctx)
         if len(self.namespaces) == 0:
             raise Exception('Cannot pop namespace, empty list')
         return self.namespaces.pop()
 
     def mk_boolean_type(self):
-       return self.booleantype
+        """
+        Creates boolean type
+        """
+        return self.booleantype
 
     def mk_int8_type(self):
+        """
+        Creates int8 type
+        """
         return self.int8type
 
     def mk_int16_type(self):
+        """
+        Creates int16 type
+        """
         return self.int16type
 
     def mk_int32_type(self):
+        """
+        Creates int32 type
+        """
         return self.int32type
 
     def mk_uint8_type(self):
+        """
+        Creates uint8 type
+        """
         return self.uint8type
 
     def mk_uint16_type(self):
+        """
+        Creates uint16 type
+        """
         return self.uint16type
 
     def mk_uint32_type(self):
+        """
+        Creates uint32 type
+        """
         return self.uint32type
 
     def mk_real_type(self):
+        """
+        Creates real type
+        """
         return self.realtype
 
     def mk_float16_type(self):
+        """
+        Creates float16 type
+        """
         return self.float16type
 
     def mk_float32_type(self):
+        """
+        Creates float32 type
+        """
         return self.float32type
 
     def mk_float64_type(self):
+        """
+        Creates float64 type
+        """
         return self.float64type
 
     def mk_undef(self):
+        """
+        Creates undef net
+        """
         return self.undef
 
     def mk_true(self, name=None):
+        """
+        Creates net true
+        """
         return self._register(self.true, name)
 
     def mk_false(self, name=None):
+        """
+        Creates net false
+        """
         return self._register(self.false, name)
 
     def mk_number(self, value, type_, name=None):
-        return self._register(ip.api.mk_number(self.ctx, value, type_), name)
+        """
+        Creates a number from a value and a type
+        """
+        return self._register(mk_number(self.ctx, value, type_), name)
 
     def mk_not(self, x, name=None):
-        return self._register(ip.api.mk_not(self.ctx, x), name=name)
+        """
+        Creates the net !x
+        """
+        return self._register(mk_not(self.ctx, x), name=name)
 
     def mk_and(self, x, y, name=None):
-        return self._register(ip.api.mk_and(self.ctx, x, y), name=name)
+        """
+        Creates the net x && y
+        """
+        return self._register(mk_and(self.ctx, x, y), name=name)
 
     def mk_or(self, x, y, name=None):
-        return self._register(ip.api.mk_or(self.ctx, x, y), name=name)
+        """
+        Creates the net x || y
+        """
+        return self._register(mk_or(self.ctx, x, y), name=name)
 
     def mk_xor(self, x, y, name=None):
-        return self._register(ip.api.mk_xor(self.ctx, x, y), name=name)
+        """
+        Creates the net x ^ y
+        """
+        return self._register(mk_xor(self.ctx, x, y), name=name)
 
     def mk_implies(self, x, y, name=None):
-        return self._register(ip.api.mk_or(self.ctx, ip.api.mk_not(self.ctx, x), y), name=name)
+        """
+        Creates the net x -> y
+        """
+        return self._register(mk_or(self.ctx, mk_not(self.ctx, x), y), name=name)
 
     def mk_iff(self, x, y, name=None):
-        return self._register(ip.api.mk_iff(self.ctx, x, y), name=name)
+        """
+        Creates the net x <-> y
+        """
+        return self._register(mk_iff(self.ctx, x, y), name=name)
 
     def mk_eq(self, x, y, name=None):
-        return self._register(ip.api.mk_eq(self.ctx, x, y), name=name)
+        """
+        Creates the predicate x = y
+        """
+        return self._register(mk_eq(self.ctx, x, y), name=name)
 
     def mk_leq(self, x, y, name=None):
-        return self._register(ip.api.mk_leq(self.ctx, x, y), name=name)
+        """
+        Creates the predicate x <= y
+        """
+        return self._register(mk_leq(self.ctx, x, y), name=name)
 
     def mk_lt(self, x, y, name=None):
-        return self._register(ip.api.mk_lt(self.ctx, x, y), name=name)
+        """
+        Creates the predicate x < y
+        """
+        return self._register(mk_lt(self.ctx, x, y), name=name)
 
     def mk_geq(self, x, y, name=None):
-        return self._register(ip.api.mk_geq(self.ctx, x, y), name=name)
+        """
+        Creates the predicate x >= y
+        """
+        return self._register(mk_geq(self.ctx, x, y), name=name)
 
     def mk_gt(self, x, y, name=None):
-        return self._register(ip.api.mk_gt(self.ctx, x, y), name=name)
+        """
+        Creates the predicate x > y
+        """
+        return self._register(mk_gt(self.ctx, x, y), name=name)
 
     def mk_neq(self, x, y, name=None):
-        return self._register(ip.api.mk_neq(self.ctx, x, y), name=name)
+        """
+        Creates the predicate x != y
+        """
+        return self._register(mk_neq(self.ctx, x, y), name=name)
 
     def mk_add(self, x, y, name=None):
-        return self._register(ip.api.mk_add(self.ctx, x, y), name=name)
+        """
+        Creates the term x + y
+        """
+        return self._register(mk_add(self.ctx, x, y), name=name)
 
     def mk_mul(self, x, y, name=None):
-        return self._register(ip.api.mk_mul(self.ctx, x, y), name=name)
+        """
+        Creates the term x * y
+        """
+        return self._register(mk_mul(self.ctx, x, y), name=name)
 
     def mk_div(self, x, y, name=None):
-        return self._register(ip.api.mk_div(self.ctx, x, y), name=name)
+        """
+        Creates the term x / y
+        """
+        return self._register(mk_div(self.ctx, x, y), name=name)
 
     def mk_mod(self, x, y, name=None):
-        return self._register(ip.api.mk_mod(self.ctx, x, y), name=name)
+        """
+        Creates the term x % y
+        """
+        return self._register(mk_mod(self.ctx, x, y), name=name)
 
     def mk_sub(self, x, y, name=None):
-        return self._register(ip.api.mk_sub(self.ctx, x, y), name=name)
+        """
+        Creates the term x - y
+        """
+        return self._register(mk_sub(self.ctx, x, y), name=name)
 
     def mk_minus(self, x, name=None):
-        return self._register(ip.api.mk_minus(self.ctx, x), name=name)
+        """
+        Creates the term -x
+        """
+        return self._register(mk_minus(self.ctx, x), name=name)
 
     def mk_ite(self, i, t, e, name=None):
-        return self._register(ip.api.mk_ite(self.ctx, i, t, e), name=name)
+        """
+        Creates the term ite(i, t, e)
+        """
+        return self._register(mk_ite(self.ctx, i, t, e), name=name)
 
     def mk_input(self, name, type_):
-        return self._register_input(ip.api.mk_input(self.ctx, name, type_), type_, name=name)
+        """
+        Creates a primary input
+        """
+        return self._register_input(mk_input(self.ctx, name, type_), type_, name=name)
 
     def mk_output(self, x, name=None):
-        ip.api.mk_output(self.ctx, x)
+        """
+        Tag a net as output
+        """
+        mk_output(self.ctx, x)
         self._register_output(x, name=name)
 
     def mk_latch(self, name, type_):
-        return self._register_latch(ip.api.mk_latch(self.ctx, name, type_), name=name)
+        """
+        Creates a latch
+        """
+        return self._register_latch(mk_latch(self.ctx, name, type_), name=name)
 
     def set_latch_init_next(self, latch, init, next):
-        ip.api.set_latch_init_next(self.ctx, latch, init, next)
+        """
+        Sets the initial and next value of a latch
+        """
+        set_latch_init_next(self.ctx, latch, init, next)
 
     def mk_substitute(self, term, newTerm, oldTerm):
-        return ip.api.mk_substitute(self.ctx, term, newTerm, oldTerm)
+        """
+        Replaces the occurrences of oldTerm, that are found in term, with newTerm
+        """
+        return mk_substitute(self.ctx, term, newTerm, oldTerm)
 
     def mk_assumption(self, net):
-        ip.api.mk_assumption(self.ctx, net)
+        """
+        Creates an assumption
+        """
+        mk_assumption(self.ctx, net)
 
-    def mk_cast_to_int8(self, net):
-        return ip.api.mk_cast_to_int8(self.ctx, net)
+    def mk_cast_to_int8(self, net, name=None):
+        """
+        Casts a net to an int8
+        """
+        return self._register(mk_cast_to_int8(self.ctx, net), name)
 
-    def mk_cast_to_int16(self, net):
-        return ip.api.mk_cast_to_int16(self.ctx, net)
+    def mk_cast_to_int16(self, net, name=None):
+        """
+        Casts a net to an int16
+        """
+        return self._register(mk_cast_to_int16(self.ctx, net), name)
 
-    def mk_cast_to_int32(self, net):
-        return ip.api.mk_cast_to_int32(self.ctx, net)
+    def mk_cast_to_int32(self, net, name=None):
+        """
+        Casts a net to an int32
+        """
+        return self._register(mk_cast_to_int32(self.ctx, net), name)
 
-    def mk_cast_to_uint8(self, net):
-        return ip.api.mk_cast_to_uint8(self.ctx, net)
+    def mk_cast_to_uint8(self, net, name=None):
+        """
+        Casts a net to an uint8
+        """
+        return self._register(mk_cast_to_uint8(self.ctx, net), name)
 
-    def mk_cast_to_uint16(self, net):
-        return ip.api.mk_cast_to_uint16(self.ctx, net)
+    def mk_cast_to_uint16(self, net, name=None):
+        """
+        Casts a net to an uint16
+        """
+        return self._register(mk_cast_to_uint16(self.ctx, net), name)
 
-    def mk_cast_to_uint32(self, net):
-        return ip.api.mk_cast_to_uint32(self.ctx, net)
+    def mk_cast_to_uint32(self, net, name=None):
+        """
+        Casts a net to an uint32
+        """
+        return self._register(mk_cast_to_uint32(self.ctx, net), name)
 
     def mk_bmc(self):
-        return ip.engine.Bmc(self.ctx)
+        """
+        Creates a BMC engine
+        """
+        return engine.Bmc(self.ctx)
 
     def mk_optimizing_bmc(self):
-        return ip.engine.OptimizingBmc(self.ctx)
+        """
+        Creates an optimizing BMC engine
+        """
+        return engine.OptimizingBmc(self.ctx)
 
     def mk_backward_reach(self):
-        return ip.engine.BackwardReach(self.ctx)
+        """
+        Creates a backward reachability engine
+        """
+        return engine.BackwardReach(self.ctx)
 
     def mk_simulator(self):
-        return ip.simulator.Simulator(self.ctx)
+        """
+        Creates a simulator
+        """
+        return simulator.Simulator(self.ctx)
 
     def mk_trace(self):
-        return ip.trace.Trace(self.ctx)
+        """
+        Creates an empty trace
+        """
+        return trace.Trace(self.ctx)
 
     def to_string(self, net):
         """
         Returns the given net as a string, as given from the underlying smt-solver.
         """
-        size = ip.api.prepare_value_for_net(self.ctx, net)
+        size = prepare_value_for_net(self.ctx, net)
         value = ''
         for i in range(size):
-            value += ip.api.value_at(i)
+            value += value_at(i)
         return value
 
     def get_default_value(self, type_):
@@ -241,15 +397,13 @@ class Context(object):
         return result
 
     def _register(self, rawnet, name):
-        if rawnet in self.net2name:
-            return rawnet
         if name is None:
             name = '__n' + str(rawnet)
         name = self._current_namespace_prefix() + name
-        if name in self.nets:
-            raise Exception('Name already used: ' + name)
+        # Potentially overrides previous
         self.nets[name] = rawnet
-        self.net2name[rawnet] = name
+        if rawnet not in self.net2name:
+            self.net2name[rawnet] = name
         return rawnet
 
     def _register_input(self, rawnet, type_, name):

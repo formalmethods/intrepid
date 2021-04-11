@@ -1,4 +1,4 @@
 """
 Main package for Intrepyd
 """
-from context import Context
+from .context import Context

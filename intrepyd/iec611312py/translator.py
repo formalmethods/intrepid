@@ -31,9 +31,9 @@ def translate(filename, outfilename):
     """
     Translates an openPLC ST file into intrepyd
     """
-    print 'Parsing'
+    print('Parsing')
     pous = parsePlcOpenFile(filename)
-    print '... done'
+    print('... done')
     flush()
     outfile = open(outfilename, 'w')
     top_level = True
@@ -48,24 +48,24 @@ def translate(filename, outfilename):
 
 
 def translatePou(pou, name2var, outfile):
-    print 'Translating POU', pou.dtname
+    print('Translating POU', pou.dtname)
 
-    print 'Flattening'
+    print('Flattening')
     flattener = Flattener()
     flattened_statements = flattener.flattenStmtBlock(pou.statements)
-    print '... done'
+    print('... done')
     flush()
 
-    print 'Inferring datatypes bottom up'
+    print('Inferring datatypes bottom up')
     idbu = InferDatatypeBottomUp()
     idbu.processStatements(flattened_statements)
-    print '... done'
+    print('... done')
     flush()
 
-    print 'Inferring datatypes top down'
+    print('Inferring datatypes top down')
     idtd = InferDatatypeTopDown()
     idtd.processStatements(flattened_statements)
-    print '... done'
+    print('... done')
     flush()
 
     #
@@ -75,7 +75,7 @@ def translatePou(pou, name2var, outfile):
     sep = ''
     for var in pou.input_vars:
         if not Datatype.isPrimitive(var.datatype.dtname):
-            for name, _ in var.datatype.fields.iteritems():
+            for name, _ in var.datatype.fields.items():
                 args += sep + sanitizeName(var.name + '.' + name)
                 sep = ', '
         else:
@@ -93,26 +93,26 @@ def translatePou(pou, name2var, outfile):
     for var in pou.output_vars:
         declareOutput(var, outfile, name2var)
     flush()
-    print '  Writing statements'
+    print('  Writing statements')
     flatstmt2intrepyd = FlatStmt2Intrepyd(8, CONTEXT, var2latch, outfile)
     flatstmt2intrepyd.processStatements(flattened_statements)
-    print '  ... done'
+    print('  ... done')
     flush()
     sep = ''
     outs = ''
     if len(pou.output_vars) == 0:
         raise RuntimeError('Pou has no outputs')
-    print '  Writing outputs'
+    print('  Writing outputs')
     for out in pou.output_vars:
         if not Datatype.isPrimitive(out.datatype.dtname):
-            for name, _ in out.datatype.fields.iteritems():
+            for name, _ in out.datatype.fields.items():
                 qualifiedName = out.name + '.' + name
                 outs += sep + sanitizeName(qualifiedName)
                 sep = ', '
         else:
             outs += sep + out.name
             sep = ', '
-    print '  ... done'
+    print('  ... done')
     flush()
     outfile.write(TAB + TAB + 'return ' + outs)
     outfile.write('\n\n')
@@ -153,7 +153,7 @@ def dumpHeader(pou, name2var, filename, outfile):
     i = 0
     for var in pou.input_vars:
         if not Datatype.isPrimitive(var.datatype.dtname):
-            for _, _ in var.datatype.fields.iteritems():
+            for _, _ in var.datatype.fields.items():
                 args += sep + 'inputs[input_keys[' + str(i) + ']]'
                 sep = ', '
                 i += 1
@@ -170,7 +170,7 @@ def dumpHeader(pou, name2var, filename, outfile):
         raise RuntimeError('Pou has no outputs')
     for out in pou.output_vars:
         if not Datatype.isPrimitive(out.datatype.dtname):
-            for name, _ in out.datatype.fields.iteritems():
+            for name, _ in out.datatype.fields.items():
                 outs += sep + sanitizeName(out.name + '.' + name)
                 sep = ', '
         else:
@@ -187,7 +187,7 @@ def dumpHeader(pou, name2var, filename, outfile):
     #
     for out in pou.output_vars:
         if not Datatype.isPrimitive(out.datatype.dtname):
-            for name, _ in out.datatype.fields.iteritems():
+            for name, _ in out.datatype.fields.items():
                 qualifiedName = out.name + '.' + name
                 outfile.write(
                     TAB + TAB + "outputs['" + qualifiedName + "'] = " + sanitizeName(qualifiedName) + "\n")
@@ -254,7 +254,7 @@ def declareInput(inp, outfile, name2var):
         if not inp.name in name2var:
             raise RuntimeError('Could not find datatype for ' + inp.name)
         var = name2var[inp.name]
-        for fieldName, fieldVar in var.datatype.fields.iteritems():
+        for fieldName, fieldVar in var.datatype.fields.items():
             declareInputHelper(var.name + '.' + fieldName,
                                fieldVar.datatype, outfile)
     else:
@@ -267,7 +267,7 @@ def declareOutput(out, outfile, name2var):
         if not out.name in name2var:
             raise RuntimeError('Could not find datatype for ' + out.name)
         var = name2var[out.name]
-        for fieldName, fieldVar in var.datatype.fields.iteritems():
+        for fieldName, fieldVar in var.datatype.fields.items():
             declareOutputHelper(var.name + '.' + fieldName,
                                 fieldVar.datatype, outfile)
     else:
@@ -300,7 +300,7 @@ def declareLocal(var, outfile, var2latch, name2var):
         if not var.name in name2var:
             raise RuntimeError('Could not find datatype for ' + var.name)
         var = name2var[var.name]
-        for fieldName, fieldVar in var.datatype.fields.iteritems():
+        for fieldName, fieldVar in var.datatype.fields.items():
             declareLocalHelper(var.name + '.' + fieldName,
                                fieldVar.datatype, outfile, var2latch)
     else:

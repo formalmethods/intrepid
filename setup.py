@@ -5,24 +5,33 @@ Setup script for Intrepyd
 
 import platform
 import sys
+import os
 from setuptools import setup, find_packages
 
-VERSION = '0.8.2'
+with open('VERSION') as version_file:
+    version = version_file.read().strip()
 
 system_str = platform.system()
 bits, _ = platform.architecture()
 
 if bits != "64bit":
-    print 'Error: only 64bits architectures are supported. For other OSes please write to roberto.bruttomesso@gmail.com.'
+    print('Error: only 64bits architectures are supported. For other OSes please write to roberto.bruttomesso@gmail.com.')
     sys.exit(1)
 
-arch_data_files = None
+python_version = str(sys.version_info[0]) + '.' + str(sys.version_info[1])
+
+libraries = None
 if system_str == 'Linux':
-    arch_data_files = [('intrepyd', ['libs/linux64/libz3.so', 'libs/linux64/libintrepid_dll.so', 'libs/linux64/_api.so'])]
+    # yes, it will try to install the library to these three locations, I don't know
+    # how to automatically select the proper one. Intrepyd will work, but some directory
+    # will be polluted with unwanted _api.so
+    libraries = [('lib/python' + python_version + '/site-packages/intrepyd', ['libs/linux64/_api.so']), # 'user mode' pip installs
+                 ('lib/python' + python_version + '/dist-packages/intrepyd', ['libs/linux64/_api.so']), # 'superuser' pip installs
+                 ('intrepyd', ['libs/linux64/_api.so'])]                                                # manual local install (egg)
 elif system_str == 'Windows':
-    arch_data_files = [('Lib/site-packages/intrepyd', ['libs/win64/libz3.dll', 'libs/win64/intrepid_dll.dll', 'libs/win64/_api.pyd'])]
+    libraries = [('Lib/site-packages/intrepyd', ['libs/windows/_api.pyd', 'libs/windows/libz3.dll'])]
 elif system_str == 'Darwin':
-    arch_data_files = [('intrepyd', ['libs/osx/libz3.dylib', 'libs/osx/libintrepid_dll.dylib', 'libs/osx/_api.so'])]
+    libraries = [('lib/python' + python_version + 'site-packages/intrepyd', ['libs/osx/_api.so'])]
 
 long_desc = """
 ========
@@ -44,21 +53,18 @@ Please refer to the dedicated `Wiki page <https://github.com/formalmethods/intre
 """
 
 setup(name='intrepyd',
-      version=VERSION,
+      version=version,
       description='Intrepyd Model Checker',
       author='Roberto Bruttomesso',
       author_email='roberto.bruttomesso@gmail.com',
       maintainer='Roberto Bruttomesso',
       maintainer_email='roberto.bruttomesso@gmail.com',
       url='http://github.com/formalmethods/intrepyd',
-      download_url='http://github.com/formalmethods/intrepyd/archive/' + VERSION + '.tar.gz',
-      install_requires=['pandas', 'antlr4-python2-runtime', 'enum'],
+      # download_url='http://github.com/formalmethods/intrepyd/archive/' + version + '.tar.gz',
+      install_requires=['pandas', 'antlr4-python3-runtime==4.9.1'],
       packages=find_packages(),
-      data_files=arch_data_files,
-      # Does not work for sdist!
-      package_data={'libs' : ['linux64/*.so', 'win64/*.dll', 'win64/*.pyd', 'osx/*.so']},
+      data_files=libraries,
       license='BSD-3-Clause',
       platforms=['Windows', 'Linux', 'Darwin'],
       long_description=long_desc
 )
-

@@ -67,7 +67,7 @@ class Circuit(object):
         Makes the outputs contained in the already filled-out
         self.outputs.
         """
-        for _, (_, net) in enumerate(self.outputs.iteritems()):
+        for _, (_, net) in enumerate(self.outputs.items()):
             self.context.mk_output(net)
 
     def _mk_inputs(self):

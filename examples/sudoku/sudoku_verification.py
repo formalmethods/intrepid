@@ -19,7 +19,7 @@ if __name__ == "__main__":
         traceDict = trace.get_as_net_dictionary()
         cell = 1
         table = ''
-        for _, value in traceDict.iteritems():
+        for _, value in traceDict.items():
             table += value[0] + ' '
             if cell % 9 == 0 and cell != 81:
                 table += '\n'

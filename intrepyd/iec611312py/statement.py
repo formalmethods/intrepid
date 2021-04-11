@@ -12,7 +12,7 @@ This module implements infrastructure to store statements
 """
 
 from intrepyd.visitable import Visitable
-from expression import TRUE
+from intrepyd.iec611312py.expression import TRUE
 
 class Assignment(Visitable):
     """

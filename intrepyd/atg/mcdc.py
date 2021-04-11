@@ -12,6 +12,7 @@ This module implements a toolbox for Automated Test Generation
 """
 
 import pandas as pd
+import intrepyd
 from intrepyd.engine import EngineResult
 
 
@@ -49,12 +50,12 @@ def compute_mcdc(context, class_, decisions, max_depth):
     # Creates test objectives
     decision2testobjectives = {decision :\
             compute_mcdc_targets(context, inst_a, inst_b, decision, conditions)\
-            for decision, conditions in decisions.iteritems()}
+            for decision, conditions in decisions.items()}
 
     # Compute MC/DC traces: this is the computationally
     # expensive part that calls model checking routines
     decision2traces, trace2condition, decision2unreachable =\
-            solve_mcdc_targets(context, decision2testobjectives, max_depth)
+            solve_mcdc_targets(context, decision2testobjectives, decisions, max_depth)
 
     # Compute MC/DC tables from traces
     decision2table, decision2independencepairs =\
@@ -118,7 +119,7 @@ def compute_mcdc_targets(context, inst_a, inst_b, decision, conditions):
     return targets
 
 
-def solve_mcdc_targets(context, decision2testobjectives, max_depth):
+def solve_mcdc_targets(context, decision2testobjectives, decisions, max_depth):
     """
     Solves the MC/DC targets, maximizing the number of solved
     test objectives per each call.
@@ -131,10 +132,10 @@ def solve_mcdc_targets(context, decision2testobjectives, max_depth):
     decision2traces = {}
     decision2unreachable = {}
     targets = []
-    for decision, tos in decision2testobjectives.iteritems():
+    for decision, tos in decision2testobjectives.items():
         decision2traces[decision] = []
         decision2unreachable[decision] = []
-        for test_objective, condition in tos.iteritems():
+        for test_objective, condition in tos.items():
             testobjectives2decision[test_objective] = decision
             testobjectives2condition[test_objective] = condition
             targets.append(test_objective)
@@ -150,15 +151,18 @@ def solve_mcdc_targets(context, decision2testobjectives, max_depth):
         result = breach.reach_targets()
         if result == EngineResult.UNREACHABLE:
             decision = testobjectives2decision[target]
-            decision2unreachable[decision].append(target)
+            condition = decision2testobjectives[decision][target]
+            condition = decisions[decision][condition]
+            decision2unreachable[decision].append(condition)
+
             total_unreached += 1
         elif result == EngineResult.REACHABLE:
             bmc.add_target(target)
             total_reached += 1
 
-    # print 'There are', totalTargets, 'test objectives:'
-    # print '-', totalUnreached, 'unreachable test objectives'
-    # print '-', totalReached, 'reachable test objectives'
+    # print('There are', totalTargets, 'test objectives:')
+    # print('-', totalUnreached, 'unreachable test objectives')
+    # print('-', totalReached, 'reachable test objectives')
 
     if total_unreached == total_targets:
         return decision2traces, decision2unreachable
@@ -189,7 +193,7 @@ def solve_mcdc_targets(context, decision2testobjectives, max_depth):
 
     total_undecided = total_reached - bmc_total_reached
     if total_undecided != 0:
-        print 'There are', total_undecided, 'undecided test objectives within depth', max_depth
+        print('There are', total_undecided, 'undecided test objectives within depth', max_depth)
 
     return decision2traces, trace2condition, decision2unreachable
 
@@ -201,11 +205,11 @@ def compute_mcdc_tables(context, inst_a, inst_b, decision2traces, trace2conditio
     decision2table = {}
     decision2independencepairs = {}
     seen = {}
-    for decision, traces in decision2traces.iteritems():
+    for decision, traces in decision2traces.items():
         inst_a_conds_dec = [inst_a.nets[cond] for cond in decisions[decision]] + [inst_a.nets[decision]]
-        inst_a_testnets = inst_a.inputs.values() + inst_a_conds_dec
+        inst_a_testnets = list(inst_a.inputs.values()) + inst_a_conds_dec
         inst_b_conds_dec = [inst_b.nets[cond] for cond in decisions[decision]] + [inst_b.nets[decision]]
-        inst_b_testnets = inst_b.inputs.values() + inst_b_conds_dec
+        inst_b_testnets = list(inst_b.inputs.values()) + inst_b_conds_dec
         header = [cond for cond in decisions[decision]]
         header.append(decision)
         header_nets_a = set(inst_a_conds_dec)
@@ -230,8 +234,8 @@ def compute_mcdc_tables(context, inst_a, inst_b, decision2traces, trace2conditio
             simulator.simulate(trace, trace.get_max_depth())
             full_test_a = trace.get_as_net_dictionary()
             full_test_b = trace.get_as_net_dictionary()
-            test_a_candidate = [v[0] for k, v in full_test_a.iteritems() if (k in inst_a_testnets and k in header_nets_a)]
-            test_b_candidate = [v[0] for k, v in full_test_b.iteritems() if (k in inst_b_testnets and k in header_nets_b)]
+            test_a_candidate = [v[0] for k, v in full_test_a.items() if (k in inst_a_testnets and k in header_nets_a)]
+            test_b_candidate = [v[0] for k, v in full_test_b.items() if (k in inst_b_testnets and k in header_nets_b)]
             test_a_hash = compute_hash(test_a_candidate)
             test_b_hash = compute_hash(test_b_candidate)
 
@@ -273,7 +277,7 @@ def compute_pretty_tables(decision2table):
     """
     decision2prettytable = {}
     first = True
-    for decision, table in decision2table.iteritems():
+    for decision, table in decision2table.items():
         pretty_table = []
         for row in table:
             if first:
@@ -291,7 +295,7 @@ def get_tables_as_dataframe(decision2table):
     Postprocess table to turn into a dataframe
     """
     result = {}
-    for decision, table in decision2table.iteritems():
+    for decision, table in decision2table.items():
         if len(table) == 1:
             continue
         dataframe = pd.DataFrame(table[1:], columns=table[0])

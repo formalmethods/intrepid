@@ -13,15 +13,17 @@ This module implements the verification engines
 
 from enum import Enum
 import intrepyd as ip
+from intrepyd.api import INT_ENGINE_RESULT_REACHABLE, INT_ENGINE_RESULT_UNKNOWN, INT_ENGINE_RESULT_UNREACHABLE
+import intrepyd.trace
+import intrepyd.api
 
 class EngineResult(Enum):
     """
     Results from engine's reachability calls
     """
-    REACHABLE = ip.api.INT_ENGINE_RESULT_REACHABLE
-    UNREACHABLE = ip.api.INT_ENGINE_RESULT_UNREACHABLE
-    UNKNOWN = ip.api.INT_ENGINE_RESULT_UNKNOWN
-
+    REACHABLE = INT_ENGINE_RESULT_REACHABLE
+    UNREACHABLE = INT_ENGINE_RESULT_UNREACHABLE
+    UNKNOWN = INT_ENGINE_RESULT_UNKNOWN
 
 class Engine(object):
     """
@@ -39,6 +41,7 @@ class Engine(object):
         raise NotImplementedError('Should have implemented this')
 
     def reach_targets(self):
+        assert(self.can_reach())
         """
         Tries to reach any of the previously added targets
         """
@@ -72,6 +75,12 @@ class Engine(object):
         """
         raise NotImplementedError('Should have implemented this')
 
+    def can_reach(self):
+        """
+        Tells if the engine can reach targets
+        """
+        raise NotImplementedError('Should have implemented this')
+
     def can_prove(self):
         """
         Tells if the engine can prove targets to be unreachable
@@ -85,9 +94,9 @@ class Engine(object):
         raise NotImplementedError('Should have implemented this')
 
     def _api_result_to_engine_result(self, result):
-        if result == ip.api.INT_ENGINE_RESULT_REACHABLE:
+        if result == INT_ENGINE_RESULT_REACHABLE:
             return EngineResult.REACHABLE
-        elif result == ip.api.INT_ENGINE_RESULT_UNREACHABLE:
+        elif result == INT_ENGINE_RESULT_UNREACHABLE:
             return EngineResult.UNREACHABLE
         return EngineResult.UNKNOWN
 
@@ -143,6 +152,27 @@ class Bmc(Engine):
         """
         ip.api.set_bmc_current_depth(self.bmc, depth)
 
+    def set_use_induction(self):
+        """
+        Turn on induction
+        """
+        ip.api.set_bmc_use_induction(self.bmc)
+
+    def set_use_attack_path_axioms(self, source, target):
+        """
+        Tells bmc to apply internally axioms for source and target of an attack
+        """
+        ip.api.set_bmc_use_attack_path_axioms(self.ctx, self.bmc, source, target)
+
+    def set_allow_targets_at_any_depth(self):
+        """
+        Looks for counterexamples at any depth, not just the current
+        """
+        ip.api.set_bmc_allow_targets_at_any_depth(self.bmc)
+
+    def can_reach(self):
+        return True
+
     def can_prove(self):
         return False
 
@@ -173,7 +203,6 @@ class OptimizingBmc(Bmc):
     def can_optimize(self):
         return True
 
-
 class BackwardReach(Engine):
     """
     A Backward Reachability Model Checking algorithm
@@ -195,6 +224,9 @@ class BackwardReach(Engine):
 
     def add_watch(self, net):
         ip.api.br_add_watch(self.ctx, self.breach, net)
+
+    def can_reach(self):
+        return True
 
     def can_prove(self):
         return True

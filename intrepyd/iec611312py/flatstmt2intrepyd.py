@@ -14,7 +14,7 @@ This module implements the translation from flat statements into intrepyd
 from intrepyd.iec611312py.visitor import Visitor
 from intrepyd.iec611312py.statement import Assignment
 from intrepyd.iec611312py.expression import Ite, Expression, ConstantOcc, VariableOcc, TRUE, FALSE
-from utils import sanitizeName
+from intrepyd.iec611312py.utils import sanitizeName
 import sys
 
 STOP2INTREPYDUNARYOP = {

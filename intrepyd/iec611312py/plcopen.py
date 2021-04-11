@@ -13,11 +13,12 @@ This module implements the main parsing routine of PLCOPEN files
 
 from antlr4 import CommonTokenStream, InputStream
 from xml.etree import ElementTree
-from functionblock import FunctionBlock
-from function import Function
-from parsest import parseST
-from variable import Variable
-from datatype import Primitive, Struct, Datatype
+import intrepyd
+from intrepyd.iec611312py.functionblock import FunctionBlock
+from intrepyd.iec611312py.function import Function
+from intrepyd.iec611312py.parsest import parseST
+from intrepyd.iec611312py.variable import Variable
+from intrepyd.iec611312py.datatype import Primitive, Struct, Datatype
 
 def parsePlcOpenFile(infile):
     """

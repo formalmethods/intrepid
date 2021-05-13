@@ -1,13 +1,4 @@
 """
-Copyright (C) 2017 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 27/03/2017
-
 This module implements infrastructure to store nodes
 """
 
@@ -136,7 +127,7 @@ class Node(Visitable):
             equat.push_pre()
 
 
-class EquationTopology(object):
+class EquationTopology:
     """
     Utility class for sorting equation dependencies topologically
     """
@@ -174,7 +165,7 @@ class EquationTopology(object):
             if seen[eqnum] == _GREY:
                 print('Dependency loop:', parent)
                 raise Exception('Loop in equation dependencies')
-            elif seen[eqnum] == _BLACK:
+            if seen[eqnum] == _BLACK:
                 # Already seen
                 return
         seen[eqnum] = _GREY

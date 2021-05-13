@@ -1,13 +1,3 @@
-"""
-Copyright (C) 2017 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 27/03/2017
-"""
 import intrepyd
 from intrepyd.engine import EngineResult
 import intrepyd.pseudoboolean
@@ -20,7 +10,7 @@ class TestExactlyOne(unittest.TestCase):
         bt = context.mk_boolean_type()
         for i in range(n):
             nets.append(context.mk_input("n" + str(i), bt))
-        eo = intrepyd.pseudoboolean.mk_exactly_one(context.ctx, nets, "eo")
+        eo = intrepyd.pseudoboolean.mk_exactly_one(context, nets, "eo")
         bmc = context.mk_bmc()
         bmc.add_target(eo)
         result = bmc.reach_targets()
@@ -70,7 +60,7 @@ class TestExactlyOne(unittest.TestCase):
         nets.append(context.mk_or(i1, i2))
         nets.append(context.mk_or(i1, i3))
         nets.append(context.mk_or(i2, i3))
-        eo = intrepyd.pseudoboolean.mk_exactly_one(context.ctx, nets, "eo")
+        eo = intrepyd.pseudoboolean.mk_exactly_one(context, nets, "eo")
         bmc = context.mk_bmc()
         bmc.add_target(eo)
         result = bmc.reach_targets()

@@ -1,22 +1,10 @@
-"""
-Copyright (C) 2019 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 27/01/2019
-"""
-import intrepyd
-from intrepyd.iec611312py.stmtprinter import StmtPrinter
-from intrepyd.iec611312py.expression import ConstantOcc, VariableOcc, Ite
+import unittest
+from intrepyd.iec611312py.expression import ConstantOcc, VariableOcc
 from intrepyd.iec611312py.variable import Variable
 from intrepyd.iec611312py.datatype import Primitive
 from intrepyd.iec611312py.expression import Expression
 from intrepyd.iec611312py.inferdatatype import InferDatatypeBottomUp, InferDatatypeTopDown
 from intrepyd.iec611312py.statement import Assignment
-import unittest
 
 boolType = Primitive('BOOL')
 intType = Primitive('INT')
@@ -28,10 +16,10 @@ class TestSTInferDatatype(unittest.TestCase):
         cst = ConstantOcc('0')
         eq = Expression('=', [var, cst])
         idbu = InferDatatypeBottomUp()
-        idbu.processStatements([eq])
+        idbu.process_statements([eq])
         self.assertEqual(eq.datatype, boolType)
         idtd = InferDatatypeTopDown()
-        idtd.processStatements([eq])
+        idtd.process_statements([eq])
         self.assertEqual(cst.datatype, intType)
 
     def test_eq_2(self):
@@ -40,10 +28,10 @@ class TestSTInferDatatype(unittest.TestCase):
         cst = ConstantOcc('0')
         plus = Expression('+', [var, cst])
         idbu = InferDatatypeBottomUp()
-        idbu.processStatements([plus])
+        idbu.process_statements([plus])
         self.assertEqual(plus.datatype, intType)
         idtd = InferDatatypeTopDown()
-        idtd.processStatements([plus])
+        idtd.process_statements([plus])
         self.assertEqual(cst.datatype, intType)
 
     def test_eq_3(self):
@@ -52,9 +40,9 @@ class TestSTInferDatatype(unittest.TestCase):
         cst = ConstantOcc('0')
         assign = Assignment(var, cst)
         idbu = InferDatatypeBottomUp()
-        idbu.processStatements([assign])
+        idbu.process_statements([assign])
         idtd = InferDatatypeTopDown()
-        idtd.processStatements([assign])
+        idtd.process_statements([assign])
         self.assertEqual(cst.datatype, intType)
 
 if __name__ == "__main__":

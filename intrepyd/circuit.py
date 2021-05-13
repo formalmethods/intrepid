@@ -1,19 +1,8 @@
 """
-Copyright (C) 2017 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 27/03/2017
-
-This module implements infrastructure to store instructions
+This module implements a class Circuit used by translators
 """
 
-import collections
-
-class Circuit(object):
+class Circuit:
     """
     Abstract interface for a circuit.
     """
@@ -21,10 +10,10 @@ class Circuit(object):
     def __init__(self, context, name):
         self.context = context
         self.name = name
-        self.nets = collections.OrderedDict()
-        self.inputs = collections.OrderedDict()
-        self.outputs = collections.OrderedDict()
-        self.targets = collections.OrderedDict()
+        self.nets = {}
+        self.inputs = {}
+        self.outputs = {}
+        self.targets = {}
 
     def mk_circuit(self, put_namespace=False):
         """
@@ -49,11 +38,11 @@ class Circuit(object):
         Optionally, it inserts a namespace.
 
         Args:
-            inputs (OrderedDict): the inputs to use
+            inputs (Dict): the inputs to use
             namespace (bool=False): whether to set a namespace
 
         Returns:
-            (OrderedDict) the ordered dictionary of the outputs
+            (Dict) the ordered dictionary of the outputs
         """
         if namespace:
             self.context.push_namespace(self.name)
@@ -72,7 +61,7 @@ class Circuit(object):
 
     def _mk_inputs(self):
         """
-        Makes the inputs nets, and it fills the self.inputs 
+        Makes the inputs nets, and it fills the self.inputs
         dictionary with the inputs nets.
         """
         raise NotImplementedError('Should have implemented this')
@@ -82,9 +71,9 @@ class Circuit(object):
         Makes the naked circuit.
 
         Args:
-            inputs (OrderedDict): the inputs to use
+            inputs (Dict): the inputs to use
 
         Returns:
-            (OrderedDict) the outputs
+            (Dict) the outputs
         """
         raise NotImplementedError('Should have implemented this')

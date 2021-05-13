@@ -1,13 +1,4 @@
 """
-Copyright (C) 2018 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 16/03/2019
-
 This module implements the main store of a Function
 """
 
@@ -26,16 +17,28 @@ class Function(Datatype):
 
     @property
     def input_vars(self):
+        """
+        Returns the input vars
+        """
         return self._input_vars
 
     @property
     def output_vars(self):
+        """
+        Returns the output vars
+        """
         return self._output_vars
 
     @property
     def local_vars(self):
+        """
+        Returns the local vars
+        """
         return self._local_vars
-    
+
     @property
     def statements(self):
+        """
+        Returns the statements
+        """
         return self._statements

@@ -1,15 +1,7 @@
 """
-Copyright (C) 2018 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 04/11/2018
+Test for ST language
 """
-import intrepyd
-from intrepyd.iec611312py.parsest import parseST
+from intrepyd.iec611312py.parsest import parse_st
 from intrepyd.iec611312py.variable import Variable
 from intrepyd.iec611312py.datatype import Primitive, Struct
 from intrepyd.iec611312py.stmtprinter import StmtPrinter
@@ -25,7 +17,7 @@ udintType = Primitive('UDINT')
 class TestST(unittest.TestCase):
     def _run_tests(self, programs, name2var):
         for prog in programs:
-            statements = parseST(prog[0], name2var, {})
+            statements = parse_st(prog[0], name2var, {})
             printer = StmtPrinter()
             printer.processStatements(statements)
             actual = printer.result

@@ -1,13 +1,4 @@
 """
-Copyright (C) 2018 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 01/11/2018
-
 This module implements infrastructure to store expressions
 """
 
@@ -20,12 +11,18 @@ class ExpressionBase(Visitable):
     def __init__(self):
         self._datatype = None
 
-    @property 
+    @property
     def datatype(self):
+        """
+        Return the datatype
+        """
         return self._datatype
 
     @datatype.setter
     def datatype(self, x):
+        """
+        Sets the datatype
+        """
         self._datatype = x
 
 class VariableOcc(ExpressionBase):
@@ -69,13 +66,22 @@ class Expression(ExpressionBase):
 
     @property
     def operator(self):
+        """
+        Returns operator
+        """
         return self._operator
-    
+
     @property
     def arguments(self):
+        """
+        Returns arguments
+        """
         return self._arguments
 
 class Range(ExpressionBase):
+    """
+    A range
+    """
     def __init__(self, first, last):
         ExpressionBase.__init__(self)
         if first > last:
@@ -96,14 +102,23 @@ class Ite(ExpressionBase):
 
     @property
     def condition(self):
+        """
+        Return condition term
+        """
         return self._condition
 
     @property
     def then_term(self):
+        """
+        Return then term
+        """
         return self._then_term
 
     @property
     def else_term(self):
+        """
+        Return else term
+        """
         return self._else_term
 
 class FunctionOcc(ExpressionBase):
@@ -117,10 +132,16 @@ class FunctionOcc(ExpressionBase):
 
     @property
     def name(self):
+        """
+        Return name
+        """
         return self._name
 
     @property
     def param_inits(self):
+        """
+        Return param inits
+        """
         return self._param_inits
 
 class ParamInit(ExpressionBase):
@@ -131,13 +152,19 @@ class ParamInit(ExpressionBase):
         ExpressionBase.__init__(self)
         self._lhs = lhs
         self._rhs = rhs
-    
+
     @property
     def lhs(self):
+        """
+        Returns the lhs
+        """
         return self._lhs
-    
+
     @property
     def rhs(self):
+        """
+        Returns the rhs
+        """
         return self._rhs
 
 TRUE = ConstantOcc('TRUE')

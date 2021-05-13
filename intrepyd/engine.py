@@ -1,21 +1,12 @@
 """
-Copyright (C) 2017 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 27/03/2017
-
 This module implements the verification engines
 """
 
 from enum import Enum
 import intrepyd as ip
-from intrepyd.api import INT_ENGINE_RESULT_REACHABLE, INT_ENGINE_RESULT_UNKNOWN, INT_ENGINE_RESULT_UNREACHABLE
-import intrepyd.trace
-import intrepyd.api
+from intrepyd.api import INT_ENGINE_RESULT_REACHABLE,\
+                         INT_ENGINE_RESULT_UNKNOWN,\
+                         INT_ENGINE_RESULT_UNREACHABLE
 
 class EngineResult(Enum):
     """
@@ -25,7 +16,14 @@ class EngineResult(Enum):
     UNREACHABLE = INT_ENGINE_RESULT_UNREACHABLE
     UNKNOWN = INT_ENGINE_RESULT_UNKNOWN
 
-class Engine(object):
+def _api_result_to_engine_result(result):
+    if result == INT_ENGINE_RESULT_REACHABLE:
+        return EngineResult.REACHABLE
+    if result == INT_ENGINE_RESULT_UNREACHABLE:
+        return EngineResult.UNREACHABLE
+    return EngineResult.UNKNOWN
+
+class Engine:
     """
     Abstract intreface for an Engine
     """
@@ -41,11 +39,11 @@ class Engine(object):
         raise NotImplementedError('Should have implemented this')
 
     def reach_targets(self):
-        assert(self.can_reach())
         """
         Tries to reach any of the previously added targets
         """
-        self.last_result = self._api_result_to_engine_result(self._reach_targets_impl())
+        assert self.can_reach()
+        self.last_result = _api_result_to_engine_result(self._reach_targets_impl())
         return self.last_result
 
     def get_last_reached_targets(self):
@@ -53,7 +51,7 @@ class Engine(object):
         Returns the list of targets that has been reached last
         """
         if self.last_result != EngineResult.REACHABLE:
-            return
+            return ()
         last_reached_targets_no = self._get_last_reached_targets_number_impl()
         return (self._get_last_reached_target_impl(i) for i in range(last_reached_targets_no))
 
@@ -93,13 +91,6 @@ class Engine(object):
         """
         raise NotImplementedError('Should have implemented this')
 
-    def _api_result_to_engine_result(self, result):
-        if result == INT_ENGINE_RESULT_REACHABLE:
-            return EngineResult.REACHABLE
-        elif result == INT_ENGINE_RESULT_UNREACHABLE:
-            return EngineResult.UNREACHABLE
-        return EngineResult.UNKNOWN
-
     def _reach_targets_impl(self):
         """
         Engine-dependent reachability search for the added targets
@@ -132,6 +123,7 @@ class Bmc(Engine):
     def __init__(self, ctx):
         Engine.__init__(self, ctx)
         self.bmc = ip.api.mk_engine_bmc(self.ctx)
+        self._can_prove = False
 
     def add_target(self, net):
         ip.api.bmc_add_target(self.ctx, self.bmc, net)
@@ -156,6 +148,7 @@ class Bmc(Engine):
         """
         Turn on induction
         """
+        self._can_prove = True
         ip.api.set_bmc_use_induction(self.bmc)
 
     def set_use_attack_path_axioms(self, source, target):
@@ -174,7 +167,7 @@ class Bmc(Engine):
         return True
 
     def can_prove(self):
-        return False
+        return self._can_prove
 
     def can_optimize(self):
         return False

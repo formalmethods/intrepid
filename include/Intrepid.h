@@ -372,7 +372,15 @@ Int_type mk_int32_type(Int_ctx ctx);
 
 DLLEXPORT
 /**
- * @brief mk_uint8_type Creates an int8 type
+ * @brief mk_int64_type Creates an int64 type
+ * @param ctx the context to use
+ * @return an int64 type
+ */
+Int_type mk_int64_type(Int_ctx ctx);
+
+DLLEXPORT
+/**
+ * @brief mk_uint8_type Creates an uint8 type
  * @param ctx the context to use
  * @return an uint8 type
  */
@@ -380,7 +388,7 @@ Int_type mk_uint8_type(Int_ctx ctx);
 
 DLLEXPORT
 /**
- * @brief mk_uint16_type Creates an int16 type
+ * @brief mk_uint16_type Creates an uint16 type
  * @param ctx the context to use
  * @return an uint16 type
  */
@@ -388,11 +396,19 @@ Int_type mk_uint16_type(Int_ctx ctx);
 
 DLLEXPORT
 /**
- * @brief mk_uint32_type Creates an int32 type
+ * @brief mk_uint32_type Creates an uint32 type
  * @param ctx the context to use
  * @return an uint32 type
  */
 Int_type mk_uint32_type(Int_ctx ctx);
+
+DLLEXPORT
+/**
+ * @brief mk_uint64_type Creates an uint64 type
+ * @param ctx the context to use
+ * @return an uint64 type
+ */
+Int_type mk_uint64_type(Int_ctx ctx);
 
 DLLEXPORT
 /**

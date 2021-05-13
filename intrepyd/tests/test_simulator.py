@@ -1,13 +1,3 @@
-"""
-Copyright (C) 2017 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 27/03/2017
-"""
 import intrepyd
 import intrepyd.simulator
 import intrepyd.trace
@@ -34,7 +24,7 @@ class TestSimulator(unittest.TestCase):
         it = ctx.mk_int8_type()
         x = ctx.mk_input('x', it)
         counter = ctx.mk_latch('counter', it)
-        init = ctx.mk_number('0', it) 
+        init = ctx.mk_number('0', it)
         next_ = ctx.mk_add(counter, x)
         ctx.set_latch_init_next(counter, init, next_)
         tr = ctx.mk_trace()

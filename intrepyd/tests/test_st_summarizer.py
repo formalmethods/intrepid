@@ -1,33 +1,22 @@
-"""
-Copyright (C) 2018 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 04/11/2018
-"""
-import intrepyd
-from intrepyd.iec611312py.parsest import parseST
+import unittest
+from intrepyd.iec611312py.parsest import parse_st
 from intrepyd.iec611312py.variable import Variable
 from intrepyd.iec611312py.stmtprinter import StmtPrinter
 from intrepyd.iec611312py.summarizer import Summarizer
-from intrepyd.iec611312py.datatype import Primitive, Struct
+from intrepyd.iec611312py.datatype import Primitive
 from intrepyd.iec611312py.expression import VariableOcc, Ite
 from intrepyd.iec611312py.statement import Assignment
-import unittest
 
 boolType = Primitive('BOOL')
 
 class TestSTSummarizer(unittest.TestCase):
     def _run_test(self, program, name2var, expected_assignments, expected_extra_assignments):
-        statements = parseST(program, name2var, {})
+        statements = parse_st(program, name2var, {})
         self._run_test_helper(statements, expected_assignments, expected_extra_assignments)
 
     def _run_test_helper(self, statements, expected_assignments, expected_extra_assignments):
         summarizer = Summarizer()
-        summary = summarizer.summarizeStmtBlock(statements)
+        summary = summarizer.summarize_stmt_block(statements)
         actual = {}
         for assignment in summary:
             printer = StmtPrinter()

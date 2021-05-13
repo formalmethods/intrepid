@@ -1,17 +1,10 @@
 """
-Copyright (C) 2018 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 30/12/2018
+Tests for stmt flattener
 """
 
 import intrepyd
-from intrepyd.iec611312py.plcopen import parsePlcOpenFile
-from intrepyd.iec611312py.parsest import parseST
+from intrepyd.iec611312py.plcopen import parse_plc_open_file
+from intrepyd.iec611312py.parsest import parse_st
 from intrepyd.iec611312py.variable import Variable
 from intrepyd.iec611312py.flatstmt2intrepyd import FlatStmt2Intrepyd
 from intrepyd.iec611312py.flattener import Flattener
@@ -36,16 +29,16 @@ class TestSTFlatStmt2Intrepyd(unittest.TestCase):
         return string
 
     def _run_tests(self, program, name2var, var2latch, expected):
-        statements = parseST(program, name2var, {})
+        statements = parse_st(program, name2var, {})
         flattener = Flattener()
-        flattened_statements = flattener.flattenStmtBlock(statements)
+        flattened_statements = flattener.flatten_stmt_block(statements)
         idbu = InferDatatypeBottomUp()
-        idbu.processStatements(flattened_statements)
+        idbu.process_statements(flattened_statements)
         idtd = InferDatatypeTopDown()
-        idtd.processStatements(flattened_statements)
+        idtd.process_statements(flattened_statements)
         stringio = io.StringIO()
         flatstmt2intrepyd = FlatStmt2Intrepyd(4, 'ctx', var2latch, stringio)
-        flatstmt2intrepyd.processStatements(flattened_statements)
+        flatstmt2intrepyd.process_statements(flattened_statements)
         self.assertEqual(self.normalize_string(expected),
                           self.normalize_string(stringio.getvalue()))
 

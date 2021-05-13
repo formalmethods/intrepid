@@ -1,20 +1,9 @@
 """
-Copyright (C) 2017 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 27/03/2017
-
 This module implements a toolbox for Automated Test Generation
 """
 
 import pandas as pd
-import intrepyd
 from intrepyd.engine import EngineResult
-
 
 def compute_mcdc(context, class_, decisions, max_depth):
     """
@@ -38,14 +27,8 @@ def compute_mcdc(context, class_, decisions, max_depth):
     # Fetches and duplicates the circuit
     inst_a = class_(context, 'InstA')
     inst_b = class_(context, 'InstB')
-    inst_a.mk_circuit(True)
-    inst_b.mk_circuit(True)
-
-    # Flattens inputs and outputs into nets, for simplicity
-    inst_a.nets.update(inst_a.inputs)
-    inst_a.nets.update(inst_a.outputs)
-    inst_b.nets.update(inst_b.inputs)
-    inst_b.nets.update(inst_b.outputs)
+    inst_a.mk_circuit()
+    inst_b.mk_circuit()
 
     # Creates test objectives
     decision2testobjectives = {decision :\
@@ -59,7 +42,8 @@ def compute_mcdc(context, class_, decisions, max_depth):
 
     # Compute MC/DC tables from traces
     decision2table, decision2independencepairs =\
-            compute_mcdc_tables(context, inst_a, inst_b, decision2traces, trace2condition, decisions)
+            compute_mcdc_tables(context, inst_a, inst_b,\
+                                decision2traces, trace2condition, decisions)
 
     return decision2table, decision2independencepairs, decision2unreachable
 
@@ -79,17 +63,17 @@ def compute_mcdc_targets(context, inst_a, inst_b, decision, conditions):
     Returns:
         a map from targets to conditions for which target is an independence pair
     """
-    decision_a = inst_a.nets[decision]
-    decision_b = inst_b.nets[decision]
+    decision_a = inst_a.nets()[decision]
+    decision_b = inst_b.nets()[decision]
     decisiona_diff_decisionb = context.mk_neq(decision_a, decision_b)
 
     conditiona_neq_conditionb = []
     conditions_a = []
     conditions_b = []
     for condition in conditions:
-        condition_a = inst_a.nets[condition]
+        condition_a = inst_a.nets()[condition]
         conditions_a.append(condition_a)
-        condition_b = inst_b.nets[condition]
+        condition_b = inst_b.nets()[condition]
         conditions_b.append(condition_b)
         conditiona_neq_conditionb.append(context.mk_neq(condition_a, condition_b))
 
@@ -163,11 +147,11 @@ def solve_mcdc_targets(context, decision2testobjectives, decisions, max_depth):
     # print('There are', totalTargets, 'test objectives:')
     # print('-', totalUnreached, 'unreachable test objectives')
     # print('-', totalReached, 'reachable test objectives')
+    trace2condition = {}
 
     if total_unreached == total_targets:
-        return decision2traces, decision2unreachable
+        return decision2traces, trace2condition, decision2unreachable
 
-    trace2condition = {}
     # Compute counterexamples for reachable targets
     done = False
     depth = 0
@@ -206,11 +190,14 @@ def compute_mcdc_tables(context, inst_a, inst_b, decision2traces, trace2conditio
     decision2independencepairs = {}
     seen = {}
     for decision, traces in decision2traces.items():
-        inst_a_conds_dec = [inst_a.nets[cond] for cond in decisions[decision]] + [inst_a.nets[decision]]
-        inst_a_testnets = list(inst_a.inputs.values()) + inst_a_conds_dec
-        inst_b_conds_dec = [inst_b.nets[cond] for cond in decisions[decision]] + [inst_b.nets[decision]]
-        inst_b_testnets = list(inst_b.inputs.values()) + inst_b_conds_dec
-        header = [cond for cond in decisions[decision]]
+        inst_a_conds_dec =\
+          [inst_a.nets()[cond] for cond in decisions[decision]] + [inst_a.nets()[decision]]
+        inst_a_testnets =\
+          list(inst_a.inputs().values()) + inst_a_conds_dec
+        inst_b_conds_dec =\
+          [inst_b.nets()[cond] for cond in decisions[decision]] + [inst_b.nets()[decision]]
+        inst_b_testnets = list(inst_b.inputs().values()) + inst_b_conds_dec
+        header = decisions[decision]
         header.append(decision)
         header_nets_a = set(inst_a_conds_dec)
         # Enable this to include inputs in the tests (but you need to add also names in headers)
@@ -234,8 +221,10 @@ def compute_mcdc_tables(context, inst_a, inst_b, decision2traces, trace2conditio
             simulator.simulate(trace, trace.get_max_depth())
             full_test_a = trace.get_as_net_dictionary()
             full_test_b = trace.get_as_net_dictionary()
-            test_a_candidate = [v[0] for k, v in full_test_a.items() if (k in inst_a_testnets and k in header_nets_a)]
-            test_b_candidate = [v[0] for k, v in full_test_b.items() if (k in inst_b_testnets and k in header_nets_b)]
+            test_a_candidate = [v[0] for k, v in full_test_a.items()\
+                                  if (k in inst_a_testnets and k in header_nets_a)]
+            test_b_candidate = [v[0] for k, v in full_test_b.items()\
+                                  if (k in inst_b_testnets and k in header_nets_b)]
             test_a_hash = compute_hash(test_a_candidate)
             test_b_hash = compute_hash(test_b_candidate)
 

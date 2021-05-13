@@ -583,6 +583,17 @@ def mk_int32_type(ctx):
     """
     return _api.mk_int32_type(ctx)
 
+def mk_int64_type(ctx):
+    """
+    mk_int64_type(Int_ctx ctx) -> Int_type
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+
+    """
+    return _api.mk_int64_type(ctx)
+
 def mk_uint8_type(ctx):
     """
     mk_uint8_type(Int_ctx ctx) -> Int_type
@@ -615,6 +626,17 @@ def mk_uint32_type(ctx):
 
     """
     return _api.mk_uint32_type(ctx)
+
+def mk_uint64_type(ctx):
+    """
+    mk_uint64_type(Int_ctx ctx) -> Int_type
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+
+    """
+    return _api.mk_uint64_type(ctx)
 
 def mk_real_type(ctx):
     """

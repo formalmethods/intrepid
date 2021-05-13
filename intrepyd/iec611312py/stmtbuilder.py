@@ -1,13 +1,4 @@
 """
-Copyright (C) 2018 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 29/10/2018
-
 This module implements the main parsing routine of IEC61131 text
 """
 
@@ -81,7 +72,7 @@ class STMTBuilder(IEC61131ParserVisitor):
 
     def visitUnaryTermExpression(self, ctx):
         return self._unaryExpressionHelper(ctx)
-    
+
     def visitLeafBoolExpression(self, ctx):
         return ctx.getChild(0).accept(self)
 
@@ -90,7 +81,7 @@ class STMTBuilder(IEC61131ParserVisitor):
 
     def visitParTermExpression(self, ctx):
         return ctx.subexpr.accept(self)
-    
+
     def visitSimple_var(self, ctx):
         var = ctx.getChild(0).getText()
         if not var in self._name2var:
@@ -154,7 +145,7 @@ class STMTBuilder(IEC61131ParserVisitor):
         conditions.append(ctx.ifexpr.accept(self))
         statements.append(ctx.ifstmt.accept(self))
         return IfThenElse(conditions, statements)
-    
+
     def visitIf_elseif_stmt(self, ctx):
         conditions = []
         statements = []
@@ -166,7 +157,7 @@ class STMTBuilder(IEC61131ParserVisitor):
         for stmt in stmts:
             statements.append(stmt)
         return IfThenElse(conditions, statements)
-    
+
     def visitIf_else_stmt(self, ctx):
         conditions = []
         statements = []

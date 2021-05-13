@@ -1,21 +1,12 @@
 """
-Copyright (C) 2018 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 29/10/2018
-
 This module implements the translation from flat statements into intrepyd
 """
 
+import sys
 from intrepyd.iec611312py.visitor import Visitor
 from intrepyd.iec611312py.statement import Assignment
-from intrepyd.iec611312py.expression import Ite, Expression, ConstantOcc, VariableOcc, TRUE, FALSE
-from intrepyd.iec611312py.utils import sanitizeName
-import sys
+from intrepyd.iec611312py.utils import sanitize_name
+from intrepyd.iec611312py.expression import TRUE, FALSE
 
 STOP2INTREPYDUNARYOP = {
     '-' : 'mk_minus',
@@ -70,7 +61,10 @@ class FlatStmt2Intrepyd(Visitor):
         self._prefix = context + '.'
         self._outfile = outfile
 
-    def processStatements(self, statements, process_latches = True):
+    def process_statements(self, statements, process_latches = True):
+        """
+        Processes the given statements
+        """
         self._inc_indent()
         for statement in statements:
             sys.stdout.flush()
@@ -98,7 +92,7 @@ class FlatStmt2Intrepyd(Visitor):
     def _dec_indent(self):
         self._current_indent -= 1
 
-    def _getTmpVar(self):
+    def _get_tmp_var(self):
         self._count += 1
         return '__tmp_' + str(self._count)
 
@@ -115,11 +109,11 @@ class FlatStmt2Intrepyd(Visitor):
             self._usedlatches.add(latch)
         else:
             self._indent_result()
-            self._outfile.write(sanitizeName(name) + ' = ' + next_)
+            self._outfile.write(sanitize_name(name) + ' = ' + next_)
         self._outfile.write('\n')
 
     def _visit_expression(self, expression):
-        result = self._getTmpVar()
+        result = self._get_tmp_var()
         args = expression.arguments
         nargs = len(args)
         result_args = []
@@ -129,7 +123,7 @@ class FlatStmt2Intrepyd(Visitor):
         self._outfile.write(result + ' = ')
         operator = expression.operator
         pos = operator.find('TO_')
-        if (pos != -1):
+        if pos != -1:
             operator = operator[pos:]
         if nargs == 1:
             if not operator in STOP2INTREPYDUNARYOP:
@@ -151,30 +145,30 @@ class FlatStmt2Intrepyd(Visitor):
         i = ite.condition.accept(self)
         t = ite.then_term.accept(self)
         e = ite.else_term.accept(self)
-        result = self._getTmpVar()
+        result = self._get_tmp_var()
         self._indent_result()
         self._outfile.write(result + ' = ' +\
                             self._prefix + 'mk_ite(' + i + ', ' + t + ', ' + e + ')\n')
         return result
 
-    def _visit_variable_occ(self, variableOcc):
-        return sanitizeName(variableOcc.var.name)
+    def _visit_variable_occ(self, variable_occ):
+        return sanitize_name(variable_occ.var.name)
 
-    def _visit_constant_occ(self, constantOcc):
-        if constantOcc.cst == FALSE.cst:
+    def _visit_constant_occ(self, constant_occ):
+        if constant_occ.cst == FALSE.cst:
             return self._prefix + 'mk_false()'
-        elif constantOcc.cst == TRUE.cst:
+        if constant_occ.cst == TRUE.cst:
             return self._prefix + 'mk_true()'
-        return self._prefix + 'mk_number("' + constantOcc.cst + '", ' +\
-                                           self._prefix + 'mk_' + datatype2py[constantOcc.datatype.dtname] + '_type())'
+        return self._prefix + 'mk_number("' + constant_occ.cst + '", ' +\
+               self._prefix + 'mk_' + datatype2py[constant_occ.datatype.dtname] + '_type())'
 
-    def _visit_function_occ(self, functionOcc):
+    def _visit_function_occ(self, function_occ):
         params = ''
         sep = ''
-        for param_init in functionOcc.param_inits:
+        for param_init in function_occ.param_inits:
             params += sep + param_init.lhs + ' = ' + param_init.rhs.accept(self)
             sep = ', '
-        result = self._getTmpVar()
+        result = self._get_tmp_var()
         self._indent_result()
-        self._outfile.write(result + ' = self.' + functionOcc.name + '(' + params + ')\n')
+        self._outfile.write(result + ' = self.' + function_occ.name + '(' + params + ')\n')
         return result

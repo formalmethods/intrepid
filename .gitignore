@@ -13,3 +13,4 @@ _api.so
 venv
 htmlcov
 .coverage
+.DS_Store

@@ -1,16 +1,8 @@
 """
-Copyright (C) 2017 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 19/01/2021
-
-Unit tests for lustre parser
+Script for runnid kind2 benchmarks
 """
-import helper
+
+from helper import from_fixture_path
 from os.path import join
 from intrepyd.lustre2py import translator
 from intrepyd.engine import EngineResult
@@ -19,7 +11,7 @@ import importlib
 import multiprocessing as mp
 import time
 
-PATH_TO_KIND2_BENCHMARKS_ROOT = helper.from_fixture_path('kind2-benchmarks/')
+PATH_TO_KIND2_BENCHMARKS_ROOT = from_fixture_path('kind2-benchmarks/')
 
 def worker_br(q):
     """
@@ -86,21 +78,12 @@ def worker_bmc_ti(q):
             if eng_result == EngineResult.REACHABLE:
                 result = 'Invalid'
                 break
-            elif eng_result == EngineResult.UNREACHABLE:
+            if eng_result == EngineResult.UNREACHABLE:
                 result = 'Valid'
                 break
     except Exception as e:
         result = 'Exception ' + str(e)
     q.put([result, time.time() - start])
-
-def killer(proc_name):
-    """
-    Kills the process whose name is proc_name
-    """
-    for proc in psutil.process_iter():
-        if proc.name() == proc_name:
-            proc.kill()
-            break
 
 def run_with_timeout(timeout, tool):
     """
@@ -136,7 +119,8 @@ def test_benchmark():
                     name = fname[pos:]
                     translator.translate(fname, 'top', 'encoding.py', 'real')
                     time.sleep(1) # Give some extra time to write encoding.py to a file
-                    for engine in ['br', 'bmc', 'bmc_ti']:
+                    # for engine in ['br', 'bmc', 'bmc_ti']:
+                    for engine in ['br']:
                         print('[{:3}/848] {} {}'.format(count, name, engine), end='')
                         res, elapsed = run_with_timeout(5, engine)
                         print(' {} {}'.format(res, elapsed))

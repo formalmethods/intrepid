@@ -1,18 +1,8 @@
 """
-Copyright (C) 2018 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 01/11/2018
-
 This module implements infrastructure to store datatypes
 """
 
 from intrepyd.visitable import Visitable
-import re
 
 PRIMITIVEDATATYPES = {
     'BOOL',
@@ -27,20 +17,19 @@ PRIMITIVEDATATYPES = {
 }
 
 class Datatype(Visitable):
-
-    _name2datatype = {}
-
     """
     Stores a datatype
     """
+
+    _name2datatype = {}
     def __init__(self, dtname):
         self._dtname = dtname
 
-    def __eq__(self, other):
-        raise NotImplementedError
+    # def __eq__(self, other):
+    #     raise NotImplementedError
 
-    def __ne__(self, other):
-        raise NotImplementedError
+    # def __ne__(self, other):
+    #     raise NotImplementedError
 
     @property
     def dtname(self):
@@ -51,14 +40,23 @@ class Datatype(Visitable):
 
     @staticmethod
     def add(name, datatype):
+        """
+        Adds a datatype
+        """
         Datatype._name2datatype[name] = datatype
 
     @staticmethod
     def get(name):
+        """
+        Get a datatype
+        """
         return Datatype._name2datatype[name]
 
     @staticmethod
-    def isPrimitive(dtname):
+    def is_primitive(dtname):
+        """
+        Check if type is primitive
+        """
         return dtname in PRIMITIVEDATATYPES
 
 class Primitive(Datatype):
@@ -78,7 +76,6 @@ class Array(Datatype):
     """
     Stores an array
     """
-    pass
 
 class Struct(Datatype):
     """
@@ -90,16 +87,17 @@ class Struct(Datatype):
 
     @property
     def fields(self):
+        """
+        Return the fields
+        """
         return self._fields
 
 class Enum(Datatype):
     """
     Stores an enum
     """
-    pass
 
 class Subrange(Datatype):
     """
     Stores a subrange
     """
-    pass

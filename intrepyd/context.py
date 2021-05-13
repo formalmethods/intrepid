@@ -1,28 +1,43 @@
 """
-Copyright (C) 2017 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
+The context module exposes the class Context, which
+can be used to construct terms, formulas, simulators,
+engines, and traces
 
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
+Example:
 
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 27/03/2017
+from intrepyd.context import Context
 
-This module implements infrastructure for creating nets and engines
+ctx = Context()
+bt = ctx.mk_boolean_type()
+a = ctx.mk_input('a', bt)
 """
 
-from intrepyd.api import *
-from intrepyd import engine, trace, simulator
-import collections
+from intrepyd.api import mk_assumption, mk_undef, mk_true, mk_false,\
+                         push_namespace, pop_namespace,\
+                         mk_boolean_type, mk_real_type,\
+                         mk_int8_type, mk_int16_type, mk_int32_type, mk_int64_type,\
+                         mk_uint8_type, mk_uint16_type, mk_uint32_type, mk_uint64_type,\
+                         mk_float16_type, mk_float32_type, mk_float64_type,\
+                         mk_cast_to_int8, mk_cast_to_int16, mk_cast_to_int32,\
+                         mk_cast_to_uint8, mk_cast_to_uint16, mk_cast_to_uint32,\
+                         mk_ctx, del_ctx,\
+                         mk_number, mk_and, mk_or, mk_xor, mk_iff, mk_not,\
+                         mk_leq, mk_lt, mk_geq, mk_gt, mk_eq, mk_neq,\
+                         mk_add, mk_mul, mk_minus, mk_div, mk_sub,\
+                         mk_input, mk_mod, mk_ite, mk_output,\
+                         mk_latch, mk_substitute, set_latch_init_next,\
+                         prepare_value_for_net, value_at
 
-class Context(object):
+from intrepyd import engine, trace, simulator
+
+class Context:
     """
     An intrepyd context
     """
     def __init__(self):
         self.ctx = mk_ctx()
-        self.inputs = collections.OrderedDict()
-        self.outputs = collections.OrderedDict()
+        self.inputs = {}
+        self.outputs = {}
         self.latches = {}
         self.nets = {}
         self.net2name = {}
@@ -31,9 +46,11 @@ class Context(object):
         self.int8type = mk_int8_type(self.ctx)
         self.int16type = mk_int16_type(self.ctx)
         self.int32type = mk_int32_type(self.ctx)
+        self.int64type = mk_int64_type(self.ctx)
         self.uint8type = mk_uint8_type(self.ctx)
         self.uint16type = mk_uint16_type(self.ctx)
         self.uint32type = mk_uint32_type(self.ctx)
+        self.uint64type = mk_uint64_type(self.ctx)
         self.realtype = mk_real_type(self.ctx)
         self.float16type = mk_float16_type(self.ctx)
         self.float32type = mk_float32_type(self.ctx)
@@ -86,6 +103,12 @@ class Context(object):
         """
         return self.int32type
 
+    def mk_int64_type(self):
+        """
+        Creates int64 type
+        """
+        return self.int64type
+
     def mk_uint8_type(self):
         """
         Creates uint8 type
@@ -103,6 +126,12 @@ class Context(object):
         Creates uint32 type
         """
         return self.uint32type
+
+    def mk_uint64_type(self):
+        """
+        Creates uint64 type
+        """
+        return self.uint64type
 
     def mk_real_type(self):
         """
@@ -285,17 +314,17 @@ class Context(object):
         """
         return self._register_latch(mk_latch(self.ctx, name, type_), name=name)
 
-    def set_latch_init_next(self, latch, init, next):
+    def set_latch_init_next(self, latch, init, nex):
         """
         Sets the initial and next value of a latch
         """
-        set_latch_init_next(self.ctx, latch, init, next)
+        set_latch_init_next(self.ctx, latch, init, nex)
 
-    def mk_substitute(self, term, newTerm, oldTerm):
+    def mk_substitute(self, term, new_term, old_term):
         """
         Replaces the occurrences of oldTerm, that are found in term, with newTerm
         """
-        return mk_substitute(self.ctx, term, newTerm, oldTerm)
+        return mk_substitute(self.ctx, term, new_term, old_term)
 
     def mk_assumption(self, net):
         """
@@ -385,9 +414,14 @@ class Context(object):
         """
         if type_ == self.booleantype:
             return 'F'
-        elif type_ in [self.float16type, self.float32type, self.float64type, self.realtype]:
+        if type_ in [self.float16type, self.float32type, self.float64type, self.realtype]:
             return '0.0'
-        assert type_ in [self.int8type, self.int16type, self.int32type, self.uint8type, self.uint16type, self.uint32type]
+        assert type_ in [self.int8type, \
+                         self.int16type, \
+                         self.int32type, \
+                         self.uint8type, \
+                         self.uint16type, \
+                         self.uint32type]
         return '0'
 
     def _current_namespace_prefix(self):

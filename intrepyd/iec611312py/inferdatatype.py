@@ -1,20 +1,10 @@
 """
-Copyright (C) 2018 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 26/01/2019
-
 This module implements type inference for expressions
 """
 
-from intrepyd.iec611312py.visitor import Visitor
-from intrepyd.iec611312py.expression import Expression, ConstantOcc, VariableOcc, Ite
-from intrepyd.iec611312py.datatype import Primitive, Datatype
 import re
+from intrepyd.iec611312py.visitor import Visitor
+from intrepyd.iec611312py.datatype import Primitive, Datatype
 
 boolType = Primitive('BOOL')
 
@@ -57,13 +47,13 @@ class InferDatatypeBottomUp(Visitor):
     """
     Visitor for inferring expressions datatype
     """
-    def processStatements(self, statements):
+    def process_statements(self, statements):
         for statement in statements:
             statement.accept(self)
 
     def _visit_expression(self, expression):
         for arg in expression.arguments:
-            arg.accept(self) 
+            arg.accept(self)
         if expression.operator in OPSOFKNOWNTYPE:
             expression.datatype = OPSOFKNOWNTYPE[expression.operator]
         elif expression.operator in OPSOFSAMETYPEASFATHER:
@@ -103,7 +93,7 @@ class InferDatatypeTopDown(Visitor):
     """
     Visitor for inferring expressions datatype
     """
-    def processStatements(self, statements):
+    def process_statements(self, statements):
         for statement in statements:
             statement.accept(self)
 
@@ -133,10 +123,10 @@ class InferDatatypeTopDown(Visitor):
             if not inputType is None:
                 if expression.arguments[0].datatype is None:
                     expression.arguments[0].datatype = inputType
-                elif expression.arguments[0].datatype != inputType: 
+                elif expression.arguments[0].datatype != inputType:
                     raise RuntimeError('Expression mismatch datatype')
         for arg in expression.arguments:
-            arg.accept(self) 
+            arg.accept(self)
 
     def _visit_ite(self, ite):
         # Shouldn't it be either None or BOOL ?
@@ -145,7 +135,7 @@ class InferDatatypeTopDown(Visitor):
         if not ite.datatype is None:
             if ite.then_term.datatype is None:
                 ite.then_term.datatype = ite.datatype
-            if ite.else_term.datatype is None: 
+            if ite.else_term.datatype is None:
                 ite.else_term.datatype = ite.datatype
             if ite.then_term.datatype != ite.datatype or ite.else_term.datatype != ite.datatype:
                 raise RuntimeError('Ite datatypes mismatch')

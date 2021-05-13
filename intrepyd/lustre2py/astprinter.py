@@ -1,18 +1,10 @@
 """
-Copyright (C) 2017 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 01/04/2017
-
 This module implements a printer for the parsed AST
 """
 
-from intrepyd.iec611312py.statement import Assignment
-from intrepyd.iec611312py.expression import VariableOcc, Expression
+from intrepyd.lustre2py.visitor import Visitor
+from intrepyd.lustre2py.node import Node
+from intrepyd.lustre2py.instruction import Equation, Property
 
 class AstPrinter(Visitor):
     """

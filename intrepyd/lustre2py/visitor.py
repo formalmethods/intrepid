@@ -1,13 +1,4 @@
 """
-Copyright (C) 2017 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 27/03/2017
-
 This module implements a generic vistor infrastructure
 """
 
@@ -20,7 +11,7 @@ from intrepyd.lustre2py.variable import VarDeclGroup
 from intrepyd.lustre2py.datatype import Primitive, Enum, Array, Struct, Subrange
 
 
-class Visitor(object):
+class Visitor:
     """
     Abstract visitor class
     """
@@ -30,138 +21,87 @@ class Visitor(object):
         """
         if isinstance(obj, ZeroaryExpression):
             return self._visit_zeroary_expression(obj)
-        elif isinstance(obj, UnaryExpression):
+        if isinstance(obj, UnaryExpression):
             return self._visit_unary_expression(obj)
-        elif isinstance(obj, BinaryExpression):
+        if isinstance(obj, BinaryExpression):
             return self._visit_binary_expression(obj)
-        elif isinstance(obj, CallExpression):
+        if isinstance(obj, CallExpression):
             return self._visit_call_expression(obj)
-        elif isinstance(obj, LiteralExpression):
+        if isinstance(obj, LiteralExpression):
             return self._visit_literal_expression(obj)
-        elif isinstance(obj, InitCurrExpression):
+        if isinstance(obj, InitCurrExpression):
             return self._visit_init_curr_expression(obj)
-        elif isinstance(obj, ITEExpression):
+        if isinstance(obj, ITEExpression):
             return self._visit_ite_expression(obj)
-        elif isinstance(obj, TupleExpression):
+        if isinstance(obj, TupleExpression):
             return self._visit_tuple_expression(obj)
-        elif isinstance(obj, Equation):
+        if isinstance(obj, Equation):
             return self._visit_equation(obj)
-        elif isinstance(obj, Node):
+        if isinstance(obj, Node):
             return self._visit_node(obj)
-        elif isinstance(obj, VarDeclGroup):
+        if isinstance(obj, VarDeclGroup):
             return self._visit_var_decl_group(obj)
-        elif isinstance(obj, Primitive):
+        if isinstance(obj, Primitive):
             return self._visit_primitive(obj)
-        elif isinstance(obj, Enum):
+        if isinstance(obj, Enum):
             return self._visit_enum(obj)
-        elif isinstance(obj, Struct):
+        if isinstance(obj, Struct):
             return self._visit_struct(obj)
-        elif isinstance(obj, Array):
+        if isinstance(obj, Array):
             return self._visit_array(obj)
-        elif isinstance(obj, Subrange):
+        if isinstance(obj, Subrange):
             return self._visit_subrange(obj)
-        elif isinstance(obj, Property):
+        if isinstance(obj, Property):
             return self._visit_property(obj)
         raise TypeError('Type not found')
 
-    def _visit_zeroary_expression(self, obj):
-        """
-        Visits ZeroaryExpression
-        """
+    def _visit_zeroary_expression(self, expr):
         raise NotImplementedError
 
-    def _visit_unary_expression(self, obj):
-        """
-        Visits UnaryExpression
-        """
+    def _visit_unary_expression(self, expr):
         raise NotImplementedError
 
-    def _visit_binary_expression(self, obj):
-        """
-        Visits BinaryExpression
-        """
+    def _visit_binary_expression(self, expr):
         raise NotImplementedError
 
-    def _visit_call_expression(self, obj):
-        """
-        Visits CallExpression
-        """
+    def _visit_call_expression(self, expr):
         raise NotImplementedError
 
-    def _visit_literal_expression(self, obj):
-        """
-        Visits LiteralExpression
-        """
+    def _visit_literal_expression(self, expr):
         raise NotImplementedError
 
-    def _visit_init_curr_expression(self, obj):
-        """
-        Visits InitCurrExpression
-        """
+    def _visit_init_curr_expression(self, expr):
         raise NotImplementedError
 
-    def _visit_ite_expression(self, obj):
-        """
-        Visits ITEExpression
-        """
+    def _visit_ite_expression(self, expr):
         raise NotImplementedError
 
-    def _visit_tuple_expression(self, obj):
-        """
-        Visits TupleExpression
-        """
+    def _visit_tuple_expression(self, ttuple):
         raise NotImplementedError
 
-    def _visit_node(self, obj):
-        """
-        Visits Node
-        """
+    def _visit_node(self, node):
         raise NotImplementedError
 
-    def _visit_equation(self, obj):
-        """
-        Visits Equation
-        """
+    def _visit_equation(self, equat):
         raise NotImplementedError
 
-    def _visit_var_decl_group(self, obj):
-        """
-        Visits Var decl group
-        """
+    def _visit_var_decl_group(self, grp):
         raise NotImplementedError
 
     def _visit_primitive(self, obj):
-        """
-        Visits primitive datatype
-        """
         raise NotImplementedError
 
     def _visit_enum(self, obj):
-        """
-        Visits enum dataype
-        """
         raise NotImplementedError
 
     def _visit_struct(self, obj):
-        """
-        Visits struct datatype
-        """
         raise NotImplementedError
 
     def _visit_array(self, obj):
-        """
-        Visits array datatype
-        """
         raise NotImplementedError
 
     def _visit_subrange(self, obj):
-        """
-        Visits subrange datatype
-        """
         raise NotImplementedError
 
     def _visit_property(self, obj):
-        """
-        Visits properties
-        """
         raise NotImplementedError

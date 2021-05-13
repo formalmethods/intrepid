@@ -1,13 +1,4 @@
 """
-Copyright (C) 2017 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 05/04/2017
-
 This module implements a printer of an AST into Intrepyd syntax
 """
 
@@ -63,46 +54,44 @@ def _infer_datatype(expression, var2datatype, node2proto):
     if expression.kind == Expression.LITERAL:
         if expression.datatype == Expression.INT:
             return INTTYPE
-        elif expression.datatype == Expression.REAL:
+        if expression.datatype == Expression.REAL:
             return REALTYPE
-        elif expression.datatype == Expression.BOOL:
+        if expression.datatype == Expression.BOOL:
             return BOOLTYPE
         raise TypeError('Unhandled type' + expression.datatype)
-    elif expression.kind == Expression.ZEROARY:
+    if expression.kind == Expression.ZEROARY:
         if not expression.name in var2datatype:
             raise RuntimeError('Unknown type for ' + expression.name)
         name = var2datatype[expression.name].name
         assert name in LUSTREDT2INTREPYDDT
         return LUSTREDT2INTREPYDDT[name]
-    elif expression.kind == Expression.UNARY:
+    if expression.kind == Expression.UNARY:
         if expression.operator == 'not':
             return BOOLTYPE
-        elif expression.operator == 'real':
+        if expression.operator == 'real':
             return REALTYPE
-        elif expression.operator == 'floor':
+        if expression.operator == 'floor':
             return INTTYPE
-        else:
-            # Recursive call
-            return _infer_datatype(expression.operand, var2datatype, node2proto)
-    elif expression.kind == Expression.BINARY:
+        # Recursive call
+        return _infer_datatype(expression.operand, var2datatype, node2proto)
+    if expression.kind == Expression.BINARY:
         if expression.operator in set(['and', 'or', 'xor', '=>', '<', '>', '=', '<>', '<=', '>=']):
             return BOOLTYPE
-        else:
-            # Recursive call
-            return _infer_datatype(expression.left, var2datatype, node2proto)
-    elif expression.kind == Expression.ITE:
+        # Recursive call
+        return _infer_datatype(expression.left, var2datatype, node2proto)
+    if expression.kind == Expression.ITE:
         # Recursive call
         return _infer_datatype(expression.then_, var2datatype, node2proto)
-    elif expression.kind == Expression.INITCURR:
+    if expression.kind == Expression.INITCURR:
         # Recursive call
         return _infer_datatype(expression.init, var2datatype, node2proto)
-    elif expression.kind == Expression.CALL:
+    if expression.kind == Expression.CALL:
         assert expression.cid in node2proto
         # outputs = [1], first output = [0]
         ttype = node2proto[expression.cid][1][0]
         assert ttype in LUSTREDT2INTREPYDDT
         return LUSTREDT2INTREPYDDT[ttype]
-    elif expression.kind == Expression.TUPLE:
+    if expression.kind == Expression.TUPLE:
         assert len(expression.expressions) == 1
         # Recursive call
         return _infer_datatype(expression.expressions[0], var2datatype, node2proto)
@@ -111,25 +100,25 @@ def _infer_datatype(expression, var2datatype, node2proto):
 def _contains(expression, var):
     if expression.kind == Expression.LITERAL:
         return False
-    elif expression.kind == Expression.ZEROARY:
+    if expression.kind == Expression.ZEROARY:
         return expression.name == var
-    elif expression.kind == Expression.UNARY:
+    if expression.kind == Expression.UNARY:
         return _contains(expression.operand, var)
-    elif expression.kind == Expression.BINARY:
+    if expression.kind == Expression.BINARY:
         return _contains(expression.left, var) or _contains(expression.right, var)
-    elif expression.kind == Expression.ITE:
+    if expression.kind == Expression.ITE:
         return _contains(expression.if_, var) or\
                _contains(expression.then_, var) or\
                _contains(expression.else_, var)
-    elif expression.kind == Expression.INITCURR:
+    if expression.kind == Expression.INITCURR:
         return _contains(expression.init, var) or\
                _contains(expression.next, var)
-    elif expression.kind == Expression.CALL:
+    if expression.kind == Expression.CALL:
         for param in expression.params:
             if param == var:
                 return True
         return False
-    elif expression.kind == Expression.TUPLE:
+    if expression.kind == Expression.TUPLE:
         for expr in expression.expressions:
             if _contains(expr, var):
                 return True

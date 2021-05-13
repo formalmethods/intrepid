@@ -1,83 +1,70 @@
 """
-Copyright (C) 2017 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 27/03/2017
-
 This module implements infrastructure to deal with SCR requirements
 """
 
-import intrepyd as ip
-import intrepyd.api
 import csv
 import os.path
 
-def mk_raising_edge(ctx, edgeNet, pastEdgeNet, pastWhen):
-    n1 = ctx.mk_not(pastEdgeNet)
-    n2 = ctx.mk_and(n1, pastWhen)
-    n3 = ctx.mk_and(n2, edgeNet)
-    return n3
+def _mk_raising_edge(ctx, edge_net, past_edge_net, past_when):
+    n_1 = ctx.mk_not(past_edge_net)
+    n_2 = ctx.mk_and(n_1, past_when)
+    n_3 = ctx.mk_and(n_2, edge_net)
+    return n_3
 
-def mk_falling_edge(ctx, edgeNet, pastEdgeNet, pastWhen):
-    n1 = ctx.mk_not(edgeNet)
-    n2 = ctx.mk_and(n1, pastWhen)
-    n3 = ctx.mk_and(n2, pastEdgeNet)
-    return n3
+def _mk_falling_edge(ctx, edge_net, past_edge_net, past_when):
+    n_1 = ctx.mk_not(edge_net)
+    n_2 = ctx.mk_and(n_1, past_when)
+    n_3 = ctx.mk_and(n_2, past_edge_net)
+    return n_3
 
-def mk_row_condition(ctx, inputs, pastInputs, modeStr2mode, modes, pastMode, row, rowNumber):
-    assert len(inputs) == len(pastInputs)
+def _mk_row_condition(ctx, inputs, past_inputs, mode_str2mode, modes, past_mode, row, row_number):
+    assert len(inputs) == len(past_inputs)
     assert len(row) == len(inputs) + 2
 
-    oldModeIdx = modeStr2mode[row[0]]
+    old_mode_idx = mode_str2mode[row[0]]
 
-    if oldModeIdx == None:
+    if old_mode_idx is None:
         raise Exception('Cannot find mode:', row[0])
 
-    oldModeNet = modes[oldModeIdx]
+    old_mode_net = modes[old_mode_idx]
 
-    raisingEdge = False
-    fallingEdge = False
-    edgeNet = None
-    pastEdgeNet = None
-    pastWhen = ctx.mk_eq(oldModeNet, pastMode) 
+    raising_edge = False
+    falling_edge = False
+    edge_net = None
+    past_edge_net = None
+    past_when = ctx.mk_eq(old_mode_net, past_mode)
 
     for i in range(1, len(row) - 1):
         conj = None
         if row[i] == 't':
-            conj = pastInputs[i-1]
+            conj = past_inputs[i-1]
         elif row[i] == 'f':
-            conj = ctx.mk_not(pastInputs[i-1])
+            conj = ctx.mk_not(past_inputs[i-1])
         elif row[i] == 'T':
-            raisingEdge = True
-            edgeNet = inputs[i-1]
-            pastEdgeNet = pastInputs[i-1]
+            raising_edge = True
+            edge_net = inputs[i-1]
+            past_edge_net = past_inputs[i-1]
         elif row[i] == 'F':
-            fallingEdge = True
-            edgeNet = inputs[i-1]
-            pastEdgeNet = pastInputs[i-1]
+            falling_edge = True
+            edge_net = inputs[i-1]
+            past_edge_net = past_inputs[i-1]
         else:
             pass
-        if conj != None:
-            pastWhen = ctx.mk_and(pastWhen, conj)
+        if conj is not None:
+            past_when = ctx.mk_and(past_when, conj)
 
-    if edgeNet == None or pastEdgeNet == None:
-        raise Exception('Cannot find raising or falling edge in row ' + str(rowNumber))
-
-    if raisingEdge:
-        return mk_raising_edge(ctx, edgeNet, pastEdgeNet, pastWhen)
-
-    if fallingEdge:
-        return mk_falling_edge(ctx, edgeNet, pastEdgeNet, pastWhen)
+    if edge_net is None or past_edge_net is None:
+        raise Exception('Cannot find raising or falling edge in row ' + str(row_number))
+    if raising_edge:
+        return _mk_raising_edge(ctx, edge_net, past_edge_net, past_when)
+    if falling_edge:
+        return _mk_falling_edge(ctx, edge_net, past_edge_net, past_when)
 
     raise Exception('Unreachable location (is apparently reachable)')
 
-def retrieve_modes_order(ordfilename):
-    modeStr2mode = {}
-    modeStr2modeValue = {}
+def _retrieve_modes_order(ordfilename):
+    mode_str2mode = {}
+    mode_str2mode_value = {}
     lines = []
     with open(ordfilename, 'r') as ordfile:
         lines = ordfile.readlines()
@@ -86,33 +73,39 @@ def retrieve_modes_order(ordfilename):
         pair = line.split()
         if len(pair) != 2:
             raise Exception('Parse error at line ' + str(i+1) + ' of ' + ordfilename)
-        modeStr2mode[pair[0]] = i
-        modeStr2modeValue[pair[0]] = pair[1]
+        mode_str2mode[pair[0]] = i
+        mode_str2mode_value[pair[0]] = pair[1]
         i += 1
-    return modeStr2mode, modeStr2modeValue
+    return mode_str2mode, mode_str2mode_value
 
-def mk_scr_helper(ctx, csvfilename, modeStr2mode, modeStr2modeValue, inputs, pastInputs, modes, pastMode):
-    firstRow = True
-    result = pastMode
-    rowNumber = 1
+def _mk_scr_helper(ctx, csvfilename, mode_str2mode, mode_str2mode_value,\
+                   inputs, past_inputs, modes, past_mode):
+    first_row = True
+    result = past_mode
+    row_number = 1
     with open(csvfilename, 'r') as csvfile:
         for row in csv.reader(csvfile, delimiter=','):
             if len(inputs) + 2 != len(row):
-                raise Exception('Input number mismatch: expected ' + str(len(inputs)) + ', actual ' + str(len(row) - 2))
-            if firstRow:
-                firstRow = False
+                raise Exception('Input number mismatch: expected {}, actual {}'\
+                                .format(len(inputs), len(row) - 2))
+            if first_row:
+                first_row = False
                 continue
-            rowNumber += 1
-            rowCondition = mk_row_condition(ctx, inputs, pastInputs, modeStr2mode, modes, pastMode, row, rowNumber)
-            rowCurrentModeStr = str(modeStr2modeValue[row[-1]])
-            rowCurrentModeNet = ctx.mk_number(rowCurrentModeStr, ctx.mk_int8_type())
-            if rowCurrentModeNet == None:
+            row_number += 1
+            row_condition = _mk_row_condition(ctx, inputs, past_inputs, mode_str2mode,\
+                                              modes, past_mode, row, row_number)
+            row_current_mode_str = str(mode_str2mode_value[row[-1]])
+            row_current_mode_net = ctx.mk_number(row_current_mode_str, ctx.mk_int8_type())
+            if row_current_mode_net is None:
                 raise Exception('Cannot find mode:', row[-1])
-            result = ctx.mk_ite(rowCondition, rowCurrentModeNet, result)
+            result = ctx.mk_ite(row_condition, row_current_mode_net, result)
     return result
 
-def mk_scr(ctx, name, inputs, pastInputs, modes, pastMode):
-    if len(inputs) != len(pastInputs):
+def mk_scr(ctx, name, inputs, past_inputs, modes, past_mode):
+    """
+    Makes an SCR requirement
+    """
+    if len(inputs) != len(past_inputs):
         raise Exception('Inputs and past inputs differ in size')
     csvfilename = name + '.csv'
     ordfilename = name + '.ord'
@@ -120,8 +113,6 @@ def mk_scr(ctx, name, inputs, pastInputs, modes, pastMode):
         raise Exception('Cannot find ' + csvfilename)
     if not os.path.isfile(ordfilename):
         raise Exception('Cannot find ' + ordfilename)
-    modeStr2mode, modeStr2modeValue = retrieve_modes_order(ordfilename)
-    return mk_scr_helper(ctx, csvfilename, modeStr2mode, modeStr2modeValue, inputs, pastInputs, modes, pastMode)
-            
-
-
+    mode_str2mode, mode_str2mode_value = _retrieve_modes_order(ordfilename)
+    return _mk_scr_helper(ctx, csvfilename, mode_str2mode, mode_str2mode_value,\
+                          inputs, past_inputs, modes, past_mode)

@@ -1,13 +1,4 @@
 """
-Copyright (C) 2017 Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-
-This file is distributed under the terms of the 3-clause BSD License.
-A copy of the license can be found in the root directory or at
-https://opensource.org/licenses/BSD-3-Clause.
-
-Author: Roberto Bruttomesso <roberto.bruttomesso@gmail.com>
-  Date: 07/05/2017
-
 Translates a lustre file into an intrepyd equivalent
 """
 
@@ -79,7 +70,6 @@ def translate(filename, topnode, outfilename, realtype):
         outfile.write('import intrepyd as ip\n')
         outfile.write('import intrepyd.scr\n')
         outfile.write('import intrepyd.circuit\n')
-        outfile.write('import collections\n\n')
         # outfile.write(LATCH2PRE + ' = {}\n')
         # outfile.write(LATCHEQUIV + ' = []\n\n')
         outfile.write('class LustreCircuit(ip.circuit.Circuit):\n')
@@ -128,7 +118,7 @@ def translate(filename, topnode, outfilename, realtype):
             outs += sep + name
             sep = ', '
         outfile.write(TAB + TAB + outs + ' = self.' + top.name + '(' + args + ')\n')
-        outfile.write(TAB + TAB + 'outputs = collections.OrderedDict()\n')
+        outfile.write(TAB + TAB + 'outputs = {}\n')
         index = 0
         for _ in node2proto[top.name][1]:
             name = node2outputs[top.name][index]

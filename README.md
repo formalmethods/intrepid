@@ -3,7 +3,11 @@ Intre**py**d is a **python** module that provides a simulator and a model checke
 a rich API, to allow the rapid prototyping of **formal methods** algorithms
 for the rigorous analysis of circuits, specifications, models.
 
+Intrepid may also be run as a containerized web service, which can be used interactively
+via a rich REST API.
+
 # Index
+1  [Presentation](#presentation)
 1. [Installation](#installation)
     1. [Officially Supported OSes](#officially-supported-oses)
     1. [Prerequisites](#prerequisites)
@@ -15,10 +19,16 @@ for the rigorous analysis of circuits, specifications, models.
     1. [Model Checking](#model-checking)
     1. [Benchmarking](#benchmarking)
     1. [Model Checking in the Cloud](#model-checking-in-the-cloud)
+    1. [API documentation](#api-documentation)
 1. [Resources](#resources)
     1. [Formal Methods Little Corner](#formal-methods-little-corner)
     1. [Bug reporting](#bug-reporting)
     1. [Feedback](#feedback)
+
+
+# Presentation
+
+A presentation video may be found [here](https://somepageonyoutube).
 
 # Installation
 Intrepyd is available from PYPI [here][2]. It can be installed simply with
@@ -59,6 +69,16 @@ TODO
 TODO
 
 # Resources
+
+## Api Documentation
+
+The documentation for the python API can be found under [here](https://github.com/formalmethods/intrepid/tree/master/docs/intrepyd)
+
+The documentation for the REST API can be found [here](https://www.postman.com/robertobruttomesso/workspace/intrepid-model-checker-rest-api)
+
+## Docker Hub
+
+The docker hub page is available [here](https://hub.docker.com/r/robertobruttomesso/intrepid)
 
 ## Formal Methods Little Corner
 A collection of experiences using Intrepyd can be found [here](https://formalmethods.github.io).

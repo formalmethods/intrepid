@@ -8,8 +8,7 @@ dist
 intrepyd.egg-info
 intrepid/deps
 libz3.dll
-_api.pyd
-_api.so
+intrepyd/_api.so
 venv
 htmlcov
 .coverage

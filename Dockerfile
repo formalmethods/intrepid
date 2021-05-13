@@ -12,7 +12,7 @@ ENV PATH="/home/intrepid/.local/bin:${PATH}"
 ADD --chown=intrepid:intrepid intrepid intrepid
 ADD --chown=intrepid:intrepid intrepyd intrepyd
 ADD --chown=intrepid:intrepid app app
-COPY --chown=intrepid:intrepid requirements.txt Makefile setup.py setup.cfg VERSION intrepid.py docker/app.sh ./
+COPY --chown=intrepid:intrepid requirements.txt Makefile setup.py setup.cfg VERSION intrepid.py docker/app.sh .pylintrc ./
 
 RUN pip3 install -r requirements.txt && \
     mkdir -p libs/linux64/ && \

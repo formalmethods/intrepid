@@ -28,7 +28,7 @@ via a rich REST API.
 
 # Presentation
 
-A presentation video may be found [here](https://somepageonyoutube).
+A presentation video may be found [here](https://youtu.be/n-0Y_iJqkqY).
 
 # Installation
 Intrepyd is available from PYPI [here][2]. It can be installed simply with

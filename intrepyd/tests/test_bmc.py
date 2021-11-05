@@ -95,5 +95,96 @@ class TestBmc(unittest.TestCase):
         self.assertEqual(1, len(list(bmc.get_last_reached_targets())))
         bmc.remove_last_reached_targets()
 
+    def test_bmc_06(self):
+        context = intrepyd.Context()
+        bt = context.mk_boolean_type()
+        l1 = context.mk_latch("l1", bt)
+        l2 = context.mk_latch("l2", bt)
+        l3 = context.mk_latch("l3", bt)
+        i = context.mk_input("i", bt)
+        context.set_latch_init_next(l1, context.mk_true(), l3)
+        context.set_latch_init_next(l2, context.mk_false(), context.mk_and(l1, i))
+        context.set_latch_init_next(l3, context.mk_false(), l2)
+        target = context.mk_and(l2, l3)
+        bmc_ti = context.mk_bmc()
+        bmc_ti.add_target(target)
+        for depth in range(3):
+            bmc_ti.set_current_depth(depth)
+            result = bmc_ti.reach_targets()
+            self.assertEqual(EngineResult.UNKNOWN, result)
+        bmc_ti.set_current_depth(3)
+        result = bmc_ti.reach_targets()
+        self.assertEqual(EngineResult.UNKNOWN, result)
+
+    def test_bmc_ti_01(self):
+        context = intrepyd.Context()
+        bt = context.mk_boolean_type()
+        l1 = context.mk_latch("l1", bt)
+        l2 = context.mk_latch("l2", bt)
+        l3 = context.mk_latch("l3", bt)
+        context.set_latch_init_next(l1, context.mk_true(), l3)
+        context.set_latch_init_next(l2, context.mk_false(), l1)
+        context.set_latch_init_next(l3, context.mk_false(), l2)
+        target = context.mk_and(l2, l3)
+        bmc_ti = context.mk_bmc()
+        bmc_ti.add_target(target)
+        bmc_ti.set_use_induction()
+        for depth in range(3):
+            bmc_ti.set_current_depth(depth)
+            result = bmc_ti.reach_targets()
+            self.assertEqual(EngineResult.UNKNOWN, result)
+        bmc_ti.set_current_depth(3)
+        result = bmc_ti.reach_targets()
+        self.assertEqual(EngineResult.UNREACHABLE, result)
+
+    def test_bmc_ti_02(self):
+        context = intrepyd.Context()
+        bt = context.mk_boolean_type()
+        l1 = context.mk_latch("l1", bt)
+        l2 = context.mk_latch("l2", bt)
+        l3 = context.mk_latch("l3", bt)
+        i = context.mk_input("i", bt)
+        context.set_latch_init_next(l1, context.mk_true(), l3)
+        context.set_latch_init_next(l2, context.mk_false(), context.mk_and(l1, i))
+        context.set_latch_init_next(l3, context.mk_false(), l2)
+        target = context.mk_and(l2, l3)
+        bmc_ti = context.mk_bmc()
+        bmc_ti.add_target(target)
+        bmc_ti.set_use_induction()
+        for depth in range(3):
+            bmc_ti.set_current_depth(depth)
+            result = bmc_ti.reach_targets()
+            self.assertEqual(EngineResult.UNKNOWN, result)
+        bmc_ti.set_current_depth(3)
+        result = bmc_ti.reach_targets()
+        self.assertEqual(EngineResult.UNREACHABLE, result)
+
+    def test_bmc_ti_03(self):
+        # From the paper "Checking Safety Properties Using Induction and a SAT-Solver"
+        context = intrepyd.Context()
+        bt = context.mk_boolean_type()
+        l1 = context.mk_latch("l1", bt)
+        l2 = context.mk_latch("l2", bt)
+        l3 = context.mk_latch("l3", bt)
+        context.set_latch_init_next(l1, context.mk_true(), l3)
+        context.set_latch_init_next(l2, context.mk_false(), l1)
+        context.set_latch_init_next(l3, context.mk_false(), l2)
+        not_all_three_one = context.mk_not(context.mk_and(context.mk_and(l1, l2), l3))
+        target = context.mk_not(
+                    context.mk_and(
+                       context.mk_xor(context.mk_xor(l1, l2), l3),
+                                      not_all_three_one
+                    )
+                 )
+        bmc_ti = context.mk_bmc()
+        bmc_ti.add_target(target)
+        bmc_ti.set_use_induction()
+        bmc_ti.set_current_depth(0)
+        result = bmc_ti.reach_targets()
+        self.assertEqual(EngineResult.UNKNOWN, result)
+        bmc_ti.set_current_depth(1)
+        result = bmc_ti.reach_targets()
+        self.assertEqual(EngineResult.UNREACHABLE, result)
+
 if __name__ == '__main__':
     unittest.main()

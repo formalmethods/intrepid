@@ -10,6 +10,7 @@ Sub-modules
 * intrepyd.components
 * intrepyd.context
 * intrepyd.engine
+* intrepyd.formula2py
 * intrepyd.iec611312py
 * intrepyd.lustre2py
 * intrepyd.parser

@@ -43,7 +43,9 @@ class Parser:
           'uint64': self._ctx.mk_uint64_type(),
           'float16': self._ctx.mk_float16_type(),
           'float32': self._ctx.mk_float32_type(),
-          'float64': self._ctx.mk_float64_type()
+          'float64': self._ctx.mk_float64_type(),
+          'real': self._ctx.mk_real_type(),
+          'int': self._ctx.mk_int_type()
         }
 
     def _initialize_parsing_functions(self):
@@ -55,9 +57,11 @@ class Parser:
         self._op_to_unary_func['to_int8'] = self._ctx.mk_cast_to_int8
         self._op_to_unary_func['to_int16'] = self._ctx.mk_cast_to_int16
         self._op_to_unary_func['to_int32'] = self._ctx.mk_cast_to_int32
+        self._op_to_unary_func['to_int64'] = self._ctx.mk_cast_to_int64
         self._op_to_unary_func['to_uint8'] = self._ctx.mk_cast_to_uint8
         self._op_to_unary_func['to_uint16'] = self._ctx.mk_cast_to_uint16
         self._op_to_unary_func['to_uint32'] = self._ctx.mk_cast_to_uint32
+        self._op_to_unary_func['to_uint64'] = self._ctx.mk_cast_to_uint64
         self._op_to_binary_func['and'] = self._ctx.mk_and
         self._op_to_binary_func['or'] = self._ctx.mk_or
         self._op_to_binary_func['xor'] = self._ctx.mk_xor
@@ -106,19 +110,17 @@ class Parser:
             return
         tokens = line.split()
         if len(tokens) < 4:
-            raise ParseError('Parse error at line {}: less than four tokens'.format(lineno))
+            raise ParseError(f"Parse error at line {lineno}: less than four tokens")
         if len(tokens) > 6:
-            raise ParseError('Parse error at line {}: more than six tokens'.format(lineno))
+            raise ParseError(f"Parse error at line {lineno}: more than six tokens")
         if tokens[0] in self._special_ops:
             self._parse_special_op(line, lineno)
             return
         identifier = tokens[0]
         if identifier in self._ctx.nets:
-            raise ParseError('Parse error at line {}: identifier {} already used'\
-                             .format(lineno, identifier))
+            raise ParseError(f'Parse error at line {lineno}: identifier {identifier} already used')
         if tokens[1] != '=':
-            raise ParseError('Parse error at line {}: expected =, found {}'\
-                             .format(lineno, tokens[1]))
+            raise ParseError(f'Parse error at line {lineno}: expected =, found {tokens[1]}')
         operator = tokens[2]
         x = None
         y = None
@@ -128,11 +130,9 @@ class Parser:
             x = tokens[3]
         if operator in ('latch', 'input'):
             if len(tokens) != 4:
-                raise ParseError('Parse error at line {}: unexpected token {}'\
-                                 .format(lineno, tokens[4]))
+                raise ParseError(f'Parse error at line {lineno}: unexpected token {tokens[4]}')
             if x not in self._name_to_type:
-                raise ParseError('Parse error at line {}: unrecognized type {}'\
-                                 .format(lineno, x))
+                raise ParseError(f'Parse error at line {lineno}: unrecognized type {x}')
             x = self._name_to_type[x]
             if operator == 'latch':
                 net = self._ctx.mk_latch(identifier, x)
@@ -145,10 +145,9 @@ class Parser:
             y = tokens[4]
         if operator == 'number':
             if len(tokens) != 5:
-                raise ParseError('Parse error at line {}: unexpected token {}'\
-                                 .format(lineno, tokens[5]))
+                raise ParseError(f'Parse error at line {lineno}: unexpected token {tokens[5]}')
             if y not in self._name_to_type:
-                raise ParseError('Parse error at line {}: unrecognized type {}'.format(lineno, x))
+                raise ParseError(f'Parse error at line {lineno}: unrecognized type {x}')
             y = self._name_to_type[y]
             net = self._ctx.mk_number(x, y, identifier)
             assert net is not None
@@ -156,34 +155,29 @@ class Parser:
             return
         if len(tokens) >= 4:
             if x not in self._ctx.nets:
-                raise ParseError('Parse error at line {}: identifier {} not found'\
-                                 .format(lineno, x))
+                raise ParseError(f'Parse error at line {lineno}: identifier {x} not found')
             x = self._ctx.nets[x]
         if len(tokens) >= 5:
             if y not in self._ctx.nets:
-                raise ParseError('Parse error at line {}: identifier {} not found'\
-                                 .format(lineno, y))
+                raise ParseError(f'Parse error at line {lineno}: identifier {y} not found')
             y = self._ctx.nets[y]
         if len(tokens) >= 6:
             z = tokens[5]
             if z not in self._ctx.nets:
-                raise ParseError('Parse error at line {}: identifier {} not found'\
-                                 .format(lineno, z))
+                raise ParseError(f'Parse error at line {lineno}: identifier {z} not found')
             z = self._ctx.nets[z]
         # Unary operators
         if len(tokens) == 4:
             assert x is not None
             if operator not in self._op_to_unary_func:
-                raise ParseError('Parse error at line {}: operator {} not found'\
-                                 .format(lineno, operator))
+                raise ParseError(f'Parse error at line {lineno}: operator {operator} not found')
             net = self._op_to_unary_func[operator](x, identifier)
         # Binary operators
         if len(tokens) == 5:
             assert x is not None
             assert y is not None
             if operator not in self._op_to_binary_func:
-                raise ParseError('Parse error at line {}: operator {} not found'\
-                                 .format(lineno, operator))
+                raise ParseError(f'Parse error at line {lineno}: operator {operator} not found')
             net = self._op_to_binary_func[operator](x, y, identifier)
         # Ternary operators
         if len(tokens) == 6:
@@ -191,8 +185,7 @@ class Parser:
             assert y is not None
             assert z is not None
             if operator not in self._op_to_ternary_func:
-                raise ParseError('Parse error at line {}: operator {} not found'\
-                                 .format(lineno, operator))
+                raise ParseError(f'Parse error at line {lineno}: operator {operator} not found')
             net = self._op_to_ternary_func[operator](x, y, z, identifier)
         assert net is not None
         assert self._ctx.nets[identifier] == net
@@ -205,14 +198,11 @@ class Parser:
             ini = tokens[2]
             nex = tokens[3]
             if lat not in self._ctx.nets:
-                raise ParseError('Parse error at line {}: identifier {} not found'\
-                                 .format(lineno, lat))
+                raise ParseError(f'Parse error at line {lineno}: identifier {lat} not found')
             if ini not in self._ctx.nets:
-                raise ParseError('Parse error at line {}: identifier {} not found'\
-                                 .format(lineno, ini))
+                raise ParseError(f'Parse error at line {lineno}: identifier {ini} not found')
             if nex not in self._ctx.nets:
-                raise ParseError('Parse error at line {}: identifier {} not found'\
-                                 .format(lineno, nex))
+                raise ParseError(f'Parse error at line {lineno}: identifier {nex} not found')
             lat = self._ctx.nets[lat]
             ini = self._ctx.nets[ini]
             nex = self._ctx.nets[nex]

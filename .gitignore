@@ -2,7 +2,6 @@ __pycache__
 *.pyc
 intrepid_build
 intrepid_build_debug
-.vscode
 build
 dist
 intrepyd.egg-info
@@ -13,3 +12,7 @@ venv
 htmlcov
 .coverage
 .DS_Store
+intrepyd/formula2py/FormulaLexer.tokens
+intrepyd/formula2py/FormulaLexer.interp
+intrepyd/formula2py/Formula.tokens
+intrepyd/formula2py/Formula.interp

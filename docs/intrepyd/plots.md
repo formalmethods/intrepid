@@ -6,7 +6,7 @@ Functions
 ---------
 
     
-`plot_trace_dataframe(dataframe)`
+`plot_trace_dataframe(input_dataframe, only_key=None, height=5)`
 :   Draws one step plot per each signal in the trace.
     
     Args:

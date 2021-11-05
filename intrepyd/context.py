@@ -17,9 +17,9 @@ from intrepyd.api import mk_assumption, mk_undef, mk_true, mk_false,\
                          mk_boolean_type, mk_real_type,\
                          mk_int8_type, mk_int16_type, mk_int32_type, mk_int64_type,\
                          mk_uint8_type, mk_uint16_type, mk_uint32_type, mk_uint64_type,\
-                         mk_float16_type, mk_float32_type, mk_float64_type,\
-                         mk_cast_to_int8, mk_cast_to_int16, mk_cast_to_int32,\
-                         mk_cast_to_uint8, mk_cast_to_uint16, mk_cast_to_uint32,\
+                         mk_float16_type, mk_float32_type, mk_float64_type, mk_int_type,\
+                         mk_cast_to_int8, mk_cast_to_int16, mk_cast_to_int32, mk_cast_to_int64,\
+                         mk_cast_to_uint8, mk_cast_to_uint16, mk_cast_to_uint32, mk_cast_to_uint64,\
                          mk_ctx, del_ctx,\
                          mk_number, mk_and, mk_or, mk_xor, mk_iff, mk_not,\
                          mk_leq, mk_lt, mk_geq, mk_gt, mk_eq, mk_neq,\
@@ -55,6 +55,7 @@ class Context:
         self.float16type = mk_float16_type(self.ctx)
         self.float32type = mk_float32_type(self.ctx)
         self.float64type = mk_float64_type(self.ctx)
+        self.inttype = mk_int_type(self.ctx)
         self.undef = mk_undef(self.ctx)
         self.true = mk_true(self.ctx)
         self.false = mk_false(self.ctx)
@@ -156,6 +157,12 @@ class Context:
         Creates float64 type
         """
         return self.float64type
+
+    def mk_int_type(self):
+        """
+        Creates infinite precision int type
+        """
+        return self.inttype
 
     def mk_undef(self):
         """
@@ -350,6 +357,12 @@ class Context:
         """
         return self._register(mk_cast_to_int32(self.ctx, net), name)
 
+    def mk_cast_to_int64(self, net, name=None):
+        """
+        Casts a net to an int64
+        """
+        return self._register(mk_cast_to_int64(self.ctx, net), name)
+
     def mk_cast_to_uint8(self, net, name=None):
         """
         Casts a net to an uint8
@@ -367,6 +380,12 @@ class Context:
         Casts a net to an uint32
         """
         return self._register(mk_cast_to_uint32(self.ctx, net), name)
+
+    def mk_cast_to_uint64(self, net, name=None):
+        """
+        Casts a net to an uint64
+        """
+        return self._register(mk_cast_to_uint64(self.ctx, net), name)
 
     def mk_bmc(self):
         """

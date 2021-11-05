@@ -1,3 +1,6 @@
+"""
+Implementation of REST API for context creation
+"""
 from flask import Blueprint, request
 from intrepyd import Context
 
@@ -7,10 +10,16 @@ contexts = {}
 
 @cr.route('', methods=['GET'])
 def list_contexts():
+    """
+    Gets the list of available contexts
+    """
     return {'contexts': [name for name in contexts]}, 200
 
 @cr.route('/create', methods=['POST'])
 def create_context():
+    """
+    Creates a context
+    """
     name = request.get_json()['name']
     if name is None:
         return {'result': 'error'}, 400

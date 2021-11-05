@@ -2,13 +2,13 @@
 Runs a lustre benchmark
 """
 
-from intrepyd.lustre2py import translator
-from intrepyd.engine import EngineResult
-import intrepyd.context
 import importlib
 import multiprocessing as mp
 import time
 import argparse as ap
+from intrepyd.lustre2py import translator
+from intrepyd.engine import EngineResult
+import intrepyd.context
 
 def worker_br(q):
     """

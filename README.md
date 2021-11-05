@@ -11,8 +11,6 @@ via a rich REST API.
 1. [Installation](#installation)
     1. [Officially Supported OSes](#officially-supported-oses)
     1. [Prerequisites](#prerequisites)
-    1. [Install via pip](#install-via-pip)
-    1. [Install via setup.py](#install-via-setup.py)
 1. [Quick Start](#quick-start)
     1. [Constructing Models](#constructing-models)
     1. [Simulating Models](#simulating-models)
@@ -37,19 +35,21 @@ pip3 install intrepyd
 ```
 issued from a terminal.
 
+If you wish to use intrepyd in an isolated environment you may use docker as
+follows
+```
+docker run -it python:3.8 /bin/bash
+pip3 install intrepyd
+```
+
 ## Officially Supported OSes
-- Windows 10 or above
-- Ubuntu 19.04 or above
+- Windows 10
+- Linux
+- OSX
 
 ## Prerequisites
 - python 3.8 (exactly this version)
 - (Windows only) [Visual C++ Redistributable for Visual Studio][1]
-
-## Install via pip
-TODO
-
-## Install via setup
-TODO
 
 # Quick start
 

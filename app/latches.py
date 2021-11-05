@@ -1,12 +1,17 @@
-from flask import Blueprint, request, jsonify, session
-
-lr = Blueprint('latches', __name__)
-
+"""
+Implementation of REST API for latch creation
+"""
+from flask import Blueprint, request
 from .utils import typename_to_type
 from .contexts import contexts
 
+lr = Blueprint('latches', __name__)
+
 @lr.route('', methods=['GET'])
 def list_latches():
+    """
+    Lists the available latches
+    """
     context = request.args.get('context')
     if context is None:
         return {'result': 'error'}, 400
@@ -15,6 +20,9 @@ def list_latches():
 
 @lr.route('/create', methods=['POST'])
 def create_latch():
+    """
+    Creates a new latch
+    """
     context = request.get_json()['context']
     typ = request.get_json()['type']
     if context is None or typ is None:
@@ -26,6 +34,9 @@ def create_latch():
 
 @lr.route('/initnext', methods=['PUT'])
 def set_latch_init_next():
+    """
+    Sets the initial and next value of a latch
+    """
     context = request.get_json()['context']
     latch = request.get_json()['latch']
     init = request.get_json()['init']
@@ -38,4 +49,3 @@ def set_latch_init_next():
     next_net = ctx.nets[nex]
     ctx.set_latch_init_next(latch_net, init_net, next_net)
     return {'result': 'ok'}, 200
-

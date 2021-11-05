@@ -1,5 +1,5 @@
 """
-APIs for upload
+Implementation of REST API for upload
 """
 
 from flask import Blueprint, request
@@ -11,10 +11,13 @@ ur = Blueprint('upload', __name__)
 
 @ur.route('', methods=['POST'])
 def upload():
-    f = request.files['file']
-    filename = secure_filename(f.filename)
+    """
+    Uploads and parses a file in intrepid syntax
+    """
+    file = request.files['file']
+    filename = secure_filename(file.filename)
     filepath = '/tmp/' + filename
-    f.save(filepath)
+    file.save(filepath)
     try:
         parser = Parser()
         ctx = parser.parse_file(filepath)

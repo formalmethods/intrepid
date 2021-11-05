@@ -638,6 +638,17 @@ def mk_uint64_type(ctx):
     """
     return _api.mk_uint64_type(ctx)
 
+def mk_int_type(ctx):
+    """
+    mk_int_type(Int_ctx ctx) -> Int_type
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+
+    """
+    return _api.mk_int_type(ctx)
+
 def mk_real_type(ctx):
     """
     mk_real_type(Int_ctx ctx) -> Int_type
@@ -1102,6 +1113,18 @@ def mk_cast_to_int32(ctx, term):
     """
     return _api.mk_cast_to_int32(ctx, term)
 
+def mk_cast_to_int64(ctx, term):
+    """
+    mk_cast_to_int64(Int_ctx ctx, Int_net term) -> Int_net
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    term: Int_net
+
+    """
+    return _api.mk_cast_to_int64(ctx, term)
+
 def mk_cast_to_uint8(ctx, term):
     """
     mk_cast_to_uint8(Int_ctx ctx, Int_net term) -> Int_net
@@ -1137,6 +1160,18 @@ def mk_cast_to_uint32(ctx, term):
 
     """
     return _api.mk_cast_to_uint32(ctx, term)
+
+def mk_cast_to_uint64(ctx, term):
+    """
+    mk_cast_to_uint64(Int_ctx ctx, Int_net term) -> Int_net
+
+    Parameters
+    ----------
+    ctx: Int_ctx
+    term: Int_net
+
+    """
+    return _api.mk_cast_to_uint64(ctx, term)
 
 def apitrace_dump_to_file(filename):
     """

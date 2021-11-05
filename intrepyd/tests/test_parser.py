@@ -68,6 +68,8 @@ class TestParser(unittest.TestCase):
             i8 = input float16
             i9 = input float32
             i10 = input float64
+            i11 = input real
+            i12 = input int
             """
         )
         parser = Parser()
@@ -78,6 +80,8 @@ class TestParser(unittest.TestCase):
             'false': 2,
             'i1': 8,
             'i10': 17,
+            'i11': 18,
+            'i12': 19,
             'i2': 9,
             'i3': 10,
             'i4': 11,

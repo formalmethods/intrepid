@@ -1,48 +1,60 @@
-from flask import Blueprint, request, jsonify
-
-from intrepyd.trace import Trace
+"""
+Implementation of REST API for traces
+"""
+from flask import Blueprint, request
+from .contexts import contexts
 
 tr = Blueprint('traces', __name__)
 
-from .contexts import contexts
-
 @tr.route('/create', methods=['POST'])
 def create_trace():
+    """
+    Creates an empty trace given a context
+    """
     context = request.get_json()['context']
     if context is None:
         return {'result': 'error'}, 400
     ctx = contexts[context]['context']
-    assert(ctx is not None)
+    assert ctx is not None
     name = 't{}'.format(len(contexts[context]['traces']))
     contexts[context]['traces'][name] = ctx.mk_trace()
     return {'result': name}, 201
 
-def on_trace(request, func):
-    context = request.args.get('context')
-    trace = request.args.get('trace')
+def _on_trace(req, func):
+    context = req.args.get('context')
+    trace = req.args.get('trace')
     if context is None or trace is None:
         return {'result': 'error'}, 400
     ctx = contexts[context]['context']
-    tr = contexts[context]['traces'][trace]
-    assert(ctx is not None)
-    assert(tr is not None)
-    return func(ctx, tr)
+    trace = contexts[context]['traces'][trace]
+    assert ctx is not None
+    assert trace is not None
+    return func(ctx, trace)
 
 @tr.route('/maxdepth', methods=['GET'])
 def get_max_depth():
-    return on_trace(request,
+    """
+    Gets the max depth of the trace
+    """
+    return _on_trace(request,
                     lambda _, tr : ({'result': tr.get_max_depth()}, 200))
 
-def get_values_helper(ctx, tr):
-    tracedict = tr.get_as_net_dictionary()
+def _get_values_helper(ctx, trace):
+    tracedict = trace.get_as_net_dictionary()
     return {'result': {ctx.net2name[net]: tracedict[net] for net in tracedict}}, 200
 
 @tr.route('/values', methods=['GET'])
 def get_values():
-    return on_trace(request, get_values_helper)
+    """
+    Gets the values for the trace
+    """
+    return _on_trace(request, _get_values_helper)
 
 @tr.route('/value', methods=['GET'])
 def get_value():
+    """
+    Gets a value for the trace, at a given depth
+    """
     context = request.args.get('context')
     trace = request.args.get('trace')
     depth = request.args.get('depth')
@@ -50,17 +62,20 @@ def get_value():
     if context is None or trace is None or depth is None or net is None:
         return {'result': 'error'}, 400
     ctx = contexts[context]['context']
-    assert(ctx is not None)
-    tr = contexts[context]['traces'][trace]
-    ne = ctx.nets[net]
-    assert(tr is not None)
-    assert(ne is not None)
-    de = int(depth)
-    result = tr.get_value(ne, de)
+    assert ctx is not None
+    trace = contexts[context]['traces'][trace]
+    net = ctx.nets[net]
+    assert trace is not None
+    assert net is not None
+    depth = int(depth)
+    result = trace.get_value(net, depth)
     return {'result': result}, 200
 
 @tr.route('/setvalue', methods=['PUT'])
 def set_value():
+    """
+    Sets a value for a net at a given depth
+    """
     context = request.get_json()['context']
     trace = request.get_json()['trace']
     depth = request.get_json()['depth']
@@ -68,10 +83,10 @@ def set_value():
     value = request.get_json()['value']
     if context is None or trace is None or depth is None or net is None or value is None:
         return {'result': 'error'}, 400
-    tr = contexts[context]['traces'][trace]
-    ne = contexts[context]['nets'][net]
-    assert(tr is not None)
-    assert(ne is not None)
-    de = int(depth)
-    tr.set_value(ne, de, value)
+    trace = contexts[context]['traces'][trace]
+    net = contexts[context]['nets'][net]
+    assert trace is not None
+    assert net is not None
+    depth = int(depth)
+    trace.set_value(net, depth, value)
     return {'result': 'ok'}, 200

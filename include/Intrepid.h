@@ -412,6 +412,14 @@ Int_type mk_uint64_type(Int_ctx ctx);
 
 DLLEXPORT
 /**
+ * @brief mk_int_type Creates an infinite precision int type
+ * @param ctx the context to use
+ * @return a int type
+ */
+Int_type mk_int_type(Int_ctx ctx);
+
+DLLEXPORT
+/**
  * @brief mk_real_type Creates an real type
  * @param ctx the context to use
  * @return a real type
@@ -718,6 +726,14 @@ Int_net mk_cast_to_int32(Int_ctx ctx, Int_net term);
 
 DLLEXPORT
 /**
+ * @brief mk_cast_to_int64 Casts term into one of type int64
+ *
+ * @param term the term to cast
+ */
+Int_net mk_cast_to_int64(Int_ctx ctx, Int_net term);
+
+DLLEXPORT
+/**
  * @brief mk_cast_to_uint8 Casts term uinto one of type uint8
  *
  * @param term the term to cast
@@ -739,6 +755,14 @@ DLLEXPORT
  * @param term the term to cast
  */
 Int_net mk_cast_to_uint32(Int_ctx ctx, Int_net term);
+
+DLLEXPORT
+/**
+ * @brief mk_cast_to_uint64 Casts term uinto one of type uint64
+ *
+ * @param term the term to cast
+ */
+Int_net mk_cast_to_uint64(Int_ctx ctx, Int_net term);
 
 DLLEXPORT
 void apitrace_dump_to_file(const char* filename);

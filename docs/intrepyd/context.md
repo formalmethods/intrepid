@@ -47,6 +47,9 @@ Classes
     `mk_cast_to_int32(self, net, name=None)`
     :   Casts a net to an int32
 
+    `mk_cast_to_int64(self, net, name=None)`
+    :   Casts a net to an int64
+
     `mk_cast_to_int8(self, net, name=None)`
     :   Casts a net to an int8
 
@@ -55,6 +58,9 @@ Classes
 
     `mk_cast_to_uint32(self, net, name=None)`
     :   Casts a net to an uint32
+
+    `mk_cast_to_uint64(self, net, name=None)`
+    :   Casts a net to an uint64
 
     `mk_cast_to_uint8(self, net, name=None)`
     :   Casts a net to an uint8
@@ -103,6 +109,9 @@ Classes
 
     `mk_int8_type(self)`
     :   Creates int8 type
+
+    `mk_int_type(self)`
+    :   Creates infinite precision int type
 
     `mk_ite(self, i, t, e, name=None)`
     :   Creates the term ite(i, t, e)

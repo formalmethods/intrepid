@@ -133,8 +133,8 @@ class NetsTestCase(unittest.TestCase):
         self.assertEqual({'result': '__n13'}, response.get_json())
 
     def test_create_cast(self):
-        for cast in ['int8', 'int16', 'int32',
-                     'uint8', 'uint16', 'uint32']:
+        for cast in ['int8', 'int16', 'int32', 'int64',
+                     'uint8', 'uint16', 'uint32', 'uint64']:
             response = self.client.post(PREFIX + 'nets/casts/create', \
                                         json={
                                           'context': CTX_NAME,

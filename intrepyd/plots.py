@@ -11,19 +11,21 @@ def _create_subplot(all_plots, num, x, y, legend):
     maxy = max(y)
     subplot = plt.subplot(all_plots, 1, num)
     subplot.axes.set_xticks(x)
-    subplot.axes.set_yticks(range(miny, maxy + 1))
-    subplot.set_ylim(miny - 1, maxy + 1)
+    if maxy - miny < 20:
+        subplot.axes.set_yticks(range(miny, maxy + 1))
+        subplot.set_ylim(miny - 1, maxy + 1)
     plt.step(x, y, label=legend)
     plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
     # plt.plot()
 
-def plot_trace_dataframe(dataframe):
+def plot_trace_dataframe(input_dataframe, only_key=None, height=5):
     """
     Draws one step plot per each signal in the trace.
 
     Args:
         dataframe (DataFrame): the dataframe of the trace
     """
+    dataframe = input_dataframe
     if dataframe is None:
         raise Exception('Null trace given as input')
 
@@ -39,6 +41,8 @@ def plot_trace_dataframe(dataframe):
     # otherwise be hidden by the y-axis. Also turn 'true' in 1,
     # 'false' in 0, '?' in 0
     for key in dataframe.index:
+        if only_key is not None and key not in set(only_key):
+            continue
         if len(dataframe.loc[key]) == 0:
             raise Exception('Unexpected trace with no values')
         for value in range(len(dataframe.loc[key])):
@@ -55,13 +59,17 @@ def plot_trace_dataframe(dataframe):
         dataframe[col + 1] = dataframe[col]
 
     # Create the plots, one in each subplot
-    all_plots = len(dataframe.index)
+    plt.rcParams["figure.figsize"] = (0.5 * len(dataframe.columns), height)
     num = 1
+    all_plots = len(dataframe.index)
+    if only_key is not None:
+        all_plots = len(only_key)
     for key in dataframe.index:
+        if only_key is not None and key not in set(only_key):
+            continue
         _create_subplot(all_plots, num, steps, dataframe.loc[key], key)
         num += 1
 
-    plt.tight_layout()
     plt.show()
 
 def plot_trace_dictionary(net_dict):
